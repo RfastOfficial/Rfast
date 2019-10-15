@@ -54,7 +54,6 @@ Aaron Robotham for finding a bug.
 Calvin Pan from the Department of Human Genetics at UCLA found a bug in the function glm_logistic and he is greatly acknowledged for that.
 Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is greatly acknowledged for that.
 
-
 From now on the Rfast can be used in C++ via LinkingTo mechanism.
 The main namespace is "Rfast". Inside "Rfast" you will find two more namespaces, "vector" and "matrix".
 Namespace "vector" for calling functions using an Rcpp's or RcppArmadillo's vector.
