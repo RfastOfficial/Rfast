@@ -8,6 +8,8 @@ Maintainer: Manos Papadakis <rfastofficial@gmail.com>
 Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), RcppZiggurat
 LinkingTo: Rcpp (>= 0.12.3), RcppArmadillo
 SystemRequirements: C++11
+BugReports: https://github.com/RfastOfficial/Rfast/issues
+URL: https://github.com/RfastOfficial/Rfast
 Description: A collection of fast (utility) functions for data analysis. Column- and row- wise means, medians, variances, minimums, maximums, many t, F and G-square tests, many regressions (normal, logistic, Poisson), are some of the many fast functions. Reference: Tsagris M, Papadakis M. (2018). Taking R to its limits: 70+ tips. PeerJ Preprints 6:e26605v1 <doi:10.7287/peerj.preprints.26605v1>.
 License: GPL (>= 2.0)
 LazyData: TRUE
