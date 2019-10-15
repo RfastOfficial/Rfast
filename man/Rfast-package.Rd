@@ -53,10 +53,6 @@ Cyrille Conord for finding a bug.
 Aaron Robotham for finding a bug.
 Calvin Pan from the Department of Human Genetics at UCLA found a bug in the function glm_logistic and he is greatly acknowledged for that.
 Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is greatly acknowledged for that.
-Calvin Pan from the Department of Human Genetics at UCLA found a bug in the function 
-glm_logistic and he is greatly acknowledged for that.
-Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is 
-greatly acknowledged for that.
 
 
 From now on the Rfast can be used in C++ via LinkingTo mechanism.
