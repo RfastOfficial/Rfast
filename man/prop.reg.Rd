@@ -91,7 +91,7 @@ a <- prop.reg(y, x)
 y <- rbeta(100, 1, 4)
 x <- matrix(rnorm(400 * 100), ncol = 400)
 b <- prop.regs(y, x)
-mean(b[, 2] < 0.05)
+res<-mean(b[, 2] < 0.05)
 }
 
 \keyword{ GLMs }

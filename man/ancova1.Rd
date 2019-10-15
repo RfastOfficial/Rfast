@@ -61,10 +61,6 @@ y <- rnorm(90)
 ina <- rbinom(90, 2, 0.5) + 1
 x <- rnorm(90)
 system.time( a <- ancova1(y, ina, x) )
-m1 <- lm(y ~ factor(ina) + x)
-m2 <- lm(y ~ x + factor(ina))
-res<-anova(m1)
-res<-anova(m2)
 }
 
 \keyword{ Analysis of covariance }

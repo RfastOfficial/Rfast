@@ -62,12 +62,14 @@ y <- matrix( rnorm(90 * 100), ncol = 100 )
 ina <- rbinom(90, 2, 0.5) + 1
 x <- rnorm(90)
 system.time( a <- ancovas(y, ina, x) )
+\dontrun{
 m1 <- lm(y[, 15] ~ factor(ina) + x)
 m2 <- lm(y[, 15] ~ x + factor(ina))
 res<-anova(m1)
 res<-anova(m2)
 y <- NULL
 a[15, ]  ## the same with the m2 model, but not the m1
+}
 }
 
 \keyword{ Analysis of covariance }

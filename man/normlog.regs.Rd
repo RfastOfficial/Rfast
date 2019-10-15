@@ -68,6 +68,7 @@ R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.co
 }
 
 \examples{
+\dontrun{
 y <- abs( rnorm(100) )
 x <- matrnorm(100, 100)
 a <- normlog.regs(y, x)
@@ -77,5 +78,6 @@ a[1, ]
 a2 <- gammaregs(y, x)
 a3 <- invgauss.regs(y, x)
 x <- NULL
+}
 }
 
