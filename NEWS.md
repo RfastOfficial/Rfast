@@ -1,7 +1,7 @@
 <h1 align="center"> _Rfast_ </h1>
 
 > <b>New version</b> </br>
-Date release: **30/09/2019** 
+Date release: **16/10/2019** 
 >
 
 ***
@@ -22,6 +22,7 @@ Date release: **30/09/2019**
 >>  | med                   | Deprecated. Use "Median" instead.|
 >>  | colShuffle            | Fix a bug.|
 >>  | rowShuffle            | Fix a bug.|
+>>  | rmdp                  | Fix a bug.|
 ***
 >
 >>2. <u> **New** </u>
