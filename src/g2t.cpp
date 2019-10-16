@@ -73,10 +73,8 @@ static double chi2Statistic(int* counts, int xdim, int ydim) {
     if (countsX[x] != 0) {
       for (int y = 0; y < ydim; ++y) {
         int curcounts = counts[y * xdim + x];
-        if (countsY[y] != 0 && curcounts != 0) {
 		  double expected = ((double)(countsX[x] * countsY[y])) / countsXY;
 		  statistic += ((curcounts - expected) * (curcounts - expected)) / expected;
-        }
       }
     }
   }
