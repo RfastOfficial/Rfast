@@ -79,7 +79,6 @@ x <- matrix(rnorm(100 * 3), ncol = 3)
 y <- rbinom(100, 1, 0.6)   ## binary logistic regression
 a1 <- glm_logistic(x, y, full = TRUE) 
 a2 <- glm(y ~ x, binomial)
-}
 
 x <- matrix(rnorm(100 * 3), ncol = 3)
 y <- rpois(100, 10)   ## binary logistic regression
@@ -87,6 +86,7 @@ b1 <- glm_poisson(x, y, full = TRUE)
 b2 <- glm(y ~ x, poisson)
 
 x<-y<-a1<-a2<-b1<-b2<-NULL
+}
 }
 
 \keyword{ Logistic regression }

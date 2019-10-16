@@ -66,8 +66,10 @@ y <- rpois(300, 10)
 ina <- rbinom(300, 3, 0.5) + 1 
 a1 <- poisson.anova(y, ina) 
 a2 <- glm(y ~ ina, poisson) 
-a1
+
+\dontrun{
 res<-anova(a2, test = "Chisq")
+}
 y <- rgeom(300, 0.7)
 res<-geom.anova(y, ina) 
 }
