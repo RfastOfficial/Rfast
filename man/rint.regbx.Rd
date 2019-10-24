@@ -80,11 +80,13 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
+\dontrun{
 y <- rnorm(100) 
 x <- rnorm(10)
 x <- rep(x, 10)
 id <- rep(1:10, each = 10)
 system.time( for (i in 1:40) a <- rint.reg(y, x, id) )
+}
 }
 
 \keyword{ Linear mixed models }

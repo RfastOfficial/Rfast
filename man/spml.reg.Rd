@@ -77,6 +77,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
+\dontrun{
 x <- rnorm(100)
 z <- cbind(3 + 2 * x, 1 -3 * x)
 y <- cbind( rnorm(100,z[ ,1], 1), rnorm(100, z[ ,2], 1) )
@@ -84,7 +85,7 @@ y <- y / sqrt( rowsums(y^2) )
 a1 <- spml.reg(y, x)
 y <- atan( y[, 2] / y[, 1] ) + pi * I(y[, 1] < 0) 
 a2 <- spml.reg(y, x)
-
+}
 }
 
 \keyword{ Circular regression }

@@ -85,6 +85,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
+\dontrun{
 y <- rbeta(100, 1, 4)
 x <- matrix(rnorm(100 * 3), ncol = 3)
 a <- prop.reg(y, x)
@@ -92,6 +93,7 @@ y <- rbeta(100, 1, 4)
 x <- matrix(rnorm(400 * 100), ncol = 400)
 b <- prop.regs(y, x)
 res<-mean(b[, 2] < 0.05)
+}
 }
 
 \keyword{ GLMs }

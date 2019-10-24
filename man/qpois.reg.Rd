@@ -89,12 +89,14 @@ Marios Dimitriadis <kmdimitriadis@gmail.com>.
 }
 
 \examples{
+\dontrun{
 y <- rnbinom(100, 10, 0.6)
 x <- matrix(rnorm(100*3), ncol = 3)
 mod1 <- glm(y ~ x, quasipoisson)
 res<-summary(mod1)
 res<-qpois.reg(x, y, full = TRUE)
 res<-qpois.regs(x, y)
+}
 }
 
 \keyword{ GLMs }

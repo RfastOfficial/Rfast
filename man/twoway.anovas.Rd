@@ -61,6 +61,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
+\dontrun{
 y <- as.matrix( rnorm(125) )
 x1 <- rep(1:5, 25)
 x2 <- rep(1:5, each = 25)
@@ -74,6 +75,7 @@ y <- matrnorm(125, 100)
 system.time( a1 <- twoway.anovas(y, x1, x2) )
 system.time( a2 <- twoway.anovas(y, x1, x2, interact = TRUE) )
 y <- NULL
+}
 }
 
 \keyword{ Two-way ANOVA }
