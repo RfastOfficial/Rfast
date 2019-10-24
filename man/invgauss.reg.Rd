@@ -73,9 +73,11 @@ R implementation and documentation: Stefanos Fafalios <mtsagris@yahoo.gr>
 }
 
 \examples{
+\dontrun{
 y <- abs( rnorm(100) )
 x <- matrix( rnorm(100 * 2), ncol = 2)
 a <- invgauss.reg(y, x)
 a
+}
 }
 

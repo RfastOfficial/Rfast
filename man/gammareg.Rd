@@ -77,7 +77,9 @@ y <- abs( rnorm(100) )
 x <- matrix( rnorm(100 * 2), ncol = 2)
 mod <- glm(y ~ x, family = Gamma(log) )
 res<-summary(mod)
+\dontrun{
 res<-gammareg(y, x)
+}
 mod <- glm(y ~ 1, family = Gamma(log) )
 res<-summary(mod)
 res<-gammacon(y)
