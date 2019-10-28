@@ -19,7 +19,7 @@ Note 3: In general, make sure you give the correct input, in order to get the co
 Package: \tab Rfast\cr
 Type: \tab Package\cr
 Version: \tab 1.9.6 \cr
-Date: \tab 2019-10-18\cr
+Date: \tab 2019-10-24\cr
 License: \tab GPL-2\cr
 }
 }
