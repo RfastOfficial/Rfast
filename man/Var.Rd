@@ -46,10 +46,9 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
-x <- rnorm(1000)
-system.time( for (i in 1:100) Var(x) )
-#system.time( for (i in 1:100) var(x) )
-
+x <- rnorm(100)
+a1 <- Var(x)
+a2 <- var(x)
 x<-NULL
 }
 

@@ -64,9 +64,9 @@ Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-x <- matrnorm(10000, 500 )
+x <- matrnorm(500, 100 )
 s <- Rfast::cova(x)
-res<-eigen.sym(s, 10)
+res<-eigen.sym(s, 5)
 x <- s <- NULL
 }
 

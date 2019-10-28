@@ -57,8 +57,9 @@ b <- matrix(nrow = 100, ncol = 2)
 z <- cbind(1, x)
 
 system.time( a <- mvbetas(y, x) )
-system.time(  for (i in 1:100) b[i, ] = coef( lm.fit( z, y[, i] ) )  )
-y <- NULL
+b[2, ] <- coef( lm.fit( z, y[, 1] ) )
+b[2, ] <- coef( lm.fit( z, y[, 2] ) )
+x <- NULL
 }
 
 \keyword{ Many betas in regression }
