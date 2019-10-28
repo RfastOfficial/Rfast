@@ -57,6 +57,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
+\dontrun{
 ## 300 variables, hence 300 univariate regressions are to be fitted
 x <- matrix( rnorm(100 * 300), ncol = 300 )
 
@@ -74,6 +75,7 @@ y <- rpois(100, 10)
 system.time( poisson_only(x, y) )
 
 a1 <- a2 <- x <- NULL
+}
 }
 
 \keyword{ Logistic regressions }
