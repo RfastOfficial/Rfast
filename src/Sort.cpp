@@ -64,7 +64,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type descend(descendSEXP);
-    __result = Sort(x,descend,na);
+    __result = wrap(Sort(x,descend,na));
     return __result;
 END_RCPP
 }
@@ -85,7 +85,7 @@ RcppExport SEXP Rfast_Sort_na_first(SEXP xSEXP,SEXP descendSEXP){
   RNGScope __rngScope;
   traits::input_parameter< vector<double> >::type x(xSEXP);
   traits::input_parameter< const bool >::type descend(descendSEXP);
-  __result = Sort_na_first(x,descend);
+  __result = wrap(Sort_na_first(x,descend));
   return __result;
   END_RCPP
 }
@@ -103,7 +103,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< CharacterVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
-    __result = sort_string(x,descend);
+    __result = wrap(sort_string(x,descend));
     return __result;
 END_RCPP
 }
@@ -138,7 +138,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type descend(descendSEXP);
-    __result = stable_sort(x,descend);
+    __result = wrap(stable_sort(x,descend));
     return __result;
 END_RCPP
 }
@@ -224,7 +224,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< vector<int> >::type x(xSEXP);
-    __result = sort_int(x);
+    __result = wrap(sort_int(x));
     return __result;
 END_RCPP
 }

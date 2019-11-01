@@ -65,7 +65,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const int >::type n(nSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
-    __result = partial_sort(x,n,descend);
+    __result = wrap(partial_sort(x,n,descend));
     return __result;
 END_RCPP
 }

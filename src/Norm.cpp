@@ -42,7 +42,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const char  >::type type(typeSEXP);
-    __result = Norm(x,type);
+    __result = wrap(Norm(x,type));
     return __result;
 END_RCPP
 }

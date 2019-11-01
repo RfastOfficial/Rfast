@@ -48,7 +48,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const string >::type dir_to_export(dir_to_exportSEXP);
     traits::input_parameter< const string >::type dir_to_file(dir_to_fileSEXP);
-    __result = check_namespace(dir_to_export,dir_to_file);
+    __result = wrap(check_namespace(dir_to_export,dir_to_file));
     return __result;
 END_RCPP
 }
@@ -81,7 +81,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< string >::type path_man(path_manSEXP);
-    __result = check_true_false(path_man);
+    __result = wrap(check_true_false(path_man));
     return __result;
 END_RCPP
 }
@@ -134,7 +134,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const string >::type dir_to_man(dir_to_manSEXP);
     traits::input_parameter< const string >::type dir_to_file(dir_to_fileSEXP);
-    __result = check_aliases(dir_to_man,dir_to_file);
+    __result = wrap(check_aliases(dir_to_man,dir_to_file));
     return __result;
 END_RCPP
 }
@@ -223,7 +223,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< string >::type path_man(path_manSEXP);
     traits::input_parameter< string >::type path_rf(path_rfSEXP);
-    __result = check_usage(path_man,path_rf);
+    __result = wrap(check_usage(path_man,path_rf));
     return __result;
 END_RCPP
 }

@@ -14,7 +14,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = Rfast::matrix::transpose(x);
+    __result = wrap(Rfast::matrix::transpose(x));
     return __result;
 END_RCPP
 }
@@ -41,7 +41,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    __result = mat_mat(x,y);
+    __result = wrap(mat_mat(x,y));
     return __result;
 END_RCPP
 }
@@ -56,7 +56,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    __result = Rfast::matrix::matrix_multiplication(x,y);
+    __result = wrap(Rfast::matrix::matrix_multiplication(x,y));
     return __result;
 END_RCPP
 }
@@ -78,7 +78,7 @@ BEGIN_RCPP
     traits::input_parameter< const int >::type rowend(rowendSEXP);
     traits::input_parameter< const int >::type colstart(colstartSEXP);
     traits::input_parameter< const int >::type colend(colendSEXP);
-    __result = submatrix(x,rowstart,rowend,colstart,colend);
+    __result = wrap(submatrix(x,rowstart,rowend,colstart,colend));
     return __result;
 END_RCPP
 }
@@ -100,7 +100,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const char  >::type oper(operSEXP);
-    __result = sum_XopY(x,y,oper);
+    __result = wrap(sum_XopY(x,y,oper));
     return __result;
 END_RCPP
 }
@@ -124,7 +124,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const char  >::type oper(operSEXP);
-    __result = sum_XopX(x,oper);
+    __result = wrap(sum_XopX(x,oper));
     return __result;
 END_RCPP
 }

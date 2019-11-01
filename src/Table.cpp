@@ -106,7 +106,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type use_na(use_naSEXP);
-    __result = table_c(x,use_na);
+    __result = wrap(table_c(x,use_na));
     return __result;
 END_RCPP
 }
@@ -115,7 +115,7 @@ RcppExport SEXP Rfast_table_with_names(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = table_with_names(x);
+    __result = wrap(table_with_names(x));
     return __result;
 END_RCPP
 }
@@ -125,7 +125,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type rm_zeros(rm_zerosSEXP);
-    __result = table2_c(x,y,rm_zeros);
+    __result = wrap(table2_c(x,y,rm_zeros));
     return __result;
 END_RCPP
 }
@@ -135,7 +135,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type rm_zeros(rm_zerosSEXP);
-    __result = table2_with_names(x,y,rm_zeros);
+    __result = wrap(table2_with_names(x,y,rm_zeros));
     return __result;
 END_RCPP
 }
@@ -205,7 +205,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type na(naSEXP);
     traits::input_parameter< const bool >::type names(namesSEXP);
-    __result = table_sign(x,na,names);
+    __result = wrap(table_sign(x,na,names));
     return __result;
 END_RCPP
 }

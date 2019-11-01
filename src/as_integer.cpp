@@ -31,13 +31,6 @@ IntegerVector as_integer(SEXP x,const bool sorted,const int init){
 }
 
 // [[Rcpp::export]]
-List aaaaaaaaaa(SEXP x){
-  List L;
-  as_integer_h_with_names<double>(as<vector<double>>(x),L,1,0.0);
-  return L;
-}
-
-// [[Rcpp::export]]
 IntegerVector as_factor(SEXP x){
   List L;
   as_integer_h_with_names<double>(as<vector<double>>(x),L,1,0.0);
@@ -64,7 +57,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type sorted(sortedSEXP);
     traits::input_parameter< const int >::type init(initSEXP);
-    __result = as_integer(x,sorted,init);
+    __result = wrap(as_integer(x,sorted,init));
     return __result;
 END_RCPP
 }

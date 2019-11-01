@@ -162,7 +162,7 @@ RcppExport SEXP Rfast_normlog_regs(SEXP YSEXP,SEXP XSEXP,SEXP BESEXP,SEXP conSEX
   traits::input_parameter< const bool >::type logged(loggedSEXP);
   traits::input_parameter< const bool >::type parallel(parallelSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = normlog_regs(Y,X,BE,con,tol,logged,parallel,maxiters);
+  __result = wrap(normlog_regs(Y,X,BE,con,tol,logged,parallel,maxiters));
   return __result;
   END_RCPP
 }

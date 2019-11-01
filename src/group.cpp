@@ -46,7 +46,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< LogicalVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    __result = group_all(x,group,nSEXP);
+    __result = wrap(group_all(x,group,nSEXP));
     return __result;
 END_RCPP
 }
@@ -92,7 +92,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    __result = group_min_max(x,group,max_nSEXP);
+    __result = wrap(group_min_max(x,group,max_nSEXP));
     return __result;
 END_RCPP
 }
@@ -115,7 +115,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    __result = group_sum(x,group,minn,maxx);
+    __result = wrap(group_sum(x,group,minn,maxx));
     return __result;
 END_RCPP
 }
@@ -154,7 +154,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    __result = group_min(x,group,max_nSEXP);
+    __result = wrap(group_min(x,group,max_nSEXP));
     return __result;
 END_RCPP
 }
@@ -216,7 +216,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
     traits::input_parameter< const int >::type length_unique(length_uniqueSEXP);
-    __result = group_med(x,group,length_unique);
+    __result = wrap(group_med(x,group,length_unique));
     return __result;
 END_RCPP
 }
@@ -257,7 +257,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    __result = group_mean(x,group,max_nSEXP);
+    __result = wrap(group_mean(x,group,max_nSEXP));
     return __result;
 END_RCPP
 }
@@ -307,7 +307,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    __result = group_max(x,group,minn,maxx);
+    __result = wrap(group_max(x,group,minn,maxx));
     return __result;
 END_RCPP
 }
@@ -383,7 +383,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
     traits::input_parameter< const string >::type method(methodSEXP);
-    __result = group_mad(x,group,method);
+    __result = wrap(group_mad(x,group,method));
     return __result;
 END_RCPP
 }
@@ -426,7 +426,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< LogicalVector >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type group(groupSEXP);
-    __result = group_any(x,group,nSEXP);
+    __result = wrap(group_any(x,group,nSEXP));
     return __result;
 END_RCPP
 }
@@ -487,7 +487,7 @@ RcppExport SEXP Rfast_group_var(SEXP xSEXP,SEXP groupSEXP,SEXP nSEXP) {
   RNGScope __rngScope;
   traits::input_parameter< NumericVector >::type x(xSEXP);
   traits::input_parameter< IntegerVector >::type group(groupSEXP);
-  __result = group_var(x,group,nSEXP);
+  __result = wrap(group_var(x,group,nSEXP));
   return __result;
   END_RCPP
 }
@@ -502,36 +502,36 @@ RcppExport SEXP Rfast_group(SEXP xSEXP,SEXP groupSEXP,SEXP methodSEXP,SEXP minSE
 
   if(method=="all"){
   	traits::input_parameter< LogicalVector >::type x(xSEXP);
-  	__result = group_all(x,group,maxSEXP);
+  	__result = wrap(group_all(x,group,maxSEXP));
   }else if(method=="min.max"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
-  	__result = group_min_max(x,group,maxSEXP);
+  	__result = wrap(group_min_max(x,group,maxSEXP));
   }else if(method=="sum"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
-  	__result = group_sum(x,group,minSEXP,maxSEXP);
+  	__result = wrap(group_sum(x,group,minSEXP,maxSEXP));
   }else if(method=="min"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
-  	__result = group_min(x,group,maxSEXP);
+  	__result = wrap(group_min(x,group,maxSEXP));
   }else if(method=="med"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
   	traits::input_parameter< const int >::type mmax(maxSEXP);
-  	__result = group_med(x,group,mmax);
+  	__result = wrap(group_med(x,group,mmax));
   }else if(method=="mean"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
-  	__result = group_mean(x,group,maxSEXP);
+  	__result = wrap(group_mean(x,group,maxSEXP));
   }else if(method=="max"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
-  	__result = group_max(x,group,minSEXP,maxSEXP);
+  	__result = wrap(group_max(x,group,minSEXP,maxSEXP));
   }else if(method=="mad"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
   	traits::input_parameter< const string >::type method_mad(method_madSEXP);
-  	__result = group_mad(x,group,method_mad);
+  	__result = wrap(group_mad(x,group,method_mad));
   }else if(method=="any"){
   	traits::input_parameter< LogicalVector >::type x(xSEXP);
-  	__result = group_any(x,group,maxSEXP);
+  	__result = wrap(group_any(x,group,maxSEXP));
   }else if(method=="var"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
-  	__result = group_var(x,group,maxSEXP);
+  	__result = wrap(group_var(x,group,maxSEXP));
   }
   return __result;
   END_RCPP

@@ -94,7 +94,7 @@ BEGIN_RCPP
     traits::input_parameter< const double >::type tol(tolSEXP);
     traits::input_parameter< const string >::type varb(varbSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-    __result = prop_regs(x,y,tol,varb,maxiters);
+    __result = wrap(prop_regs(x,y,tol,varb,maxiters));
     return __result;
 END_RCPP
 }
@@ -144,7 +144,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-    __result = prop_reg(x,y,tol,maxiters);
+    __result = wrap(prop_reg(x,y,tol,maxiters));
     return __result;
 END_RCPP
 }

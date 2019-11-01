@@ -97,7 +97,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< IntegerMatrix >::type dag(dagSEXP);
-    __result = topological_sort(dag);
+    __result = wrap(topological_sort(dag));
     return __result;
 END_RCPP
 }

@@ -231,7 +231,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type logged(loggedSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
     traits::input_parameter< const int >::type parallel(parallelSEXP);
-    __result = spml_regs(Y,X0,tol,logged,maxiters,parallel);
+    __result = wrap(spml_regs(Y,X0,tol,logged,maxiters,parallel));
     return __result;
 END_RCPP
 }

@@ -29,7 +29,7 @@ RcppExport SEXP Rfast_odds_helper(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = odds_helper(x);
+    __result =wrap( odds_helper(x));
     return __result;
 END_RCPP
 }

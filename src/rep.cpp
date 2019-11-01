@@ -44,7 +44,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type n(nSEXP);
-    __result = rep_col(x,n);
+    __result = wrap(rep_col(x,n));
     return __result;
 END_RCPP
 }
@@ -88,7 +88,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type n(nSEXP);
-    __result = rep_row(x,n);
+    __result = wrap(rep_row(x,n));
     return __result;
 END_RCPP
 }

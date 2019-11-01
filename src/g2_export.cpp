@@ -21,7 +21,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type cs(csSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
-    __result = g2Test(data,x,y,cs,dc);
+    __result = wrap(g2Test(data,x,y,cs,dc));
     return __result;
 END_RCPP
 }
@@ -34,7 +34,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
     Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
-    __result = g2Test_univariate_perm(data,dc,nperm);
+    __result = wrap(g2Test_univariate_perm(data,dc,nperm));
     return __result;
 END_RCPP
 }
@@ -46,7 +46,7 @@ BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
-    __result = g2Test_univariate(data,dc);
+    __result = wrap(g2Test_univariate(data,dc));
     return __result;
 END_RCPP
 }
@@ -62,7 +62,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type cs(csSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
     Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
-    __result = g2Test_perm(data,x,y,cs,dc,nperm);
+    __result = wrap(g2Test_perm(data,x,y,cs,dc,nperm));
     return __result;
 END_RCPP
 }
@@ -77,7 +77,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
     Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
-    __result = g2tests_perm(data,x,y,dc,nperm);
+    __result = wrap(g2tests_perm(data,x,y,dc,nperm));
     return __result;
 END_RCPP
 }
@@ -91,7 +91,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
-    __result = g2tests(data,x,y,dc);
+    __result = wrap(g2tests(data,x,y,dc));
     return __result;
 END_RCPP
 }
@@ -106,7 +106,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type cs(csSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
-    __result = chi2Test(data,x,y,cs,dc);
+    __result = wrap(chi2Test(data,x,y,cs,dc));
     return __result;
 END_RCPP
 }
@@ -118,7 +118,7 @@ BEGIN_RCPP
     Rcpp::RNGScope __rngScope;
     Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
-    __result = chi2Test_univariate(data,dc);
+    __result = wrap(chi2Test_univariate(data,dc));
     return __result;
 END_RCPP
 }
@@ -132,7 +132,7 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< NumericVector >::type dc(dcSEXP);
-    __result = chi2tests(data,x,y,dc);
+    __result = wrap(chi2tests(data,x,y,dc));
     return __result;
 END_RCPP
 }

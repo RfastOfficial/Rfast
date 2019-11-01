@@ -46,7 +46,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type X(XSEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-    __result = weibull_mle(X,tol,maxiters);
+    __result = wrap(weibull_mle(X,tol,maxiters));
     return __result;
 END_RCPP
 }

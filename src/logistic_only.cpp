@@ -16,8 +16,8 @@ SEXP logistic_only(NumericMatrix X, NumericVector Y,const double tol){
 
   unsigned int i=0;
   int j=0;
-  colvec y(Y.begin(),n,false), be(2),expyhat(n),W(n,fill::zeros),x_col(n),x2_col(n),de(n);
-  mat x(X.begin(),n,pcols,false), yhat(n,1),p(n,1);
+  colvec y(Y.begin(),n,false), be(2),expyhat(n),W(n,fill::zeros),x_col(n),x2_col(n),de(n),yhat(n),p(n);
+  mat x(X.begin(),n,pcols,false);
   SEXP F=Rf_allocVector(REALSXP,pcols);
   double d1=0,d2=0,t=0,dera2=0.0,sp=0.0,derb=0.0,dera=0.0,derab=0.0,derb2=0.0,*FF=REAL(F);
   const double my=mean(y),sy=my*n,lgmy=log(my/(1-my)),d0 = -2*(sy*log(my)+(n-sy)*log(1-my));
@@ -41,9 +41,9 @@ SEXP logistic_only(NumericMatrix X, NumericVector Y,const double tol){
     be[0]=be[0]+(derb2 * dera0 - derab * derb)/t;
     be[1]=be[1]+( - derab * dera0 + dera20 * derb )/t;
 
-    yhat.col(0) = be[0]+be[1]*x_col;
-    expyhat=exp(-yhat.col(0));
-    p.col(0) = 1 / ( 1 + expyhat );
+    yhat = be[0]+be[1]*x_col;
+    expyhat=exp(-yhat);
+    p = 1 / ( 1 + expyhat );
 
     d2 = -2*calcDevRes(p,y,yhat);
     j=2;
@@ -51,8 +51,8 @@ SEXP logistic_only(NumericMatrix X, NumericVector Y,const double tol){
       d1=d2;
       W=p%(1-p);
       dera2=sum(W);
-      sp=sum(p.col(0));
-      de=y-p.col(0);
+      sp=sum(p);
+      de=y-p;
       dera=sy-sp;
       derb=sum(de%x_col);
       derab=sum(W%x_col);
@@ -60,8 +60,8 @@ SEXP logistic_only(NumericMatrix X, NumericVector Y,const double tol){
       t=dera2 * derb2 - derab*derab;
       be[0]=be[0]+(derb2 * dera - derab * derb)/t;
       be[1]=be[1]+( - derab * dera + dera2 * derb )/t;
-      yhat.col(0) = be[0]+be[1]*x_col;
-      expyhat=exp(-yhat.col(0));
+      yhat = be[0]+be[1]*x_col;
+      expyhat=exp(-yhat);
       p.col(0) = 1 / ( 1 + expyhat );
 
       d2 = -2*calcDevRes(p,y,yhat);
@@ -80,7 +80,7 @@ RcppExport SEXP Rfast_logistic_only(SEXP xSEXP,SEXP ySEXP,SEXP tolSEXP) {
   traits::input_parameter< NumericMatrix >::type x(xSEXP);
   traits::input_parameter< NumericVector >::type y(ySEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
-  __result = logistic_only(x,y,tol);
+  __result = wrap(logistic_only(x,y,tol));
   return __result;
   END_RCPP
 }
@@ -156,7 +156,7 @@ RcppExport SEXP Rfast_logistic_only_b(SEXP xSEXP,SEXP ySEXP,SEXP tolSEXP) {
   traits::input_parameter< NumericMatrix >::type x(xSEXP);
   traits::input_parameter< NumericVector >::type y(ySEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
-  __result = logistic_only_b(x,y,tol);
+  __result = wrap(logistic_only_b(x,y,tol));
   return __result;
   END_RCPP
 }
@@ -208,7 +208,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< const double >::type ylogy(ylogySEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
-    __result = poisson_only(x,y,ylogy,tol);
+    __result = wrap(poisson_only(x,y,ylogy,tol));
 
     return __result;
 END_RCPP
@@ -262,7 +262,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< double >::type ylogy(ylogySEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
-    __result = poisson_only_b(x,y,ylogy,tol);
+    __result = wrap(poisson_only_b(x,y,ylogy,tol));
     return __result;
 END_RCPP
 }
@@ -323,7 +323,7 @@ RcppExport SEXP Rfast_quasi_poisson_only(SEXP xSEXP,SEXP ySEXP,SEXP ylogySEXP,SE
   traits::input_parameter< const double >::type ylogy(ylogySEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = quasi_poisson_only(x,y,ylogy,tol,maxiters);
+  __result = wrap(quasi_poisson_only(x,y,ylogy,tol,maxiters));
   return __result;
   END_RCPP
 }

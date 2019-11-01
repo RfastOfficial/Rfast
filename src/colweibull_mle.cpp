@@ -87,7 +87,7 @@ BEGIN_RCPP
     traits::input_parameter< const double >::type tol(tolSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = colweibull_mle(X,tol,maxiters,parallel);
+    __result = wrap(colweibull_mle(X,tol,maxiters,parallel));
     return __result;
 END_RCPP
 }

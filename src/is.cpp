@@ -24,7 +24,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
-    __result = check_all_ints(x);
+    __result = wrap(check_all_ints(x));
     return __result;
 END_RCPP
 }
@@ -46,7 +46,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< double >::type el(elSEXP);
-    __result = is_element(x,el);
+    __result = wrap(is_element(x,el));
     return __result;
 END_RCPP
 }
@@ -64,7 +64,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< CharacterVector >::type x(xSEXP);
     traits::input_parameter< basic_string<char> >::type el(elSEXP);
-    __result = is_element_string(x,el);
+    __result = wrap(is_element_string(x,el));
     return __result;
 END_RCPP
 }

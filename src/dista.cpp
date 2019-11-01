@@ -41,7 +41,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type X(XSEXP);
     traits::input_parameter< const bool >::type sqr(sqrSEXP);
     traits::input_parameter< const string >::type type(typeSEXP);
-    __result = dista(Xnew,X,sqr,type);
+    __result = wrap(dista(Xnew,X,sqr,type));
     return __result;
 
 END_RCPP
@@ -72,7 +72,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type X(XSEXP);
     traits::input_parameter< const int >::type k(kSEXP);
     traits::input_parameter< const string >::type type(typeSEXP);
-    __result = dista_index(Xnew,X,k,type);
+    __result = wrap(dista_index(Xnew,X,k,type));
     return __result;
 
 END_RCPP
@@ -116,7 +116,7 @@ BEGIN_RCPP
     traits::input_parameter< const int >::type k(kSEXP);
     traits::input_parameter< const bool >::type sqr(sqrSEXP);
     traits::input_parameter< const string >::type type(typeSEXP);
-    __result = dista_values(Xnew,X,k,sqr,type);
+    __result = wrap(dista_values(Xnew,X,k,sqr,type));
     return __result;
 
 END_RCPP

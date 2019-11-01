@@ -35,7 +35,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const string >::type path(pathSEXP);
-    __result = read_directory(path);
+    __result = wrap(read_directory(path));
     return __result;
 END_RCPP
 }
@@ -86,7 +86,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< string >::type path_man(path_manSEXP);
-    __result = read_examples(path_man);
+    __result = wrap(read_examples(path_man));
     return __result;
 END_RCPP
 }

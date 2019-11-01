@@ -58,7 +58,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const string >::type dir_to_export(dir_to_exportSEXP);
     traits::input_parameter< const string >::type dir_to_file(dir_to_fileSEXP);
-    __result = add_to_namespace(dir_to_export,dir_to_file);
+    __result = wrap(add_to_namespace(dir_to_export,dir_to_file));
     return __result;
 END_RCPP
 }
@@ -105,7 +105,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const string >::type dir_to_export(dir_to_exportSEXP);
     traits::input_parameter< vector<string> >::type files_to_remove(files_to_removeSEXP);
-    __result = remove_from_namespace(dir_to_export,files_to_remove);
+    __result = wrap(remove_from_namespace(dir_to_export,files_to_remove));
     return __result;
 END_RCPP
 }

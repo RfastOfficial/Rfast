@@ -82,7 +82,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = index ? nth_index(x,elem,descend,na_rm) : nth(x,elem,descend,na_rm);
+    __result = wrap(index ? nth_index(x,elem,descend,na_rm) : nth(x,elem,descend,na_rm));
     return __result;
 END_RCPP
 }
@@ -94,7 +94,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< vector<int> >::type x(xSEXP);
     traits::input_parameter< int >::type elem(elemSEXP);
-    __result = nth_int(x,elem);
+    __result = wrap(nth_int(x,elem));
     return __result;
 END_RCPP
 }
@@ -131,7 +131,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = med(x,na_rm);
+    __result = wrap(med(x,na_rm));
     return __result;
 END_RCPP
 }
@@ -182,7 +182,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< bool >::type index(indexSEXP);
-    __result = min_max(x,index);
+    __result = wrap(min_max(x,index));
     return __result;
 END_RCPP
 }
@@ -212,7 +212,7 @@ RcppExport SEXP Rfast_min_max_perc(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = min_max_perc(x);
+    __result = wrap(min_max_perc(x));
     return __result;
 END_RCPP
 }
@@ -254,7 +254,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = pmax(x,y,na_rm);
+    __result = wrap(pmax(x,y,na_rm));
     return __result;
 END_RCPP
 }
@@ -293,7 +293,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = pmin(x,y,na_rm);
+    __result = wrap(pmin(x,y,na_rm));
     return __result;
 END_RCPP
 }
@@ -344,7 +344,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = pmin_pmax(x,y,na_rm);
+    __result = wrap(pmin_pmax(x,y,na_rm));
     return __result;
 END_RCPP
 }
@@ -386,7 +386,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = min_freq_d(x,na_rm);
+    __result = wrap(min_freq_d(x,na_rm));
     return __result;
 END_RCPP
 }
@@ -454,7 +454,7 @@ RcppExport SEXP Rfast_min_freq_i(SEXP xSEXP,SEXP na_rmSEXP){
   RNGScope __rngScope;
   traits::input_parameter< IntegerVector >::type x(xSEXP);
   traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-  __result = min_freq_i(x,na_rm);
+  __result = wrap(min_freq_i(x,na_rm));
   return __result;
   END_RCPP
 }
@@ -491,7 +491,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = max_freq_d(x,na_rm);
+    __result = wrap(max_freq_d(x,na_rm));
     return __result;
 END_RCPP
 }
@@ -559,7 +559,7 @@ RcppExport SEXP Rfast_max_freq_i(SEXP xSEXP,SEXP na_rmSEXP){
   RNGScope __rngScope;
   traits::input_parameter< IntegerVector >::type x(xSEXP);
   traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-  __result = max_freq_i(x,na_rm);
+  __result = wrap(max_freq_i(x,na_rm));
   return __result;
   END_RCPP
 }
@@ -587,7 +587,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
-    __result = Order(x,stable,descend);
+    __result = wrap(Order(x,stable,descend));
     return __result;
 END_RCPP
 }
@@ -639,7 +639,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const char >::type oper(operSEXP);
-    __result = Outer(x,y,oper);
+    __result = wrap(Outer(x,y,oper));
     return __result;
 END_RCPP
 }
@@ -678,7 +678,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const int >::type dg(dgSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);   
-    __result = Round(x,dg,na_rm);
+    __result = wrap(Round(x,dg,na_rm));
     return __result;
 END_RCPP
 }
@@ -706,7 +706,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
-    __result = squareform_c(x);
+    __result = wrap(squareform_c(x));
     return __result;
 END_RCPP
 }
@@ -718,7 +718,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = Rfast::matrix::is_symmetric(x);
+    __result = wrap(Rfast::matrix::is_symmetric(x));
     return __result;
 END_RCPP
 }
@@ -732,7 +732,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type std(stdSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = Rfast::vector::var<NumericVector>(x,std,na_rm);
+    __result = wrap(Rfast::vector::var<NumericVector>(x,std,na_rm));
     return __result;
 END_RCPP
 }
@@ -762,7 +762,7 @@ RcppExport SEXP Rfast_count_value(SEXP x,SEXP value){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = count_value(x,value);
+    __result = wrap(count_value(x,value));
     return __result;
 END_RCPP
 }
@@ -796,7 +796,7 @@ RcppExport SEXP Rfast_Log(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = Log(x);
+    __result = wrap(Log(x));
     return __result;
 END_RCPP
 }
@@ -837,7 +837,7 @@ RcppExport SEXP Rfast_Lbeta(SEXP x,SEXP y) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = Lbeta(x,y);
+    __result = wrap(Lbeta(x,y));
     return __result;
 END_RCPP
 }
@@ -855,7 +855,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type key(keySEXP);
-    __result = Match(x,key);
+    __result = wrap(Match(x,key));
     return __result;
 END_RCPP
 }
@@ -896,7 +896,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< DataFrame >::type x(xSEXP);
     traits::input_parameter< const string >::type method(methodSEXP);
-    __result = which_is(x,method);
+    __result = wrap(which_is(x,method));
     return __result;
 END_RCPP
 }
@@ -911,7 +911,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     //if method is median then copy the vector because median changes the memory
     traits::input_parameter< NumericVector >::type x( (string)method=="median" ? Rf_duplicate(xSEXP) : xSEXP);
-    __result = Rfast::vector::mad<NumericVector>(x,method,na_rm);
+    __result = wrap(Rfast::vector::mad<NumericVector>(x,method,na_rm));
     return __result;
 END_RCPP
 }

@@ -151,7 +151,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< const char >::type oper(operSEXP);
     traits::input_parameter< const string >::type method(methodSEXP);
-    __result = eachcol_apply(x,y,ind,oper,method);
+    __result = wrap(eachcol_apply(x,y,ind,oper,method));
     return __result;
 END_RCPP
 }
@@ -215,7 +215,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const char  >::type oper(operSEXP);
-    __result = eachrow(x,y,oper,method);
+    __result = wrap(eachrow(x,y,oper,method));
     return __result;
 END_RCPP
 }

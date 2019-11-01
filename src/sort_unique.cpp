@@ -121,7 +121,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< vector<int> >::type x(xSEXP);
-    __result = sort_unique_int(x);
+    __result = wrap(sort_unique_int(x));
     return __result;
 END_RCPP
 }
@@ -142,7 +142,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< vector<double> >::type x(xSEXP);
-    __result = sort_unique_double(x);
+    __result = wrap(sort_unique_double(x));
     return __result;
 END_RCPP
 }
@@ -204,7 +204,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< IntegerVector >::type x(xSEXP);
-    __result = len_sort_unique_int(x);
+    __result = wrap(len_sort_unique_int(x));
     return __result;
 END_RCPP
 }

@@ -20,7 +20,7 @@ RcppExport SEXP Rfast_col_diffs(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = col_diffs(x);
+    __result = wrap(col_diffs(x));
     return __result;
 END_RCPP
 }
@@ -75,7 +75,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< IntegerMatrix >::type x(xSEXP);
-    __result = col_anovas(y,x);
+    __result = wrap(col_anovas(y,x));
     return __result;
 END_RCPP
 }
