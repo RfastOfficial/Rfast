@@ -100,12 +100,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
-\dontrun{
 x <- matrnorm(500, 500)
 y <- rbinom(500, 1, 0.6)   ## binary logistic regression
-a1 <- univglms(y, x) 
-}
-
 a2 <- score.glms(y, x)
 y <- rweibull(500, 2, 3)   
 a <- score.weibregs(y, x) 
