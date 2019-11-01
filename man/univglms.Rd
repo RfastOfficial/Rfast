@@ -71,14 +71,14 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
-x <- matrnorm(100, 100)
+\dontrun{
+x <- matrnorm(100, 50)
 y <- rbinom(100, 1, 0.6)   ## binary logistic regression
-system.time( univglms(y, x) )
 a1 <- univglms(y, x) 
-a2 <- numeric(100)
-system.time( for (i in 1:100) a2[i] = glm(y ~ x[, i], binomial)$deviance )
+a2 <- glm(y ~ x[, 1], binomial)$deviance
 a2 <- glm(y ~ 1, binomial)$null.dev - a2
 x <- NULL
+}
 }
 
 

@@ -66,15 +66,13 @@ y <- rbinom(100, 1, 0.6)   ## binary logistic regression
 system.time( logistic_only(x, y) )
 a1 <- logistic_only(x, y)
  
-a2 <- numeric(300)
-system.time( for (i in 1:300) a2[i] = glm(y ~ x[, i], binomial)$deviance )
+a2 <- glm(y ~ x[, 1], binomial)$deviance 
 a2 <- as.vector(a2)
-all.equal(a1, a2)
 
 y <- rpois(100, 10)
 system.time( poisson_only(x, y) )
 
-a1 <- a2 <- x <- NULL
+a1 <- x <- NULL
 }
 }
 
