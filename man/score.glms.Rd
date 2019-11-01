@@ -100,14 +100,13 @@ R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Mano
 }
 
 \examples{
+\dontrun{
 x <- matrnorm(500, 500)
 y <- rbinom(500, 1, 0.6)   ## binary logistic regression
 a1 <- univglms(y, x) 
-system.time( score.glms(y, x) )
-a2 <- score.glms(y, x)
-cor(a1, a2)
-mean(a1 - a2)
+}
 
+a2 <- score.glms(y, x)
 y <- rweibull(500, 2, 3)   
 a <- score.weibregs(y, x) 
 mean(a[, 2] < 0.05) 
