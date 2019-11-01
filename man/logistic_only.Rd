@@ -69,7 +69,7 @@ a2 <- glm(y ~ x[, 1], binomial)$deviance
 a2 <- as.vector(a2)
 
 y <- rpois(100, 10)
-system.time( poisson_only(x, y) )
+a1 <- poisson_only(x, y) 
 
 a1 <- x <- NULL
 }
