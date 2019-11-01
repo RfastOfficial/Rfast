@@ -63,7 +63,6 @@ x <- matrix( rnorm(100 * 300), ncol = 300 )
 
 ## 100 observations in total
 y <- rbinom(100, 1, 0.6)   ## binary logistic regression
-system.time( logistic_only(x, y) )
 a1 <- logistic_only(x, y)
  
 a2 <- glm(y ~ x[, 1], binomial)$deviance 
