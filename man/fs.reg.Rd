@@ -67,8 +67,6 @@ set.seed(123)
 x <- matrnorm(100, 50)
 y <- rpois(100, 10)
 a <- fs.reg(y, x, sig = 0.05, tol = 2, type = "poisson") 
-y <- rbinom(100, 1, 0.5)
-b <- fs.reg(y, x, sig = 0.05, tol = 2, type = "logistic") 
 x <- NULL
 }
 

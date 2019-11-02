@@ -59,11 +59,12 @@ R implementation and documentation: Marios Dimitriadis <kmdimitriadis@gmail.com>
 }
 
 \examples{
-## 200 variables, hence 200 univariate regressions are to be fitted
-x <- matrix(rnorm(200 * 200), ncol = 200)
+\dontrun{
+x <- matrix(rnorm(200 * 50), ncol = 50)
 y <- rbinom(200, 1, 0.5)
 a <- bic.fs.reg(y, x)
 x <- NULL
+}
 }
 
 \keyword{ Forward regression }
