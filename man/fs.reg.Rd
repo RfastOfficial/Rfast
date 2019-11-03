@@ -61,6 +61,8 @@ Documentation: Marios Dimitriadis <kmdimitriadis@gmail.com>.
 }
 
 \examples{
+
+\dontrun{
 set.seed(123)
 
 #simulate a dataset with continuous data
@@ -68,6 +70,7 @@ x <- matrnorm(100, 50)
 y <- rpois(100, 10)
 a <- fs.reg(y, x, sig = 0.05, tol = 2, type = "poisson") 
 x <- NULL
+}
 }
 
 \keyword{ Forward regression }

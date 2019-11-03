@@ -61,6 +61,7 @@ R implementation and documentation: Marios Dimitriadis <kmdimitriadis@gmail.com>
 \examples{
 \dontrun{
 x <- matrix(rnorm(200 * 50), ncol = 50)
+## 200 variables, hence 200 univariate regressions are to be fitted
 y <- rbinom(200, 1, 0.5)
 a <- bic.fs.reg(y, x)
 x <- NULL
