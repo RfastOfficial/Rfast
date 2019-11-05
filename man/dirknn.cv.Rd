@@ -25,7 +25,9 @@ A matrix with the available data, the predictor variables.
 A vector with the possible numbers of nearest neighbours to be considered.
 }
 \item{type}{
-Do you want to do classification ("C") or regression ("R")? 
+If your response variable y is numerical data, then this should be "R" (regression) or "WR"
+for distance weighted based nearest neighbours. If y is in general categorical set this argument 
+to "C" (classification) or to "WC" for distance weighted based nearest neighbours. 
 }
 \item{folds}{
 A list with the indices of the folds.
