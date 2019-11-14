@@ -196,36 +196,45 @@ bool is_example(const char *s,int len){
             and s[6]=='l' and s[7]=='e' and s[8]=='s');
 }
 
-bool get_example(ifstream &file,string &res){
+int get_example(ifstream &file,string &res){
   string s;
-  getline(file,s);
-  bool is_e=is_example(s.c_str(),s.size());
-  res = is_e ? s : "";
+  int is_e=0; // not example
+  if(getline(file,s)){
+    is_e=is_example(s.c_str(),s.size());
+    res = is_e ? s : "";
+  }else{
+    is_e=-1; // failed to read. Maybe EOF found
+  }
   return is_e;
 }
 
 string read_example(ifstream &file,int& long_lines){
     string als;
     string s;
+    int found_example;
     unsigned int count_curly_bracket=1;/*at least there will be an empty example section*/
-    while(!get_example(file,s));
-    getline(file,s);
-    while(count_curly_bracket>0){/* check for {} and extract the example correct*/
-        if(s.size()>99){ // 100 max lines
-            ++long_lines;
-        }
-        for(auto& symbol : s){
-            if(symbol=='{')
-                ++count_curly_bracket;
-            else if(symbol=='}')
-                --count_curly_bracket;
-        }
-        s+="\n";
-        als+=s;
-        getline(file,s);
+    do{
+      found_example=get_example(file,s);
+    }while(found_example>0);
+    if(found_example>0){
+      getline(file,s);
+      while(count_curly_bracket>0){/* check for {} and extract the example correct*/
+          if(s.size()>99){ // 100 max lines
+              ++long_lines;
+          }
+          for(auto& symbol : s){
+              if(symbol=='{')
+                  ++count_curly_bracket;
+              else if(symbol=='}')
+                  --count_curly_bracket;
+          }
+          s+="\n";
+          als+=s;
+          getline(file,s);
+      }
+      als[als.size()-2]='\n'; // replace } with new line
+      als.erase(als.end()-1); // remove extra new line
     }
-    als[als.size()-2]='\n'; // replace } with new line
-    als.erase(als.end()-1); // remove extra new line
     return als;
 }
 
