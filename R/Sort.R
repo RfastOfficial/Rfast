@@ -31,10 +31,10 @@ colSort <- function(x,descending=FALSE,stable=FALSE,parallel=FALSE) {
 	.Call(Rfast_sort_mat,x,descending,FALSE,stable,parallel)
 }
 
-##[export]
-#sort_mat <- function(x,by.row=FALSE,descending=FALSE,stable=FALSE,parallel=FALSE) {
-#	.Defunct(if(by.row) "Rfast::rowSort" else "Rfast::colSort","Rfast")
-#}
+#[export]
+sort_mat <- function(x,by.row=FALSE,descending=FALSE,stable=FALSE,parallel=FALSE) {
+	if(by.row) rowSort(x,descending,stable,parallel) else colSort(x,descending,stable,parallel)
+}
 
 #[export]
 sort_cor_vectors <- function(x, base, stable = FALSE, descending = FALSE) {

@@ -88,7 +88,7 @@ vector<string> read_aliases(ifstream &);
 vector<string> find_which(vector<string>,vector<string>);
 vector<string> find_duplis(vector<string>);
 bool is_example(const char *,int);
-bool get_example(ifstream&,string&);
+int get_example(ifstream&,string&);
 vector<string> read_directory(string);
 string read_example(ifstream &,int&);
 bool binary_help(vector<string>::iterator,vector<string>::iterator,string&,vector<string>::iterator&);
