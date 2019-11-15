@@ -52,7 +52,7 @@ IntegerVector topological_sort(IntegerMatrix dag) {
   return ord;
 }
 
-
+/*
 static IntegerVector topological_sort2(IntegerMatrix dag) {
     const int n = dag.nrow();
     IntegerVector indeg = colSums(dag(Range(0,n-1),Range(0,n-1)));
@@ -87,7 +87,7 @@ static IntegerVector topological_sort2(IntegerMatrix dag) {
     return ord;
 }
 
-
+*/
 
 
 
