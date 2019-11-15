@@ -13,7 +13,7 @@ using namespace Rcpp;
 
 //[[Rcpp::export]]
 SEXP cholesky_par(SEXP AA) {
-    int i,j,ni,nj,n=Rf_ncols(AA);
+    int i=0,j=0,ni=0,nj=0,n=Rf_ncols(AA);
     SEXP LL=PROTECT(Rf_allocMatrix(REALSXP,n,n));
     double s,*A=REAL(AA),*L=REAL(LL);
     for(j=0;j<n*n;++j)

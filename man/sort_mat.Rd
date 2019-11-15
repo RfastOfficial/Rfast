@@ -1,6 +1,7 @@
 \name{Sorting of the columns-rows of a matrix}
 \alias{colSort}
 \alias{rowSort}
+\alias{sort_mat}
 \title{
 Sorting of the columns-rows of a matrix 
 }
@@ -12,6 +13,7 @@ Fast sorting of the columns-rows of a matrix.
 \usage{
 colSort(x, descending = FALSE, stable = FALSE,parallel=FALSE)
 rowSort(x, descending = FALSE, stable = FALSE,parallel=FALSE)
+sort_mat(x,by.row=FALSE,descending=FALSE,stable=FALSE,parallel=FALSE)
 }
 
 \arguments{
@@ -27,6 +29,9 @@ If this is TRUE, the algorithm is a bit slower.
 }
 \item{parallel}{
 Do you want to do it in parallel in C++? TRUE or FALSE. Works with every other argument.
+}
+\item{by.row}{
+TRUE or FALSE for applying sort in rows or column.
 }
 }
 
