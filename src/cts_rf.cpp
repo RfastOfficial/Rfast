@@ -19,7 +19,7 @@ double calc_med_rf(std::vector<double>& x){
   	return F;
 }
 
-static arma::mat sqrt_mat(arma::mat x);
+static arma::colvec sqrt_mat(arma::mat x);
 
 arma::mat calc_dist_rf(arma::mat xnew, arma::mat x, const bool is_euclidean) {
   	const int n=x.n_cols,nu=xnew.n_cols;
@@ -33,7 +33,7 @@ arma::mat calc_dist_rf(arma::mat xnew, arma::mat x, const bool is_euclidean) {
   	return disa;
 }
 
-static arma::mat sqrt_mat(arma::mat x){
+static arma::colvec sqrt_mat(arma::mat x){
 	arma::colvec f(x.n_elem);
   	for(double *start=&x[0],*startf=&f[0],*end=&(*x.end());start!=end;++start,++startf){
     	*startf=std::sqrt(*start);    
