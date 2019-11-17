@@ -10,7 +10,8 @@ LinkingTo: Rcpp (>= 0.12.3), RcppArmadillo
 SystemRequirements: C++11
 BugReports: https://github.com/RfastOfficial/Rfast/issues
 URL: https://github.com/RfastOfficial/Rfast
-Description: A collection of fast (utility) functions for data analysis. Column- and row- wise means, medians, variances, minimums, maximums, many t, F and G-square tests, many regressions (normal, logistic, Poisson), are some of the many fast functions. Reference: Tsagris M, Papadakis M. (2018). Taking R to its limits: 70+ tips. PeerJ Preprints 6:e26605v1 <doi:10.7287/peerj.preprints.26605v1>.
+Description: A collection of fast (utility) functions for data analysis. Column- and row- wise means, medians, variances, minimums, maximums, many t, F and G-square tests, many regressions (normal, logistic, Poisson), are some of the many fast functions. References: a) Tsagris M., Papadakis M. (2018). Taking R to its limits: 70+ tips. PeerJ Preprints 6:e26605v1 <doi:10.7287/peerj.preprints.26605v1>. b) Tsagris M. and Papadakis M. (2018). Forward regression in R: from the extreme slow to the extreme fast. Journal of Data Science, 16(4): 771--780. <doi:10.6339/JDS.201810_16(4).00006>. c) Chatzipantsiou C., Dimitriadis M., Papadakis M. and Tsagris M. (2018). Extremely efficient permutation and bootstrap hypothesis tests using R. Journal of Modern applied Statistical Methods (To appear). https://arxiv.org/abs/1806.10947 .
+
 License: GPL (>= 2.0)
 LazyData: TRUE
 NeedsCompilation: yes
