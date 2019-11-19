@@ -907,7 +907,7 @@ RcppExport SEXP Rfast_mad2(SEXP xSEXP,SEXP methodSEXP,SEXP na_rmSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    traits::input_parameter< string >::type method(methodSEXP);
+    string method = as<string>(methodSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     //if method is median then copy the vector because median changes the memory
     traits::input_parameter< NumericVector >::type x( method=="median" ? Rf_duplicate(xSEXP) : xSEXP);
