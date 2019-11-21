@@ -25,7 +25,7 @@ bool binarysearch(SEXP x,double v){
 }
 
 int lowerbound(SEXP x,double v){
-	bool res;
+	int res;
 	switch(TYPEOF(x)){
 		case INTSXP:{
 			int *start=INTEGER(x);
