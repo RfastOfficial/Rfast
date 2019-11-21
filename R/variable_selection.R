@@ -305,10 +305,11 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
       info <- cbind(sel, pv, stat)
       z <- x[, sel, drop = FALSE]
       model <- .lm.fit(z, y)
-      tool[1] <- n * log( sum(model$residuals^2)/n ) + con + 3 * logn 
+      tool[1] <- n * log( sum(model$residuals^2)/n ) + 3 * logn 
     } else  info <- rbind(info, c(0, 0, 0))  
     if ( !is.null(model) ) {
       xz <- as.vector( cor(z, x) )
+	  xz[sel] <- 0
       yx.z <- ( yx - xz * r ) / sqrt(1 - xz^2) / sqrt(1 - r^2)
       sel <- which.max( abs(yx.z) )
       r <- yx.z[sel]
@@ -316,11 +317,11 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
       pv <- log(2) + pt(stat, n - 4, lower.tail = FALSE, log.p = TRUE)  ## logged p-values  
       if ( pv < threshold )  {
         model <- .lm.fit( cbind(z, x[, sel]), y )
-        tool[2] <-   n * log( sum(model$residuals^2)/n ) + con + 4 * logn
+        tool[2] <-  n * log( sum(model$residuals^2)/n ) + 4 * logn
         if ( tool[1] - tool[2] > tolb ) {
           info <- rbind(info, c(sel, pv, stat) )
 	    z <- cbind(z, x[, info[1:2, 1] ])
-          x[, info[1:2, 1] ] <- 0  
+          x[, sel] <- 0  
         } else  info <- rbind(info, c(0, 0, 0)) 
       } else  info <- rbind(info, c(0, 0, 0)) 
 
@@ -343,7 +344,7 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
         if ( pv < threshold )  {
           z <- cbind(z, x[, sel])
           model <- .lm.fit(z, y )
-          tool[k] <- n * log( sum(model$residuals^2)/n ) + con + (k + 2) * logn
+          tool[k] <- n * log( sum(model$residuals^2)/n ) + (k + 2) * logn
           if ( tool[k - 1] - tool[k] > tolb ) {
             info <- rbind(info, c(sel, pv, stat) )
             x[, sel] <- 0  
@@ -353,7 +354,7 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
       } 
     }
     
-    info <- cbind(info, tool[1:k])
+    info <- cbind(info, tool[1:k] + con)
     colnames(info)[4] <- "bic"
     info <- info[1:c(k-1), , drop = FALSE]   
 
