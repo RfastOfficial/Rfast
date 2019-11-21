@@ -190,8 +190,23 @@ vector<string> read_aliases(ifstream &file){
   return als;
 }
 
+bool is_dont_runtest(string &s){
+    return ((s.size()>=(sizeof("\\dontrun")-1) or s.size()>=(sizeof("\\donttest"))-1) and 
+                s[0]=='\\' and s[1]=='d' and s[2]=='o' and s[3]=='n' and s[4]=='t' and 
+                ((s[5]=='r' and s[6]=='u' and s[7]=='n') or (s[5]=='t' and s[6]=='e' and s[7]=='s' and s[8]=='t')));
+}
+
+void pass_dont_run(ifstream &file){
+  string tmp;
+  while(getline(file,tmp)){
+    if(tmp=="}"){
+      break; // pass all the lines from dont run
+    }
+  }
+}
+
 bool is_example(const char *s,int len){
-  return (len>7 and s[0]=='\\' and s[1]=='e' and s[2]=='x' 
+  return (len>=(sizeof("\\examples")-1) and s[0]=='\\' and s[1]=='e' and s[2]=='x' 
             and s[3]=='a' and s[4]=='m' and s[5]=='p' 
             and s[6]=='l' and s[7]=='e' and s[8]=='s');
 }
@@ -215,23 +230,28 @@ string read_example(ifstream &file,int& long_lines){
     unsigned int count_curly_bracket=1;/*at least there will be an empty example section*/
     do{
       found_example=get_example(file,s);
-    }while(found_example>0);
+    }while(found_example==0); // while not found example
     if(found_example>0){
-      getline(file,s);
-      while(count_curly_bracket>0){/* check for {} and extract the example correct*/
-          if(s.size()>99){ // 100 max lines
-              ++long_lines;
-          }
-          for(auto& symbol : s){
-              if(symbol=='{')
-                  ++count_curly_bracket;
-              else if(symbol=='}')
-                  --count_curly_bracket;
-          }
-          s+="\n";
-          als+=s;
-          getline(file,s);
-      }
+      do{
+        if(!getline(file,s)){
+          break;
+        }
+        if(is_dont_runtest(s)){
+          pass_dont_run(file);
+          s.clear();
+        }
+        if(s.size()>99){ // 100 max lines
+            ++long_lines;
+        }
+        for(auto& symbol : s){
+            if(symbol=='{')
+                ++count_curly_bracket;
+            else if(symbol=='}')
+                --count_curly_bracket;
+        }
+        s+="\n";
+        als+=s;   
+      }while(count_curly_bracket>0);/* check for {} and extract the example correct*/
       als[als.size()-2]='\n'; // replace } with new line
       als.erase(als.end()-1); // remove extra new line
     }
