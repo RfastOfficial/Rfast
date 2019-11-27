@@ -758,8 +758,9 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
         }
     }
     else if (type == "multinomial") {
+	    y1 <- Rfast::design_matrix(y)[, -1]
         p <- dim(y1)[2]
-        for (j in 1:p) y1[, j] <- as.numeric(y1[, j])
+        for (j in 1:p)  y1[, j] <- as.numeric(y1[, j])
         res <- Rfast::eachrow(y1, mod$prob[-1], oper = "-")
         ela <- numeric(d)
         ela <- Rfast::eachcol.apply(x, res[, 1], indices = ind, 
