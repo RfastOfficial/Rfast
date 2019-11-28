@@ -513,7 +513,7 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
     d <- dm[2]
     n <- dm[1]
     ind <- 1:d
-	if (xstand)   x <- Rfast::standardise(x)
+    if (xstand)   x <- Rfast::standardise(x)
     phi <- NULL
     oop <- options(warn = -1)
     on.exit( options(oop) )
@@ -741,7 +741,7 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
         rho[2] <- con + n * log(det(crossprod(res)/(n - 1)))
         ind[sel] <- 0
         i <- 2
-        while ( (rho[i - 1] - rho[i]) > tol ) {
+        while ( (rho[i] - rho[i - 1]) > tol ) {
             r <- numeric(d)
             i <- i + 1
             r[ind] <- Rfast::eachcol.apply(x, res[, 1], indices = ind[ind > 
@@ -758,8 +758,11 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
         }
     }
     else if (type == "multinomial") {
-	    y1 <- Rfast::design_matrix(y)[, -1]
-        p <- dim(y1)[2]
+	  y1 <- Rfast::design_matrix(y)
+	  p <- dim(y1)[2] - 1
+	  mod <- Rfast::multinom.mle(y1)
+        rho <- mod$loglik
+	  y1 <- y1[, -1, drop = FALSE] 
         for (j in 1:p)  y1[, j] <- as.numeric(y1[, j])
         res <- Rfast::eachrow(y1, mod$prob[-1], oper = "-")
         ela <- numeric(d)
@@ -778,11 +781,11 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
             est <- exp(cbind(1, x[, sel]) %*% mod$be)
             est <- est/(Rfast::rowsums(est) + 1)
             res <- y1 - est
-            rho[2] <- -2 * mod$loglik
+            rho[2] <-  -2 * mod$loglik
             ind[sel] <- 0
         }
         i <- 2
-        while ( (rho[i - 1] - rho[i]) > tol ) {
+        while ( (rho[i] - rho[i - 1]) > tol ) {
             r <- numeric(d)
             i <- i + 1
             r[ind] <- Rfast::eachcol.apply(x, res[, 1], indices = ind[ind > 
