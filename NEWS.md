@@ -1,7 +1,7 @@
 <h1 align="center"> _Rfast_ </h1>
 
 > <b>New version</b> </br>
-Date release: **21/11/2019** 
+Date release: **08/12/2019** 
 >
 
 ***
