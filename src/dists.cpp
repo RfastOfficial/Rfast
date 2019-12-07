@@ -207,7 +207,7 @@ NumericMatrix total_variation_dist(NumericMatrix x){
 
 bool check_if_is_finite(double x){
     return x>0 and !R_IsNA(x);
-};
+}
 
 //[[Rcpp::export]]
 NumericMatrix kullback_leibler_dist(NumericMatrix x){

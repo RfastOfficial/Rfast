@@ -10,6 +10,7 @@
 
 using namespace std;
 using namespace arma;
+using namespace Rcpp;
 
 inline NumericVector col_meds_simple(NumericMatrix& x,const bool parallel=false){
     const int p=x.ncol(),step=x.nrow(),middle=step/2-1;

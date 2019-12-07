@@ -55,7 +55,7 @@ namespace Rfast {
 		// argument method can be one of "median","mean"
 		// argument na_rm for remove NAs from the vector using R's "R_isNA" function
 		template<typename T>
-		double mad(T x,string method="median",const bool na_rm=false){
+		inline double mad(T x,string method="median",const bool na_rm=false){
 			const int newsize = na_rm ? remove_if(x.begin(),x.end(),R_IsNA)-x.begin() : x.size();
 			T xx(x.begin(),newsize,false);
 			double res=0;

@@ -230,13 +230,15 @@ vec indexesOfNum(mat m, int num){
   vec tmp(sz);
   int i,j = 0;
 
-  for(i=0; i<sz;i++)
-    if(m(i)==num)
+  for(i=0; i<sz;i++){
+    if(m(i)==num){
       tmp(j++)=i;
+    }
+  }
 
-    tmp.resize(j);
+  tmp.resize(j);
 
-    return tmp;
+  return tmp;
 }
 
 mat create_id_mat(int d){

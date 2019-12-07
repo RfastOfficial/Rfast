@@ -57,11 +57,12 @@ NumericMatrix dir_knn(NumericMatrix tXnew, NumericMatrix tX, NumericVector Y, Nu
             k_sorted_put(myarray,k0,i,-tmpsum);
           }
 
-          for(int j = 0; j < klen; j++)
+          for(int j = 0; j < klen; j++){
             g(l,j)= _function_type_(y, myarray, K[j]);
+          }
 
-            // make all elements of the array "invalid" so that the next iteration can begin
-            myarray =  refresh_array(myarray, k0);
+          // make all elements of the array "invalid" so that the next iteration can begin
+          myarray =  refresh_array(myarray, k0);
         }
         clear_array(myarray);
       #ifdef _OPENMP
@@ -76,17 +77,19 @@ NumericMatrix dir_knn(NumericMatrix tXnew, NumericMatrix tX, NumericVector Y, Nu
     for (int l = 0; l < nu; l++) {
       for(int i = 0; i < n; i++){
         tmpsum = sum(tx.col(i)%txnew.col(l));
-        if(tmpsum > 1)
+        if(tmpsum > 1){
           tmpsum = 1;
+        }
 
         k_sorted_put(myarray,k0,i,-tmpsum);
       }
 
-      for(int j = 0; j < klen; j++)
+      for(int j = 0; j < klen; j++){
         g(l,j)= _function_type_(y, myarray, K[j]);
+      }
 
-        // make all elements of the array "invalid" so that the next iteration can begin
-        myarray =  refresh_array(myarray, k0);
+      // make all elements of the array "invalid" so that the next iteration can begin
+      myarray =  refresh_array(myarray, k0);
     }
     clear_array(myarray);
   }

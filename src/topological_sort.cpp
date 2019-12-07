@@ -12,10 +12,12 @@ using std::vector;
 
 static vector<int> mywhich(IntegerVector& x,int c){
   vector<int> f(c);
-  for(int i=0,k=0;i<x.size();++i)
-    if(x[i]>0)
+  for(int i=0,k=0;i<x.size();++i){
+    if(x[i]>0){
       f[k++]=i;
-    return f;
+    }
+  }
+  return f;
 }
 
 //[[Rcpp::export]]
@@ -29,9 +31,11 @@ IntegerVector topological_sort(IntegerMatrix dag) {
   int v,c;
   double m;
   unsigned int j;
-  for(int i=0;i<indeg.size();++i)
-    if(indeg[i]==0)
+  for(int i=0;i<indeg.size();++i){
+    if(indeg[i]==0){
       zero_indeg.push(i);
+    }
+  }
   for(i=0;zero_indeg.size()>0 && i < n; ++i) {
     v = zero_indeg.top();  // get top element
     zero_indeg.pop(); //  pop top element

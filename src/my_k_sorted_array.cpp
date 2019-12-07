@@ -166,17 +166,18 @@ void place_new_values2(a_node* my_arr, int size,int index, double value){
   else{
     int i;
 
-    for(i = size-1; i>=0;i--)
-      if(my_arr[i].value <= value)
+    for(i = size-1; i>=0;i--){
+      if(my_arr[i].value <= value){
         break;
+      }
         //value should be written in i
-      for(int j = size-1; j > i+1;j--)
+      for(int j = size-1; j > i+1;j--){
         my_arr[j] = my_arr[j-1];
+      }
 
       my_arr[i+1].value = value;
       my_arr[i+1].index = index;
-
-      return;
+    }
   }
 
   return;

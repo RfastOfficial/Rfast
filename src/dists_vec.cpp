@@ -37,7 +37,7 @@ List euclidean_dist_vec_ina(NumericMatrix x,const bool sqr){
   IntegerVector ind_i(n),ind_j(n);
   colvec xv(nrw);
   int i,j,k=0;
-  if(sqr)
+  if(sqr){
     for(i=0;i<ncl-1;++i){
       xv=xx.col(i);
       for(j=i+1;j<ncl;++j,++k){
@@ -46,16 +46,17 @@ List euclidean_dist_vec_ina(NumericMatrix x,const bool sqr){
         ind_j[k]=j+1;
       }
     }
-    else
-      for(i=0;i<ncl-1;++i){
-        xv=xx.col(i);
-        for(j=i+1;j<ncl;++j,++k){
-          f[k]=std::sqrt(sum(square(xv-xx.col(j))));
-          ind_i[k]=i+1;
-          ind_j[k]=j+1;
-        }
+  }else{
+    for(i=0;i<ncl-1;++i){
+      xv=xx.col(i);
+      for(j=i+1;j<ncl;++j,++k){
+        f[k]=std::sqrt(sum(square(xv-xx.col(j))));
+        ind_i[k]=i+1;
+        ind_j[k]=j+1;
       }
-      return List::create(_["i"]=ind_i,_["j"]=ind_j,_["dist"]=f);
+    }
+  }
+  return List::create(_["i"]=ind_i,_["j"]=ind_j,_["dist"]=f);
 }
 
 

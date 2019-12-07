@@ -205,7 +205,7 @@ void pass_dont_run(ifstream &file){
   }
 }
 
-bool is_example(const char *s,int len){
+bool is_example(const char *s,size_t len){
   return (len>=(sizeof("\\examples")-1) and s[0]=='\\' and s[1]=='e' and s[2]=='x' 
             and s[3]=='a' and s[4]=='m' and s[5]=='p' 
             and s[6]=='l' and s[7]=='e' and s[8]=='s');
