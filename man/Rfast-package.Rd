@@ -35,55 +35,62 @@ Manos Papadakis <papadakm95@gmail.com>
 }
 
 \note{
-Acknowledgments:
+Acknowledgments: We would like to acknowledge
 
-We would like to acknowledge Professor Kurt Hornik, Doctor Uwe Ligges (and the rest of R core team) for 
+\itemize{
+\item Professor Kurt Hornik, Doctor Uwe Ligges (and the rest of R core team) for 
 their invaluable help with this R package. 
-Erich Studerus for his invaluable comments.
-Neal Fultz for his suggestions. 
-Vassilis Vasdekis for his invaluable help with the random effects models. 
-Marios Dimitriadis work was funded by the Special Account for Research Funds of the University of Crete, Department of Computer Science. 
-Phillip Si is greatly acknowledged for his help with the Floyd-Warshal algorithm. 
-Keefe Murphy for his invaluable help with NEWS file and for his suggestions. 
-Zacharias Papadovassilakis gave us the inspiration for the memory efficient version of the k-NN algorithm. Yannis Pantazis explained us how the orhtogonal matching pursuit works. 
-Achim Zeileis for his help with the quasi Poisson regression models. 
-Pedro J. Aphalo for finding a bug.
-Dimitris Kyriakis for finding a bug. 
-Cyrille Conord for finding a bug.
-Aaron Robotham for finding a bug.
-Calvin Pan from the Department of Human Genetics at UCLA found a bug in the function glm_logistic and he is greatly acknowledged for that.
-Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is greatly acknowledged for that.
-
+\item Erich Studerus for his invaluable comments.
+\item Neal Fultz for his suggestions. 
+\item Vassilis Vasdekis for his invaluable help with the random effects models. 
+\item Marios Dimitriadis work was funded by the Special Account for Research Funds of the University of Crete, Department of Computer Science. 
+\item Phillip Si is greatly acknowledged for his help with the Floyd-Warshal algorithm. 
+\item Keefe Murphy for his invaluable help with NEWS file and for his suggestions. 
+\item Zacharias Papadovassilakis gave us the inspiration for the memory efficient version of the k-NN algorithm. Yannis Pantazis explained us how the orhtogonal matching pursuit works. 
+\item Achim Zeileis for his help with the quasi Poisson regression models. 
+\item Pedro J. Aphalo for finding a bug.
+\item Dimitris Kyriakis for finding a bug. 
+\item Cyrille Conord for finding a bug.
+\item Aaron Robotham for finding a bug.
+\item Calvin Pan from the Department of Human Genetics at UCLA found a bug in the function glm_logistic and he is greatly acknowledged for that.
+\item Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is greatly acknowledged for that.
+}
 From now on the Rfast can be used in C++ via LinkingTo mechanism.
-The main namespace is "Rfast". Inside "Rfast" you will find two more namespaces, "vector" and "matrix".
-Namespace "vector" for calling functions using an Rcpp's or RcppArmadillo's vector.
-Namespace "matrix" for calling functions using an Rcpp's or RcppArmadillo's matrices.
-The signatures of the functions and the arguments are the same that are exported in R.
+\itemize{
+\item The main namespace is "Rfast". Inside "Rfast" you will find two more namespaces, "vector" and "matrix".
+\item Namespace "vector" for calling functions using an Rcpp's or RcppArmadillo's vector.
+\item Namespace "matrix" for calling functions using an Rcpp's or RcppArmadillo's matrices.
+\item The signatures of the functions and the arguments are the same that are exported in R.
+}
 For namespace "vector" the functions that are available are:
-  
-	median(x)
-	var(x, std = false, na_rm = false)
-	mad(x, method = "median", na_rm = false)  
-	shuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
-
+\enumerate{
+	\item median(x)
+	\item var(x, std = false, na_rm = false)
+	\item mad(x, method = "median", na_rm = false)  
+	\item shuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
+}
 For namespace "matrix" the functions that are available are:
-  
-	transpose(x)
-	matrix_multiplication(x,y)
-	colSort(x, descend = false, stable = false, parallel = false)
-	rowSort(x, descend = false, stable = false, parallel = false)
-	is_symmetric(x)
-	colMedian(x, na_rm = false, parallel = false)
-	rowMedian(x, na_rm = false, parallel = false)
-	colVars(x, std = false, na_rm = false, parallel = false)
-	rowVars(x, std = false, na_rm = false, parallel = false)
-	colMads(x, method = "median", na_rm = false, parallel = false)
-	rowMads(x, method = "median", na_rm = false, parallel = false)
-	colShuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
-	rowShuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
-	
+\enumerate{
+	\item transpose(x)
+	\item matrix_multiplication(x,y)
+	\item colSort(x, descend = false, stable = false, parallel = false)
+	\item rowSort(x, descend = false, stable = false, parallel = false)
+	\item is_symmetric(x)
+	\item colMedian(x, na_rm = false, parallel = false)
+	\item rowMedian(x, na_rm = false, parallel = false)
+	\item colVars(x, std = false, na_rm = false, parallel = false)
+	\item rowVars(x, std = false, na_rm = false, parallel = false)
+	\item colMads(x, method = "median", na_rm = false, parallel = false)
+	\item rowMads(x, method = "median", na_rm = false, parallel = false)
+	\item colShuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
+	\item rowShuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
+}
+
 How to use it:
-	1. Just add in "LinkingTo" in your NAMESPACE file the "Rfast" or in Rstudio "//[[Rcpp::depends(Rfast)]]".
-	2. Include in your cpp files the header "Rfast.h" and enjoy!
+\enumerate{
+	\item Just add in "LinkingTo" in your NAMESPACE file the "Rfast" or in Rstudio "//[[Rcpp::depends(Rfast)]]".
+	\item Include in your cpp files the header "Rfast.h" and enjoy!
+}
+}
 }
 
