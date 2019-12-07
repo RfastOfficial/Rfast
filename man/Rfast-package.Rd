@@ -25,9 +25,19 @@ License: \tab GPL-2\cr
 }
 
 \author{
-Manos Papadakis <papadakm95@gmail.com>, Michail Tsagris <mtsagris@yahoo.gr>, Marios Dimitriadis <kmdimitriadis@gmail.com>, Stefanos Fafalios <stefanosfafalios@gmail.com>, 
-Ioannis Tsamardinos <tsamard@csd.uoc.gr>, Matteo Fasiolo <matteo.fasiolo@gmail.com>, Giorgos Borboudakis <borbudak@gmail.com>, John Burkardt <jburkardt@fsu.edu> and 
-Kleanthi Lakiotaki <kliolak@gmail.com>, Changliang Zou <nk.chlzou@gmail.com>, Christina Chatzipantsiou <chatzipantsiou@gmail.com>
+\itemize{
+\item Manos Papadakis <papadakm95@gmail.com>
+\item Michail Tsagris <mtsagris@yahoo.gr>
+\item Marios Dimitriadis <kmdimitriadis@gmail.com>
+\item Stefanos Fafalios <stefanosfafalios@gmail.com>
+\item Ioannis Tsamardinos <tsamard@csd.uoc.gr>
+\item Matteo Fasiolo <matteo.fasiolo@gmail.com>
+\item Giorgos Borboudakis <borbudak@gmail.com>
+\item John Burkardt <jburkardt@fsu.edu>
+\item Kleanthi Lakiotaki <kliolak@gmail.com>
+\item Changliang Zou <nk.chlzou@gmail.com>
+\item Christina Chatzipantsiou <chatzipantsiou@gmail.com>
+}
 }
 
 \section{Maintainers}{
