@@ -14,14 +14,18 @@ NumericMatrix dir_knn(NumericMatrix tXnew, NumericMatrix tX, NumericVector Y, Nu
 
   double (*_function_type_)(vec, a_node*, const int);
 
-  if(type == "R")
+  if(type == "R"){
     _function_type_ = &average_value;
-  else if(type == "WR")
+  }
+  else if(type == "WR"){
     _function_type_ = &weighted_average_value;
-  else if(type == "WC")
+  }
+  else if(type == "WC"){
     _function_type_ = &weighted_most_frequent_value;
-  else if(type == "C")
+  }
+  else if(type == "C"){
     _function_type_ = &most_frequent_value;
+  }
   else{
     stop("Unknown type, Supported types are: 'R','WR','C','WC'.\n");
   }
@@ -32,8 +36,9 @@ NumericMatrix dir_knn(NumericMatrix tXnew, NumericMatrix tX, NumericVector Y, Nu
   vec y(Y.begin(), n,false);
   int k0 = max(K);
 
-  if(k0>n)
+  if(k0>=n){
     k0=n-1;
+  }
 
   NumericMatrix g = NumericMatrix(nu,klen);
 
@@ -51,8 +56,9 @@ NumericMatrix dir_knn(NumericMatrix tXnew, NumericMatrix tX, NumericVector Y, Nu
         for (int l = 0; l < nu; l++) {
           for(int i = 0; i < n; i++){
             tmpsum = sum(tx.col(i)%txnew.col(l));
-            if(tmpsum > 1)
+            if(tmpsum > 1){
               tmpsum = 1;
+            }
 
             k_sorted_put(myarray,k0,i,-tmpsum);
           }
