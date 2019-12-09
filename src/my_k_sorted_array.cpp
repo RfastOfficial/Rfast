@@ -1,3 +1,5 @@
+//Author: Stefanos Fafalios
+
 #include <cstdlib>
 #include "my_k_sorted_array.h"
 
@@ -12,8 +14,9 @@ void clear_array(a_node* my_ar){
 a_node* refresh_array(a_node* my_arr, int size){
   // make all indexes of the array "invalid"
   a_node* first = my_arr;
-  for(int i=0; i<size;i++,my_arr++)
+  for(int i=0; i<size;i++,my_arr++){
     my_arr->index = -1;
+  }
 
   return first;
 }
@@ -21,8 +24,9 @@ a_node* refresh_array(a_node* my_arr, int size){
 void binary_place_new_values(a_node* my_arr, int imin, int imax, double value, double index, int size){
   // calculate midpoint to cut set in half
   int imid = (imax+imin)/2;
-  if(imid>size-1)
+  if(imid>size-1){
     imid=size-1;
+  }
 
   // three-way comparison
   if (my_arr[imid].value > value){
@@ -75,8 +79,9 @@ void binary_place_new_values(a_node* my_arr, int imin, int imax, double value, d
 // suitable for big size eg more than 100
 void place_new_values(a_node* my_arr, int size,int index, double value){
   // case value should not be inserted in the list at all
-  if(my_arr[size-1].index!=-1 && my_arr[size-1].value <= value)
+  if(my_arr[size-1].index!=-1 && my_arr[size-1].value <= value){
     return;
+  }
 
   if(index == 0){
     my_arr[0].index = 0;
@@ -106,7 +111,6 @@ void place_new_values(a_node* my_arr, int size,int index, double value){
       return;
     }
     //case the element should be placed between 0 and index-1
-    //Rcout<<"Calling binary 0 "<<index-1<<" val "<<value<<endl;
     binary_place_new_values(my_arr, 0, index-1, value, index, size);
   }
   else{
@@ -119,8 +123,9 @@ void place_new_values(a_node* my_arr, int size,int index, double value){
 // suitable for smaller size eg less than 100
 void place_new_values2(a_node* my_arr, int size,int index, double value){
   // case value should not be inserted in the list at all
-  if(my_arr[size-1].index!=-1 && my_arr[size-1].value <= value)
+  if(my_arr[size-1].index!=-1 && my_arr[size-1].value <= value){
     return;
+  }
 
   if(index == 0){
     my_arr[0].index = 0;
@@ -151,12 +156,15 @@ void place_new_values2(a_node* my_arr, int size,int index, double value){
     //case the element should be placed between 0 and index-1
     //Rcout<<"Calling binary 0 "<<index-1<<" val "<<value<<endl;
     int i;
-    for(i = index-1; i>=0;i--)
-      if(my_arr[i].value <= value)
+    for(i = index-1; i>=0;i--){
+      if(my_arr[i].value <= value){
         break;
+	  }
+	}
     //value should be written in i
-    for(int j = index; j > i+1;j--)
+    for(int j = index; j > i+1;j--){
       my_arr[j] = my_arr[j-1];
+	}
 
     my_arr[i+1].value = value;
     my_arr[i+1].index = index;
@@ -169,15 +177,17 @@ void place_new_values2(a_node* my_arr, int size,int index, double value){
     for(i = size-1; i>=0;i--){
       if(my_arr[i].value <= value){
         break;
-      }
+	  }
+	}
         //value should be written in i
       for(int j = size-1; j > i+1;j--){
         my_arr[j] = my_arr[j-1];
-      }
+	  }
 
       my_arr[i+1].value = value;
       my_arr[i+1].index = index;
-    }
+
+      return;
   }
 
   return;
@@ -186,13 +196,16 @@ void place_new_values2(a_node* my_arr, int size,int index, double value){
 a_node* init_array(int K){
   a_node* my_ar = new a_node[K];
   a_node* first = my_ar;
-  for(int i=0;i<K;i++,my_ar++)
+  for(int i=0;i<K;i++,my_ar++){
     my_ar->index = -1;
+  }
 
-  if(K<100)
+  if(K<100){
     _place_vals_ = &place_new_values2;
-  else
+  }
+  else{
     _place_vals_ = &place_new_values;
+  }
 
   return first;
 }
