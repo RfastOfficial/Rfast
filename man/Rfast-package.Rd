@@ -102,5 +102,4 @@ How to use it:
 	\item Include in your cpp files the header "Rfast.h" and enjoy!
 }
 }
-}
 

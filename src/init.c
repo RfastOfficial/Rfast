@@ -182,7 +182,7 @@ SEXP Rfast_row_true_false(SEXP xSEXP);
 SEXP Rfast_read_examples(SEXP path_manSEXP);
 SEXP Rfast_row_count_values(SEXP xSEXP,SEXP valuesSEXP);
 SEXP Rfast_row_mads(SEXP xSEXP,SEXP methodSEXP,SEXP na_rmSEXP,SEXP parallelSEXP);
-SEXP Rfast_col_vars(SEXP xSEXP,SEXP stdSEXP,SEXP na_rmSEXP,SEXP parallelSEXP);
+SEXP Rfast_row_vars(SEXP xSEXP,SEXP stdSEXP,SEXP na_rmSEXP,SEXP parallelSEXP);
 SEXP Rfast_row_max_indices(SEXP xSEXP);
 SEXP Rfast_row_min_indices(SEXP xSEXP);
 SEXP Rfast_sort_unique_double(SEXP xSEXP);
