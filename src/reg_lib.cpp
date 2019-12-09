@@ -2,7 +2,7 @@
 
 #include <RcppArmadillo.h>
 #include "reg_lib.h"
-#include "Rfast.h"
+#include "templates.h"
 #include "my_k_sorted_array.h"
 #include <algorithm>
 #include "mn.h"
@@ -16,8 +16,9 @@ using namespace Rcpp;
 double average_value(vec y, a_node* my_ar, const int size){
   double sum=0.0;
   a_node* it = my_ar;
-  for(int i=0;i<size;i++,it++)
+  for(int i=0;i<size;i++,it++){
     sum+= y(it->index);
+  }
 
   return sum/size;
 }
@@ -59,8 +60,9 @@ double weighted_most_frequent_value(vec y, a_node* my_ar, const int size){
 double most_frequent_value(vec y, a_node* my_ar, const int size){
   std::map<int,int> counts;
   a_node* tmp = my_ar;
-  for(int i=0;i<size;i++,tmp++)
+  for(int i=0;i<size;i++,tmp++){
     counts[(int)y(tmp->index)]++;
+  }
 
   map<int, int>::iterator tmpit;
   int mostFrequent = -1;
@@ -153,8 +155,9 @@ double spml_mle2(mat u, vec ci2, vec cisi, vec si2, const int n, const double to
 }
 
 void my_pow2(vec inp,double *out,const double power,const int sz){
-  for(double *startx=inp.memptr(),*starty=out,*end=startx+sz;startx!=end;++startx,++starty)
+  for(double *startx=&inp[0],*starty=out,*end=startx+sz;startx!=end;++startx,++starty){
     *starty=std::pow(*startx,power);
+  }
 
   return;
 }
@@ -210,8 +213,9 @@ colvec log1pColvec(colvec input, int sz){
   colvec ret(sz);
   colvec::iterator iter1 = input.begin(),iter2 = ret.begin(), end = input.end();
 
-  for(; iter1 != end; ++iter1,++iter2)
+  for(; iter1 != end; ++iter1,++iter2){
     *iter2 = log1p(*iter1);
+  }
 
   return ret;
 }
@@ -236,9 +240,9 @@ vec indexesOfNum(mat m, int num){
     }
   }
 
-  tmp.resize(j);
+    tmp.resize(j);
 
-  return tmp;
+    return tmp;
 }
 
 mat create_id_mat(int d){
@@ -277,8 +281,9 @@ mat colvec_mat_cbind(vec v, mat m){
   mat ret(n,d+1);
   ret.col(0)= v;
 
-  for(int i =1; i<d+1;i++)
+  for(int i =1; i<d+1;i++){
     ret.col(i) = m.col(i-1);
+  }
 
   return ret;
 }
@@ -311,8 +316,9 @@ double calcDevRes(mat p,vec y,mat est){
 
 vec subvec(vec v, int start, int size){
   vec ret(size);
-  for(int i=start,j = 0;i<size+start;i++,j++)
+  for(int i=start,j = 0;i<size+start;i++,j++){
     ret(j) = v(i);
+  }
   return ret;
 }
 
@@ -380,13 +386,16 @@ mat varcomps_mle3(vec x, IntegerVector ina,const int N, int n,const bool ranef, 
 
   mat ret;
   if(ranef){
-    if(n>4)
+    if(n>4){
       ret = mat(2,n);
-    else
+    }
+    else{
       ret = mat(2,4);
+    }
   }
-  else
+  else{
     ret = mat(1,4);
+  }
 
   const double tau=(a+b)/2.0;
 
