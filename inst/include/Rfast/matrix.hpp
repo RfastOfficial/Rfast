@@ -642,7 +642,7 @@ namespace Rfast {
 		mat colShuffle(mat x,Engine engine=Engine()){
 		    const int n=x.n_cols;
 		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long int> seeds(n);
+		    std::vector<long long unsigned int> seeds(n);
 		    seq.generate(seeds.begin(),seeds.end());
 		    mat y(x.n_rows,n);
 		    for(int i=0;i<n;++i){
@@ -656,7 +656,7 @@ namespace Rfast {
 		mat rowShuffle(mat x,Engine engine=Engine()){
 		    const int n=x.n_rows;
 		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long int> seeds(n);
+		    std::vector<long long unsigned int> seeds(n);
 		    seq.generate(seeds.begin(),seeds.end());
 		    mat y(n,x.n_cols);
 		    for(int i=0;i<n;++i){
