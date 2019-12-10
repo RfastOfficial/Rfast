@@ -2,7 +2,7 @@
 
 #include <RcppArmadillo.h>
 #include "reg_lib.h"
-#include "templates.h"
+#include "Rfast/templates.h"
 #include "my_k_sorted_array.h"
 #include <algorithm>
 #include "mn.h"
