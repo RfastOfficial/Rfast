@@ -51,7 +51,7 @@ Edwards A.W.F. (1963). The measure of association in a 2x2 table. Journal of the
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Giorgos Athineou <athineou@csd.uoc.gr>
+R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr>.
 }
 %\note{
 %%  ~~further notes~~

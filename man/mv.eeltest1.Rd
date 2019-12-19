@@ -53,7 +53,7 @@ Owen A. B. (2001). Empirical likelihood. Chapman and Hall/CRC Press.
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Giorgos Athineou <athineou@csd.uoc.gr>
+R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr>.
 }
 
 %\note{
