@@ -147,14 +147,13 @@ ibeta.mle <- function(x, tol = 1e-09) {
 
 #[export]
 logitnorm.mle <- function(x) {
-  n <- length(x)
+  n <- length(x) 
   lx1 <- log(x)
-  lx2 <- log(1 - x)
+  lx2 <- log(1 - x) 
   y <- lx1 - lx2 
-  sy <- sum(y)
-  m <- sy / n
+  m <- sum(y) / n
   s <- ( sum(y^2) - n * m^2 ) / n
-  loglik <- sum( dnorm(y, m, sqrt(s), log = TRUE ) ) - sy
+  loglik <- sum( dnorm(y, m, sqrt(s), log = TRUE ) ) - sum(lx1) - sum(lx2)
   param <- c(m, n * s / (n - 1) )
   names(param) <- c("mean", "unbiased variance")
   list(loglik = loglik, param = param)
