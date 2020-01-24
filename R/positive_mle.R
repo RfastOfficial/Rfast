@@ -369,7 +369,7 @@ tobit.mle <- function(y, tol = 1e-09) {
     anew <- aold - c( ders2 * derm - derms * ders, - derms * derm + derm2 * ders ) / ( derm2 * ders2 - derms^2 )
   }
   s <- exp(anew[2])
-  loglik <-  - 0.5 * n1 * log(2 * pi * s^2) - 0.5 * ( sy12 - 2 * m * sy1 + n1 * m^2 ) / s^2 + n0 * log( pnorm(-m/s) )
+  loglik <-  - 0.5 * n1 * log(2 * pi * s^2) - 0.5 * ( sy12 - 2 * m * sy1 + n1 * m^2 ) / s^2 + n0 * pnorm(-m/s, log.p = TRUE) 
   param <- c(anew[1], s)
   names(param) <- c("location", "scale")
   list(iters = i, loglik = loglik, param = param)

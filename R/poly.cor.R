@@ -4,7 +4,7 @@ poly.cor <- function(x, y) {
   funa <- function(rho, a1, a2, z) {
     t2 <- ( a2 - rho * z) / sqrt(1 - rho^2)
     t1 <- ( a1 - rho * z) / sqrt(1 - rho^2)
-    - sum( log( ( pnorm(t2) - pnorm(t1) ) ) )
+    - sum( log( pnorm(t2) - pnorm(t1) ) )
   }
   #######
   z <- ( x - mean(x) ) / Rfast::Var(x, std = TRUE) 
