@@ -614,7 +614,7 @@ namespace Rfast {
 		inline NumericMatrix colShuffle(NumericMatrix x,Engine engine=Engine()){
 		    const int n=x.ncol();
 		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long int> seeds(n);
+		    std::vector<long long unsigned  int> seeds(n);
 		    seq.generate(seeds.begin(),seeds.end());
 		    NumericMatrix y(x.nrow(),n);
 		    for(int i=0;i<n;++i){
@@ -628,7 +628,7 @@ namespace Rfast {
 		NumericMatrix rowShuffle(NumericMatrix x,Engine engine=Engine()){
 		    const int n=x.ncol();
 		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long int> seeds(n);
+		    std::vector<long long unsigned  int> seeds(n);
 		    seq.generate(seeds.begin(),seeds.end());
 		    NumericMatrix y(n,x.ncol());
 		    for(int i=0;i<n;++i){
