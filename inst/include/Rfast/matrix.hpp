@@ -67,7 +67,7 @@ namespace Rfast {
 		inline NumericMatrix matrix_multiplication(NumericMatrix X,NumericMatrix Y){
 		    const int n=X.nrow(),p=Y.ncol();
 		    NumericMatrix C(n,p);
-		    mat CC(C.begin(),n,p,false),x(X.begin(),n,X.nrow(),false),y(Y.begin(),Y.nrow(),p,false);
+		    mat CC(C.begin(),n,p,false),x(X.begin(),n,X.ncol(),false),y(Y.begin(),Y.nrow(),p,false);
 	    	x=Rfast::matrix::transpose(x);
 		    colvec yi(y.n_rows);
 		    for(int i=0;i<p;++i){
