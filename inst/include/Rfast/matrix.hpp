@@ -68,7 +68,7 @@ namespace Rfast {
 		    const int n=X.nrow(),p=Y.ncol();
 		    NumericMatrix C(n,p);
 		    mat CC(C.begin(),n,p,false),x(X.begin(),n,X.ncol(),false),y(Y.begin(),Y.nrow(),p,false);
-	    	x=Rfast::matrix::transpose(x);
+	    	mat xx=Rfast::matrix::transpose(x);
 		    colvec yi(y.n_rows);
 		    for(int i=0;i<p;++i){
 		        yi=y.col(i);
@@ -76,7 +76,7 @@ namespace Rfast {
 		        #pragma omp parallel for
 		        #endif
 		        for(int j=0;j<n;++j){
-		            CC(j,i)=dot(x.col(j),yi);
+		            CC(j,i)=dot(xx.col(j),yi);
 		        }
 		    }
 		    return C;
