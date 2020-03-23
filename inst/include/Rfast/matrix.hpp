@@ -46,14 +46,16 @@ namespace Rfast {
 
 		inline mat transpose(mat x){
 			const int p=x.n_cols,n=x.n_rows;
-			mat f(p,n);
+			mat f;
 			if(p==n){
+				f=x;
 				for(int i=1;i<p;++i){
 					for(int u=0;u<i;++u){
 						swap(f(u,i),f(i,u));
 					}
 				}
 			}else{
+				f=mat(p,n);
 				#ifdef _OPENMP
 				#pragma omp parallel for
 				#endif
