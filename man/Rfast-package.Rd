@@ -20,7 +20,7 @@ Package: \tab Rfast\cr
 Type: \tab Package\cr
 Version: \tab 1.9.9 \cr
 <<<<<<< HEAD
-Date: \tab 2020-02-16\cr
+Date: \tab 2020-03-07\cr
 =======
 Date: \tab 2019-02-14\cr
 >>>>>>> 2d72931c1d98a2354d715a82812b1a1f338836db

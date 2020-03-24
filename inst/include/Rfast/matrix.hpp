@@ -46,14 +46,16 @@ namespace Rfast {
 
 		inline mat transpose(mat x){
 			const int p=x.n_cols,n=x.n_rows;
-			mat f(p,n);
+			mat f;
 			if(p==n){
+				f=x;
 				for(int i=1;i<p;++i){
 					for(int u=0;u<i;++u){
 						swap(f(u,i),f(i,u));
 					}
 				}
 			}else{
+				f=mat(p,n);
 				#ifdef _OPENMP
 				#pragma omp parallel for
 				#endif
@@ -65,10 +67,10 @@ namespace Rfast {
 		}
 
 		inline NumericMatrix matrix_multiplication(NumericMatrix X,NumericMatrix Y){
-		    const int n=X.ncol(),p=Y.ncol();
+		    const int n=X.nrow(),p=Y.ncol();
 		    NumericMatrix C(n,p);
-		    mat CC(C.begin(),n,p,false),x(X.begin(),X.nrow(),n,false),y(Y.begin(),Y.nrow(),p,false);
-	    	x=Rfast::matrix::transpose(x);
+		    mat CC(C.begin(),n,p,false),x(X.begin(),n,X.ncol(),false),y(Y.begin(),Y.nrow(),p,false);
+	    	mat xx=Rfast::matrix::transpose(x);
 		    colvec yi(y.n_rows);
 		    for(int i=0;i<p;++i){
 		        yi=y.col(i);
@@ -76,14 +78,14 @@ namespace Rfast {
 		        #pragma omp parallel for
 		        #endif
 		        for(int j=0;j<n;++j){
-		            CC(j,i)=dot(x.col(j),yi);
+		            CC(j,i)=dot(xx.col(j),yi);
 		        }
 		    }
 		    return C;
 		}
 
 		inline mat matrix_multiplication(mat x,mat y){
-		    const int n=x.n_cols,p=y.n_cols;
+		    const int n=x.n_rows,p=y.n_cols;
 		    mat C(n,p);
 	    	x=Rfast::matrix::transpose(x);
 		    colvec yi(y.n_rows);
