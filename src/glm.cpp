@@ -57,7 +57,7 @@ List glm_logistic(NumericMatrix X, NumericVector Y, const double tol = 1e-06, co
     } while(negLL > prevNegLL + alpha * ta * lambda[0] && ta > ttol);
 
     B = nextB;
-    if ( isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
+    if ( std::isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
       if ( NumericVector::is_na(negLL)) {
         Rcout<<"Infinity found"<<endl;
       }
