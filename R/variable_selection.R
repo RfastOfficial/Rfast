@@ -236,7 +236,7 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
       z <- cbind(z, x[, sel])     
       while ( sum(s > 0) > 0 ) {
         stat <- numeric(p)
-        m <- n - 3 - sum(sela)
+        m <- n - 3 - length(sela)
         #e1 <- .lm.fit(z, y)$residuals
         #e2 <- .lm.fit(z, x[, ind[-sela] ])$residuals
         er <- .lm.fit( z, cbind(y, x[, ind[s]]) )$residuals
