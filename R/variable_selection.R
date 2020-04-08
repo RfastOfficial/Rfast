@@ -820,12 +820,16 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
 
 #[export]
 ompr <- function (y, x, ystand = TRUE, xstand = TRUE, method = "BIC", tol = 2) {
+
     dm <- dim(x)
     d <- dm[2]
     n <- dm[1]
     ind <- 1:d
-    m <- sum(y)/n
-	if (ystand)   y <- (y - m)/Rfast::Var(y, std = TRUE)
+    runtime <- proc.time()
+    if (ystand)  {
+      m <- sum(y)/n
+      y <- (y - m)/Rfast::Var(y, std = TRUE)
+    }
     if (xstand)   x <- Rfast::standardise(x)
 	
     if (method == "sse") {
@@ -855,8 +859,8 @@ ompr <- function (y, x, ystand = TRUE, xstand = TRUE, method = "BIC", tol = 2) {
         len <- length(sela)
         info <- cbind(c(0, sela[-len]), rho[1:len])
         colnames(info) <- c("Vars", "|sse|")
-    }
-    else if (method == "BIC") {
+
+    } else if (method == "BIC") {
         con <- n * log(2 * pi) + n
         rho <- n * log(Var(y) * (n - 1)/n) + 2 * log(n)
         r <- Rfast::eachcol.apply(x, y)
@@ -883,8 +887,8 @@ ompr <- function (y, x, ystand = TRUE, xstand = TRUE, method = "BIC", tol = 2) {
         len <- length(sela)
         info <- cbind(c(0, sela[-len]), rho[1:len] + con)
         colnames(info) <- c("Vars", "BIC")
-    }
-    else if (method == "ar2") {
+
+    } else if (method == "ar2") {
         down <- Var(y) * (n - 1)
         rho <- 0
         r <- Rfast::eachcol.apply(x, y)
@@ -912,8 +916,42 @@ ompr <- function (y, x, ystand = TRUE, xstand = TRUE, method = "BIC", tol = 2) {
         }
         len <- length(sela)
         info <- cbind(c(0, sela[-len]), rho[1:len])
-        colnames(info) <- c("Vars", "adjusted R2")
+        colnames(info) <- c("Vars", "adjusted R2") 
+
+    } else if ( method == "pvalue" ) {
+        r <- Rfast::eachcol.apply(x, y) / (n - 1)
+        epe <- which( is.na(r) )
+        ind[epe] <- 0
+        sel <- which.max( abs(r) )
+        sela <- sel
+        stat <- abs( 0.5 * log( (1 + r[sel])/(1 - r[sel]) ) * sqrt(n - 3) )
+        pv <- 2 * pt(stat, n - 3, lower.tail = FALSE)
+        if ( pv < tol ) {
+          ind[sel] <- 0
+          r[sel] <- 0
+          res <- .lm.fit(x[, sel, drop = FALSE], y)$residuals 
+          sse2 <- sum(res^2)
+          i <- 1
+          while ( pv[i] < tol  &  i < n - 10 ) {
+            i <- i + 1
+            sse1 <- sse2
+            r[sela] <- 0
+            r[ind] <- Rfast::eachcol.apply( x, res, indices = ind[ind > 0] )/Rfast::Var(res, std = TRUE)/(n-1)
+            sel <- which.max( abs(r) )
+            sela <- c(sela, sel)
+            res <- .lm.fit(x[, sela], y)$residuals 
+            sse2 <- sum(res^2)
+            dof <- n - length(sela)
+            stat <- ( sse1 - sse2 ) / ( sse2 / dof  )
+            pv[i] <- pf(stat, 1, dof, lower.tail = FALSE)
+            ind[sela] <- 0
+          }
+        }
+        len <- length(sela)
+        info <- cbind(sela[-len], pv[-len])
+        colnames(info) <- c("Vars", "p-value")
     }
-    info
+    runtime <- proc.time() - runtime
+    list(runtime = runtime, info = info)
 }
 

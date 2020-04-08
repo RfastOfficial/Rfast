@@ -30,8 +30,8 @@ If this is TRUE the response variable is centered. The mean is subtracted from e
 If this is TRUE the independent variables are standardised. 
 }
 \item{method}{
-You can choose between the change in the BIC ("BIC"), the adjusted \eqn{R^2} or 
-the SSE ("SSE"). 
+You can choose between the change in the BIC ("BIC"), the adjusted \eqn{R^2},  
+the SSE ("SSE") or the classical p-value based ("pvalue"). 
 }
 \item{tol}{
 The tolerance value to terminate the algorithm. This is the change in the criterion value 
@@ -47,7 +47,13 @@ The possible values are "logistic", "poisson", "quasipoisson", "quasibinomial", 
 }
 
 \value{
-For the ompr a matrix with two columns. The selected variable(s) and the criterion value at every step. 
+For the omp1 a list including:
+\item{runtime}{
+The runtime of the algorithm.
+}
+\item{info}{
+A matrix with two columns. The selected variable(s) and the criterion value at every step. 
+}
 For the omp a list including:
 \item{runtime}{
 The runtime of the algorithm.
