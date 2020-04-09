@@ -21,7 +21,7 @@ For "omp" this can be either a vector with discrete (count) data, 0 and 1, non n
 values, strictly positive or proportions including 0 and 1.
 }
 \item{x}{
-A matrix with the data, where the rows denote the samples and the columns are the variables. 
+A matrix with the data, where the rows denote the observations and the columns are the variables. 
 }
 \item{ystand}{
 If this is TRUE the response variable is centered. The mean is subtracted from every value.
@@ -47,14 +47,14 @@ The possible values are "logistic", "poisson", "quasipoisson", "quasibinomial", 
 }
 
 \value{
-For the omp1 a list including:
+For "ompr" a list including:
 \item{runtime}{
 The runtime of the algorithm.
 }
 \item{info}{
 A matrix with two columns. The selected variable(s) and the criterion value at every step. 
 }
-For the omp a list including:
+For "omp" a list including:
 \item{runtime}{
 The runtime of the algorithm.
 }
@@ -73,6 +73,10 @@ Mazin Abdulrasool Hameed (2012). Comparative analysis of orthogonal matching pur
 https://www.google.gr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0ahUKEwik9P3Yto7XAhUiCZoKHQ8XDr8QFgglMAA&url=https%3A%2F%2Fd.lib.msu.edu%2Fetd%2F1711%2Fdatastream%2FOBJ%2Fdownload%2FComparative_analysis_of_orthogonal_matching_pursuit_and_least_angle_regression.pdf&usg=AOvVaw2fRcSemcbteyWUiAKYi-8B
 
 Lozano A., Swirszcz G., & Abe N. (2011). Group orthogonal matching pursuit for logistic regression. In Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics.
+
+Michail Tsagris, Zacharias Papadovasilakis, Kleanthi Lakiotaki, Ioannis Tsamardinos (2020). 
+A generalised OMP algorithm for feature selection with application to gene expression data. arxiv preprint.
+https://arxiv.org/pdf/2004.00281.pdf
 }
 
 \author{
