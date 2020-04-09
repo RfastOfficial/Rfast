@@ -689,7 +689,7 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
                 0], oper = "*", apply = "sum")
             sel <- which.max(abs(r))
             sela <- c(sela, sel)
-            mod <- Rfast::normlog.reg(y, x[, sela])
+            mod <- Rfast::gammareg(y, x[, sela])
             res <- y - as.vector(exp(mod$be[1] + x[, sela] %*% 
                 mod$be[-1]))
             rho[i] <- mod$info[2]
