@@ -5,7 +5,7 @@ vartest <- function(x, sigma, alternative = "unequal", logged = FALSE, conf = NU
   m <- Rfast::colsums(x)
   x2 <- Rfast::colsums(x^2) 
   s <- x2 - m^2 / n
-  stat <- s / sigma
+  stat <- (n - 1) * s / sigma
   
   if ( alternative == "unequal" ) {
   
