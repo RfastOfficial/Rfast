@@ -10,6 +10,7 @@ standardise <- function (x, center = TRUE, scale = TRUE) {
   } else if ( !center & scale ) {
     s <- Rfast::colVars(x, std = TRUE)
     y <- eachrow(x, s, oper = "/")
+  } else {
+    y <- x
   }
-  y
 }
