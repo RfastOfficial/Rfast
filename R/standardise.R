@@ -13,4 +13,5 @@ standardise <- function (x, center = TRUE, scale = TRUE) {
   } else {
     y <- x
   }
+  y
 }
