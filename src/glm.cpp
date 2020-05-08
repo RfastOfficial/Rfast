@@ -66,7 +66,7 @@ List glm_logistic(NumericMatrix X, NumericVector Y, const double tol = 1e-06, co
     expwxinv = 1/expwx;
   }
   double dev = 2 * negLL;
-  if ( isinf(dev) )
+  if ( std::isinf(dev) )
     dev = 1e+308;
 
   l["iter"] = iters+1;

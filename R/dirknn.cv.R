@@ -36,6 +36,7 @@ makefolds <- function(ina, nfolds = 10, stratified = TRUE, seed = FALSE) {
     ep <- sample( length(ina) )
     nr <- round( length(ina)/nfolds )
     mat <- matrix( ep[1:(nr * nfolds) ], ncol = nfolds )
+    mat[ -c( 1:length(target) ) ] <- NA
     for ( i in 1:nfolds ) runs[[ i ]] <- mat[, i]
     rem <- ep[ - c(1:(nr * nfolds)) ]
     ela <- sample(nfolds, length(rem))
@@ -57,5 +58,6 @@ makefolds <- function(ina, nfolds = 10, stratified = TRUE, seed = FALSE) {
   for (i in 1:nfolds)  {
     if ( any( is.na(runs[[ i ]]) ) )  runs[[ i ]] <- runs[[ i ]][ !is.na(runs[[ i ]]) ]
   }
+  if ( length(runs[[ nfolds ]]) == 0 ) runs[[ nfolds ]] <- NULL
   runs
-} 
+}
