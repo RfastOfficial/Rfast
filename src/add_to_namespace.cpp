@@ -14,8 +14,9 @@ using std::binary_search;
 //[[Rcpp::export]]
 vector<string> add_to_namespace(const string dir_to_export,const string dir_to_file){
   int which_string_has_export=0;
-  List functions=read_functions_and_signatures(dir_to_file)["export"];
-  vector<string> newfiles=functions["functions"],s3=functions["s3"],already_exported_files,which_not_exported;
+  List data = read_functions_and_signatures(dir_to_file);
+  List functions=data["export"];
+  vector<string> newfiles=functions["functions"],s3=functions["s3"],already_exported_files;
   if(newfiles.empty()){
   	stop("Warning: empty folder.\n");
   }
@@ -45,11 +46,10 @@ vector<string> add_to_namespace(const string dir_to_export,const string dir_to_f
     if(is_s3method(data_export[i]))
       data_export[i]="";
   }
-  which_not_exported=newfiles;
 
   data_export[which_string_has_export]="export("+exported_files;
   writeFile(data_export,dir_to_export);
-  return s3;
+  return data["without export"];
 }
 
 RcppExport SEXP Rfast_add_to_namespace(SEXP dir_to_exportSEXP,SEXP dir_to_fileSEXP) {

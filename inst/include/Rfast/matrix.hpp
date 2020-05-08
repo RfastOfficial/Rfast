@@ -66,39 +66,105 @@ namespace Rfast {
 			return f;
 		}
 
-		inline NumericMatrix matrix_multiplication(NumericMatrix X,NumericMatrix Y){
-		    const int n=X.nrow(),p=Y.ncol();
-		    NumericMatrix C(n,p);
-		    mat CC(C.begin(),n,p,false),x(X.begin(),n,X.ncol(),false),y(Y.begin(),Y.nrow(),p,false);
-	    	mat xx=Rfast::matrix::transpose(x);
-		    colvec yi(y.n_rows);
-		    for(int i=0;i<p;++i){
-		        yi=y.col(i);
-		        #ifdef _OPENMP
-		        #pragma omp parallel for
-		        #endif
-		        for(int j=0;j<n;++j){
-		            CC(j,i)=dot(xx.col(j),yi);
-		        }
-		    }
-		    return C;
+		inline NumericMatrix matrix_multiplication(NumericMatrix X,NumericMatrix Y,const bool tx=false,const bool ty=false){
+			int p,n;
+
+			if(!tx){
+				n=X.nrow();
+				p= ty ? Y.nrow() : Y.ncol();
+			}else if(tx){
+				n=X.ncol();
+				p=Y.ncol();
+			}
+			NumericMatrix C(n,p);
+			mat CC(C.begin(),n,p,false),x(X.begin(),X.nrow(),X.ncol(),false),y(Y.begin(),Y.nrow(),Y.ncol(),false);
+			colvec yi;
+
+			if(!tx and !ty){ // matrix multiplication
+				mat xx=transpose(x);
+				for(int i=0;i<p;++i){
+				  yi=y.col(i);
+				  #ifdef _OPENMP
+				  #pragma omp parallel for
+				  #endif
+				  for(int j=0;j<n;++j){
+				    CC(j,i)=dot(xx.col(j),yi);
+				  }
+				}
+			}else if(tx){ // crossprod
+				for(int i=0;i<p;++i){
+				  yi=y.col(i);
+				  #ifdef _OPENMP
+				  #pragma omp parallel for
+				  #endif
+				  for(int j=0;j<n;++j){
+				    CC(j,i)=dot(x.col(j),yi);
+				  }
+				}
+			}else{ // tcrossprod
+				mat yy=transpose(y);
+				mat xx=transpose(x);
+				for(int i=0;i<p;++i){
+				  yi=yy.col(i);
+				  #ifdef _OPENMP
+				  #pragma omp parallel for
+				  #endif
+				  for(int j=0;j<n;++j){
+				    CC(j,i)=dot(xx.col(j),yi);
+				  }
+				}
+			}
+			return C;
 		}
 
-		inline mat matrix_multiplication(mat x,mat y){
-		    const int n=x.n_rows,p=y.n_cols;
-		    mat C(n,p);
-	    	x=Rfast::matrix::transpose(x);
-		    colvec yi(y.n_rows);
-		    for(int i=0;i<p;++i){
-		        yi=y.col(i);
-		        #ifdef _OPENMP
-		        #pragma omp parallel for
-		        #endif
-		        for(int j=0;j<n;++j){
-		            C(j,i)=dot(x.col(j),yi);
-		        }
-		    }
-		    return C;
+		inline mat matrix_multiplication(mat x,mat y,const bool tx=false,const bool ty=false){
+			int p,n;
+
+			if(!tx){
+				n=X.n_rows;
+				p= ty ? Y.n_rows : Y.n_cols;
+			}else if(tx){
+				n=X.n_cols;
+				p=Y.n_cols;
+			}
+			mat C(n,p);
+			colvec yi;
+
+			if(!tx and !ty){ // matrix multiplication
+				mat xx=Rfast::matrix::transpose(x);
+				for(int i=0;i<p;++i){
+					yi=y.col(i);
+					#ifdef _OPENMP
+					#pragma omp parallel for
+					#endif
+					for(int j=0;j<n;++j){
+					CC(j,i)=dot(xx.col(j),yi);
+					}
+				}
+			}else if(tx){ // crossprod
+				for(int i=0;i<p;++i){
+				  yi=y.col(i);
+				  #ifdef _OPENMP
+				  #pragma omp parallel for
+				  #endif
+				  for(int j=0;j<n;++j){
+				    CC(j,i)=dot(x.col(j),yi);
+				  }
+				}
+			}else{ // tcrossprod
+				mat yy=Rfast::matrix::transpose(y);
+				mat xx=Rfast::matrix::transpose(x);
+				for(int i=0;i<p;++i){
+				  yi=yy.col(i);
+				  #ifdef _OPENMP
+				  #pragma omp parallel for
+				  #endif
+				  for(int j=0;j<n;++j){
+				    CC(j,i)=dot(xx.col(j),yi);
+				  }
+				}
+			}
+			return C;
 		}
 
 		inline NumericMatrix colSort(NumericMatrix x,const bool descend=false,const bool stable=false,const bool parallel=false){

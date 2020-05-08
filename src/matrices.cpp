@@ -3,6 +3,8 @@
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include "Rfast.h"
+
+
 #ifdef _OPENMP
 #include <omp.h>
 #endif
@@ -50,13 +52,15 @@ END_RCPP
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-RcppExport SEXP Rfast_mat_mult_p(SEXP xSEXP,SEXP ySEXP) {
+RcppExport SEXP Rfast_mat_mult_p(SEXP xSEXP,SEXP ySEXP,SEXP txSEXP,SEXP tySEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    __result = wrap(Rfast::matrix::matrix_multiplication(x,y));
+    traits::input_parameter< const bool >::type tx(txSEXP);
+    traits::input_parameter< const bool >::type ty(tySEXP);
+    __result = Rfast::matrix::matrix_multiplication(x,y);
     return __result;
 END_RCPP
 }
