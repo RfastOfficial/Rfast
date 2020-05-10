@@ -368,6 +368,7 @@ string read_function_from_r_file(ifstream &file){
   do{
     getline(file,s);
   }while(s[0]=='#'); // oso briskei sxolia
+
   DEBUG(s);
   remove_spaces(s);
   func=s;
@@ -565,13 +566,17 @@ void read_functions_from_r_file(const string filename,vector<string> &exported_f
                 found_export=true;
                 continue;
             }else if(is_export_s3(line) and depth_scope==0){
-            	DEBUG("found export s3: in line "+line + "in depth "+to_string(depth_scope));
+              	DEBUG("found export s3: in line "+line + "in depth "+to_string(depth_scope));
                 number_of_export_line=number_of_line;
                 found_export_s3=true;
                 continue;
             }else if(line[0]=='#'){ // pass comments
                 DEBUG("found comments: in line "+line + "in depth "+to_string(depth_scope));
                 continue;
+            }
+
+            if(find_string(line,"#")){ // an iparxei miksei kodika kai sxolion (} ## aaaa)
+                line.erase(line.find("#"));
             }
             read_name_from_function(line);
         }while(getline(file,line));

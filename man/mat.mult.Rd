@@ -1,17 +1,20 @@
 \name{Matrix multiplication}
 \alias{mat.mult}
+\alias{Crossprod}
+\alias{Tcrossprod}
 
 \title{
-Matrix multiplication
+Matrix multiplication, Cross and Tcross product.
 }
 
 \description{
-Matrix multiplication.
+Matrix multiplication, Cross and Tcross product.
 }
 
 \usage{
 mat.mult(x, y)
-
+Crossprod(x,y)
+Tcrossprod(x,y)
 }
 
 \arguments{
@@ -24,9 +27,9 @@ A numerical matrix.
 }
 
 \details{
-The function performs matrix multiplication. It is faster(!) than R's function
+The functions performs matrix multiplication, croos product and transpose cross product. There are faster(!) than R's function
 for large matrices. Depending on the computer, maybe higher dimensions are 
-required for the function to make a difference. The function runs in parallel 
+required for the function to make a difference. The function runs in parallel
 in C++. 
 }
 
@@ -39,10 +42,9 @@ A matrix, the result of the matrix multiplication.
 %}
 
 \author{
-Manos Papadakis and Michail Tsagris
+Manos Papadakis
 
 R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> 
-and Michail Tsagris <mtsagris@yahoo.gr>.
 }
 
 %\note{
@@ -60,8 +62,11 @@ x <- matrnorm(100, 100)
 y <- matrnorm(100, 100)
 a <- x %*% y
 b <- mat.mult(x, y)
+b <- Crossprod(x, y)
+b <- Tcrossprod(x, y)
 x <- NULL
 y <- NULL
+b <- NULL
 }
 }
 

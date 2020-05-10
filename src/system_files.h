@@ -103,7 +103,9 @@ void reset_file(ifstream& file);
 bool is_dont_read(string& s,char attr);
 bool is_export(string& s);
 string read_current_signature_function_from_r_file(string& line,string keyword_function,ifstream &file,const int position_of_function_key);
-void read_functions_from_r_file(const string filename,vector<string> &exported_functions_names,vector<string> &not_exported_functions_names,List& signatures,bool& found_dont_read);
+
+void read_functions_from_r_file(const string filename,vector<string> &exported_functions_names,vector<string> &exported_functions_s3,vector<string> &not_exported_functions_names,List& signatures,bool& found_dont_read);        
+
 List read_functions_and_signatures(string path);
 bool is_export_s3(string&);
 bool is_s3method(string&);

@@ -33,7 +33,7 @@ RemoveFromNamespace: Remove every function, from argument "files.to.remove", fro
 }
 
 \value{
-AddToNameSpace: Returns the file that added in the export or empty character vector if all the files was inserted.
+AddToNameSpace: Return the files that didn't have the attribute "#[export]" or empty character vector if all the files was inserted.
 
 RemoveFromNamespace: Return the files that could not be removed.
 }
