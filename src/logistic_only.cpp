@@ -120,7 +120,11 @@ NumericMatrix logistic_only_b(NumericMatrix X, NumericVector Y,const double tol)
     yhat.col(0) = be[0]+be[1]*x_col;
     expyhat=exp(-yhat.col(0));
     p.col(0) = 1 / ( 1 + expyhat );
-
+    
+	//wx = x * nextB;   einai to yhat.col
+    // expwx = 1 + exp(wx);
+    //  d2 = 2 * calc_neg_ll(&wx[0], &expwx[0], &y[0], n);
+	  	 
     d2 = -2*calcDevRes(p,y,yhat);
     j=2;
     while(j++<maxiters && (d1-d2)>tol){
