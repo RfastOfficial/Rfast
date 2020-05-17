@@ -9,66 +9,85 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
-SEXP logistic_only(NumericMatrix X, NumericVector Y,const double tol){
-  int maxiters = 100;
-  const unsigned int n=X.nrow(),pcols=X.ncol();
-
-  unsigned int i=0;
-  int j=0;
-  colvec y(Y.begin(),n,false), be(2),expyhat(n),W(n,fill::zeros),x_col(n),x2_col(n),de(n),yhat(n),p(n);
-  mat x(X.begin(),n,pcols,false);
-  SEXP F=Rf_allocVector(REALSXP,pcols);
-  double d1=0,d2=0,t=0,dera2=0.0,sp=0.0,derb=0.0,dera=0.0,derab=0.0,derb2=0.0,*FF=REAL(F);
-  const double my=mean(y),sy=my*n,lgmy=log(my/(1-my)),d0 = -2*(sy*log(my)+(n-sy)*log(1-my));
-
-  double W0=my*(1-my);
-  double dera20=n*W0;
-  colvec de0(n);
-  de0=y-my;
-  double dera0=0;
-
-  for(i=0;i<pcols;++i,++FF){
-    d1=d0;
-    be[0]=lgmy;
-    be[1]=0;
-    x_col=x.col(i);
-    x2_col=arma::square(x_col);
-    derb=sum(de0%x_col);
-    derab=W0*sum(x_col);
-    derb2=W0*sum(x2_col);
-    t=dera20 * derb2 - derab*derab;
-    be[0]=be[0]+(derb2 * dera0 - derab * derb)/t;
-    be[1]=be[1]+( - derab * dera0 + dera20 * derb )/t;
-
-    yhat = be[0]+be[1]*x_col;
-    expyhat=exp(-yhat);
-    p = 1 / ( 1 + expyhat );
-
-    d2 = -2*calcDevRes(p,y,yhat);
-    j=2;
-    while(j++<maxiters && d1-d2>tol){
-      d1=d2;
-      W=p%(1-p);
-      dera2=sum(W);
-      sp=sum(p);
-      de=y-p;
-      dera=sy-sp;
-      derb=sum(de%x_col);
-      derab=sum(W%x_col);
-      derb2=sum(W%x2_col);
-      t=dera2 * derb2 - derab*derab;
-      be[0]=be[0]+(derb2 * dera - derab * derb)/t;
-      be[1]=be[1]+( - derab * dera + dera2 * derb )/t;
-      yhat = be[0]+be[1]*x_col;
-      expyhat=exp(-yhat);
-      p.col(0) = 1 / ( 1 + expyhat );
-
-      d2 = -2*calcDevRes(p,y,yhat);
-    }
-
-    *FF = d2;
+double calc_neg_ll(double *wx, double *expwx, double *y, const int size){
+  double sum = 0.0;
+  double *wit = wx, *yit = y;
+  for(int i=0;i<size;i++,wit++,yit++){
+    if(*wit<=30)
+      sum+=(*yit-1)*(*wit)+log(expwx[i]);
+    else
+      sum+=(*yit)*(*wit);
   }
+  return sum;
+}
+
+//[[Rcpp::export]]
+NumericVector logistic_only(NumericMatrix X, NumericVector Y,const double tol){
+  int maxiters = 100;
+  const unsigned int N=X.nrow(), P=X.ncol();
+
+  vec y(Y.begin(),N,false);
+  mat x(X.begin(),N,P,false);
+  NumericVector F(P);
+
+  double alpha = 1e-4, beta = 0.5, lltol = 1e-06, ttol = 1e-09;
+  mat eye(2,2,fill::eye);
+
+  #ifdef _OPENMP
+  #pragma omp parallel
+  {
+  #endif
+    vec B(2), nextB, expwxinv = vec(N), pp, u;
+    double prevNegLL, negLL,ta;
+    mat g, lambda, wx, expwx, der2,tmpX(N,2);
+    tmpX.col(0).fill(1);
+    int iters;
+
+    #ifdef _OPENMP
+    #pragma omp for
+    #endif
+    for(unsigned int i=0;i<P;i++){
+      negLL = 0.6931472*N;
+      tmpX.col(1) = x.col(i);
+      expwxinv.fill(0.5);
+      B[0] = 0;
+      B[1] = 0;
+
+      for(iters=0; iters<maxiters; iters++){
+        g = cross_x_y<mat,mat,vec>(tmpX, expwxinv-y);
+
+        pp = expwxinv % (1 - expwxinv);
+        der2 = cross_x_y<mat,mat,vec>(tmpX, tmpX.each_col() % pp);
+        u =  solve( der2, g, solve_opts::fast);
+
+        lambda = cross_x_y<mat,mat,vec>(g,u);
+        ta = 1/beta;
+        // Backtracking line search
+        prevNegLL = negLL;
+        do{
+          ta = ta * beta;
+          nextB = B + ta * u;
+          wx = tmpX * nextB;
+          expwx = 1 + exp(wx);
+          negLL = calc_neg_ll(&wx[0], &expwx[0], &y[0], N);
+        } while(negLL > prevNegLL + alpha * ta * lambda[0] && ta > ttol);
+
+        B = nextB;
+        if ( isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
+          if ( NumericVector::is_na(negLL)) {
+            Rcout<<"Infinity found"<<endl;
+          }
+          break;
+        }
+        expwxinv = 1/expwx;
+      }
+
+      F(i) = 2 * negLL;
+    }
+  #ifdef _OPENMP
+  }
+  #endif
+
   return F;
 }
 
@@ -88,68 +107,72 @@ RcppExport SEXP Rfast_logistic_only(SEXP xSEXP,SEXP ySEXP,SEXP tolSEXP) {
 //[[Rcpp::export]]
 NumericMatrix logistic_only_b(NumericMatrix X, NumericVector Y,const double tol){
   int maxiters = 100;
-  const unsigned int n=X.nrow(),pcols=X.ncol();
+  const unsigned int N=X.nrow(), P=X.ncol();
 
-  unsigned int i=0;
-  int j=0;
-  colvec y(Y.begin(),n,false), be(2),expyhat(n),W(n,fill::zeros),x_col(n),x2_col(n),de(n);
-  mat x(X.begin(),n,pcols,false), yhat(n,1),p(n,1);
-  NumericMatrix F(3,pcols);
-  double d1=0,d2=0,t=0,dera2=0.0,sp=0.0,derb=0.0,dera=0.0,derab=0.0,derb2=0.0;
-  const double my=mean(y),sy=my*n,lgmy=log(my/(1-my)),d0 = -2*(sy*log(my)+(n-sy)*log(1-my));
+  vec y(Y.begin(),N,false);
+  mat x(X.begin(),N,P,false);
+  NumericMatrix F(3,P);
 
-  double W0=my*(1-my);
-  double dera20=n*W0;
-  colvec de0(n);
-  de0=y-my;
-  double dera0=0;
+  double alpha = 1e-4, beta = 0.5, lltol = 1e-06, ttol = 1e-09;
+  mat eye(2,2,fill::eye);
 
-  for(i=0;i<pcols;++i){
-    d1=d0;
-    be[0]=lgmy;
-    be[1]=0;
-    x_col=x.col(i);
-    x2_col=arma::square(x_col);
-    derb=sum(de0%x_col);
-    derab=W0*sum(x_col);
-    derb2=W0*sum(x2_col);
-    t=dera20 * derb2 - derab*derab;
-    be[0]=be[0]+(derb2 * dera0 - derab * derb)/t;
-    be[1]=be[1]+( - derab * dera0 + dera20 * derb )/t;
+  #ifdef _OPENMP
+  #pragma omp parallel
+  {
+  #endif
+    vec B(2), nextB, expwxinv = vec(N), pp, u;
+    double prevNegLL, negLL,ta;
+    mat g, lambda, wx, expwx, der2,tmpX(N,2);
+    tmpX.col(0).fill(1);
+    int iters;
 
-    yhat.col(0) = be[0]+be[1]*x_col;
-    expyhat=exp(-yhat.col(0));
-    p.col(0) = 1 / ( 1 + expyhat );
-    
-	// swx = x * nextB;   einai to yhat.col
-    // expwx = 1 + exp(wx);
-    // d2 = 2 * calc_neg_ll(&wx[0], &expwx[0], &y[0], n);
-	  	 
-    d2 = -2*calcDevRes(p,y,yhat);
-    j=2;
-    while(j++<maxiters && (d1-d2)>tol){
-      d1=d2;
-      W=p%(1-p);
-      dera2=sum(W);
-      sp=sum(p.col(0));
-      de=y-p.col(0);
-      dera=sy-sp;
-      derb=sum(de%x_col);
-      derab=sum(W%x_col);
-      derb2=sum(W%x2_col);
-      t=dera2 * derb2 - derab*derab;
-      be[0]=be[0]+(derb2 * dera - derab * derb)/t;
-      be[1]=be[1]+( - derab * dera + dera2 * derb )/t;
-      yhat.col(0) = be[0]+be[1]*x_col;
-      expyhat=exp(-yhat.col(0));
-      p.col(0) = 1 / ( 1 + expyhat );
+    #ifdef _OPENMP
+    #pragma omp for
+    #endif
+    for(unsigned int i=0;i<P;i++){
+      negLL = 0.6931472*N;
+      tmpX.col(1) = x.col(i);
+      expwxinv.fill(0.5);
+      B[0] = 0;
+      B[1] = 0;
 
-      d2 = -2*calcDevRes(p,y,yhat);
+      for(iters=0; iters<maxiters; iters++){
+        g = cross_x_y<mat,mat,vec>(tmpX, expwxinv-y);
+
+        pp = expwxinv % (1 - expwxinv);
+        der2 = cross_x_y<mat,mat,vec>(tmpX, tmpX.each_col() % pp);
+        u =  solve( der2, g, solve_opts::fast);
+
+        lambda = cross_x_y<mat,mat,vec>(g,u);
+        ta = 1/beta;
+        // Backtracking line search
+        prevNegLL = negLL;
+        do{
+          ta = ta * beta;
+          nextB = B + ta * u;
+          wx = tmpX * nextB;
+          expwx = 1 + exp(wx);
+          negLL = calc_neg_ll(&wx[0], &expwx[0], &y[0], N);
+        } while(negLL > prevNegLL + alpha * ta * lambda[0] && ta > ttol);
+
+        B = nextB;
+        if ( isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
+          if ( NumericVector::is_na(negLL)) {
+            Rcout<<"Infinity found"<<endl;
+          }
+          break;
+        }
+        expwxinv = 1/expwx;
+      }
+
+      F(0,i) = 2 * negLL;
+      F(1,i) = -B[0];
+      F(2,i) = -B[1];
     }
-    F(0,i)=d2;
-    F(1,i)=be[0];
-    F(2,i)=be[1];
+  #ifdef _OPENMP
   }
+  #endif
+
   return F;
 }
 
