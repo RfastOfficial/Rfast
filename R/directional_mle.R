@@ -120,9 +120,7 @@ vm.mle <- function(x, tol = 1e-09) {
   n <- length(x)  ## sample size
   C <- sum( cos(x) ) / n 
   S <- sum( sin(x) ) / n
-  if (C > 0) {
-    mu <- atan(S/C)
-  } else  mu <- atan(S/C) + pi
+  mu <- ( atan(S/C) + pi * I(C < 0) ) %% (2 * pi)
   con <- sum( cos(x - mu) ) 
   R <- sqrt( C^2 + S^2 ) 
   k1 <- (1.28 - 0.53 * R^2) * tan(0.5 * pi * R)
