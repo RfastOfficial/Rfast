@@ -62,7 +62,7 @@ For each column, the same distribution is fitted and its parameter and log-likel
 
 \value{
 A matrix with two, three or five (for the colnormlog.mle) columns. The first one or the first two contain the parameter(s) of the distribution
-and the second or third column the relvant log-likelihood.
+and the other columns contain the log-likelihood values.
 }
 
 \references{
