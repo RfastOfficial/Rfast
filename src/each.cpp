@@ -174,7 +174,7 @@ static SEXP eachrow(SEXP x,SEXP y,const char oper){
   return R_NilValue;
 }
 
-static SEXP apply_eachrow(SEXP x,SEXP y,const char oper,const string method){
+static double apply_eachrow(SEXP x,SEXP y,const char oper,const string method){
   if(method == "sum"){
     switch(oper){
       case '*': return apply_eachrow_helper<mmult<double>,madd<double> >(x,y);
@@ -203,11 +203,11 @@ static SEXP apply_eachrow(SEXP x,SEXP y,const char oper,const string method){
       default: stop("The operation doesn't supported.");
     }
   }
-  return R_NilValue;
+  return 0.0;
 }
 //[[Rcpp::export]]
 SEXP eachrow(SEXP x,SEXP y,const char oper,SEXP meth){
-  return Rf_isNull(meth) ? eachrow(x,y,oper) : apply_eachrow(x,y,oper,as<string>(meth));
+  return Rf_isNull(meth) ? eachrow(x,y,oper) : wrap(apply_eachrow(x,y,oper,as<string>(meth)));
 }
 
 RcppExport SEXP Rfast_eachrow(SEXP x,SEXP y,SEXP operSEXP,SEXP method){

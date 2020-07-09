@@ -627,7 +627,7 @@ using std::nth_element;
 
 SEXP col_nth(NumericMatrix X,IntegerVector elems,const int num_of_nths,const bool descend,const bool na_rm,const bool index){
     const unsigned int n=elems.size();
-    SEXP F;
+    SEXP F=R_NilValue;
     if(num_of_nths==1){
       NumericVector y(X.nrow());
       if(index){
