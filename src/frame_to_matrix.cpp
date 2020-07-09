@@ -22,7 +22,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< DataFrame >::type x(xSEXP);
-    __result = wrap(frame_to_matrix(x));
+    __result = frame_to_matrix(x);
     return __result;
 END_RCPP
 }

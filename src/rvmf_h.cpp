@@ -32,7 +32,7 @@ BEGIN_RCPP
     traits::input_parameter< double >::type m(mSEXP);
     traits::input_parameter< double >::type k(kSEXP);
     traits::input_parameter< double >::type b(bSEXP);
-    __result = wrap(rvmf_h(n,ca,d1,x0,m,k,b));
+    __result = rvmf_h(n,ca,d1,x0,m,k,b);
     return __result;
 END_RCPP
 }

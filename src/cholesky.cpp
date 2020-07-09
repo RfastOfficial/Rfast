@@ -152,7 +152,7 @@ RcppExport SEXP Rfast_cholesky(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(cholesky(x));
+    __result = cholesky(x);
     return __result;
 END_RCPP
 }
@@ -161,7 +161,7 @@ RcppExport SEXP Rfast_cholesky_par(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(cholesky_par(x));
+    __result = cholesky_par(x);
     return __result;
 END_RCPP
 }

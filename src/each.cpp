@@ -151,7 +151,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< const char >::type oper(operSEXP);
     traits::input_parameter< const string >::type method(methodSEXP);
-    __result = wrap(eachcol_apply(x,y,ind,oper,method));
+    __result = eachcol_apply(x,y,ind,oper,method);
     return __result;
 END_RCPP
 }
@@ -177,29 +177,29 @@ static SEXP eachrow(SEXP x,SEXP y,const char oper){
 static SEXP apply_eachrow(SEXP x,SEXP y,const char oper,const string method){
   if(method == "sum"){
     switch(oper){
-      case '*': return wrap(apply_eachrow_helper<mmult<double>,madd<double> >(x,y));
-      case '+': return wrap(apply_eachrow_helper<madd<double>,madd<double> >(x,y));
-      case '/': return wrap(apply_eachrow_helper<mdiv<double>,madd<double> >(x,y));
-      case '-': return wrap(apply_eachrow_helper<mdiff<double>,madd<double> >(x,y));
-      case '^': return wrap(apply_eachrow_helper<std::pow,madd<double> >(x,y));
+      case '*': return apply_eachrow_helper<mmult<double>,madd<double> >(x,y);
+      case '+': return apply_eachrow_helper<madd<double>,madd<double> >(x,y);
+      case '/': return apply_eachrow_helper<mdiv<double>,madd<double> >(x,y);
+      case '-': return apply_eachrow_helper<mdiff<double>,madd<double> >(x,y);
+      case '^': return apply_eachrow_helper<std::pow,madd<double> >(x,y);
       default: stop("The operation doesn't supported.");
     }
   }else if(method == "min"){
     switch(oper){
-      case '*': return wrap(apply_eachrow_helper<mmult<double>,mmin<double> >(x,y));
-      case '+': return wrap(apply_eachrow_helper<madd<double>,mmin<double> >(x,y));
-      case '/': return wrap(apply_eachrow_helper<mdiv<double>,mmin<double> >(x,y));
-      case '-': return wrap(apply_eachrow_helper<mdiff<double>,mmin<double> >(x,y));
-      case '^': return wrap(apply_eachrow_helper<std::pow,mmin<double> >(x,y));
+      case '*': return apply_eachrow_helper<mmult<double>,mmin<double> >(x,y);
+      case '+': return apply_eachrow_helper<madd<double>,mmin<double> >(x,y);
+      case '/': return apply_eachrow_helper<mdiv<double>,mmin<double> >(x,y);
+      case '-': return apply_eachrow_helper<mdiff<double>,mmin<double> >(x,y);
+      case '^': return apply_eachrow_helper<std::pow,mmin<double> >(x,y);
       default: stop("The operation doesn't supported.");
     }
   }else if(method == "max"){
     switch(oper){
-      case '*': return wrap(apply_eachrow_helper<mmult<double>,mmax<double> >(x,y));
-      case '+': return wrap(apply_eachrow_helper<madd<double>,mmax<double> >(x,y));
-      case '/': return wrap(apply_eachrow_helper<mdiv<double>,mmax<double> >(x,y));
-      case '-': return wrap(apply_eachrow_helper<mdiff<double>,mmax<double> >(x,y));
-      case '^': return wrap(apply_eachrow_helper<std::pow,mmax<double> >(x,y));
+      case '*': return apply_eachrow_helper<mmult<double>,mmax<double> >(x,y);
+      case '+': return apply_eachrow_helper<madd<double>,mmax<double> >(x,y);
+      case '/': return apply_eachrow_helper<mdiv<double>,mmax<double> >(x,y);
+      case '-': return apply_eachrow_helper<mdiff<double>,mmax<double> >(x,y);
+      case '^': return apply_eachrow_helper<std::pow,mmax<double> >(x,y);
       default: stop("The operation doesn't supported.");
     }
   }
@@ -215,7 +215,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const char  >::type oper(operSEXP);
-    __result = wrap(eachrow(x,y,oper,method));
+    __result = eachrow(x,y,oper,method);
     return __result;
 END_RCPP
 }

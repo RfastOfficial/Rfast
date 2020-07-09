@@ -84,7 +84,7 @@ RcppExport SEXP Rfast_weib_reg(SEXP YSEXP,SEXP XSEXP,SEXP tolSEXP,SEXP maxitersS
   traits::input_parameter< NumericMatrix >::type X(XSEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = wrap(weib_reg(Y,X,tol,maxiters));
+  __result = weib_reg(Y,X,tol,maxiters);
   return __result;
   END_RCPP
 }

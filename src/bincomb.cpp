@@ -21,7 +21,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type x(xSEXP);
-    __result = wrap(bincomb(x));
+    __result = bincomb(x);
     return __result;
 END_RCPP
 }

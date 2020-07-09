@@ -46,7 +46,7 @@ IntegerVector topological_sort(IntegerMatrix dag) {
       cs = mywhich(tmp,c); //  children(A, v) 
       for (m=j=0;j<cs.size();++j) {
         m = cs[j];
-        indeg[m]--;
+        --indeg[m];
         if ( indeg[m] == 0 ) {
           zero_indeg.push(m);   // push m 
         }
@@ -101,7 +101,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< IntegerMatrix >::type dag(dagSEXP);
-    __result = wrap(topological_sort(dag));
+    __result = topological_sort(dag);
     return __result;
 END_RCPP
 }

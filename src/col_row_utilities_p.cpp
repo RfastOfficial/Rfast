@@ -47,7 +47,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = wrap(col_nth_p(x,y,descend,na_rm,index));
+    __result = col_nth_p(x,y,descend,na_rm,index);
     return __result;
 END_RCPP
 }
@@ -90,7 +90,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = wrap(row_nth_p(x,y,descend,na_rm,index));
+    __result = row_nth_p(x,y,descend,na_rm,index);
     return __result;
 END_RCPP
 }
@@ -119,7 +119,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descending(descendingSEXP);
-    __result = wrap(col_order_p(x,stable,descending));
+    __result = col_order_p(x,stable,descending);
     return __result;
 END_RCPP
 }
@@ -145,7 +145,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descending(descendingSEXP);
-    __result = wrap(row_order_p(x,stable,descending));
+    __result = row_order_p(x,stable,descending);
     return __result;
 END_RCPP
 }
@@ -199,7 +199,7 @@ BEGIN_RCPP
     traits::input_parameter< string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
-    __result = wrap(col_ranks_p(x,method,descend,stable));
+    __result = col_ranks_p(x,method,descend,stable);
     return __result;
 END_RCPP
 }
@@ -250,7 +250,7 @@ BEGIN_RCPP
     traits::input_parameter< string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
-    __result = wrap(row_ranks_p(x,method,descend,stable));
+    __result = row_ranks_p(x,method,descend,stable);
     return __result;
 END_RCPP
 }
@@ -278,7 +278,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(col_sums_p(x));
+    __result = col_sums_p(x);
     return __result;
 END_RCPP
 }
@@ -303,7 +303,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(row_sums_p(x));
+    __result = row_sums_p(x);
     return __result;
 END_RCPP
 }
@@ -329,7 +329,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type n(nSEXP);
-    __result = wrap(col_max_p(n));
+    __result = col_max_p(n);
     return __result;
 END_RCPP
 }
@@ -357,7 +357,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(col_mean_p(x));
+    __result = col_mean_p(x);
     return __result;
 END_RCPP
 }
@@ -384,7 +384,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type n(nSEXP);
-    __result = wrap(col_min_p(n));
+    __result = col_min_p(n);
     return __result;
 END_RCPP
 }
@@ -412,7 +412,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< LogicalMatrix >::type x(xSEXP);
-    __result = wrap(col_all_p(x));
+    __result = col_all_p(x);
     return __result;
 END_RCPP
 }
@@ -437,7 +437,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< LogicalMatrix >::type x(xSEXP);
-    __result = wrap(row_all_p(x));
+    __result = row_all_p(x);
     return __result;
 END_RCPP
 }
@@ -466,7 +466,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    __result = wrap(col_count_values_p(x,values));
+    __result = col_count_values_p(x,values);
     return __result;
 END_RCPP
 }
@@ -493,7 +493,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    __result = wrap(row_count_values_p(x,values));
+    __result = row_count_values_p(x,values);
     return __result;
 END_RCPP
 }

@@ -77,7 +77,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type dg(dgSEXP);
-    __result = wrap(upper_tri(x,dg));
+    __result = upper_tri(x,dg);
     return __result;
 END_RCPP
 }
@@ -89,7 +89,7 @@ BEGIN_RCPP
     traits::input_parameter< const int >::type ncl(nclSEXP);
     traits::input_parameter< const int >::type nrw(nrwSEXP);
     traits::input_parameter< const bool >::type dg(dgSEXP);
-    __result = wrap(upper_tri_b(nrw,ncl,dg));
+    __result = upper_tri_b(nrw,ncl,dg);
     return __result;
 END_RCPP
 }
@@ -100,7 +100,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type dg(dgSEXP);
-    __result = wrap(sum_upper_tri(x,dg));
+    __result = sum_upper_tri(x,dg);
     return __result;
 END_RCPP
 }
@@ -177,7 +177,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type dg(dgSEXP);
-    __result = wrap(lower_tri(x,dg));
+    __result = lower_tri(x,dg);
     return __result;
 END_RCPP
 }
@@ -189,7 +189,7 @@ BEGIN_RCPP
     traits::input_parameter< const int >::type ncl(nclSEXP);
     traits::input_parameter< const int >::type nrw(nrwSEXP);
     traits::input_parameter< const bool >::type dg(dgSEXP);
-    __result = wrap(lower_tri_b(nrw,ncl,dg));
+    __result = lower_tri_b(nrw,ncl,dg);
     return __result;
 END_RCPP
 }
@@ -200,7 +200,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type dg(dgSEXP);
-    __result = wrap(sum_lower_tri(x,dg));
+    __result = sum_lower_tri(x,dg);
     return __result;
 END_RCPP
 }
@@ -237,7 +237,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type v(vSEXP);
     traits::input_parameter< const double >::type dg(dgSEXP);
-    __result = wrap(lower_tri_assign(x,v,dg));
+    __result = lower_tri_assign(x,v,dg);
     return __result;
 END_RCPP
 }
@@ -270,7 +270,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type v(vSEXP);
     traits::input_parameter< const double >::type dg(dgSEXP);
-    __result = wrap(upper_tri_assign(x,v,dg));
+    __result = upper_tri_assign(x,v,dg);
     return __result;
 END_RCPP
 }

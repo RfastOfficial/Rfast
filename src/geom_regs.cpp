@@ -155,7 +155,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type type(typeSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-    __result = wrap(geom_regs(Y,X,tol,logged,type,parallel,maxiters));
+    __result = geom_regs(Y,X,tol,logged,type,parallel,maxiters);
     return __result;
 END_RCPP
 }

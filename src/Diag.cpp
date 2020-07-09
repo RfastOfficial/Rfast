@@ -79,7 +79,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const int >::type len(lenSEXP);
     traits::input_parameter< const double >::type v(vSEXP);
-    __result = wrap(diag_matrix_fill_scalar(len,v));
+    __result =diag_matrix_fill_scalar(len,v);
     return __result;
 END_RCPP
 }
@@ -89,7 +89,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type len(lenSEXP);
-    __result = wrap(diag_matrix_fill_vec(len,v));
+    __result =diag_matrix_fill_vec(len,v);
     return __result;
 END_RCPP
 }
@@ -100,7 +100,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const double >::type v(vSEXP);
-    __result = wrap(diag_fill_scalar(x,v));
+    __result =diag_fill_scalar(x,v);
     return __result;
 END_RCPP
 }
@@ -109,7 +109,7 @@ RcppExport SEXP Rfast_diag_fill_vec(SEXP x,SEXP v) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(diag_fill_vec(x,v));
+    __result =diag_fill_vec(x,v);
     return __result;
 END_RCPP
 }

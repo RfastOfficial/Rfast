@@ -30,7 +30,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericMatrix >::type y(ySEXP);
     traits::input_parameter< const bool >::type sqr(sqrSEXP);
-    __result = wrap(total_dista(x,y,sqr));
+    __result = total_dista(x,y,sqr);
     return __result;
 END_RCPP
 }

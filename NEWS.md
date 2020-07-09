@@ -29,6 +29,8 @@ Date release: **11/12/2019**
 >>  | 	    Function	    |            What's new!                  |
 >>  | --------------------- | --------------------------------------- |
 >>  |  checkUsage           | From now on check for S3methods and fix bug.        |
+>>  |  Tcrossprod           | same as R's tcrossprod.        |
+>>  |  Crossprod            | same as R's crossprod.        |
 >
 ***
 > <h3>**_LinkingTo functions_**</h3>  

@@ -99,7 +99,7 @@ RcppExport SEXP Rfast_logistic_only(SEXP xSEXP,SEXP ySEXP,SEXP tolSEXP) {
   traits::input_parameter< NumericMatrix >::type x(xSEXP);
   traits::input_parameter< NumericVector >::type y(ySEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
-  __result = wrap(logistic_only(x,y,tol));
+  __result = logistic_only(x,y,tol);
   return __result;
   END_RCPP
 }
@@ -183,7 +183,7 @@ RcppExport SEXP Rfast_logistic_only_b(SEXP xSEXP,SEXP ySEXP,SEXP tolSEXP) {
   traits::input_parameter< NumericMatrix >::type x(xSEXP);
   traits::input_parameter< NumericVector >::type y(ySEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
-  __result = wrap(logistic_only_b(x,y,tol));
+  __result = logistic_only_b(x,y,tol);
   return __result;
   END_RCPP
 }
@@ -235,7 +235,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< const double >::type ylogy(ylogySEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
-    __result = wrap(poisson_only(x,y,ylogy,tol));
+    __result = poisson_only(x,y,ylogy,tol);
 
     return __result;
 END_RCPP
@@ -289,7 +289,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< double >::type ylogy(ylogySEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
-    __result = wrap(poisson_only_b(x,y,ylogy,tol));
+    __result = poisson_only_b(x,y,ylogy,tol);
     return __result;
 END_RCPP
 }
@@ -350,7 +350,7 @@ RcppExport SEXP Rfast_quasi_poisson_only(SEXP xSEXP,SEXP ySEXP,SEXP ylogySEXP,SE
   traits::input_parameter< const double >::type ylogy(ylogySEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = wrap(quasi_poisson_only(x,y,ylogy,tol,maxiters));
+  __result = quasi_poisson_only(x,y,ylogy,tol,maxiters);
   return __result;
   END_RCPP
 }

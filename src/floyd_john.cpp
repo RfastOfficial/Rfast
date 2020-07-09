@@ -17,7 +17,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const int >::type n(nSEXP);
     traits::input_parameter< NumericVector >::type x(xSEXP);
-    __result = wrap(floyd_john(n,x));
+    __result = floyd_john(n,x);
     return __result;
 END_RCPP
 }

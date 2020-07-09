@@ -35,7 +35,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
-    __result = wrap(spat_med(x,tol));
+    __result = spat_med(x,tol);
     return __result;
 END_RCPP
 }

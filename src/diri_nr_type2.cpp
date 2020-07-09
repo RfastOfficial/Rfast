@@ -34,7 +34,7 @@ BEGIN_RCPP
     traits::input_parameter< colvec >::type ma(maSEXP);
     traits::input_parameter< int >::type p(pSEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
-    __result = wrap(diri_nr_type2(a1,a2,ma,p,tol));
+    __result = diri_nr_type2(a1,a2,ma,p,tol);
     return __result;
 END_RCPP
 }

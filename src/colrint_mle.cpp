@@ -146,7 +146,7 @@ RcppExport SEXP Rfast_colrint_mle(SEXP XSEXP,SEXP idSEXP,SEXP ranefSEXP,SEXP tol
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
   traits::input_parameter< const bool >::type parallel(parallelSEXP);
-  __result = wrap(colrint_mle(X,id,ranef,tol,maxiters,parallel));
+  __result = colrint_mle(X,id,ranef,tol,maxiters,parallel);
   return __result;
   END_RCPP
 }

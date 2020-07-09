@@ -40,7 +40,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericMatrix >::type y(ySEXP);
-    __result = wrap(dcor(x,y));
+    __result = dcor(x,y);
     return __result;
 END_RCPP
 }

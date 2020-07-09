@@ -25,7 +25,7 @@ SEXP Rfast_col_min_max(SEXP x);
 SEXP Rfast_col_max_indices(SEXP xSEXP);
 SEXP Rfast_col_max(SEXP x);
 SEXP Rfast_col_means(SEXP xSEXP);
-SEXP Rfast_col_nth(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
+SEXP Rfast_col_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
 SEXP Rfast_col_len_sort_un_int(SEXP xSEXP);
 SEXP Rfast_col_ranks(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP);
 SEXP Rfast_col_tabulate(SEXP xSEXP,SEXP nrowwSEXP);
@@ -127,8 +127,8 @@ SEXP Rfast_mat_mat(SEXP xSEXP,SEXP ySEXP);
 SEXP Rfast_med(SEXP x,SEXP na_rmSEXP);
 SEXP Rfast_min_max_perc(SEXP x);
 SEXP Rfast_negative(SEXP xSEXP,SEXP methodSEXP);
-SEXP Rfast_nth(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
-SEXP Rfast_nth_int(SEXP xSEXP,SEXP elemSEXP);
+SEXP Rfast_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
+SEXP Rfast_nth_int(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
 SEXP Rfast_Norm(SEXP xSEXP,SEXP typeSEXP);
 SEXP Rfast_Order(SEXP xSEXP,SEXP stableSEXP,SEXP descendSEXP);
 SEXP Rfast_odds_helper(SEXP x);
@@ -167,7 +167,7 @@ SEXP Rfast_rmdp(SEXP ySEXP,SEXP hSEXP,SEXP rndSEXP,SEXP itertimeSEXP);
 SEXP Rfast_row_tabulate(SEXP xSEXP,SEXP ncollSEXP);
 SEXP Rfast_rep_col(SEXP xSEXP,SEXP nSEXP);
 SEXP Rfast_rep_row(SEXP xSEXP,SEXP nSEXP);
-SEXP Rfast_row_nth(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
+SEXP Rfast_row_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
 SEXP Rfast_row_min_max(SEXP x);
 SEXP Rfast_row_shuffle(SEXP xSEXP);
 SEXP Rfast_Round(SEXP x,SEXP dgSEXP,SEXP na_rmSEXP);
@@ -279,7 +279,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_col_max_indices", (DL_FUNC) &Rfast_col_max_indices, 1},
   {"Rfast_col_max", (DL_FUNC) &Rfast_col_max, 1},
   {"Rfast_col_means", (DL_FUNC) &Rfast_col_means, 1},
-  {"Rfast_col_nth", (DL_FUNC) &Rfast_col_nth, 5},
+  {"Rfast_col_nth", (DL_FUNC) &Rfast_col_nth, 6},
   {"Rfast_col_len_sort_un_int", (DL_FUNC) &Rfast_col_len_sort_un_int, 1},
   {"Rfast_col_ranks", (DL_FUNC) &Rfast_col_ranks, 4},
   {"Rfast_col_tabulate", (DL_FUNC) &Rfast_col_tabulate, 2},
@@ -381,8 +381,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_med", (DL_FUNC) &Rfast_med, 2},
   {"Rfast_min_max_perc", (DL_FUNC) &Rfast_min_max_perc, 1},
   {"Rfast_negative", (DL_FUNC) &Rfast_negative, 2},
-  {"Rfast_nth", (DL_FUNC) &Rfast_nth, 5},
-  {"Rfast_nth_int", (DL_FUNC) &Rfast_nth_int, 2},
+  {"Rfast_nth", (DL_FUNC) &Rfast_nth, 6},
+  {"Rfast_nth_int", (DL_FUNC) &Rfast_nth_int, 6},
   {"Rfast_Norm", (DL_FUNC) &Rfast_Norm, 2},
   {"Rfast_Order", (DL_FUNC) &Rfast_Order, 3},
   {"Rfast_Outer", (DL_FUNC) &Rfast_Outer, 3},
@@ -422,7 +422,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_row_tabulate", (DL_FUNC) &Rfast_row_tabulate, 2},
   {"Rfast_rep_col", (DL_FUNC) &Rfast_rep_col, 2},
   {"Rfast_rep_row", (DL_FUNC) &Rfast_rep_row, 2},
-  {"Rfast_row_nth", (DL_FUNC) &Rfast_row_nth, 5},
+  {"Rfast_row_nth", (DL_FUNC) &Rfast_row_nth, 6},
   {"Rfast_row_min_max", (DL_FUNC) &Rfast_row_min_max, 1},
   {"Rfast_row_shuffle", (DL_FUNC) &Rfast_row_shuffle, 1},
   {"Rfast_Round", (DL_FUNC) &Rfast_Round, 3},
