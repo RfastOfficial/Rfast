@@ -30,7 +30,7 @@ transpose <- function(x) {
 
 #[export]
 mat.mult <- function(x,y) {
-	.Call(Rfast_mat_mult_p,x,y)
+	.Call(Rfast_mat_mult_p,x,y,FALSE,FALSE)
 }
 
 #[export]

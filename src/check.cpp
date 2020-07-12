@@ -198,10 +198,10 @@ List check_usage(string path_man,string path_rf){
                         //DEBUG("current: "+curr_func+" , fromRfile: "+function_signature);
                         if(curr_func!=function_signature){
                             DEBUG(curr_func+" : "+function_signature +" ["+al+"]");
-                            missmatch_functions.push_back(al+" != "+file_rd.name);
+                            missmatch_functions.push_back("signature of <"+al+"> missmatch with usage in <"+file_rd.name+">");
                         }
                     }else{
-                        missing_functions.push_back(al);
+                        missing_functions.push_back(al+" not in "+file_rd.name); // aliase not in usage
                     }
                     curr_func.clear();
                 }

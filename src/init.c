@@ -382,7 +382,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_min_max_perc", (DL_FUNC) &Rfast_min_max_perc, 1},
   {"Rfast_negative", (DL_FUNC) &Rfast_negative, 2},
   {"Rfast_nth", (DL_FUNC) &Rfast_nth, 6},
-  {"Rfast_nth_int", (DL_FUNC) &Rfast_nth_int, 6},
+  {"Rfast_nth_int", (DL_FUNC) &Rfast_nth_int, 2},
   {"Rfast_Norm", (DL_FUNC) &Rfast_Norm, 2},
   {"Rfast_Order", (DL_FUNC) &Rfast_Order, 3},
   {"Rfast_Outer", (DL_FUNC) &Rfast_Outer, 3},
