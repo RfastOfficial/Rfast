@@ -6,7 +6,7 @@ knn.cv <- function(folds = NULL, nfolds = 10, stratified = FALSE, seed = FALSE, 
   .Call(Rfast_k_nn_cv,folds, y, x, k, dist.type, type, method, freq.option, pred.ret, mem.eff)
 }
 
-generateFolds <- function(target, nfolds = 10, stratified = T, seed = F) {
+generateFolds <- function(target, nfolds = 10, stratified = TRUE, seed = FALSE) {
   names <- paste("Fold", 1:nfolds)
   runs <- sapply(names, function(x) NULL)
   if (seed) set.seed(1234)
