@@ -57,17 +57,21 @@ namespace Rfast {
 		template<typename T>
 		inline double mad(T x,string method="median",const bool na_rm=false){
 			const int newsize = na_rm ? remove_if(x.begin(),x.end(),R_IsNA)-x.begin() : x.size();
-			T xx(x.begin(),newsize,false);
 			double res=0;
-			if(method=="median"){
-				const double center = 1.4826;
-				const double md=med_helper<T>(xx.begin(),xx.end());
-				T y=abs(xx-md);
-			  	res=med_helper<T>(y.begin(),y.end())*center;
-			}else if(method=="mean"){
-				res=mean(abs(xx-mean(xx)));
+			if(newsize>1){
+				T xx(x.begin(),newsize,false);
+				if(method=="median"){
+					const double center = 1.4826;
+					const double md=med_helper<T>(xx.begin(),xx.end());
+					T y=abs(xx-md);
+				  	res=med_helper<T>(y.begin(),y.end())*center;
+				}else if(method=="mean"){
+					res=mean(abs(xx-mean(xx)));
+				}else{
+					stop("Wrong method. Choose \"median\" or \"mean\"");
+				}
 			}else{
-				stop("Wrong method. Choose \"median\" or \"mean\"");
+				res=NA::value<T>();
 			}
 			return res;
 		}
@@ -79,16 +83,20 @@ namespace Rfast {
 		    const int newsize = na_rm ? remove_if(xx.begin(),xx.end(),R_IsNA)-xx.begin() : xx.size();
 		    colvec x(xx.begin(),newsize,false);
 		    double res=0;
-		    if(method=="median"){
-		    	const double center = 1.4826;
-		        const double md=med_helper<colvec>(x.begin(),x.end());
-		        colvec y=abs(x-md);
-		        res=med_helper<colvec>(y.begin(),y.end())*center;
-		    }else if(method=="mean"){
-		        res=mean(abs(x-mean(x)));
-		    }else{
-		        stop("Wrong method. Choose \"median\" or \"mean\"");
-		    }
+		    if(newsize>1){
+			    if(method=="median"){
+			    	const double center = 1.4826;
+			        const double md=med_helper<colvec>(x.begin(),x.end());
+			        colvec y=abs(x-md);
+			        res=med_helper<colvec>(y.begin(),y.end())*center;
+			    }else if(method=="mean"){
+			        res=mean(abs(x-mean(x)));
+			    }else{
+			        stop("Wrong method. Choose \"median\" or \"mean\"");
+			    }
+			}else{
+				res=NA::value<double>();
+			}
 		    return res;
 		}
 		// type T can any iterable class
