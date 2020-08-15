@@ -48,7 +48,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const string >::type dir_to_export(dir_to_exportSEXP);
     traits::input_parameter< const string >::type dir_to_file(dir_to_fileSEXP);
-    __result = wrap(check_namespace(dir_to_export,dir_to_file));
+    __result = check_namespace(dir_to_export,dir_to_file);
     return __result;
 END_RCPP
 }
@@ -81,7 +81,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< string >::type path_man(path_manSEXP);
-    __result = wrap(check_true_false(path_man));
+    __result = check_true_false(path_man);
     return __result;
 END_RCPP
 }
@@ -134,7 +134,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const string >::type dir_to_man(dir_to_manSEXP);
     traits::input_parameter< const string >::type dir_to_file(dir_to_fileSEXP);
-    __result = wrap(check_aliases(dir_to_man,dir_to_file));
+    __result = check_aliases(dir_to_man,dir_to_file);
     return __result;
 END_RCPP
 }
@@ -198,10 +198,10 @@ List check_usage(string path_man,string path_rf){
                         //DEBUG("current: "+curr_func+" , fromRfile: "+function_signature);
                         if(curr_func!=function_signature){
                             DEBUG(curr_func+" : "+function_signature +" ["+al+"]");
-                            missmatch_functions.push_back(al+" != "+file_rd.name);
+                            missmatch_functions.push_back("signature of <"+al+"> missmatch with usage in <"+file_rd.name+">");
                         }
                     }else{
-                        missing_functions.push_back(al);
+                        missing_functions.push_back(al+" not in "+file_rd.name); // aliase not in usage
                     }
                     curr_func.clear();
                 }
@@ -223,7 +223,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< string >::type path_man(path_manSEXP);
     traits::input_parameter< string >::type path_rf(path_rfSEXP);
-    __result = wrap(check_usage(path_man,path_rf));
+    __result = check_usage(path_man,path_rf);
     return __result;
 END_RCPP
 }

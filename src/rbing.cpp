@@ -39,7 +39,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const int >::type n(nSEXP);
     traits::input_parameter< NumericVector >::type lam(lamSEXP);
-    __result = wrap(rbing(n,lam));
+    __result = rbing(n,lam);
     return __result;
 END_RCPP
 }

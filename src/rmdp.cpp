@@ -64,7 +64,7 @@ BEGIN_RCPP
     traits::input_parameter< const int >::type h(hSEXP);
     traits::input_parameter< umat >::type rnd(rndSEXP);
     traits::input_parameter< const int >::type itertime(itertimeSEXP);
-    __result = wrap(rmdp(y,h,rnd,itertime));
+    __result = rmdp(y,h,rnd,itertime);
     return __result;
 END_RCPP
 }

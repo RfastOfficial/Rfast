@@ -56,7 +56,7 @@ BEGIN_RCPP
     traits::input_parameter< IntegerVector >::type ina(inaSEXP);
     traits::input_parameter< const int >::type n(nSEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
-    __result = wrap(varcomps_mle(x,ina,n,tol));
+    __result = varcomps_mle(x,ina,n,tol);
     return __result;
 END_RCPP
 }

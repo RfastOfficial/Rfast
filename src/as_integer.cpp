@@ -57,7 +57,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type sorted(sortedSEXP);
     traits::input_parameter< const int >::type init(initSEXP);
-    __result = wrap(as_integer(x,sorted,init));
+    __result = as_integer(x,sorted,init);
     return __result;
 END_RCPP
 }

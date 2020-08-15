@@ -113,7 +113,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type K(KSEXP);
     traits::input_parameter< const string >::type type(typeSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(dir_knn(tXnew,tX,Y,K,type,parallel));
+    __result = dir_knn(tXnew,tX,Y,K,type,parallel);
     return __result;
 END_RCPP
 }

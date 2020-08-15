@@ -11,9 +11,11 @@ Column and row-wise nth smallest value of a matrix/vector.
 }
 
 \usage{
-colnth(x,elems,descending = FALSE,na.rm = FALSE,index.return = FALSE, parallel = FALSE)
-rownth(x,elems,descending = FALSE,na.rm = FALSE,index.return = FALSE, parallel = FALSE)
-nth(x, k,descending = FALSE,index.return = FALSE,na.rm = FALSE)
+colnth(x,elems, num.of.nths = 1,descending = FALSE,na.rm = FALSE,
+	index.return = FALSE, parallel = FALSE)
+rownth(x,elems, num.of.nths = 1,descending = FALSE,na.rm = FALSE,
+	index.return = FALSE, parallel = FALSE)
+nth(x, k, num.of.nths = 1,descending = FALSE,index.return = FALSE,na.rm = FALSE)
 }
 
 \arguments{
@@ -25,6 +27,9 @@ An integer vector with the kth smallest number to be returned for each column/ro
 }
 \item{k}{
 The kth smallest/biggest number to be returned. 
+}
+\item{num.of.nths}{
+The number of the returned nths. By default is 1. Not use with argument parallel, for now.
 }
 \item{descending}{
 A boolean value (TRUE/FALSE) for descending order (biggest number). By default is ascending (smallest number).

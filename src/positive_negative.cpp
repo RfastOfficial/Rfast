@@ -111,7 +111,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< string >::type method(methodSEXP);
-    __result = wrap(negative(x,method));
+    __result = negative(x,method);
     return __result;
 END_RCPP
 }
@@ -122,7 +122,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< string >::type method(methodSEXP);
-    __result = wrap(positive(x,method));
+    __result = positive(x,method);
     return __result;
 END_RCPP
 }
@@ -133,7 +133,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< string >::type method(methodSEXP);
-    __result = wrap(positive_negative(x,method));
+    __result = positive_negative(x,method);
     return __result;
 END_RCPP
 }

@@ -86,7 +86,7 @@ RcppExport SEXP Rfast_rint_reg(SEXP XSEXP,SEXP YSEXP,SEXP idSEXP,SEXP tolSEXP,SE
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const bool >::type ranef(ranefSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = wrap(rint_reg(X,Y,id,tol,ranef,maxiters));
+  __result = rint_reg(X,Y,id,tol,ranef,maxiters);
   return __result;
   END_RCPP
 }
@@ -339,7 +339,7 @@ RcppExport SEXP Rfast_rint_regs(SEXP XSEXP,SEXP YSEXP,SEXP idSEXP,SEXP tolSEXP,S
   traits::input_parameter< const bool >::type logged(loggedSEXP);
   traits::input_parameter< const bool >::type parallel(parallelSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = wrap(rint_regs(X,Y,id,tol,logged,parallel,maxiters));
+  __result = rint_regs(X,Y,id,tol,logged,parallel,maxiters);
   return __result;
   END_RCPP
 }
@@ -428,7 +428,7 @@ RcppExport SEXP Rfast_rint_mle(SEXP XSEXP,SEXP idSEXP,SEXP ranefSEXP,SEXP tolSEX
   traits::input_parameter< const bool >::type ranef(ranefSEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = wrap(rint_mle(X,id,ranef,tol,maxiters));
+  __result = rint_mle(X,id,ranef,tol,maxiters);
   return __result;
   END_RCPP
 }

@@ -45,7 +45,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< DataFrame >::type x(xSEXP);
-    __result = wrap(design_matrix_big(x));
+    __result = design_matrix_big(x);
     return __result;
 END_RCPP
 }
@@ -57,7 +57,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< CharacterVector >::type x(xSEXP);
     traits::input_parameter< bool >::type ones(onesSEXP);
-    __result = wrap(design_matrix(x,ones));
+    __result = design_matrix(x,ones);
     return __result;
 END_RCPP
 }

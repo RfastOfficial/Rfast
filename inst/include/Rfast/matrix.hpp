@@ -121,11 +121,11 @@ namespace Rfast {
 			int p,n;
 
 			if(!tx){
-				n=X.n_rows;
-				p= ty ? Y.n_rows : Y.n_cols;
+				n=x.n_rows;
+				p= ty ? x.n_rows : x.n_cols;
 			}else if(tx){
-				n=X.n_cols;
-				p=Y.n_cols;
+				n=x.n_cols;
+				p=x.n_cols;
 			}
 			mat C(n,p);
 			colvec yi;
@@ -138,7 +138,7 @@ namespace Rfast {
 					#pragma omp parallel for
 					#endif
 					for(int j=0;j<n;++j){
-					CC(j,i)=dot(xx.col(j),yi);
+					C(j,i)=dot(xx.col(j),yi);
 					}
 				}
 			}else if(tx){ // crossprod
@@ -148,7 +148,7 @@ namespace Rfast {
 				  #pragma omp parallel for
 				  #endif
 				  for(int j=0;j<n;++j){
-				    CC(j,i)=dot(x.col(j),yi);
+				    C(j,i)=dot(x.col(j),yi);
 				  }
 				}
 			}else{ // tcrossprod
@@ -160,7 +160,7 @@ namespace Rfast {
 				  #pragma omp parallel for
 				  #endif
 				  for(int j=0;j<n;++j){
-				    CC(j,i)=dot(xx.col(j),yi);
+				    C(j,i)=dot(xx.col(j),yi);
 				  }
 				}
 			}

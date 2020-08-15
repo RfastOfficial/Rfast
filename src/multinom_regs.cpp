@@ -285,7 +285,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type logged(loggedSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-    __result = wrap(multinom_regs(Y0,X0,tol,logged,parallel,maxiters));
+    __result = multinom_regs(Y0,X0,tol,logged,parallel,maxiters);
     return __result;
 END_RCPP
 }

@@ -1105,4 +1105,60 @@ int nth_helper_index(T& x,const int elem,const bool descend,const bool na_rm){
     return na_rm ? nth_index_na_rm<T>(x,elem,descend) : nth_index_simple<T>(x,elem,descend);
 }
 
+template<class T>
+T nth_simple_n_elems(T& x,const int& elem,const bool& descend){
+  descend ?
+      nth_element(x.begin(),x.begin()+elem-1,x.end(),[&](double a,double b){return a>b;})
+  :
+      nth_element(x.begin(),x.begin()+elem-1,x.end());
+
+  return x(span(0,elem-1));
+}
+
+template<class T>
+T nth_na_rm_n_elems(T& x,const int& elem,const bool& descend){
+    const int new_end=remove_if(x.begin(),x.end(),R_IsNA)-x.begin();
+    if(elem<new_end){
+      descend ?
+      nth_element(x.begin(),x.begin()+elem-1,x.begin()+new_end,[&](double a,double b){return a>b;})
+      :
+      nth_element(x.begin(),x.begin()+elem-1,x.begin()+new_end);
+    }
+    return x(span(0,elem-1));
+}
+
+template<class T>
+T nth_helper_n_elems(T& x,const int elem,const bool descend,const bool na_rm){
+  return na_rm ? nth_na_rm_n_elems<T>(x,elem,descend) : nth_simple_n_elems<T>(x,elem,descend);
+}
+
+
+template<class T>
+T nth_index_simple_n_elems(T& x,const int& elem,const bool& descend){
+    vec ind= linspace(1,x.size(),x.size());
+    descend ?
+    nth_element(ind.begin(),ind.begin()+elem-1,ind.end(),[&](int i,int j){return x[i-1]>x[j-1];})
+        :
+        nth_element(ind.begin(),ind.begin()+elem-1,ind.end(),[&](int i,int j){return x[i-1]<x[j-1];});
+    
+    return ind(span(0,elem-1));
+}
+
+template<class T>
+T nth_index_na_rm_n_elems(T& x,const int& elem,const bool& descend){
+    const int new_end=remove_if(x.begin(),x.end(),R_IsNA)-x.begin();
+    vec ind= linspace(1,new_end,new_end);
+    descend ?
+    nth_element(ind.begin(),ind.begin()+((elem<new_end) ? elem-1-new_end : elem-1),ind.end(),[&](int i,int j){return x[i-1]>x[j-1];})
+        :
+        nth_element(ind.begin(),ind.begin()+((elem<new_end) ? elem-1-new_end : elem-1),ind.end(),[&](int i,int j){return x[i-1]<x[j-1];});
+    
+    return ind(span(0,elem-1));
+}
+
+template<class T>
+T nth_helper_index_n_elems(T& x,const int elem,const bool descend,const bool na_rm){
+    return na_rm ? nth_index_na_rm_n_elems<T>(x,elem,descend) : nth_index_simple_n_elems<T>(x,elem,descend);
+}
+
 #endif

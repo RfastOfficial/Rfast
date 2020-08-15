@@ -314,7 +314,7 @@ BEGIN_RCPP
     traits::input_parameter< const string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type sqr(sqrSEXP);
     traits::input_parameter< const int >::type p(pSEXP);
-    __result = wrap(dist_vec(x,method,sqr,p));
+    __result = dist_vec(x,method,sqr,p);
     return __result;
 END_RCPP
 }

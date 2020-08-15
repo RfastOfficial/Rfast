@@ -53,7 +53,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const int >::type nperm(npermSEXP);
-    __result = wrap(permutation_prev(x,nperm));
+    __result = permutation_prev(x,nperm);
     return __result;
 END_RCPP
 }
@@ -64,7 +64,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const int >::type nperm(npermSEXP);
-    __result = wrap(permutation_next(x,nperm));
+    __result = permutation_next(x,nperm);
     return __result;
 END_RCPP
 }
@@ -75,7 +75,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const int >::type nperm(npermSEXP);
-    __result = wrap(permutation(x,nperm));
+    __result = permutation(x,nperm);
     return __result;
 END_RCPP
 }

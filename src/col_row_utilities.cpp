@@ -28,7 +28,7 @@ RcppExport SEXP Rfast_col_all(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_all(x));
+    __result = col_all(x);
     return __result;
 END_RCPP
 }
@@ -46,7 +46,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< LogicalMatrix >::type x(xSEXP);
-    __result = wrap(row_all(x));
+    __result = row_all(x);
     return __result;
 END_RCPP
 }
@@ -90,7 +90,7 @@ RcppExport SEXP Rfast_row_any(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(row_any(x));
+    __result = row_any(x);
     return __result;
 END_RCPP
 }
@@ -99,7 +99,7 @@ RcppExport SEXP Rfast_col_any(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_any(x));
+    __result = col_any(x);
     return __result;
 END_RCPP
 }
@@ -123,7 +123,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    __result = wrap(col_count_values(x,values));
+    __result = col_count_values(x,values);
     return __result;
 END_RCPP
 }
@@ -144,7 +144,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    __result = wrap(row_count_values(x,values));
+    __result = row_count_values(x,values);
     return __result;
 END_RCPP
 }
@@ -181,7 +181,7 @@ RcppExport SEXP Rfast_row_false(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(row_false(x));
+    __result = row_false(x);
     return __result;
 END_RCPP
 }
@@ -190,7 +190,7 @@ RcppExport SEXP Rfast_col_false(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_false(x));
+    __result = col_false(x);
     return __result;
 END_RCPP
 }
@@ -222,7 +222,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< IntegerMatrix >::type x(xSEXP);
-    __result = wrap(row_len_sort_un_int(x));
+    __result = row_len_sort_un_int(x);
     return __result;
 END_RCPP
 }
@@ -232,7 +232,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< IntegerMatrix >::type x(xSEXP);
-    __result = wrap(col_len_sort_un_int(x));
+    __result = col_len_sort_un_int(x);
     return __result;
 END_RCPP
 }
@@ -248,7 +248,7 @@ BEGIN_RCPP
     traits::input_parameter< const string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(Rfast::matrix::colMads(x,method,na_rm,parallel));
+    __result = Rfast::matrix::colMads(x,method,na_rm,parallel);
     return __result;
 END_RCPP
 }
@@ -261,7 +261,7 @@ BEGIN_RCPP
     traits::input_parameter< const string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(Rfast::matrix::rowMads(x,method,na_rm,parallel));
+    __result = Rfast::matrix::rowMads(x,method,na_rm,parallel);
     return __result;
 END_RCPP
 }
@@ -310,7 +310,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(col_max_indices(x));
+    __result = col_max_indices(x);
     return __result;
 END_RCPP
 }
@@ -320,7 +320,7 @@ RcppExport SEXP Rfast_col_max(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_max(x));
+    __result = col_max(x);
     return __result;
 END_RCPP
 }
@@ -361,7 +361,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(row_max_indices(x));
+    __result = row_max_indices(x);
     return __result;
 END_RCPP
 }
@@ -370,7 +370,7 @@ RcppExport SEXP Rfast_row_max(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(row_max(x));
+    __result = row_max(x);
     return __result;
 END_RCPP
 }
@@ -394,7 +394,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(row_means(x));
+    __result = row_means(x);
     return __result;
 END_RCPP
 }
@@ -404,7 +404,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(col_means(x));
+    __result = col_means(x);
     return __result;
 END_RCPP
 }
@@ -421,7 +421,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(Rfast::matrix::colMedian(x,na_rm,parallel));
+    __result = Rfast::matrix::colMedian(x,na_rm,parallel);
     return __result;
 END_RCPP
 }
@@ -434,7 +434,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(Rfast::matrix::rowMedian(x,na_rm,parallel));
+    __result = Rfast::matrix::rowMedian(x,na_rm,parallel);
     return __result;
 END_RCPP
 }
@@ -483,7 +483,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(col_min_indices(x));
+    __result = col_min_indices(x);
     return __result;
 END_RCPP
 }
@@ -493,7 +493,7 @@ RcppExport SEXP Rfast_col_min(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_min(x));
+    __result = col_min(x);
     return __result;
 END_RCPP
 }
@@ -532,7 +532,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(row_min_indices(x));
+    __result = row_min_indices(x);
     return __result;
 END_RCPP
 }
@@ -541,7 +541,7 @@ RcppExport SEXP Rfast_row_min(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(row_min(x));
+    __result = row_min(x);
     return __result;
 END_RCPP
 }
@@ -583,7 +583,7 @@ RcppExport SEXP Rfast_col_min_max(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_min_max(x));
+    __result = col_min_max(x);
     return __result;
 END_RCPP
 }
@@ -614,7 +614,7 @@ RcppExport SEXP Rfast_row_min_max(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(row_min_max(x));
+    __result = row_min_max(x);
     return __result;
 END_RCPP
 }
@@ -625,24 +625,44 @@ END_RCPP
 
 using std::nth_element;
 
-SEXP col_nth(NumericMatrix x,IntegerVector elems,const bool descend,const bool na_rm,const bool index){
-    const int n=elems.size();
-    SEXP F;
-    NumericVector y(x.nrow());
-    IntegerVector::iterator els=elems.begin();
-    if(index){
-      F=PROTECT(Rf_allocVector(INTSXP,n));
-      int *ff=INTEGER(F);
-      for(int i=0;i!=n;++ff,++i,++els){
-          y=x.column(i);
-          *ff=nth_helper_index<NumericVector>(y,*els,descend,na_rm);
+SEXP col_nth(NumericMatrix X,IntegerVector elems,const int num_of_nths,const bool descend,const bool na_rm,const bool index){
+    const unsigned int n=elems.size();
+    SEXP F=R_NilValue;
+    if(num_of_nths==1){
+      NumericVector y(X.nrow());
+      if(index){
+        F=PROTECT(Rf_allocVector(INTSXP,n));
+        int *ff=INTEGER(F);
+        for(unsigned int i=0;i!=n;++ff,++i){
+            y=X.column(i);
+            *ff=nth_helper_index<NumericVector>(y,elems[i],descend,na_rm);
+        }
+      }else{
+        F=PROTECT(Rf_allocVector(REALSXP,n));
+        double *ff=REAL(F);
+        for(unsigned int i=0;i!=n;++ff,++i){
+            y=X.column(i);
+            *ff=nth_helper<NumericVector>(y,elems[i],descend,na_rm);
+        }
       }
-    }else{
-      F=PROTECT(Rf_allocVector(REALSXP,n));
-      double *ff=REAL(F);
-      for(int i=0;i!=n;++ff,++i,++els){
-          y=x.column(i);
-          *ff=nth_helper<NumericVector>(y,*els,descend,na_rm);
+    }else if(num_of_nths>1){
+        colvec y(X.nrow());
+      if(index){
+        F=PROTECT(Rf_allocMatrix(INTSXP,num_of_nths,n));
+        NumericMatrix ff(F);
+        mat x(X.begin(),X.nrow(),n,false), f(ff.begin(),num_of_nths,n,false);
+        for(unsigned int i=0;i<n;++i){
+            y=x.col(i);
+          f.col(i)=nth_helper_index_n_elems<colvec>(y,elems[i],descend,na_rm);
+        }
+      }else{
+        F=PROTECT(Rf_allocMatrix(REALSXP,num_of_nths,n));
+        NumericMatrix ff(F);
+        mat x(X.begin(),X.nrow(),n,false), f(ff.begin(),num_of_nths,n,false);
+        for(unsigned int i=0;i<n;++i){
+          y=x.col(i);
+          f.col(i)=nth_helper_n_elems<colvec>(y,elems[i],descend,na_rm);
+        }
       }
     }
     UNPROTECT(1);
@@ -650,54 +670,77 @@ SEXP col_nth(NumericMatrix x,IntegerVector elems,const bool descend,const bool n
 }
 
 // nth_element
-RcppExport SEXP Rfast_col_nth(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
+RcppExport SEXP Rfast_col_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nthsSEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type y(ySEXP);
+    traits::input_parameter< const unsigned int >::type num_of_nths(num_of_nthsSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = wrap(col_nth(x,y,descend,na_rm,index));
+    __result = col_nth(x,y,num_of_nths,descend,na_rm,index);
     return __result;
 END_RCPP
 }
 
-SEXP row_nth(NumericMatrix x,IntegerVector elems,const bool descend,const bool na_rm,const bool index){
-    const int n=elems.size();
-    NumericVector y(x.ncol());
+SEXP row_nth(NumericMatrix X,IntegerVector elems,const int num_of_nths,const bool descend,const bool na_rm,const bool index){
+    const unsigned int n=elems.size();
     SEXP F;
-    IntegerVector::iterator els=elems.begin();
-    if(index){
-      F=PROTECT(Rf_allocVector(INTSXP,n));
-      int *ff=INTEGER(F);
-      for(int i=0;i!=n;++ff,++i,++els){
-        y=x.row(i);
-        *ff=nth_helper_index<NumericVector>(y,*els,descend,na_rm);
+
+    if(num_of_nths==1){
+      NumericVector y(X.ncol());
+      if(index){
+        F=PROTECT(Rf_allocVector(INTSXP,n));
+        int *ff=INTEGER(F);
+        for(unsigned int i=0;i!=n;++ff,++i){
+            y=X.row(i);
+            *ff=nth_helper_index<NumericVector>(y,elems[i],descend,na_rm);
+        }
+      }else{
+        F=PROTECT(Rf_allocVector(REALSXP,n));
+        double *ff=REAL(F);
+        for(unsigned int i=0;i!=n;++ff,++i){
+            y=X.row(i);
+            *ff=nth_helper<NumericVector>(y,elems[i],descend,na_rm);
+        }
       }
-    }else{
-      F=PROTECT(Rf_allocVector(REALSXP,n));
-      double *ff=REAL(F);
-      for(int i=0;i!=n;++ff,++i,++els){
-        y=x.row(i);
-        *ff=nth_helper<NumericVector>(y,*els,descend,na_rm);
+    }else if(num_of_nths>1){
+        rowvec y(X.ncol());
+      if(index){
+        F=PROTECT(Rf_allocMatrix(INTSXP,n,num_of_nths));
+        NumericMatrix ff(F);
+        mat x(X.begin(),X.nrow(),n,false), f(ff.begin(),num_of_nths,n,false);
+        for(unsigned int i=0;i<n;++i){
+            y=x.row(i);
+          f.row(i)=nth_helper_index_n_elems<rowvec>(y,elems[i],descend,na_rm);
+        }
+      }else{
+        F=PROTECT(Rf_allocMatrix(REALSXP,n,num_of_nths));
+        NumericMatrix ff(F);
+        mat x(X.begin(),X.nrow(),n,false), f(ff.begin(),num_of_nths,n,false);
+        for(unsigned int i=0;i<n;++i){
+            y=x.row(i);
+          f.row(i)=nth_helper_n_elems<rowvec>(y,elems[i],descend,na_rm);
+        }
       }
     }
     UNPROTECT(1);
     return F;
 }
 
-RcppExport SEXP Rfast_row_nth(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
+RcppExport SEXP Rfast_row_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nthsSEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type y(ySEXP);
+    traits::input_parameter< const unsigned int >::type num_of_nths(num_of_nthsSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = wrap(row_nth(x,y,descend,na_rm,index));
+    __result = row_nth(x,y,num_of_nths,descend,na_rm,index);
     return __result;
 END_RCPP
 }
@@ -722,7 +765,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descending(descendingSEXP);
-    __result = wrap(col_order(x,stable,descending));
+    __result = col_order(x,stable,descending);
     return __result;
 END_RCPP
 }
@@ -742,7 +785,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descending(descendingSEXP);
-    __result = wrap(row_order(x,stable,descending));
+    __result = row_order(x,stable,descending);
     return __result;
 END_RCPP
 }
@@ -775,7 +818,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< string >::type method(methodSEXP);
-    __result = wrap(col_prods(x,method));
+    __result = col_prods(x,method);
     return __result;
 END_RCPP
 }
@@ -795,7 +838,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(row_prods(x));
+    __result = row_prods(x);
     return __result;
 END_RCPP
 }
@@ -824,7 +867,7 @@ BEGIN_RCPP
     traits::input_parameter< string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);    
-    __result = wrap(col_ranks(x,method,descend,stable));
+    __result = col_ranks(x,method,descend,stable);
     return __result;
 END_RCPP
 }
@@ -846,7 +889,7 @@ BEGIN_RCPP
     traits::input_parameter< string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
-    __result = wrap(row_ranks(x,method,descend,stable));
+    __result = row_ranks(x,method,descend,stable);
     return __result;
 END_RCPP
 }
@@ -859,7 +902,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(Rfast::matrix::rowShuffle(x));
+    __result = Rfast::matrix::rowShuffle(x);
     return __result;
 END_RCPP
 }
@@ -869,7 +912,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(Rfast::matrix::colShuffle(x));
+    __result = Rfast::matrix::colShuffle(x);
     return __result;
 END_RCPP
 }
@@ -913,8 +956,8 @@ RcppExport SEXP Rfast_row_sums(SEXP x,SEXP indices) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(Rf_isInteger(x) ? row_sums<IntegerVector,IntegerMatrix,imat,icolvec>(x,indices)
-        : row_sums<NumericVector,NumericMatrix,mat,colvec>(x,indices));
+    __result = Rf_isInteger(x) ? row_sums<IntegerVector,IntegerMatrix,imat,icolvec>(x,indices)
+        : row_sums<NumericVector,NumericMatrix,mat,colvec>(x,indices);
     return __result;
 END_RCPP
 }
@@ -923,8 +966,8 @@ RcppExport SEXP Rfast_col_sums(SEXP x,SEXP indices) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(Rf_isInteger(x) ? col_sums<IntegerVector,IntegerMatrix,imat,irowvec>(x,indices)
-    		   : col_sums<NumericVector,NumericMatrix,mat,rowvec>(x,indices));
+    __result = Rf_isInteger(x) ? col_sums<IntegerVector,IntegerMatrix,imat,irowvec>(x,indices)
+    		   : col_sums<NumericVector,NumericMatrix,mat,rowvec>(x,indices);
     return __result;
 END_RCPP
 }
@@ -954,7 +997,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< IntegerMatrix >::type x(xSEXP);
     traits::input_parameter< int >::type ncoll(ncollSEXP);
-    __result = wrap(row_tabulate(x,ncoll));
+    __result = row_tabulate(x,ncoll);
     return __result;
 END_RCPP
 }
@@ -965,7 +1008,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< IntegerMatrix >::type x(xSEXP);
     traits::input_parameter< int >::type nroww(nrowwSEXP);
-    __result = wrap(col_tabulate(x,nroww));
+    __result = col_tabulate(x,nroww);
     return __result;
 END_RCPP
 }
@@ -1003,7 +1046,7 @@ RcppExport SEXP Rfast_row_true(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(row_true(x));
+    __result = row_true(x);
     return __result;
 END_RCPP
 }
@@ -1012,7 +1055,7 @@ RcppExport SEXP Rfast_col_true(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_true(x));
+    __result = col_true(x);
     return __result;
 END_RCPP
 }
@@ -1037,7 +1080,7 @@ RcppExport SEXP Rfast_col_true_false(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_true_false(x));
+    __result = col_true_false(x);
     return __result;
 END_RCPP
 }
@@ -1066,7 +1109,7 @@ RcppExport SEXP Rfast_row_true_false(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(row_true_false(x));
+    __result = row_true_false(x);
     return __result;
 END_RCPP
 }
@@ -1090,7 +1133,7 @@ RcppExport SEXP Rfast_col_pmin(SEXP x,SEXP y) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_pmin(x,y));
+    __result = col_pmin(x,y);
     return __result;
 END_RCPP
 }
@@ -1114,7 +1157,7 @@ RcppExport SEXP Rfast_col_pmax(SEXP x,SEXP y) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_pmax(x,y));
+    __result = col_pmax(x,y);
     return __result;
 END_RCPP
 }
@@ -1136,7 +1179,7 @@ RcppExport SEXP Rfast_col_cum_prods(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_cum_prods(x));
+    __result = col_cum_prods(x);
     return __result;
 END_RCPP
 }
@@ -1158,7 +1201,7 @@ RcppExport SEXP Rfast_col_cum_maxs(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_cum_maxs(x));
+    __result = col_cum_maxs(x);
     return __result;
 END_RCPP
 }
@@ -1180,7 +1223,7 @@ RcppExport SEXP Rfast_col_cum_sums(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_cum_sums(x));
+    __result = col_cum_sums(x);
     return __result;
 END_RCPP
 }
@@ -1202,7 +1245,7 @@ RcppExport SEXP Rfast_col_cum_mins(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(col_cum_mins(x));
+    __result = col_cum_mins(x);
     return __result;
 END_RCPP
 }
@@ -1233,7 +1276,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const double >::type v(vSEXP);
-    __result = wrap(col_row_value(x,v));
+    __result = col_row_value(x,v);
     return __result;
 END_RCPP
 }
@@ -1273,7 +1316,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< IntegerVector >::type ind(indSEXP);
-    __result = wrap(columns(x,ind));
+    __result = columns(x,ind);
     return __result;
 END_RCPP
 }
@@ -1283,7 +1326,7 @@ RcppExport SEXP Rfast_rows(SEXP x,SEXP ind) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(rows(x,ind));
+    __result = rows(x,ind);
     return __result;
 END_RCPP
 }
@@ -1297,7 +1340,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type std(stdSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(Rfast::matrix::colVars(x,std,na_rm,parallel));
+    __result = Rfast::matrix::colVars(x,std,na_rm,parallel);
     return __result;
 END_RCPP
 }
@@ -1310,7 +1353,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type std(stdSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(Rfast::matrix::rowVars(x,std,na_rm,parallel));
+    __result = Rfast::matrix::rowVars(x,std,na_rm,parallel);
     return __result;
 END_RCPP
 }

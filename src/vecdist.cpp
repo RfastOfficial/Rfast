@@ -26,7 +26,7 @@ RcppExport SEXP Rfast_vecdist(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(vecdist(x));
+    __result = vecdist(x);
     return __result;
 END_RCPP
 }

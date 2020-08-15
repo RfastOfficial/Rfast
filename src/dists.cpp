@@ -338,7 +338,7 @@ BEGIN_RCPP
     traits::input_parameter< const string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type sqr(sqrSEXP);
     traits::input_parameter< const int >::type p(pSEXP);
-    __result = wrap(dist(x,method,sqr,p));
+    __result = dist(x,method,sqr,p);
     return __result;
 END_RCPP
 }

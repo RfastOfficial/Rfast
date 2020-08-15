@@ -231,7 +231,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type logged(loggedSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
     traits::input_parameter< const int >::type parallel(parallelSEXP);
-    __result = wrap(spml_regs(Y,X0,tol,logged,maxiters,parallel));
+    __result = spml_regs(Y,X0,tol,logged,maxiters,parallel);
     return __result;
 END_RCPP
 }
@@ -329,7 +329,7 @@ RcppExport SEXP Rfast_spml_reg(SEXP YSEXP, SEXP XSEXP,SEXP tolSEXP,SEXP sebSEXP,
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const bool >::type seb(sebSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = wrap(spml_reg(Y,X,tol,seb,maxiters));
+  __result = spml_reg(Y,X,tol,seb,maxiters);
   return __result;
   END_RCPP
 }
@@ -416,7 +416,7 @@ RcppExport SEXP Rfast_spml_mle(SEXP XSEXP,SEXP tolSEXP,SEXP maxitersSEXP) {
   traits::input_parameter< NumericMatrix >::type X(XSEXP);
   traits::input_parameter< const double >::type tol(tolSEXP);
   traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-  __result = wrap(spml_mle(X,tol,maxiters));
+  __result = spml_mle(X,tol,maxiters);
   return __result;
   END_RCPP
 }

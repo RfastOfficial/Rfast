@@ -33,7 +33,7 @@ RcppExport SEXP Rfast_Trigamma(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(Trigamma(x));
+    __result = Trigamma(x);
     return __result;
 END_RCPP
 }
@@ -64,7 +64,7 @@ RcppExport SEXP Rfast_Digamma(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(Digamma(x));
+    __result = Digamma(x);
     return __result;
 END_RCPP
 }
@@ -94,7 +94,7 @@ RcppExport SEXP Rfast_Lgamma(SEXP x){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(Lgamma(x));
+    __result = Lgamma(x);
     return __result;
 END_RCPP
 }
@@ -129,7 +129,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type k(kSEXP);
-    __result = wrap(Choose(x,k));
+    __result = Choose(x,k);
     return __result;
 END_RCPP
 }
@@ -167,7 +167,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const int >::type k(kSEXP);
-    __result = wrap(Lchoose(x,k));
+    __result = Lchoose(x,k);
     return __result;
 END_RCPP
 }
@@ -233,7 +233,7 @@ BEGIN_RCPP
     traits::input_parameter< arma::vec >::type data(dataSEXP);
     traits::input_parameter< const int >::type n(nSEXP);
     traits::input_parameter< const bool >::type simplify(simplifySEXP);
-    __result = wrap(find_combn(data,n,simplify));
+    __result = find_combn(data,n,simplify);
     return __result;
 END_RCPP
 }

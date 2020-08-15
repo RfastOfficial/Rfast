@@ -270,7 +270,7 @@ invgauss.regs <- function(y, x, tol = 1e-08, logged = FALSE, maxiters = 100) {
 logistic_only <- function(x,y,tol = 1e-09,b_values = FALSE) {
 	if(b_values){
 		x<-.Call(Rfast_logistic_only_b,x,y,tol)
-		rownames(x)<-c("log-lik","constant","slope")
+		rownames(x)<-c("deviance","constant","slope")
 		return (x)
 	}
 	.Call(Rfast_logistic_only,x,y,tol)

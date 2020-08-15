@@ -149,7 +149,7 @@ gammamle <- function(x, tol = 1e-09) {
   loglik <-  - b * n * m + (a2 - 1) * n * slx + n * a2 * log(b) - n * 
         lgamma(a2)
   param <- c(a2, b) 
-  names(param) <- c("shape", "scale")
+  names(param) <- c("shape", "rate")
   list(iters = i, loglik = loglik, param = param)
 }
 

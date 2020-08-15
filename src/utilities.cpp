@@ -61,28 +61,35 @@ int nth_int(vector<int> x,int elem){
     return res;
 }
 
-int nth_index(NumericVector& X,const int elem,const bool descend,const bool na_rm){
-    NumericVector x=clone(X);
-    return nth_helper_index<NumericVector>(x,elem,descend,na_rm);
-}
-
-double nth(NumericVector& X,const int elem,const bool descend,const bool na_rm){
-    NumericVector x=clone(X);
-    return nth_helper<NumericVector>(x,elem,descend,na_rm);
-}
-
 
 // nth
-RcppExport SEXP Rfast_nth(SEXP xSEXP,SEXP elemSEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
+RcppExport SEXP Rfast_nth(SEXP xSEXP,SEXP elemSEXP,SEXP num_of_nthsSEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    traits::input_parameter< NumericVector& >::type x(xSEXP);
+    //traits::input_parameter< NumericVector >::type X(xSEXP);
     traits::input_parameter< const int >::type elem(elemSEXP);
+    traits::input_parameter< const int >::type num_of_nths(num_of_nthsSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = wrap(index ? nth_index(x,elem,descend,na_rm) : nth(x,elem,descend,na_rm));
+    
+    NumericVector x=clone(xSEXP);
+    
+    if(num_of_nths>1){
+        colvec y(x.begin(),x.size(),false);
+        if(index){
+            __result = nth_helper_index_n_elems<colvec>(y,elem,descend,na_rm);
+        }else{
+            __result = nth_helper_n_elems<colvec>(y,elem,descend,na_rm);
+        }
+    }else{
+        if(index){
+            __result = nth_helper_index<NumericVector>(x,elem,descend,na_rm);
+        }else{
+            __result = nth_helper<NumericVector>(x,elem,descend,na_rm);
+        }
+    }
     return __result;
 END_RCPP
 }
@@ -94,7 +101,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< vector<int> >::type x(xSEXP);
     traits::input_parameter< int >::type elem(elemSEXP);
-    __result = wrap(nth_int(x,elem));
+    __result = nth_int(x,elem);
     return __result;
 END_RCPP
 }
@@ -131,7 +138,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = wrap(med(x,na_rm));
+    __result = med(x,na_rm);
     return __result;
 END_RCPP
 }
@@ -182,7 +189,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< bool >::type index(indexSEXP);
-    __result = wrap(min_max(x,index));
+    __result = min_max(x,index);
     return __result;
 END_RCPP
 }
@@ -212,7 +219,7 @@ RcppExport SEXP Rfast_min_max_perc(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(min_max_perc(x));
+    __result = min_max_perc(x);
     return __result;
 END_RCPP
 }
@@ -254,7 +261,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = wrap(pmax(x,y,na_rm));
+    __result = pmax(x,y,na_rm);
     return __result;
 END_RCPP
 }
@@ -293,7 +300,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = wrap(pmin(x,y,na_rm));
+    __result = pmin(x,y,na_rm);
     return __result;
 END_RCPP
 }
@@ -344,7 +351,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = wrap(pmin_pmax(x,y,na_rm));
+    __result = pmin_pmax(x,y,na_rm);
     return __result;
 END_RCPP
 }
@@ -386,7 +393,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = wrap(min_freq_d(x,na_rm));
+    __result = min_freq_d(x,na_rm);
     return __result;
 END_RCPP
 }
@@ -454,7 +461,7 @@ RcppExport SEXP Rfast_min_freq_i(SEXP xSEXP,SEXP na_rmSEXP){
   RNGScope __rngScope;
   traits::input_parameter< IntegerVector >::type x(xSEXP);
   traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-  __result = wrap(min_freq_i(x,na_rm));
+  __result = min_freq_i(x,na_rm);
   return __result;
   END_RCPP
 }
@@ -491,7 +498,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = wrap(max_freq_d(x,na_rm));
+    __result = max_freq_d(x,na_rm);
     return __result;
 END_RCPP
 }
@@ -559,7 +566,7 @@ RcppExport SEXP Rfast_max_freq_i(SEXP xSEXP,SEXP na_rmSEXP){
   RNGScope __rngScope;
   traits::input_parameter< IntegerVector >::type x(xSEXP);
   traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-  __result = wrap(max_freq_i(x,na_rm));
+  __result = max_freq_i(x,na_rm);
   return __result;
   END_RCPP
 }
@@ -587,7 +594,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
-    __result = wrap(Order(x,stable,descend));
+    __result = Order(x,stable,descend);
     return __result;
 END_RCPP
 }
@@ -639,7 +646,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const char >::type oper(operSEXP);
-    __result = wrap(Outer(x,y,oper));
+    __result = Outer(x,y,oper);
     return __result;
 END_RCPP
 }
@@ -678,7 +685,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< const int >::type dg(dgSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);   
-    __result = wrap(Round(x,dg,na_rm));
+    __result = Round(x,dg,na_rm);
     return __result;
 END_RCPP
 }
@@ -706,7 +713,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
-    __result = wrap(squareform_c(x));
+    __result = squareform_c(x);
     return __result;
 END_RCPP
 }
@@ -718,7 +725,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = wrap(Rfast::matrix::is_symmetric(x));
+    __result = Rfast::matrix::is_symmetric(x);
     return __result;
 END_RCPP
 }
@@ -732,7 +739,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type std(stdSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = wrap(Rfast::vector::var<NumericVector>(x,std,na_rm));
+    __result = Rfast::vector::var<NumericVector>(x,std,na_rm);
     return __result;
 END_RCPP
 }
@@ -762,7 +769,7 @@ RcppExport SEXP Rfast_count_value(SEXP x,SEXP value){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(count_value(x,value));
+    __result = count_value(x,value);
     return __result;
 END_RCPP
 }
@@ -796,7 +803,7 @@ RcppExport SEXP Rfast_Log(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(Log(x));
+    __result = Log(x);
     return __result;
 END_RCPP
 }
@@ -837,7 +844,7 @@ RcppExport SEXP Rfast_Lbeta(SEXP x,SEXP y) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = wrap(Lbeta(x,y));
+    __result = Lbeta(x,y);
     return __result;
 END_RCPP
 }
@@ -855,7 +862,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type key(keySEXP);
-    __result = wrap(Match(x,key));
+    __result = Match(x,key);
     return __result;
 END_RCPP
 }
@@ -896,7 +903,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< DataFrame >::type x(xSEXP);
     traits::input_parameter< const string >::type method(methodSEXP);
-    __result = wrap(which_is(x,method));
+    __result = which_is(x,method);
     return __result;
 END_RCPP
 }
@@ -911,7 +918,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     //if method is median then copy the vector because median changes the memory
     traits::input_parameter< NumericVector >::type x( method=="median" ? Rf_duplicate(xSEXP) : xSEXP);
-    __result = wrap(Rfast::vector::mad<NumericVector>(x,method,na_rm));
+    __result = Rfast::vector::mad<NumericVector>(x,method,na_rm);
     return __result;
 END_RCPP
 }

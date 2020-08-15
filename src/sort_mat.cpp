@@ -23,7 +23,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type by_row(by_rowSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = wrap(sort_mat(x,descend,by_row,stable,parallel));
+    __result = sort_mat(x,descend,by_row,stable,parallel);
     return __result;
 END_RCPP
 }

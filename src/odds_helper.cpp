@@ -10,7 +10,7 @@ using std::abs;
 static void init(double *start,double *end,int s[]){
   *s=s[1]=s[2]=s[3]=0;
   for(;start!=end;++start)
-    s[(int)abs(*start)]++;
+    ++s[(int)abs(*start)];
 }
 
 //[[Rcpp::export]]
@@ -29,7 +29,7 @@ RcppExport SEXP Rfast_odds_helper(SEXP x) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result =wrap( odds_helper(x));
+    __result = odds_helper(x);
     return __result;
 END_RCPP
 }

@@ -29,7 +29,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type X(XSEXP);
     traits::input_parameter< const int >::type k(kSEXP);
 	traits::input_parameter< const bool >::type vectors(vectorsSEXP);
-    __result = wrap(eigs_sym_c(X,k,vectors));
+    __result = eigs_sym_c(X,k,vectors);
     return __result;
 END_RCPP
 }

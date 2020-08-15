@@ -16,7 +16,7 @@ BEGIN_RCPP
     traits::input_parameter< const double >::type tol(tolSEXP);
     traits::input_parameter< const double >::type ylogy(ylogySEXP);
     traits::input_parameter< const double >::type my(mySEXP);
-    __result = wrap(qpois_regs(x,y,tol,ylogy,my));
+    __result = qpois_regs(x,y,tol,ylogy,my);
     return __result;
 END_RCPP
 }
@@ -64,7 +64,7 @@ BEGIN_RCPP
     traits::input_parameter< const double >::type ylogy(ylogySEXP);
     traits::input_parameter< const double >::type tol(tolSEXP);
     traits::input_parameter< const int >::type maxiters(maxitersSEXP);
-    __result = wrap(qpois_reg(x,y,ylogy,tol,maxiters));
+    __result = qpois_reg(x,y,ylogy,tol,maxiters);
     return __result;
 END_RCPP
 }

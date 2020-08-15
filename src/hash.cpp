@@ -43,7 +43,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< List >::type x(xSEXP);
     traits::input_parameter< bool >::type sorting(sortingSEXP);
-    __result = wrap(hash2list(x,sorting));
+    __result = hash2list(x,sorting);
     return __result;
 END_RCPP
 }
@@ -69,7 +69,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< List >::type x(xSEXP);
     traits::input_parameter< string >::type value(valueSEXP);
-    __result = wrap(hash_find(x,value));
+    __result = hash_find(x,value);
     return __result;
 END_RCPP
 }
@@ -97,7 +97,7 @@ BEGIN_RCPP
     RNGScope __rngScope;
     traits::input_parameter< CharacterVector >::type key(keySEXP);
     traits::input_parameter< NumericVector >::type x(xSEXP);
-    __result = wrap(Hash_list(key,x));
+    __result = Hash_list(key,x);
     return __result;
 END_RCPP
 }
@@ -140,7 +140,7 @@ BEGIN_RCPP
     traits::input_parameter< Environment >::type x(xSEXP);
     traits::input_parameter< string >::type value(valueSEXP);
     traits::input_parameter< const string >::type sep(sepSEXP);
-    __result = wrap(Hash_key_multi(x,value,sep));
+    __result = Hash_key_multi(x,value,sep);
     return __result;
 END_RCPP
 }

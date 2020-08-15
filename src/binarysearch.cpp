@@ -45,7 +45,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< double >::type v(vSEXP);
-    __result = wrap(binarysearch(x,v));
+    __result = binarysearch(x,v);
     return __result;
 END_RCPP
 }
@@ -55,7 +55,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< double >::type v(vSEXP);
-    __result = wrap(lowerbound(x,v));
+    __result = lowerbound(x,v);
     return __result;
 END_RCPP
 }
