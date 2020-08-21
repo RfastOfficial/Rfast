@@ -26,6 +26,10 @@ class NA {
   template<class T=char> static char* value(){
     return "";//NA_CHAR;
   }
+
+  operator double(){
+	retturn NA_REAL;
+  }
 };
 */
 template<typename f,typename s>
