@@ -33,8 +33,7 @@ Should parallel implentations take place in C++? The default value is FALSE.
 }
 
 \details{
-We found this in \href{http://stackoverflow.com/questions/25099825/row-wise-variance-of-a-matrix-in-r}{stackoverflow} and was created by \href{http://stackoverflow.com/users/3001626/david-arenburg}{David Arenburg}.
-We then modified the function to match the sums type formula of the variance, which is faster.
+We found this on stackoverflow which was created by David Arenburg. We then modified the function to match the sums type formula of the variance, which is faster.
 }
 
 \value{
