@@ -71,7 +71,7 @@ namespace Rfast {
 					stop("Wrong method. Choose \"median\" or \"mean\"");
 				}
 			}else{
-				res=NA::value<T>();
+				res=NA::value<double>();
 			}
 			return res;
 		}

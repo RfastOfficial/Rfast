@@ -15,19 +15,13 @@ using namespace Rcpp;
 #define TEMPLATES_H
 
 //[[Rcpp::plugins(cpp11)]]
-/*
-class NA {
-  template<class T=double> static double value(){
-    return NA_REAL;
-  }
-  template<class T=int> static int value(){
-    return NA_INTEGER;
-  }
-  template<class T=char> static char* value(){
-    return "";//NA_CHAR;
+
+struct NA {
+  template<class T> static T value(){
+    return is_same<T,int>::value ? NA_INTEGER : NA_REAL;
   }
 };
-*/
+
 template<typename f,typename s>
 struct pr{
   f first;
