@@ -60,7 +60,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type y(ySEXP);
     traits::input_parameter< const bool >::type tx(txSEXP);
     traits::input_parameter< const bool >::type ty(tySEXP);
-    __result = Rfast::matrix::matrix_multiplication(x,y);
+    __result = Rfast::matrix::matrix_multiplication(x,y,tx,ty);
     return __result;
 END_RCPP
 }
