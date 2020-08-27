@@ -73,7 +73,7 @@ NumericVector logistic_only(NumericMatrix X, NumericVector Y,const double tol){
         } while(negLL > prevNegLL + alpha * ta * lambda[0] && ta > ttol);
 
         B = nextB;
-        if ( isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
+        if ( std::isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
           if ( NumericVector::is_na(negLL)) {
             Rcout<<"Infinity found"<<endl;
           }
@@ -156,7 +156,7 @@ NumericMatrix logistic_only_b(NumericMatrix X, NumericVector Y,const double tol)
         } while(negLL > prevNegLL + alpha * ta * lambda[0] && ta > ttol);
 
         B = nextB;
-        if ( isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
+        if ( std::isinf(negLL) || lambda[0]*ta/2 < tol || prevNegLL - negLL < lltol) {
           if ( NumericVector::is_na(negLL)) {
             Rcout<<"Infinity found"<<endl;
           }
