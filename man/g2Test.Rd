@@ -11,8 +11,8 @@ G-square test of conditional indepdence
 }
 
 \usage{
-g2test(data, x, y, cs, dc)
-g2test_perm(data, x, y, cs, dc, nperm)
+g2tests(data, x, y, cs, dc)
+g2test2_perm(data, x, y, cs, dc, nperm)
 chi2test(data, x, y, cs, dc)
 }
 
