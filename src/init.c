@@ -128,7 +128,7 @@ SEXP Rfast_med(SEXP x,SEXP na_rmSEXP);
 SEXP Rfast_min_max_perc(SEXP x);
 SEXP Rfast_negative(SEXP xSEXP,SEXP methodSEXP);
 SEXP Rfast_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
-SEXP Rfast_nth_int(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
+SEXP Rfast_nth_int(SEXP xSEXP,SEXP elemSEXP);
 SEXP Rfast_Norm(SEXP xSEXP,SEXP typeSEXP);
 SEXP Rfast_Order(SEXP xSEXP,SEXP stableSEXP,SEXP descendSEXP);
 SEXP Rfast_odds_helper(SEXP x);
