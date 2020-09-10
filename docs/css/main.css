@@ -173,7 +173,7 @@ figure figcaption {
 /*********************************************************************
  * 4. Footer
  *
- */
+ 
 
 #footer {
 	clear: both; 
@@ -186,7 +186,7 @@ figure figcaption {
 .footer-content > p {
 	margin-top: 40px;
 	margin-left: 530px;
-}
+}*/
 
 /*********************************************************************
  * 5. Media queries for responsive layout
