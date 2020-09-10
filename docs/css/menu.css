@@ -59,7 +59,8 @@ ul#nav > li:hover > a {
 }
 
 .current {
-	background: url("./images/nav_current.png") no-repeat scroll center top transparent;	
+	background: url("./images/nav_current.png") no-repeat scroll center top transparent;
+    background-size: 130px 130px;
 }
 
 ul#nav ul a {
