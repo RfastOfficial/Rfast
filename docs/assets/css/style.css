@@ -129,3 +129,7 @@ img { max-width: 100%; }
 .footer-copyright { padding-top: 5px; }
 .footer-copyright a { color: #fff; border: 0; }
 .footer-copyright a:hover, .footer-copyright a:focus { color: #aaa; border: 0; }
+
+.fa-twitter::before {
+    content: "\f099";
+}
