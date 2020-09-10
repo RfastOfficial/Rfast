@@ -104,7 +104,8 @@ pre {
  */
 
 #main {
-	border-top: 1px solid #eee; 
+	border-top: 1px solid #eee;
+	border-bottom: 1px solid #eee; 
 	padding-top: 1em; 
 	margin-top: 1em; 
 	clear: both; 
