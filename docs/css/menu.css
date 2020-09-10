@@ -58,6 +58,10 @@ ul#nav > li:hover > a {
     padding-top: 55px;
 }
 
+ul#nav > li {
+    width: 20%;
+}
+
 .current {
 	background: url("./images/nav_current.png") no-repeat scroll center top transparent;
     background-size: 130px 130px;
