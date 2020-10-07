@@ -17,8 +17,7 @@ edist(x, y=NULL)
 A matrix with numbers or a list with matrices. 
 }
 \item{y}{
-A second matrix with data. The number of comlumns of this matrix must be the same with the matrix x. 
-The number of rows can be different. 
+A second matrix with data. The number of columns of x and y must match. The number of rows can be different. 
 }
 }
 
