@@ -1,4 +1,4 @@
-\name{minimum and maximum frequencies }
+\name{Minimum and maximum frequencies }
 \alias{freq.min}
 \alias{freq.max}
 \title{

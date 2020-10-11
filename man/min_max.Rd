@@ -1,4 +1,4 @@
-\name{minimum and maximum }
+\name{Minimum and maximum }
 \alias{min_max}
 \title{
 Minimum and maximum of a vector
