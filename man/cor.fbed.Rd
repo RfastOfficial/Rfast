@@ -55,7 +55,8 @@ A matrix with two columns. The cumulative number of variables selected and the n
 }
 
 \references{
-Giorgos Borboudakis and Ioannis Tsamardinos (2017). Forward-Backward Selection with Early Dropping. Arxiv preprint: https://arxiv.org/pdf/1705.10770.pdf
+Borboudakis G. and Tsamardinos I. (2019). Forward-backward selection with early dropping. 
+Journal of Machine Learning Research, 20(8): 1-39.
 }
 
 \author{
