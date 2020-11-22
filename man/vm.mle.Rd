@@ -72,7 +72,7 @@ Journal of Applied Statistics, 15(2): 247--254.
 \author{
 Michail Tsagris and Stefanos Fafalios
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Stefanos Fafalios
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Stefanos Fafalios
 <stefanosfafalios@gmail.com>
 }
 

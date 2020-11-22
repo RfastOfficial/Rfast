@@ -73,7 +73,7 @@ simplex. Journal of Statistical Computation and Simulation, 87(2): 406-422.
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 %\note{

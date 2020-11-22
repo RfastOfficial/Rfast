@@ -97,7 +97,7 @@ Paine P.J., Preston S.P., Tsagris M and Wood A.T.A. (2017). An Elliptically Symm
 
 \author{
 Michail Tsagris
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> 
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> 
 }
 
 %\note{

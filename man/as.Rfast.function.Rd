@@ -34,7 +34,7 @@ The coresponding Rfast function.
 Manos Papadakis and Michail Tsagris
 
 R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> 
-and Michail Tsagris <mtsagris@yahoo.gr>.
+and Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 

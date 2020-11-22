@@ -52,7 +52,7 @@ Minka Thomas (2012). Estimating a Dirichlet distribution. Technical report.
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Manos Papadakis <papadakm95@gmail.com>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }
 %\note{
 %%  ~~further notes~~

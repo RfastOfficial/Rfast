@@ -46,7 +46,7 @@ In the case of the quasi Poisson, the \eqn{\phi} is returned as well.
 \author{
 Michail Tsagris and Manos Papadakis
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and 
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and 
 Manos Papadakis <papadakm95@gmail.com>
 }
 %\note{

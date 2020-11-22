@@ -27,7 +27,7 @@ License: \tab GPL-2\cr
 \author{
 \itemize{
 \item Manos Papadakis <papadakm95@gmail.com>
-\item Michail Tsagris <mtsagris@yahoo.gr>
+\item Michail Tsagris <mtsagris@uoc.gr>
 \item Marios Dimitriadis <kmdimitriadis@gmail.com>
 \item Stefanos Fafalios <stefanosfafalios@gmail.com>
 \item Ioannis Tsamardinos <tsamard@csd.uoc.gr>

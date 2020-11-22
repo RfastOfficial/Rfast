@@ -37,7 +37,7 @@ http://arxiv.org/pdf/1307.5706v2.pdf
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 %\note{

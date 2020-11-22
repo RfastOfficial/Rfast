@@ -37,7 +37,7 @@ Tyler D. E. (1987). Statistical analysis for the angular central Gaussian distri
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> 
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> 
 }
 
 %\note{

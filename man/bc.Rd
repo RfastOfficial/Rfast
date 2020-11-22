@@ -40,7 +40,7 @@ Journal of the Royal Statistical Society, Series B, 26 (2):211-252.
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> 
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> 
 }
 %\note{
 %%  ~~further notes~~

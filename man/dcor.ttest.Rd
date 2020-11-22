@@ -43,7 +43,7 @@ by Correlation of Distances. Annals of Statistics, 35(6):2769-2794.
 \author{
 Manos Papadakis
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Manos Papadakis <papadakm95@gmail.com>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }
 %\note{
 %%  ~~further notes~~

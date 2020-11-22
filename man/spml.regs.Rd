@@ -53,7 +53,7 @@ directional data. Journal of the American Statistical Association, 93(443): 1068
 \author{
 Michail Tsagris and Stefanos Fafalios
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Stefanos Fafalios
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Stefanos Fafalios
 <stefanosfafalios@gmail.com>
 }
 %\note{

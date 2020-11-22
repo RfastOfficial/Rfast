@@ -43,7 +43,7 @@ McCullagh, Peter, and John A. Nelder. Generalized linear models.  CRC press, USA
 \author{
 Manos Papadakis <papadakm95@gmail.com> and Stefanos Fafalios <stefanosfafalios@gmail.com>
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr>, Manos Papadakis <papadakm95@gmail.com> and Stefanos Fafalios <stefanosfafalios@gmail.com>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>, Manos Papadakis <papadakm95@gmail.com> and Stefanos Fafalios <stefanosfafalios@gmail.com>.
 }
 
 \seealso{

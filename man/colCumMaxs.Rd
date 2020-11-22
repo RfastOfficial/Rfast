@@ -41,7 +41,7 @@ A matrix with the results. It has one row less than the initial matrix.
 Manos Papadakis and Michail Tsagris
 
 R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> 
-and Michail Tsagris <mtsagris@yahoo.gr>.
+and Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 %\note{

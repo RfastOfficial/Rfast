@@ -45,7 +45,7 @@ Journal of Data Science, 15(2):347-356.
 Manos Papadakis and Michail Tsagris
 
 R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> 
-and Michail Tsagris <mtsagris@yahoo.gr>.
+and Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 %\note{

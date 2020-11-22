@@ -50,7 +50,7 @@ Acta Applicandae Mathematicae, 102(1):99-118.
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 %\note{
 %%  ~~further notes~~

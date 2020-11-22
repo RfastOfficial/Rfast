@@ -61,7 +61,7 @@ using generalized linear model. International Journal of Advanced Statistics and
 \author{
 Michail Tsagris
 
-R implementation and documentation: Stefanos Fafalios <mtsagris@yahoo.gr>
+R implementation and documentation: Stefanos Fafalios <mtsagris@uoc.gr>
 }
 
 %\note{

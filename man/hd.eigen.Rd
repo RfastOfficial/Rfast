@@ -52,7 +52,7 @@ A matrix of \eqn{p \times n} or \eqn{p \times k} eigenvectors.
 \author{
 Michail Tsagris 
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 %\note{
 %%  ~~further notes~~

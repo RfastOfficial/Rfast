@@ -47,7 +47,7 @@ Planning and Inference http://www.stat.nus.edu.sg/export/sites/dsap/research/doc
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> 
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> 
 }
 
 %\note{

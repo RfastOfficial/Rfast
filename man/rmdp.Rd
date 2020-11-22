@@ -54,9 +54,9 @@ Ro K., Zou C., Wang Z. and Yin G. (2015). Outlier detection for high-dimensional
 
 \author{
 Initial R code: Changliang Zou <nk.chlzou@gmail.com>
-R code modifications: Michail Tsagris <mtsagris@yahoo.gr>
+R code modifications: Michail Tsagris <mtsagris@uoc.gr>
 C++ implementation: Manos Papadakis <papadakm95@gmail.com>
-Documentation: Michail Tsagris <mtsagris@yahoo.gr> and Changliang Zhou <nk.chlzou@gmail.com>
+Documentation: Michail Tsagris <mtsagris@uoc.gr> and Changliang Zhou <nk.chlzou@gmail.com>
 }
 
 \seealso{

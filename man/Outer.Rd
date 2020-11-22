@@ -42,7 +42,7 @@ A matrix with two rows. In each row the X2 or G2 test statistic, its p-value and
 Manos Papadakis and Michail Tsagris
 
 R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> 
-and Michail Tsagris <mtsagris@yahoo.gr>.
+and Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 %\note{

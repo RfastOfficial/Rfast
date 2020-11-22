@@ -48,7 +48,7 @@ https://arxiv.org/ftp/arxiv/papers/1806/1806.10947.pdf
 \author{
 Michail Tsagris and Christina Chatzipantsiou
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and Christina Chatzipantsiou <chatzipantsiou@gmail.com>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Christina Chatzipantsiou <chatzipantsiou@gmail.com>.
 }
 %\note{
 %%  ~~further notes~~

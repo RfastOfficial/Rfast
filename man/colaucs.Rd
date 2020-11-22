@@ -39,7 +39,7 @@ The AUC vlaues for each column. If the "auc" function is used then a signle numb
 \author{
 Michail Tsagris
 
-R implementation and documentation: Michail Tsagris <mtsagris@yahoo.gr> and 
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and 
 Manos Papadakis <papadakm95@gmail.com>.
 }
 %\note{
