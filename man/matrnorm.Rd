@@ -9,7 +9,7 @@ Generates random values from a normal and puts them in a matrix.
 }
 
 \usage{
-matrnorm(n, p)
+matrnorm(n, p, seed = NULL)
 }
 
 \arguments{
@@ -18,6 +18,9 @@ The sample size, the number of rows the matrix will have.
 }
 \item{p}{
 The dimensionality of the data, the nubmer of columns of the matrix.
+}
+\item{seed}{
+If you want the same to be generated again use a seed for the generator, an integer number.
 }
 }
 

@@ -10,22 +10,25 @@ Multivariate normal and t random values simulation.
 }
 
 \usage{
-rmvnorm(n, mu, sigma)
-rmvt(n, mu, sigma, v)
+rmvnorm(n, mu, sigma, seed = NULL)
+rmvt(n, mu, sigma, v, seed = NULL)
 }
 
 \arguments{
-  \item{n}{
-  The sample size, a numerical value.
+\item{n}{
+The sample size, a numerical value.
 }
-  \item{mu}{
-  The mean vector in \eqn{R^d}.
+\item{mu}{
+The mean vector in \eqn{R^d}.
 }
-  \item{sigma}{
-  The covariance matrix in \eqn{R^d}.
+\item{sigma}{
+The covariance matrix in \eqn{R^d}.
 }
-  \item{v}{
-  The degrees of freedom.
+\item{v}{
+The degrees of freedom.
+}
+\item{seed}{
+If you want the same to be generated again use a seed for the generator, an integer number.
 }
 }
 

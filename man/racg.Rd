@@ -9,15 +9,18 @@ Angular central Gaussian random values simulation.
 }
 
 \usage{
-racg(n, sigma)
+racg(n, sigma, seed = NULL)
 }
 
 \arguments{
-  \item{n}{
-  The sample size, a numerical value.
+\item{n}{
+The sample size, a numerical value.
 }
-  \item{sigma}{
-  The covariance matrix in \eqn{R^d}.
+\item{sigma}{
+The covariance matrix in \eqn{R^d}.
+}
+\item{seed}{
+If you want the same to be generated again use a seed for the generator, an integer number.
 }
 }
 

@@ -9,7 +9,7 @@ Simulation of random values from a normal distribution.
 }
 
 \usage{
-Rnorm(n, m = 0, s = 1)
+Rnorm(n, m = 0, s = 1, seed = NULL)
 }
 
 \arguments{
@@ -21,6 +21,9 @@ The mean, set to 0 by default.
 }
 \item{s}{
 The standard devation, set to 1 by default.
+}
+\item{seed}{
+If you want the same to be generated again use a seed for the generator, an integer number.
 }
 }
 

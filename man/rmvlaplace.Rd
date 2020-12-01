@@ -9,7 +9,7 @@ Multivariate Laplace random values simulation.
 }
 
 \usage{
-rmvlaplace(n, lam, mu, G) 
+rmvlaplace(n, lam, mu, G, seed = NULL) 
 }
 
 \arguments{
@@ -24,6 +24,9 @@ The mean vector.
 }
 \item{G}{
 A \eqn{d \times d} covariance matrix with determinant 1. 
+}
+\item{seed}{
+If you want the same to be generated again use a seed for the generator, an integer number.
 }
 }
 

@@ -1,10 +1,18 @@
 #[export]
-racg <- function(n, sigma) {
+matrnorm <- function(n, p, seed = NULL) {
+  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
+  matrix(  RcppZiggurat::zrnorm(n * p), ncol = p)
+}
+
+
+#[export]
+racg <- function(n, sigma, seed = NULL) {
   ## n is the sample size,
   ## mu is the mean vector and
   ## sigma is the covariance matrix
   ## sigma does not have to be of full rank
   p <- dim(sigma)[1]
+  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)  
   x <- Rfast::matrnorm(n, p)
   x <- x %*% chol(sigma)
   x / sqrt( Rfast::rowsums(x^2) )
@@ -12,8 +20,8 @@ racg <- function(n, sigma) {
 
 
 #[export]
-rbing <- function(n,lam) {
-	.Call(Rfast_rbing,n,lam)
+rbing <- function(n, lam) {
+	.Call(Rfast_rbing, n, lam)
 }
 
 
@@ -33,7 +41,7 @@ rbingham <- function(n, A) {
 
 
 #[export]
-rmvlaplace <- function(n, lam, mu, G) {
+rmvlaplace <- function(n, lam, mu, G, seed = NULL) {
   ## n is the sample size
   ## lam is the parameter of the exponential distribution
   ## m is the mean vector
@@ -43,6 +51,7 @@ rmvlaplace <- function(n, lam, mu, G) {
   } else {
   	d <- length(mu)  ## dimensionality of the data
   	z <- rexp(n, lam)
+    if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)  
   	x <- Rfast::matrnorm(n, d)
   	y <- sqrt(z) * x %*% chol(G) + rep(mu, rep(n, d) )## the simulated sample
   }
@@ -51,21 +60,23 @@ rmvlaplace <- function(n, lam, mu, G) {
 
 
 #[export]
-rmvnorm <- function(n, mu, sigma) {
+rmvnorm <- function(n, mu, sigma, seed = NULL) {
    p <- length(mu)
+   if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
    x <- Rfast::matrnorm(n, p)
    x %*% chol(sigma) + rep(mu, rep(n, p) )
 }
 
 
 #[export]
-rmvt <- function(n, mu, sigma, v) {
+rmvt <- function(n, mu, sigma, v, seed = NULL) {
   ## n is the sample size
   ## mu is the mean vector
   ## sigma is the covariance matrix
   ## sigma does not have to be of full rank
   ## v is the degrees of freedom
   p <- length(mu)
+  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
   x <- Rfast::matrnorm(n, p)
   w <- sqrt( v / rchisq(n, v) )
   w * x %*% chol(sigma) + rep(mu, rep(n, p) )
@@ -73,7 +84,8 @@ rmvt <- function(n, mu, sigma, v) {
 
 
 #[export]
-Rnorm <- function(n, m = 0, s = 1) {
+Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
+  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
   if (m == 0 & s == 1) {
     x <- RcppZiggurat::zrnorm(n)
   } else if (m == 0 & s != 1) {
