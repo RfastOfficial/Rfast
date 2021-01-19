@@ -1,12 +1,12 @@
-\name{Hypothesis testing betseen two skewness or kurtosis coefficients}
+\name{Hypothesis testing between two skewness or kurtosis coefficients}
 \alias{skew.test2}
 \alias{kurt.test2}
 \title{
-Skewness and kurtosis coefficients
+Hypothesis testing between two skewness or kurtosis coefficients
 }
 
 \description{
-Skewness and kurtosis coefficients.
+Hypothesis testing between two skewness or kurtosis coefficients.
 }
 
 \usage{
