@@ -1,12 +1,12 @@
-\name{Orthogonal matching pursuit regression}
+\name{Orthogonal matching pursuit variable selection}
 \alias{ompr}
 \alias{omp}
 \title{
-Orthogonal matching pursuit regression
+Orthogonal matching pursuit variable selection
 }
 
 \description{
-Orthogonal matching pursuit regression.
+Orthogonal matching pursuit variable selection.
 }
 
 \usage{
