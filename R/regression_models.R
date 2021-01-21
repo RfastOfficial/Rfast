@@ -97,6 +97,7 @@ gammareg <- function(y, x, tol = 1e-07, maxiters = 100) {
 glm_logistic <- function (x, y, full = FALSE, tol = 1e-09,maxiters = 100) {
     x <- model.matrix(y ~ ., data.frame(x))
     mod <- .Call(Rfast_glm_logistic, x, y,tol,maxiters)
+	names(mod$be) <- colnames(x)
     res <- list(be = mod$be, devi = mod$deviance)
     if (full) {
         be <- mod$be
@@ -119,6 +120,7 @@ glm_logistic <- function (x, y, full = FALSE, tol = 1e-09,maxiters = 100) {
 glm_poisson <- function (x, y, full = FALSE,tol = 1e-09) {
     x <- model.matrix(y ~ ., data.frame(x))
     mod <- .Call(Rfast_glm_poisson, x, y, sum(y * log(y), na.rm = TRUE),tol)
+	names(mod$be) <- colnames(x)
     res <- list(be = mod$be, devi = mod$deviance)
     if (full) {
         be <- mod$be
@@ -163,6 +165,7 @@ invgauss.reg <- function (y, x, tol = 1e-07, maxiters = 100) {
         sum( (-y/mi^2 + sy/n) )
     deviance <- n/lambda
     phi <- sum((y - mi)^2/(mi^3))/(n - 2)
+	names(be2) <- colnames(X)
     list(iters = i, loglik = loglik, deviance = deviance, phi = phi, 
         be = be2)
 }
@@ -174,6 +177,7 @@ lmfit <- function(x, y, w = NULL) {
     be <- solve( crossprod(x), crossprod(x, y) )
   } else  be <- solve( crossprod(x, w * x), crossprod(x, w * y) )
   e <- y - x %*% be 
+  names(be) <- colnames(x)
   list(be = be, residuals = e)
 }
 
@@ -267,6 +271,7 @@ multinom.reg <- function(y, x, tol = 1e-07, maxiters = 50) {
 normlog.reg <- function(y, x, tol = 1e-07, maxiters = 100) {
   x <- model.matrix(y ~ ., data.frame(x))
   mod <- .Call(Rfast_normlog_reg,y, x, tol, maxiters)
+  names(mod$be) <- colnames(x)
   mod
 }
 
@@ -308,7 +313,8 @@ prop.reg <- function (y, x, varb = "quasi", tol = 1e-09, maxiters = 100) {
     L <- .Call(Rfast_prop_reg, X, y, tol, maxiters)
     der2 <- L$der2
     u <- y - as.vector(L$p)
-    bnew <- as.vector(L$be)
+    be <- as.vector(L$be)
+	names(be) <- colnames(X)
     Ainv <- spdinv(der2)
     phi <- NULL
     if (varb == "quasi") {
@@ -321,7 +327,7 @@ prop.reg <- function (y, x, varb = "quasi", tol = 1e-09, maxiters = 100) {
         phi <- sum((y - L$p)^2/L$p/(1 - L$p))/dof
         vb <- phi * Ainv
     }
-    info <- cbind(bnew, sqrt(diag(vb)), bnew^2/diag(vb))
+    info <- cbind(be, sqrt(diag(vb)), be^2/diag(vb))
     info <- cbind(info, pchisq(info[, 3], 1, lower.tail = FALSE))
     rownames(info) <- colnames(X)
     colnames(info) <- c("Estimate", "Std. error", "Wald", "p-value")
@@ -376,14 +382,14 @@ spatmed.reg <- function(y, x, tol = 1e-07) {
 spml.reg <- function(y, x, tol = 1e-07, seb = FALSE, maxiters = 100) {
   x <- model.matrix(~., data.frame(x) )
   y <- as.matrix(y)
-  l <- .Call(Rfast_spml_reg, y, x, tol, seb, maxiters)
+  mod <- .Call(Rfast_spml_reg, y, x, tol, seb, maxiters)
  
   if ( seb ) {
     colnames(l$seb) <- c("Cosinus of y", "Sinus of y")
     rownames(l$seb) <- colnames(x)    
   } else   l$seb <- NULL
   
-  l
+  mod
 }
 
 
@@ -392,6 +398,6 @@ weib.reg <- function (y, x, tol = 1e-07, maxiters = 100) {
     X <- model.matrix(y ~ ., data.frame(x))
     mod <- .Call(Rfast_weib_reg, y, X, tol, 
         maxiters)
-    rownames(mod$be) <- colnames(X)
+    names(mod$be) <- colnames(X)
     list(iters = mod$iters, loglik = mod$loglik, shape = mod$shape, be = mod$be)
 }
