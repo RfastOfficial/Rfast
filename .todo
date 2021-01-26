@@ -1,0 +1,3 @@
+
+1) checkUSage problem when the signatire of function in Rd file contains space characters. Remove whitespace characters not just space.
+2) checkUsage when contains <-function in signature alerts that the function dont exists. Change to missmatch
