@@ -61,7 +61,7 @@ gammareg <- function(y, x, tol = 1e-07, maxiters = 100) {
   p <- dm[2]
   n <- dm[1]
   mod <- Rfast::gammacon(y, tol = tol) 
-  m <- exp(mod$be)
+  m <- mod$be
   be <- c( m, numeric(p - 1) )
   d1 <-  - 0.5 * mod$deviance - n
   con <- y * m
