@@ -1,5 +1,6 @@
 \name{Distance variance and covariance}
 \alias{dvar}
+\alias{vecdvar}
 \alias{dcov}
 \title{
 Distance variance and covariance
@@ -11,20 +12,22 @@ Distance variance and covariances.
 
 \usage{
 dvar(x)
+vecdvar(x)
 dcov(x, y)
 }
 
 \arguments{
 \item{x}{
-A numerical matrix.
+A numerical matrix or a vector. For the vecdvar function this must be strictly a vector. 
 }
 \item{y}{
-A numerical matrix.
+A numerical matrix or a vector.
 }
 }
 
 \details{
-The distance variance of a matrix or the distance covariance of two matrices is calculated.
+The distance variance of a matrix or the distance covariance of two matrices is calculated. 
+The vecdvar is a fast function for computing the distance variance of a vector. 
 }
 
 \value{
