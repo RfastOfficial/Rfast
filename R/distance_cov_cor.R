@@ -1,12 +1,12 @@
 #[export]
-dcor <- function(x,y) {
-  .Call(Rfast_dcor,t(x),t(y))
+dcor <- function(x, y) {
+  .Call( Rfast_dcor, t(x), t(y) )
 }
 
 
 #[export]
-dcov <- function(x,y) {
-  .Call(Rfast_dcov,t(x),t(y))
+dcov <- function(x, y) {
+  .Call( Rfast_dcov, t(x), t(y) )
 }
 
 
@@ -26,26 +26,24 @@ dcor.ttest <- function(x, y, logged = FALSE) {
 
 #[export]
 dvar <- function(x) {
-  .Call(Rfast_dvar,t(x))
-}
-
-
-#[export]
-vecdvar <- function(x) {
-
-  n <- length(x)
-  i <- 1:n
-  x <- sort(x)
-  sxi <- cumsum(x)
-  sxn <- sxi[n]
-  ai <- (2 * i - n) * x + sxn - 2 * sxi
-  D <- Rfast::total.dist(x, square = TRUE)
-  a <- 2 * D/n^2 - 2/n^3 * sum(ai^2) + sum(ai)^2/n^4 
-  sqrt(a)
+  if ( is.matrix(x) ) {
+    a <- .Call( Rfast_dvar, t(x) )
+  } else {
+    n <- length(x)
+    i <- 1:n
+    x <- sort(x)
+    sxi <- cumsum(x)
+    sxn <- sxi[n]
+    ai <- (2 * i - n) * x + sxn - 2 * sxi
+    D <- Rfast::total.dist(x, square = TRUE)
+    a <- 2 * D/n^2 - 2/n^3 * sum(ai^2) + sum(ai)^2/n^4 
+    a <- sqrt(a)
+  }
+  a  
 }
 
 
 #[export]
 bcdcor <- function(x,y) {
-  .Call(Rfast_bcdcor,t(x),t(y))
+  .Call( Rfast_bcdcor, t(x), t(y) )
 }
