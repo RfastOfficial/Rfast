@@ -840,7 +840,7 @@ Ret rank_mean(T x,const bool descend){
   const int n=x.size(),n_1=n+1;
   int i,j=0;
   x.resize(n_1);
-  x[n]=0;
+  x[n]=std::numeric_limits<typename T::value_type>::max();
   I ind=Order_rank<I,T>(x,descend,false,1,0);
   int k=0,m,times=0;
   Ret f(n);
@@ -863,7 +863,7 @@ Ret rank_max(T x,const bool descend){
   const int n=x.size(),n_1=n+1;
   int i,j=0;
   x.resize(n_1);
-  x[n]=0;
+  x[n]=std::numeric_limits<typename T::value_type>::max();
   I ind=Order_rank<I,T>(x,descend,false,1,0);
   int k=0,m,times=0;
   Ret f(n);
