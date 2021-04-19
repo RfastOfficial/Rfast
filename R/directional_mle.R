@@ -168,8 +168,10 @@ vmf.mle <- function (x, tol = 1e-07) {
         k <- k - (apk - R)/(1 - apk^2 - (p - 1)/k * apk)
         lik2 <- (p/2 - 1) * log(k) - log(besselI(k, p/2 - 1, expon.scaled = TRUE)) - k + k * R
       }
+    } else {
+	  k <- 1e+5
+      lik2 <- (p/2 - 1) * log(k) - log(besselI(k, p/2 - 1, expon.scaled = TRUE)) - k + k * R
     }
-    else k <- k
     loglik <- n* lik2 - 0.5 * n * p * log(2 * pi) 
     list(loglik = loglik, mu = m, kappa = k)
 }
