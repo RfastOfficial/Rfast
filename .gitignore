@@ -3,3 +3,4 @@
 *.o.tmp
 *\src-i386
 *\src-x64
+*.dll
