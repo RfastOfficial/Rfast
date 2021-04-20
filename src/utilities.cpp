@@ -24,17 +24,17 @@ int nth_int(vector<int> x,int elem){
     if(has_pos && has_neg){
         for(;a!=x.end();++a){
             aa=*a;
-            aa<0 ? neg[-aa]++ : pos[aa]++;
+            aa<0 ? ++neg[-aa] : ++pos[aa];
         }
     }else if(has_pos){
         for(;a!=x.end();++a){
             aa=*a;
-            pos[aa]++;
+            ++pos[aa];
         }
     }else{ 
         for(;a!=x.end();++a){
             aa=*a;
-            neg[-aa]++;
+            ++neg[-aa];
         }
     }
     
