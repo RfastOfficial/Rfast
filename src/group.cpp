@@ -196,15 +196,21 @@ END_RCPP
   return F;
 }*/
 
-NumericVector group_med(NumericVector x,IntegerVector group,const int length_unique){
+NumericVector group_med(NumericVector x,IntegerVector group,const int length_unique,SEXP group_maxSEXP){
+  const int group_max;
+  if(Rf_isNull(maxSEXP))
+    maximum<int>(group.begin(),group.end(),n);
+  else
+    group_max=Rf_asInteger(group_maxSEXP);
   const int n=x.size();
   NumericVector f(length_unique);
-  vector<vector<double>> groups(length_unique,std::vector<double>());
-  for(int i=0;i<n;++i)
+  int i=0;
+  vector<vector<double>> groups(max_group,vector<double>());
+  for(i=0;i<n;++i)
     groups[group[i]-1].push_back(x[i]);
-  for(int i=0;i<length_unique;++i){
-    auto& tmp = groups[i];
-    f[i]=med_helper<vector<double>>(tmp.begin(),tmp.end());
+  for(auto& gr :  groups){
+    if(gr.size()>0)
+      f[i++]=med_helper<vector<double>>(gr.begin(),gr.end());
   }
   return f;
 }
@@ -514,8 +520,8 @@ RcppExport SEXP Rfast_group(SEXP xSEXP,SEXP groupSEXP,SEXP methodSEXP,SEXP minSE
   	__result = group_min(x,group,maxSEXP);
   }else if(method=="med"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
-  	traits::input_parameter< const int >::type mmax(maxSEXP);
-  	__result = group_med(x,group,mmax);
+  	traits::input_parameter< const int >::type mmin(minSEXP);
+  	__result = group_med(x,group,mmin,mmax);
   }else if(method=="mean"){
   	traits::input_parameter< NumericVector >::type x(xSEXP);
   	__result = group_mean(x,group,maxSEXP);
