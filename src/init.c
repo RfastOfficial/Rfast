@@ -89,7 +89,7 @@ SEXP Rfast_group_any(SEXP xSEXP,SEXP groupSEXP,SEXP nSEXP);
 SEXP Rfast_group_mad(SEXP xSEXP,SEXP groupSEXP,SEXP methodSEXP);
 SEXP Rfast_group_max(SEXP xSEXP,SEXP groupSEXP,SEXP minn,SEXP maxx);
 SEXP Rfast_group_mean(SEXP xSEXP,SEXP groupSEXP,SEXP max_nSEXP);
-SEXP Rfast_group_med(SEXP xSEXP,SEXP groupSEXP,SEXP length_unique);
+SEXP Rfast_group_med(SEXP xSEXP,SEXP groupSEXP,SEXP length_unique,SEXP group_maxSEXP);
 SEXP Rfast_group_min(SEXP xSEXP,SEXP groupSEXP,SEXP max_nSEXP);
 SEXP Rfast_group_min_max(SEXP xSEXP,SEXP groupSEXP,SEXP max_nSEXP);
 SEXP Rfast_group_var(SEXP xSEXP,SEXP groupSEXP,SEXP nSEXP);
@@ -343,7 +343,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_group_mad", (DL_FUNC) &Rfast_group_mad, 3},
   {"Rfast_group_max", (DL_FUNC) &Rfast_group_max, 4},
   {"Rfast_group_mean", (DL_FUNC) &Rfast_group_mean, 3},
-  {"Rfast_group_med", (DL_FUNC) &Rfast_group_med, 3},
+  {"Rfast_group_med", (DL_FUNC) &Rfast_group_med, 4},
   {"Rfast_group_min", (DL_FUNC) &Rfast_group_min, 3},
   {"Rfast_group_min_max", (DL_FUNC) &Rfast_group_min_max, 3},
   {"Rfast_group_var", (DL_FUNC) &Rfast_group_var, 3},
