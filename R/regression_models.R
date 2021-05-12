@@ -385,9 +385,9 @@ spml.reg <- function(y, x, tol = 1e-07, seb = FALSE, maxiters = 100) {
   mod <- .Call(Rfast_spml_reg, y, x, tol, seb, maxiters)
  
   if ( seb ) {
-    colnames(l$seb) <- c("Cosinus of y", "Sinus of y")
-    rownames(l$seb) <- colnames(x)    
-  } else   l$seb <- NULL
+    colnames(mod$seb) <- c("Cosinus of y", "Sinus of y")
+    rownames(mod$seb) <- colnames(x)    
+  } else   mod$seb <- NULL
   
   mod
 }
