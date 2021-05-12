@@ -2,7 +2,7 @@ Package: Rfast
 Type: Package
 Title: A Collection of Efficient and Extremely Fast R Functions
 Version: 2.0.2
-Date: 2020-05-05
+Date: 2021-05-11
 Author: Manos Papadakis, Michail Tsagris, Marios Dimitriadis, Stefanos Fafalios, Ioannis Tsamardinos, Matteo Fasiolo, Giorgos Borboudakis, John Burkardt, Changliang Zou, Kleanthi Lakiotaki and Christina Chatzipantsiou.
 Maintainer: Manos Papadakis <rfastofficial@gmail.com>
 Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), RcppZiggurat
@@ -12,5 +12,4 @@ BugReports: https://github.com/RfastOfficial/Rfast/issues
 URL: https://github.com/RfastOfficial/Rfast
 Description: A collection of fast (utility) functions for data analysis. Column- and row- wise means, medians, variances, minimums, maximums, many t, F and G-square tests, many regressions (normal, logistic, Poisson), are some of the many fast functions. References: a) Tsagris M., Papadakis M. (2018). Taking R to its limits: 70+ tips. PeerJ Preprints 6:e26605v1 <doi:10.7287/peerj.preprints.26605v1>. b) Tsagris M. and Papadakis M. (2018). Forward regression in R: from the extreme slow to the extreme fast. Journal of Data Science, 16(4): 771--780. <doi:10.6339/JDS.201810_16(4).00006>. 
 License: GPL (>= 2.0)
-LazyData: TRUE
 NeedsCompilation: yes
