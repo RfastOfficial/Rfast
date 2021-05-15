@@ -45,7 +45,7 @@ Manos Papadakis <papadakm95@gmail.com>
 }
 
 \note{
-Acknowledgments: We would like to acknowledge
+Acknowledgments: We would like to acknowledge:
 
 \itemize{
 \item Professor Kurt Hornik, Doctor Uwe Ligges (and the rest of R core team) for 
@@ -53,10 +53,11 @@ their invaluable help with this R package.
 \item Erich Studerus for his invaluable comments.
 \item Neal Fultz for his suggestions. 
 \item Vassilis Vasdekis for his invaluable help with the random effects models. 
-\item Marios Dimitriadis work was funded by the Special Account for Research Funds of the University of Crete, Department of Computer Science. 
+\item Marios Dimitriadis' work was funded by the Special Account for Research Funds of the University of Crete, Department of Computer Science. 
 \item Phillip Si is greatly acknowledged for his help with the Floyd-Warshal algorithm. 
 \item Keefe Murphy for his invaluable help with NEWS file and for his suggestions. 
-\item Zacharias Papadovassilakis gave us the inspiration for the memory efficient version of the k-NN algorithm. Yannis Pantazis explained us how the orhtogonal matching pursuit works. 
+\item Zacharias Papadovassilakis gave us the inspiration for the memory efficient version of the k-NN algorithm. 
+\item Yannis Pantazis explained us how the orhtogonal matching pursuit works. 
 \item Achim Zeileis for his help with the quasi Poisson regression models. 
 \item Pedro J. Aphalo for finding a bug.
 \item Dimitris Kyriakis for finding a bug. 
