@@ -177,7 +177,7 @@ lmfit <- function(x, y, w = NULL) {
     be <- solve( crossprod(x), crossprod(x, y) )
   } else  be <- solve( crossprod(x, w * x), crossprod(x, w * y) )
   e <- y - x %*% be 
-  names(be) <- colnames(x)
+  rownames(be) <- colnames(x)
   list(be = be, residuals = e)
 }
 
