@@ -14,7 +14,7 @@ static void Rank_mean(NumericVector& x,NumericVector& f,const bool descend){
   const int n=x.size(),n_1=n+1;
   int i,j=0;
   NumericVector xx=clone(x);
-  xx.push_back(0);
+  xx.push_back(std::numeric_limits<double>::max());
   vector<int> ind=Order_rank<vector<int>,NumericVector>(xx,descend,false,1,0);
   int k=0,m,times=0;
   double mn=0.0,v=xx[ind[j]];
@@ -35,7 +35,7 @@ NumericVector Rank_mean2(vector<double>& xx,vector<int>& ind){
     const int n=xx.size(),n_1=n+1;
     int i,j=0;
     NumericVector f(n);
-    xx.push_back(0);
+    xx.push_back(std::numeric_limits<double>::max());
     ind.push_back(n);
     int k=0,m,times=0;
     double mn=0.0,v=xx[ind[j]-1];
@@ -56,7 +56,7 @@ static void Rank_max(NumericVector& x,NumericVector& f,const bool descend){
   const int n=x.size(),n_1=n+1;
   int i,j=0;
   NumericVector xx=clone(x);
-  xx.push_back(0.0);
+  xx.push_back(std::numeric_limits<double>::max());
   vector<int> ind=Order_rank<vector<int>,NumericVector>(xx,descend,false,1,0);
   int k=0,m,times=0;
   double v=xx[ind[0]];
