@@ -1,56 +1,36 @@
 <h1 align="center"> _Rfast_ </h1>
 
-> <b>New version</b> </br>
-Date release: **13/09/2019** 
->
-
-***
-
+<h3><b>Version 2.0.0</b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	    Function	    |           What's new!             |
 >>  | --------------------- | --------------------------------- |
->>  | Var                   | Time improvement for removing NAs.|
-***
+>>  |         Var           | Time improvement for removing NAs.|
 >
->>2. <u> **New** </u>
->>
->>  | 	     Function	      |          What's new!            |
->>  | --------------------- | ------------------------------------------- |
->>  |                       |  											  |
->
-***
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
->>  | 	    Function	    |            What's new!                  |
+>>  | 	    Function	      |          What's new!                  |
 >>  | --------------------- | --------------------------------------- |
 >>  |  checkUsage           | From now on check for S3methods and fix bug.        |
 >>  |  Tcrossprod           | same as R's tcrossprod.        |
 >>  |  Crossprod            | same as R's crossprod.        |
 >
-***
 > <h3>**_LinkingTo functions_**</h3>  
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	    |            What's new!                  |
 >>  | --------------------- | --------------------------------------- |
 >>  |  matrix_multiplication | Add new arguments for perfoming cross or tcross product. |
-***
 >
 
-> <b>Version 1.9.9</b> </br>
-Date release: **11/12/2019** 
->
-
-***
-
+<h3><b> Version 1.9.9</b> </b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	    Function	    |           What's new!             |
 >>  | --------------------- | --------------------------------- |
@@ -65,18 +45,10 @@ Date release: **11/12/2019**
 >>  | colShuffle            | Fix a bug.|
 >>  | rowShuffle            | Fix a bug.|
 >>  | rmdp                  | Fix a bug.|
-***
 >
->>2. <u> **New** </u>
->>
->>  | 	     Function	      |          What's new!            |
->>  | --------------------- | ------------------------------------------- |
->>  |                       |  											  |
->
-***
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	    |            What's new!                  |
 >>  | --------------------- | --------------------------------------- |
@@ -84,7 +56,6 @@ Date release: **11/12/2019**
 >>  |  AddToNamespace       | From now on export S3methods.           |
 >>  |  checkAliases         | From now on check the S3methods.        |
 >>  |  checkNamespace       | Don't use it for now.             |
-***
 >
 > <h3><b>Comments</b></h3> 
 >> From now on the Rfast can be used in C++ via "LinkingTo" mechanism.
@@ -122,15 +93,10 @@ Date release: **11/12/2019**
 >> 2. Include in your cpp files the header "Rfast.h" and enjoy!
 >
 
-> <b>Version 1.9.8 </b> </br>
-Date release: **07/06/2019** 
->
-
-***
-
+<h3><b> Version 1.9.8 </b> </b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	    Function	    |           What's new!             |
 >>  | --------------------- | --------------------------------- |
@@ -140,33 +106,12 @@ Date release: **07/06/2019**
 >>  | vmf.mle               |  Made the code more robust.       |
 >>  | cor.fbed              |         Fix of a bug.             |
 >>  | Dist                  |         Fix of a bug.             |
-***
->
->>2. <u> **New** </u>
->>
->>  | 	     Function	      |          What's new!            |
->>  | --------------------- | ------------------------------------------- |
->>  |                       |  											  |
->
-***
-> <h3>**_Utility functions_**</h3>  
->
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
->>
->>  | 	    Function	    |            What's new!                  |
->>  | --------------------- | ------------------------------------------- |
->>  |         |        |
 >
 
-> <h4>version</h4> 1.9.4</br>
-Date release: **24/05/2019** 
->
-
-***
-
+<h3><b> Version 1.9.4</b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	    Function	    |           What's new!             |
 >>  | --------------------- | --------------------------------- |
@@ -193,42 +138,26 @@ Date release: **24/05/2019**
 >>  | group.sum         | Deprecated and replaced by group |
 >>  | groupcolVars      | Deprecated and replaced by "Rfast2::colGroup(...,method="var")" |
 >>  | sort_mat          | Deprecated and replaced by "colSort" and "rowSort" |
-***
 >
->>2. <u> **New** </u>
->>
->>  | 	     Function	      |          What's new!            |
->>  | --------------------- | ----------------------------------- |
->>  |                       |  											  |
->
-***
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	    |            What's new!                  |
 >>  | --------------------- | ------------------------------------------- |
 >>  | AddToNamespace        | remove unused option       |
->>  | check_usage           | improved version           |
 >>  | nth                   | fix bug				     |
 >
 
-> <h4>version</h4> 1.9.3</br>
-Date release: **04/03/2019** 
->
-
-***
-
+<h3><b> Version 1.9.3</b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	    Function	    |           What's new!             |
 >>  | --------------------- | ------------------------------------------- |
 >>  | omp                   | Time improvement.                 |
-***
->
->>2. <u> **New** </u>
+>>2.<u>**New**</u>
 >>
 >>  | 	     Function	      |          What's new!            |
 >>  | --------------------- | ------------------------------------------- |
@@ -238,10 +167,9 @@ Date release: **04/03/2019**
 >>  | cor.fsreg	              |  Option to standardise the predictor variables. |
 >>  | el.test2	              |  Empirical likelihood test for two sample means. |
 >
-***
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	    |            What's new!                  |
 >>  | --------------------- | ------------------------------------------- |
@@ -254,15 +182,10 @@ Date release: **04/03/2019**
 >>  | rownth                |  Fix of a bug. |
 >
 
-> <h4>version</h4> 1.9.2</br>
-Date release: **25/10/2018** 
->
-
-***
-
+<h3><b> Version 1.9.2</b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	    Function	    |           What's new!             |
 >>  | --------------------- | ------------------------------------------- |
@@ -281,72 +204,53 @@ Date release: **25/10/2018**
 >>  | gammaregs             | Time improvement.                 |
 >>  | el.test1              | Time improvement.                 |
 >>  | Norm                  | Fix a bug.                        |
-***
->
->>2. <u> **New** </u>
+>>2.<u>**New**</u>
 >>
 >>  | 	     Function	      |          What's new!            |
 >>  | --------------------- | ------------------------------------------- |
 >>  | omp	                  |  Multinomial regression now added. |
 >
-***
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	    |            What's new!                  |
 >>  | --------------------- | ------------------------------------------- |
 >>  | which_isFactor        |  Removed and replaced by "which.is". |
->>  | checkUsage            |  Bix a bug. |
+>>  | checkUsage            |  Fix a bug. |
 >>  | colsums               |  Time improvement for integer matrices. |
 >>  | rowsums               |  Time improvement for integer matrices. |
->>  | group.med             |  Faster version. |
->>  | sort_unique.length    |  slightly faster version. |
->>  | sort_unique           |  slightly faster version. |
+>>  | med                   |  Faster version.|
+>>  | sort.unique.length    |  slightly faster version.|
+>>  | sort.unique           |  slightly faster version.|
 >>  | Stack                 |  Fix a bug and add function clear for efficient reuse of the Stack. |
 >>  | read.example          |  Fix a bug. |
-***
 >
 > <h3><b>Comments</b></h3> 
->>1. From now on the Rfast needs R version > 3.5.x
+<h3><b>From now on the Rfast needs R version > 3.5</h3>
 >
 
 
-> <h4>version</h4> 1.9.1 </br>
-Date release: **10/07/2018**
-
-***
-
+<h3><b> Version 1.9.1 </b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	      Function	    |     What's new!     |
 >>  | --------------------- | ---------------------- |
 >>  |     ompr           	| Time improvement.    |
 >>  |     omp           	| Time improvement .   |
 >>  |   cholesky            | Time improvement. |
-***
 >
->>2. <u> **New** </u>
->>
->>  | 	   Function		      |                           What's new!                           |
->>  | ------------------	  | --------------------------------------------------------------- |
- 
-
-***
-
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	    |                What's new!                  |
 >>  | --------------------- | ------------------------------------------- |
 >>  |   colnth, rownth      | Add extra options, "na.rm" and "descending" order and "index.return". |
 >>  |   colrow.zero         | deprecate it and replaced by "colrow.value". |
-***
->
->>2. <u> **New** </u>
+>>2.<u>**New**</u>
 >>
 >>  | 	   Function		    |                What's new!                |
 >>  | ------------------	| ----------------------------------------- |
@@ -354,14 +258,10 @@ Date release: **10/07/2018**
 >>  |     colrow.value      | Search if a column and row is filled with a specific value. |
 
 
-> <h4>version</h4> 1.9.0 </br>
-Date release: **15/05/2018**
-
-***
-
+<h3><b> Version 1.9.0 </b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	      Function	    |     What's new!     |
 >>  | ------------------	| ------------------- |
@@ -371,9 +271,7 @@ Date release: **15/05/2018**
 >>  | normlog.regs          |  Fix a bug.                                    |
 >>  | cova                  |  Added an extra argument.                      |
 >>  | ompr                  |  Time improvement.                             |
-***
->
->>2. <u> **New** </u>
+>>2.<u>**New**</u>
 >>
 >>  | 	   Function		      |                           What's new!                           |
 >>  | ------------------	  | --------------------------------------------------------------- |
@@ -400,13 +298,10 @@ Date release: **15/05/2018**
 >>  | gammaregs               |  Many simple Gamma regressions with a log link.                 |
 >>  | gammareg                |  Gamma regression with a log link.                              |
 >>  | gammacon                |  Gamma regression with a constant term only.                    |
- 
-
-***
-
+>
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	    |                What's new!                  |
 >>  | --------------------- | ------------------------------------------- |
@@ -421,9 +316,7 @@ Date release: **15/05/2018**
 >>  |   colshuffle          | Fix a bug.                                  |
 >>  |   transpose           | Now can handle generic matrix using parallel|
 >>  |   colshuffle          | Fix a bug.                                  |
-***
->
->>2. <u> **New** </u>
+>>2.<u>**New**</u>
 >>
 >>  | 	   Function		    |                What's new!                |
 >>  | ------------------	| ----------------------------------------- |
@@ -452,14 +345,10 @@ Date release: **15/05/2018**
 
 
 
-> <h4>version</h4> 1.8.8 </br>
-Date release: **10/03/2018**
-
-***
-
+<h3><b> Version 1.8.8 </b></h3>
 > <h3>**_Statistical functions_**</h3>
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  |	      Function	    |     What's new!     |
 >>  | ------------------	| ------------------- |
@@ -479,9 +368,7 @@ Date release: **10/03/2018**
 >>  | pc.skel               | Made it faster and added more utilities.  |
 >>  | cor.fsreg             | Made it faster and fix a bug.  |
 >>  | allttests             | Made it faster and fix a bug.  |
-***
->
->>2. <u> **New** </u>
+>>2.<u>**New**</u>
 >>
 >>  | 	   Function		    |                           What's new!                           |
 >>  | ------------------	| --------------------------------------------------------------- |
@@ -501,14 +388,10 @@ Date release: **10/03/2018**
 >>  | col.yule            | Many column-wise Yule's coefficients of colligation.   |
 >>  | cox.poisrat         | Test for the ratio of two Poisson means.   |
 >>  | col.coxpoisrat      | Many column-wise tests for the ratio of two Poisson means.   |
-
-
-
-***
-
+>
 > <h3>**_Utility functions_**</h3>  
 >
->>1. <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>>1.<u>**Improved**</u> (_**by speed, correctness or options**_) 
 >>
 >>  | 	    Function	      |                What's new!                  |
 >>  | --------------------- | ------------------------------------------- |
@@ -517,7 +400,7 @@ Date release: **10/03/2018**
 >>  | Pmax                  | Add option for handling NAs.  |
 >>  | Pmin                  | Add option for handling NAs.  |
 >>  | Sort                  | Add option for handling NAs.  |
->>  | Table                 | Add option for handling NAs, add option for second argument, deprecate argument as.vector and replaced from "names". time improvement/quite efficient version.  |
+>>  | Table                 | Add option for handling NAs, add option for second argument, deprecate argument as.vector and replaced from "names". |
 >>  | Round                 | Fix a bug.  |
 >>  | Norm                  | Fix a bug.  |
 >>  | colsums               | Add option for sum using specific indices.  |
@@ -531,9 +414,7 @@ Date release: **10/03/2018**
 >>  | Rank                  | Fix a bug for method="first".    |
 >>  | Match                 | fix bug and time improvement.     |
 >>  | CheckExmaples         | change option "print.errors".     |
-***
->
->>2. <u> **New** </u>
+>>2.<u>**New**</u>
 >>
 >>  | 	   Function		    |                What's new!                |
 >>  | ------------------	| ----------------------------------------- |
