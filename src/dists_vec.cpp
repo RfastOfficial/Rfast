@@ -11,14 +11,14 @@ using namespace arma;
 
 using std::string;
 
-static int proper_size(int nrw,int ncl){
+static R_xlen_t proper_size(R_xlen_t nrw,R_xlen_t ncl){
   return ncl*(ncl-1)*0.5;
 }
 
 //[[Rcpp::export]]
-IntegerVector index_dist_vec(const int nrw,const int ncl){
+IntegerVector index_dist_vec(const R_xlen_t nrw,const R_xlen_t ncl){
   IntegerVector f(proper_size(nrw,ncl));
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     for(j=i+1;j<ncl;++j,++k){
       f[k]=j+1;
@@ -31,12 +31,13 @@ IntegerVector index_dist_vec(const int nrw,const int ncl){
 
 //[[Rcpp::export]]
 List euclidean_dist_vec_ina(NumericMatrix x,const bool sqr){
-  const int ncl=x.ncol(),nrw=x.nrow(),n=proper_size(nrw,ncl);
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t n=proper_size(nrw,ncl);
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(n);
   IntegerVector ind_i(n),ind_j(n);
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   if(sqr){
     for(i=0;i<ncl-1;++i){
       xv=xx.col(i);
@@ -63,11 +64,11 @@ List euclidean_dist_vec_ina(NumericMatrix x,const bool sqr){
 
 
 NumericVector euclidean_dist_vec(NumericMatrix x,const bool sqr){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   if(sqr)
     for(i=0;i<ncl-1;++i){
       xv=xx.col(i);
@@ -86,11 +87,11 @@ NumericVector euclidean_dist_vec(NumericMatrix x,const bool sqr){
 }
 
 NumericVector manhattan_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){
@@ -101,12 +102,12 @@ NumericVector manhattan_dist_vec(NumericMatrix x){
 }
 
 NumericVector hellinger_dist_vec(NumericMatrix x,const bool sqr){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   const double p=1.0/std::sqrt(2.0);
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   if(sqr)
     for(i=0;i<ncl-1;++i){
       xv=xx.col(i);
@@ -125,11 +126,11 @@ NumericVector hellinger_dist_vec(NumericMatrix x,const bool sqr){
 }
 
 NumericVector max_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw),tmp(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){
@@ -141,11 +142,11 @@ NumericVector max_dist_vec(NumericMatrix x){
 }
 
 NumericVector min_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){
@@ -157,12 +158,12 @@ NumericVector min_dist_vec(NumericMatrix x){
 }
 
 NumericVector minkowski_dist_vec(NumericMatrix x,const double p){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   const double p_1=1.0/p;
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){      
@@ -173,11 +174,11 @@ NumericVector minkowski_dist_vec(NumericMatrix x,const double p){
 }
 
 NumericVector canberra1_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw),yv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){
@@ -189,11 +190,11 @@ NumericVector canberra1_dist_vec(NumericMatrix x){
 }
 
 NumericVector canberra2_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw),yv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){
@@ -207,11 +208,11 @@ NumericVector canberra2_dist_vec(NumericMatrix x){
 
 
 NumericVector total_variation_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){
@@ -223,12 +224,12 @@ NumericVector total_variation_dist_vec(NumericMatrix x){
 
 //[[Rcpp::export]]
 NumericVector kullback_leibler_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   NumericMatrix log_x(nrw,ncl);
   NumericVector f(proper_size(nrw,ncl));
   mat xx(x.begin(),nrw,ncl,false),log_xx(log_x.begin(),nrw,ncl,false);
   colvec xv(nrw),log_xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   fill_with<std::log,double*,double*>(x.begin(),x.end(),log_xx.begin());
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
@@ -242,11 +243,11 @@ NumericVector kullback_leibler_dist_vec(NumericMatrix x){
 
 //[[Rcpp::export]]
 NumericVector bhattacharyya_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   mat xx(x.begin(),nrw,ncl,false);
   NumericVector f(proper_size(nrw,ncl));
   colvec xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
     for(j=i+1;j<ncl;++j,++k){
@@ -258,12 +259,12 @@ NumericVector bhattacharyya_dist_vec(NumericMatrix x){
 
 //[[Rcpp::export]]
 NumericVector itakura_saito_dist_vec(NumericMatrix x){
-  const int ncl=x.ncol(),nrw=x.nrow();
+  const R_xlen_t ncl=x.ncol(),nrw=x.nrow();
   NumericVector f(proper_size(nrw,ncl));
   NumericMatrix log_x(nrw,ncl);
   mat xx(x.begin(),nrw,ncl,false),log_xx(log_x.begin(),nrw,ncl,false);
   colvec xv(nrw),log_xv(nrw);
-  int i,j,k=0;
+  R_xlen_t i,j,k=0;
   fill_with<std::log,double*,double*>(x.begin(),x.end(),log_xx.begin());
   for(i=0;i<ncl-1;++i){
     xv=xx.col(i);
