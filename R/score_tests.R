@@ -61,7 +61,7 @@ score.glms <- function(y, x, oiko = NULL, logged = FALSE ) {
   r <- as.numeric( cor(y, x) )
   if ( oiko == "binomial" ) {
     stat <- r * sqrt(n)  
-  } else  stat <- ( Rfast::Var(y, std = T) / sqrt( sum(y) / n ) * sqrt(n - 1) ) * r 
+  } else  stat <- ( Rfast::Var(y, std = TRUE) / sqrt( sum(y) / n ) * sqrt(n - 1) ) * r 
 
   if ( logged ) {
     pvalue <- log(2) + pt( abs(stat), n - 2, lower.tail = FALSE, log.p = TRUE )
