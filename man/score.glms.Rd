@@ -32,11 +32,11 @@ score.geomregs(y, x, logged = FALSE)
 
 \arguments{
 \item{y}{
-A vector with either discrete or binary data for the Poisson or negative binomial and binary logistic regression respectively. 
-A vector with discrete values or factor values for the multinomial regression. If the vector 
+A vector with either discrete or binary data for the Poisson, geometric, or negative binomial and binary logistic 
+regressions, respectively. A vector with discrete values or factor values for the multinomial regression. If the vector 
 is binary and choose multinomial regression the function checks and transfers to the binary logistic regression. 
 
-For the Weibull, gamma and exponential regressions they must be strictly positive data, 
+For the Weibull, gamma, inverse Gaussian and exponential regressions they must be strictly positive data, 
 lifetimes or durations for example. For the beta regression they must be numbers between 0 and 1. For the 
 zero truncated Poisson regression (score.ztpregs) they must be integer valued data strictly greater than 0. 
 }
