@@ -72,7 +72,7 @@ via the \eqn{\chi^2} distribution.
 
 \references{
 Tsagris M., Alenazi A. and Fafalios S. (2020). Computationally efficient univariate filtering for massive data. 
-Electronic Journal of Applied Statistical Analysis (Accepted for publication).
+Electronic Journal of Applied Statistical Analysis, 13(2):390-412.
 
 Hosmer DW. JR, Lemeshow S. and Sturdivant R.X. (2013). Applied Logistic Regression. New Jersey ,Wiley, 3rd Edition.
 
