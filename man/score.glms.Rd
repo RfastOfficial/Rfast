@@ -20,7 +20,7 @@ Many score based GLM regressions.
 \usage{
 score.glms(y, x, oiko = NULL, logged = FALSE) 
 score.multinomregs(y, x, logged = FALSE) 
-score.negbinregs(y, x, logged = FALSE) 
+score.negbinregs(y, x, type = 1, logged = FALSE) 
 score.weibregs(y, x, logged = FALSE) 
 score.betaregs(y, x, logged = FALSE) 
 score.gammaregs(y, x, logged = FALSE) 
@@ -33,8 +33,8 @@ score.geomregs(y, x, logged = FALSE)
 \arguments{
 \item{y}{
 A vector with either discrete or binary data for the Poisson, geometric, or negative binomial and binary logistic 
-regressions, respectively. A vector with discrete values or factor values for the multinomial regression. If the vector 
-is binary and choose multinomial regression the function checks and transfers to the binary logistic regression. 
+regressions, respectively. A vector with discrete values or factor values for the multinomial regression. If the 
+vector is binary and choose multinomial regression the function checks and transfers to the binary logistic regression. 
 
 For the Weibull, gamma, inverse Gaussian and exponential regressions they must be strictly positive data, 
 lifetimes or durations for example. For the beta regression they must be numbers between 0 and 1. For the 
@@ -46,6 +46,10 @@ A matrix with data, the predictor variables.
 \item{oiko}{
 This can be either "poisson" or "binomial". If you are not sure leave it NULL and the function will check 
 internally. 
+}
+\item{type}{
+This argument is for the negative binomial distribution. In the negative binomial you can choose which way
+your prefer. Type 1 is for smal sample sizes, whereas type 2 is for larger ones as is faster. 
 }
 \item{logged}{
 A boolean variable; it will return the logarithm of the pvalue if set to TRUE.
@@ -60,8 +64,8 @@ the fitted values are all equal to the mean of the response variable y. The vari
 in closed form. The test is not the same as the likelihood ratio test. It is size correct nonetheless but it 
 is a bit less efficient and less powerful. For big sample sizes though (5000 or more) the results are the same. 
 We have seen via simulation studies is that it is size correct to large sample sizes, at elast a few thousands. 
-You can try for yourselves and see that even with 500 the results are pretty close. The score test is pretty faster 
-then the classical log-likelihood ratio test.  
+You can try for yourselves and see that even with 500 the results are pretty close. The score test is pretty 
+faster than the classical log-likelihood ratio test.  
 }
 
 \value{
@@ -89,7 +93,7 @@ Joseph M.H. (2011). Negative Binomial Regression. Cambridge University Press, 2n
 }
 
 \author{
-Michail Tsagris
+Michail Tsagris.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }

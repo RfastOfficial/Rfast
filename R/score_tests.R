@@ -110,8 +110,8 @@ score.multinomregs <- function(y, x, logged = FALSE) {
 
 
 #[export]
-score.negbinregs <- function (y, x, logged = FALSE) {
-    mod <- Rfast::negbin.mle(y)
+score.negbinregs <- function (y, x, type = 1, logged = FALSE) {
+    mod <- Rfast::negbin.mle(y, type = type)
     r <- mod$param[2]
     p <- mod$param[1]
     my <- mod$param[3]
