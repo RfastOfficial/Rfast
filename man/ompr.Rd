@@ -30,7 +30,7 @@ If this is TRUE the response variable is centered. The mean is subtracted from e
 If this is TRUE the independent variables are standardised. 
 }
 \item{method}{
-You can choose between the change in the BIC ("BIC"), the adjusted \eqn{R^2},  
+You can choose between the change in the BIC ("BIC"), the adjusted \eqn{R^2} ("ar2"),  
 the SSE ("SSE") or the classical p-value based ("pvalue"). 
 }
 \item{tol}{
