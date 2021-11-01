@@ -20,7 +20,7 @@ A numerical vector.
 A numerical vector.
 }
 \item{oper}{
-The available options are "*" (multiplication), "/" (division), "+" (sum), "-" (sbtraction), 
+The available options are "*" (multiplication), "/" (division), "+" (sum), "-" (substraction), 
 "^" (power raise), and "%%" (modulo operation). 
 }
 }
@@ -31,7 +31,7 @@ capabilities, but faster.
 }
 
 \value{
-A matrix with two rows. In each row the X2 or G2 test statistic, its p-value and the degrees of freedom are returned.
+A matrix with all the combinations.
 }
 
 %\references{
