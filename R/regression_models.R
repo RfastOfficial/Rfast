@@ -271,7 +271,7 @@ multinom.reg <- function(y, x, tol = 1e-07, maxiters = 50) {
 normlog.reg <- function(y, x, tol = 1e-07, maxiters = 100) {
   x <- model.matrix(y ~ ., data.frame(x))
   mod <- .Call(Rfast_normlog_reg,y, x, tol, maxiters)
-  names(mod$be) <- colnames(x)
+  rownames(mod$be) <- colnames(x)
   mod
 }
 
@@ -395,10 +395,10 @@ spml.reg <- function(y, x, tol = 1e-07, seb = FALSE, maxiters = 100) {
 
 #[export]
 weib.reg <- function (y, x, tol = 1e-07, maxiters = 100) {
-    X <- model.matrix(y ~ ., data.frame(x))
-    mod <- .Call(Rfast_weib_reg, y, X, tol, 
+    x <- model.matrix(y ~ ., data.frame(x))
+    mod <- .Call(Rfast_weib_reg, y, x, tol, 
         maxiters)
-    names(mod$be) <- colnames(X)
+    rownames(mod$be) <- colnames(X)
     list(iters = mod$iters, loglik = mod$loglik, shape = mod$shape, be = mod$be)
 }
 
@@ -408,6 +408,7 @@ qpois.reg <- function (x, y, full = FALSE, tol = 1e-09, maxiters = 100) {
     x <- model.matrix(y ~ ., data.frame(x))
     mod <- .Call(Rfast_qpois_reg, x, y, sum(y * log(y), na.rm = TRUE), 
         tol,maxiters)
+	rownames(mod$be) <- colnames(x)	
     res <- list(be = mod$be, devi = mod$deviance, varb = mod$phi * 
         spdinv(mod$L2), phi = mod$phi)
     if (full) {
