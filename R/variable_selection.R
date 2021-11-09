@@ -849,7 +849,7 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
                 res <- y1 - est
             }
         }
-    }
+    })
     runtime <- proc.time() - tic
     len <- length(sela)
     info <- cbind(c(0, sela[-len]), rho[1:len])
