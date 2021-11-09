@@ -1,5 +1,17 @@
 <h1 align="center"> _Rfast_ </h1>
 
+### **Version 2.0.4**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | :-------------------: | :-------------------------------: |
+>  |         nth           | fix bug using na_rm. In github is #52. |
+>  |              |          |
+
+</br>
+</br>
+
 ### **Version 2.0.0**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
