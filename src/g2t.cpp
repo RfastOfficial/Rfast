@@ -4,15 +4,10 @@
 #include <cmath>
 #include "g2t.h"
 
-TestResult::TestResult(double _pvalue, double _stat, double _logpvalue, int _df){
-	pvalue=_pvalue;
-	stat=_stat;
-	logpvalue=_logpvalue;
-	df=_df;
-}
+
 
 static double g2Statistic(int* counts, int xdim, int ydim) {
-  if (counts == NULL) {
+  if (counts == nullptr) {
     return 0;
   }
   double statistic = 0;
@@ -20,8 +15,6 @@ static double g2Statistic(int* counts, int xdim, int ydim) {
   int* countsX = new int[xdim];
   int* countsY = new int[ydim];
   
-  memset(countsX, 0, xdim * sizeof(int));
-  memset(countsY, 0, ydim * sizeof(int));
   
   for (int x = 0; x < xdim; ++x) {
     for (int y = 0; y < ydim; ++y) {
@@ -49,7 +42,7 @@ static double g2Statistic(int* counts, int xdim, int ydim) {
 }
 
 static double chi2Statistic(int* counts, int xdim, int ydim) {
-  if (counts == NULL) {
+  if (counts == nullptr) {
     return 0;
   }
   double statistic = 0;
@@ -57,8 +50,6 @@ static double chi2Statistic(int* counts, int xdim, int ydim) {
   int* countsX = new int[xdim];
   int* countsY = new int[ydim];
   
-  memset(countsX, 0, xdim * sizeof(int));
-  memset(countsY, 0, ydim * sizeof(int));
   
   for (int x = 0; x < xdim; ++x) {
     for (int y = 0; y < ydim; ++y) {
@@ -85,7 +76,7 @@ static double chi2Statistic(int* counts, int xdim, int ydim) {
 }
 
 static int totalCounts(int* counts, int xdim, int ydim) {
-  if (counts == NULL) {
+  if (counts == nullptr) {
     return 0;
   }
   int countsXY = 0;
@@ -100,10 +91,9 @@ static int totalCounts(int* counts, int xdim, int ydim) {
 }
 
 static void rowCounts(int* counts, int xdim, int ydim, int* countsX) {
-  if (counts == NULL) {
+  if (counts == nullptr) {
     return;
   }
-  memset(countsX, 0, xdim * sizeof(int));
   for (int x = 0; x < xdim; ++x) {
     for (int y = 0; y < ydim; ++y) {
       countsX[x] += counts[y * xdim + x];
@@ -112,10 +102,9 @@ static void rowCounts(int* counts, int xdim, int ydim, int* countsX) {
 }
 
 static void colCounts(int* counts, int xdim, int ydim, int* countsY) {
-  if (counts == NULL) {
+  if (counts == nullptr) {
     return;
   }
-  memset(countsY, 0, ydim * sizeof(int));
   for (int x = 0; x < xdim; ++x) {
     for (int y = 0; y < ydim; ++y) {
       countsY[y] += counts[y * xdim + x];
@@ -123,16 +112,16 @@ static void colCounts(int* counts, int xdim, int ydim, int* countsY) {
   }
 }
 
-TestResult g2Test(NumericMatrix& data, int x, int y, int* dc) {
+  
+TestResult g2Test(IntegerMatrix& data, int x, int y, IntegerVector& dc) {
   int xdim = dc[x];
   int ydim = dc[y];
   int* counts = new int[xdim * ydim];
-  memset(counts, 0, sizeof(int) * xdim * ydim);
   
   for (int i = 0; i < data.nrow(); ++i) {
-    int curx = (int)data(i, x);
-    int cury = (int)data(i, y);
-    counts[cury * xdim + curx]++;
+    int curx = data(i, x);
+    int cury = data(i, y);
+    ++counts[cury * xdim + curx];
   }
   int df = (xdim - 1) * (ydim - 1);
   double statistic = g2Statistic(counts, xdim, ydim);
@@ -141,16 +130,15 @@ TestResult g2Test(NumericMatrix& data, int x, int y, int* dc) {
   return TestResult(0, statistic, 0, df);
 }
 
-TestResult chi2Test(NumericMatrix& data, int x, int y, int* dc) {
+TestResult chi2Test(NumericMatrix& data, int x, int y, IntegerVector& dc) {
   int xdim = dc[x];
   int ydim = dc[y];
   int* counts = new int[xdim * ydim];
-  memset(counts, 0, sizeof(int) * xdim * ydim);
   
   for (int i = 0; i < data.nrow(); ++i) {
-    int curx = (int)data(i, x);
-    int cury = (int)data(i, y);
-    counts[cury * xdim + curx]++;
+    int curx = data(i, x);
+    int cury = data(i, y);
+    ++counts[cury * xdim + curx];
   }
   int df = (xdim - 1) * (ydim - 1);
   double statistic = chi2Statistic(counts, xdim, ydim);
@@ -159,7 +147,8 @@ TestResult chi2Test(NumericMatrix& data, int x, int y, int* dc) {
   return TestResult(0, statistic, 0, df);
 }
 
-TestResult g2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc) {
+TestResult g2Test(NumericMatrix& data, int x, int y, IntegerVector& cs, IntegerVector& dc) {
+  const int ncs = cs.size();
   if (ncs == 0) {
     return g2Test(data, x, y, dc);
   }
@@ -176,21 +165,19 @@ TestResult g2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc) 
   int **counts = new int*[size];
   for (int i = 0; i < size; ++i) {
     counts[i] = new int[xdim * ydim];
-    memset(counts[i], 0, sizeof(int) * xdim * ydim);
   }
   
   for (int i = 0; i < nsamples; ++i) {
     int key = 0;
     for (int j = 0; j < ncs; ++j) {
-      key += (int)data(i, cs[j]) * prod[j];
+      key += data(i, cs[j]) * prod[j];
     }
-    int curx = (int)data(i, x);
-    int cury = (int)data(i, y);
-    if (counts[key] == NULL) {
+    int curx = data(i, x);
+    int cury = data(i, y);
+    if (counts[key] == nullptr) {
       counts[key] = new int[xdim * ydim];
-      memset(counts[key], 0, sizeof(int) * xdim * ydim);
     }
-    counts[key][cury * xdim + curx]++;
+    ++counts[key][cury * xdim + curx];
   }
   
   double statistic = 0;
@@ -201,7 +188,7 @@ TestResult g2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc) 
   
   delete[] prod;
   for (int i = 0; i < size; ++i) {
-    if (counts[i] != NULL)
+    if (counts[i] != nullptr)
       delete[] counts[i];
   }
   delete[] counts;
@@ -209,7 +196,8 @@ TestResult g2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc) 
   return TestResult(0, statistic, 0, df);
 }
 
-TestResult chi2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc) {
+TestResult chi2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, IntegerVector& dc) {
+  const int ncs = cs.size();
   if (ncs == 0) {
     return chi2Test(data, x, y, dc);
   }
@@ -226,21 +214,19 @@ TestResult chi2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc
   int **counts = new int*[size];
   for (int i = 0; i < size; ++i) {
     counts[i] = new int[xdim * ydim];
-    memset(counts[i], 0, sizeof(int) * xdim * ydim);
   }
   
   for (int i = 0; i < nsamples; ++i) {
     int key = 0;
     for (int j = 0; j < ncs; ++j) {
-      key += (int)data(i, cs[j]) * prod[j];
+      key += data(i, cs[j]) * prod[j];
     }
-    int curx = (int)data(i, x);
-    int cury = (int)data(i, y);
-    if (counts[key] == NULL) {
+    int curx = data(i, x);
+    int cury = data(i, y);
+    if (counts[key] == nullptr) {
       counts[key] = new int[xdim * ydim];
-      memset(counts[key], 0, sizeof(int) * xdim * ydim);
     }
-    counts[key][cury * xdim + curx]++;
+    ++counts[key][cury * xdim + curx];
   }
   
   double statistic = 0;
@@ -251,7 +237,7 @@ TestResult chi2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc
   
   delete[] prod;
   for (int i = 0; i < size; ++i) {
-    if (counts[i] != NULL)
+    if (counts[i] != nullptr)
       delete[] counts[i];
   }
   delete[] counts;
@@ -259,10 +245,10 @@ TestResult chi2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc
   return TestResult(0, statistic, 0, df);
 }
 
-TestResult permG2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* dc, int nperm) {
+TestResult permG2Test(NumericMatrix& data, int x, int y, IntegerVector& cs, IntegerVector& dc, int nperm) {
   int xdim = dc[x];
   int ydim = dc[y];
-  
+  const int ncs = cs.size();
   int nsamples = data.nrow();
   int* prod = new int[ncs + 1];
   prod[0] = 1;
@@ -272,20 +258,18 @@ TestResult permG2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* 
   
   int size = prod[ncs];
   int **counts = new int*[size];
-  memset(counts, 0, size * sizeof(int*));
   
   for (int i = 0; i < nsamples; ++i) {
     int key = 0;
     for (int j = 0; j < ncs; ++j) {
-      key += (int)data(i, cs[j]) * prod[j];
+      key += data(i, cs[j]) * prod[j];
     }
-    int curx = (int)data(i, x);
-    int cury = (int)data(i, y);
-    if (counts[key] == NULL) {
+    int curx = data(i, x);
+    int cury = data(i, y);
+    if (counts[key] == nullptr) {
       counts[key] = new int[xdim * ydim];
-      memset(counts[key], 0, sizeof(int) * xdim * ydim);
     }
-    counts[key][cury * xdim + curx]++;
+    ++counts[key][cury * xdim + curx];
   }
   
   double statistic = 0;
@@ -297,7 +281,7 @@ TestResult permG2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* 
   
   if (nperm == 0) {
     for (int i = 0; i < size; ++i) {
-      if (counts[i] != NULL)
+      if (counts[i] != nullptr)
         delete[] counts[i];
     }
     delete[] counts;
@@ -305,7 +289,6 @@ TestResult permG2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* 
   }
   
   double* permstats = new double[nperm];
-  memset(permstats, 0, nperm * sizeof(double));
   
   std::random_device rd;
   std::mt19937 rng(rd());
@@ -347,7 +330,7 @@ TestResult permG2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* 
       }
       
       for (int p = 0; p < nperm; ++p) {
-        memcpy(jwork, colcounts, (ydim - 1) * sizeof(int));
+        memcpy(jwork, colcounts, (ydim - 1) * sizeof);
         randomContigencyTable(ct, rowcounts, colcounts, xdim, ydim, logfact, jwork, ntotal, rng);
         
         double curstat = 0;
@@ -377,7 +360,7 @@ TestResult permG2Test(NumericMatrix& data, int x, int y, int* cs, int ncs, int* 
   delete[] logfact;
   delete[] plog;
   for (int i = 0; i < size; ++i) {
-    if (counts[i] != NULL)
+    if (counts[i] != nullptr)
       delete[] counts[i];
   }
   delete[] counts;
@@ -411,14 +394,13 @@ void randomContigencyTable(int* matrix, const int* nrowt, const int* ncolt, cons
       
       if (ie == 0) {
         ia = 0;
-        memset(&matrix[l * ncol + m], 0, (ncol - m) * sizeof(int));
         break;
       }
       
       //  Compute the conditional expected value of MATRIX(L,M).
       bool done = false;
       int curnlm, nlm;
-      curnlm = nlm = (int)(((double)ia * id) / ie + 0.5);
+      curnlm = nlm = (((double)ia * id) / ie + 0.5);
       double x = exp(logfact[ia] + logfact[ib] + logfact[ic] + logfact[id] - logfact[ie] - logfact[nlm] - logfact[id - nlm] - logfact[ia - nlm] - logfact[ii + nlm]);
       for (double r = dist(rng), sumprb = x; !done && r > x; r = sumprb * dist(rng)) {
         bool lsp = false;
@@ -476,6 +458,6 @@ void randomContigencyTable(int* matrix, const int* nrowt, const int* ncolt, cons
     }
     matrix[l * ncol + ncol - 1] = ia;
   }
-  memcpy(&matrix[(nrow - 1) * ncol], jwork, (ncol - 1) * sizeof(int));
+  memcpy(&matrix[(nrow - 1) * ncol], jwork, (ncol - 1) * sizeof);
   matrix[(nrow - 1) * ncol + ncol - 1] = ib - matrix[(nrow - 1) * ncol + ncol - 2];
 }
