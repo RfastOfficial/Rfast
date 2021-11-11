@@ -920,54 +920,94 @@ END_RCPP
 ////////////////////////////////////////////////////////////////
 
 
-template<class Ret,class T1,class F1,class F2>
-Ret col_sums(T1 x,SEXP indices){
-    const int n=Rf_isNull(indices) ? 0 : LENGTH(indices);
-    F1 X(x.begin(), x.nrow(), x.ncol(), false);
-    Ret f(n==0 ? X.n_cols : n);
-    if(n==0){
-        F2 ff(f.begin(),X.n_cols,false);
-        ff = sum(X,0);
+template<class T,class Ret,class T1,class F1,class F2>
+Ret col_sums(T1 x,SEXP indices,const bool na_rm=false){
+  const int n=Rf_isNull(indices) ? 0 : LENGTH(indices);
+  F1 X(x.begin(), x.nrow(), x.ncol(), false);
+  Ret f(n==0 ? X.n_cols : n);
+  if(n==0){
+    F2 ff(f.begin(),X.n_cols,false);
+    if(na_rm){
+      #ifdef _OPENMP
+      #pragma omp parallel for
+      #endif
+      for(unsigned int i=0;i<X.n_cols;++i){
+        ff[i] = sum_with_condition<T,notNA<T>,typename F1::col_iterator>(X.begin_col(i),X.end_col(i));
+      }
     }else{
-        IntegerVector ind(indices);
-        for(int i=0;i<n;++i)
-            f[i]=accu(X.col(ind[i]-1));
+      ff = sum(X,0);
     }
-    return f;
+  }else{
+    IntegerVector ind(indices);
+    if(na_rm){
+      #ifdef _OPENMP
+      #pragma omp parallel for
+      #endif
+      for(unsigned int i=0;i<X.n_cols;++i){
+        const int j = ind[i]-1;
+        f[i] = sum_with_condition<T,notNA<T>,typename F1::col_iterator>(X.begin_col(j),X.end_col(j));
+      }
+    }else{
+      for(int i=0;i<n;++i){
+        const int j = ind[i]-1;
+        f[i]=accumulate(X.begin_col(j),X.end_col(j),0);
+      }
+    }
+  }
+  return f;
 }
 
-template<class Ret,class T1,class F1,class F2>
-Ret row_sums(T1 x,SEXP indices){
+template<class T,class Ret,class T1,class F1,class F2>
+Ret row_sums(T1 x,SEXP indices,const bool na_rm=false){
   const int n=Rf_isNull(indices) ? 0 : LENGTH(indices);
   F1 X(x.begin(), x.nrow(), x.ncol(), false);
   Ret f(n==0 ? X.n_rows : n);
   if(n==0){
     F2 ff(f.begin(),X.n_rows,false);
-    ff = sum(X,1);
+    if(na_rm){
+#pragma omp parallel for
+      for(unsigned int i=0;i<X.n_rows;++i){
+        ff[i] = sum_with_condition<T,notNA<T>,typename F1::row_iterator>(X.begin_row(i),X.end_row(i));
+      }
+    }else{
+      ff = sum(X,1);
+    }
   }else{
     IntegerVector ind(indices);
-    for(int i=0;i<n;++i)
-      f[i]=accu(X.row(ind[i]-1));
+    if(na_rm){
+#pragma omp parallel for
+      for(unsigned int i=0;i<X.n_rows;++i){
+        const int j = ind[i]-1;
+        f[i] = sum_with_condition<T,notNA<T>,typename F1::row_iterator>(X.begin_row(j),X.end_row(j));
+      }
+    }else{
+      for(int i=0;i<n;++i){
+        const int j = ind[i]-1;
+        f[i]=accumulate(X.begin_col(j),X.end_col(j),0);
+      }
+    }
   }
   return f;
 }
 
-RcppExport SEXP Rfast_row_sums(SEXP x,SEXP indices) {
+RcppExport SEXP Rfast_row_sums(SEXP x,SEXP indices,SEXP na_rmSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = Rf_isInteger(x) ? row_sums<IntegerVector,IntegerMatrix,imat,icolvec>(x,indices)
-        : row_sums<NumericVector,NumericMatrix,mat,colvec>(x,indices);
+    traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
+    __result = Rf_isInteger(x) ? row_sums<int,IntegerVector,IntegerMatrix,imat,icolvec>(x,indices,na_rm)
+        : row_sums<double,NumericVector,NumericMatrix,mat,colvec>(x,indices,na_rm);
     return __result;
 END_RCPP
 }
 
-RcppExport SEXP Rfast_col_sums(SEXP x,SEXP indices) {
+RcppExport SEXP Rfast_col_sums(SEXP x,SEXP indices,SEXP na_rmSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    __result = Rf_isInteger(x) ? col_sums<IntegerVector,IntegerMatrix,imat,irowvec>(x,indices)
-    		   : col_sums<NumericVector,NumericMatrix,mat,rowvec>(x,indices);
+    traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
+    __result = Rf_isInteger(x) ? col_sums<int,IntegerVector,IntegerMatrix,imat,irowvec>(x,indices,na_rm)
+    		   : col_sums<double,NumericVector,NumericMatrix,mat,rowvec>(x,indices,na_rm);
     return __result;
 END_RCPP
 }
