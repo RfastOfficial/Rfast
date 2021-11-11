@@ -1,9 +1,9 @@
-
 #[export]
 colrint.regbx <- function(y, x, id) {
   mod <- Rfast::lmfit(cbind(1, x), y) 
-  be <- mod$be
-  e <- mod$residuals
+  x <- cbind(1, x)
+  be <- solve(crossprod(x), crossprod(x, y))
+  e <- y - x %*% be
   N <- dim(y)[1]
   n <- Rfast::sort_unique.length(id)
   d <- N / n
