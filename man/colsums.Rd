@@ -10,9 +10,9 @@ Column and row-wise sums of a matrix.
 }
 
 \usage{
-colsums(x,indices = NULL, parallel = FALSE)
+colsums(x,indices = NULL, parallel = FALSE, na.rm = FALSE)
 
-rowsums(x,indices = NULL, parallel = FALSE)
+rowsums(x,indices = NULL, parallel = FALSE, na.rm = FALSE)
 }
 
 \arguments{
@@ -24,6 +24,9 @@ An integer vector with the indices to sum the columns/rows.
 }
 \item{parallel}{
 Do you want to do it in parallel in C++? TRUE or FALSE. Doens't work with argument "indices".
+}
+\item{na.rm}{
+A logical value indicating to remove NAs. The algorithm run in parallel so do not use with option parallel.
 }
 }
 
