@@ -72,7 +72,6 @@ R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.co
 x <- matrix(rnorm(100 * 2), ncol = 2)
 y <- rexp(100, 1)
 res<-weib.reg(y, x)
-x <- NULL
 }
 }
 
