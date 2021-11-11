@@ -7,7 +7,7 @@
 >  |	    Function	    |           What's new!             |
 >  | :-------------------: | :-------------------------------: |
 >  |         nth           | fix bug using na_rm. In github is #52. |
->  |              |          |
+>  |  colsums,rowsums      | add new option for removing NAs and optimize option indices. |
 
 </br>
 </br>
