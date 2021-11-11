@@ -1,3 +1,7 @@
+
+#ifndef TEMPLATES_H
+#define TEMPLATES_H
+
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 #include <algorithm>
@@ -10,9 +14,6 @@
 using namespace std;
 using namespace arma;
 using namespace Rcpp;
-
-#ifndef TEMPLATES_H
-#define TEMPLATES_H
 
 //[[Rcpp::plugins(cpp11)]]
 
@@ -39,6 +40,12 @@ using Mfunction = RET(*)(Args...);
 
 template<class T>
 using ConditionFunction = bool(*)(T);
+
+// T: any simple data type.
+template<class T>
+inline bool notNA(T v){
+  return !R_IsNA(v);
+}
 
 /*
  * F: unary function
@@ -231,10 +238,25 @@ Ret Order_rank(T& x,const bool descend,const bool stable,const int n,const int k
  *
  * fill memory that starts from "startf" applying function F from "start" to "end"
 */
-template<ConditionFunction<double> COND,class T>
-double sum_with_condition(T x){
-   double a=0.0;
-  for(typename T::iterator start=x.begin();start!=x.end();++start)
+template<class T,ConditionFunction<T> COND,class F>
+T sum_with_condition(F x){
+  T a=0;
+  for(typename F::iterator start=x.begin();start!=x.end();++start)
+    if(COND(*start))
+      a+=*start;
+  return a;
+}
+
+/*
+ * F: unary function
+ * T1,T2: arguent class
+ *
+ * fill memory that starts from "startf" applying function F from "start" to "end"
+*/
+template<class T,ConditionFunction<T> COND,class F>
+T sum_with_condition(F start,F end){
+  T a=0;
+  for(;start!=end;++start)
     if(COND(*start))
       a+=*start;
   return a;
@@ -391,7 +413,7 @@ double Apply(T1 x,T2& y,Binary_Function F1,Unary_Function F2,Binary_Function F3)
  * T1: argument class
  * T2: argument class
  *
- * applying function F1 to "x","y" and applying F2 to the result
+ * applying function F1 to "x" and applying F2 to the result
 */
 template<class T,Unary_Function F1,Binary_Function F2>
 double Apply(T x){
@@ -618,6 +640,75 @@ inline T mand(T x,T y){
 
 template<typename T>
 inline T mor(T x,T y){
+  return x||y;
+}
+
+template<typename RET, typename T>
+inline RET madd(T x,T y){
+  return x+y;
+}
+
+
+template<typename RET, typename T>
+inline RET mless(T x,T y){
+  return x<y;
+}
+
+template<typename RET, typename T>
+inline RET mless_eq(T x,T y){
+  return x<=y;
+}
+
+template<typename RET, typename T>
+inline RET mgreater_eq(T x,T y){
+  return x>=y;
+}
+
+template<typename RET, typename T>
+inline RET mgreater(T x,T y){
+  return x>y;
+}
+
+
+template<typename RET, typename T>
+inline RET mdiv(T x,T y){
+  return x/y;
+}
+
+
+template<typename RET, typename T>
+inline RET mdiff(T x,T y){
+  return x-y;
+}
+
+
+template<typename RET, typename T>
+inline RET mmult(T x,T y){
+  return x*y;
+}
+
+template<typename RET, typename T>
+inline RET mequal(T x,T y){
+  return x==y;
+}
+
+template<typename RET, typename T>
+inline RET mmax(T x,T y){
+  return std::max(x,y);
+}
+
+template<typename RET, typename T>
+inline RET mmin(T x,T y){
+  return std::min(x,y);
+}
+
+template<typename RET, typename T>
+inline RET mand(T x,T y){
+  return x&&y;
+}
+
+template<typename RET, typename T>
+inline RET mor(T x,T y){
   return x||y;
 }
 
