@@ -224,7 +224,7 @@ NumericMatrix kullback_leibler_dist(NumericMatrix x){
       xv=xx.col(i);
       log_xv=log_xx.col(i);
       for(j=i+1;j<ncl;++j){
-        a=sum_with_condition<std::isfinite,colvec>((xv-xx.col(j))%(log_xv-log_xx.col(j)));
+        a=sum_with_condition<double,std::isfinite,colvec>((xv-xx.col(j))%(log_xv-log_xx.col(j)));
         f(i,j)=a;
         f(j,i)=a;
       }
@@ -247,7 +247,7 @@ NumericMatrix jensen_shannon_dist(NumericMatrix x){
         xv=xx.col(i);
         log_xv=log_xx.col(i);
         for(j=i+1;j<ncl;++j){
-            a=sum_with_condition<check_if_is_finite,colvec>((xv+xx.col(j))%(log2-arma::log(xv+xx.col(j)))+xv%log_xv+xx.col(j)%log_xx.col(j));
+            a=sum_with_condition<double,check_if_is_finite,colvec>((xv+xx.col(j))%(log2-arma::log(xv+xx.col(j)))+xv%log_xv+xx.col(j)%log_xx.col(j));
             f(i,j)=a;
             f(j,i)=a;
         }
