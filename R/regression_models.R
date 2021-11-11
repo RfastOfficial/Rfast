@@ -398,7 +398,7 @@ weib.reg <- function (y, x, tol = 1e-07, maxiters = 100) {
     x <- model.matrix(y ~ ., data.frame(x))
     mod <- .Call(Rfast_weib_reg, y, x, tol, 
         maxiters)
-    rownames(mod$be) <- colnames(X)
+    rownames(mod$be) <- colnames(x)
     list(iters = mod$iters, loglik = mod$loglik, shape = mod$shape, be = mod$be)
 }
 
