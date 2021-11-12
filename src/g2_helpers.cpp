@@ -9,14 +9,64 @@ using namespace Rcpp;
 
 /////////////// GEORGE ///////////////////////////
 
-List g2Test(NumericMatrix data, int x, int y, IntegerVector cs, IntegerVector dc){
-  IntegerVector ics = cs -1;
-  TestResult result = g2Test(data, x-1, y-1, ics, dc);
-  return List::create(_["statistic"]=result.stat,_["df"]=result.df);
+List g2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc){
+    IntegerVector ics = cs -1;
+    --x;
+    --y;
+    const int ncs = cs.size();
+    double statistic = 0;
+    int df = 0;
+    if (ncs == 0) {
+        auto result = g2Test(data, x, y, dc);
+        statistic = result.stat;
+        df = result.df;
+    }else{
+        int xdim = dc[x];
+        int ydim = dc[y];
+        int nsamples = data.nrow();
+        int* prod = new int[ncs + 1];
+        prod[0] = 1;
+        for (int i = 1; i <= ncs; ++i) {
+            prod[i] = prod[i - 1] * dc[cs[i - 1]];
+        }
+
+        int size = prod[ncs];
+        int **counts = new int*[size];
+        for (int i = 0; i < size; ++i) {
+            counts[i] = new int[xdim * ydim];
+        }
+
+        for (int i = 0; i < nsamples; ++i) {
+            int key = 0;
+            for (int j = 0; j < ncs; ++j) {
+                key += data(i, cs[j]) * prod[j];
+            }
+            int curx = data(i, x);
+            int cury = data(i, y);
+            if (counts[key] == nullptr) {
+                counts[key] = new int[xdim * ydim];
+            }
+            ++counts[key][cury * xdim + curx];
+        }
+
+        for (int i = 0; i < size; ++i) {
+            statistic += g2Statistic(counts[i], xdim, ydim);
+        }
+        df = (xdim - 1) * (ydim - 1) * prod[ncs];
+
+        delete[] prod;
+        for (int i = 0; i < size; ++i) {
+            if (counts[i] != nullptr)
+              delete[] counts[i];
+        }
+        delete[] counts;
+    }
+
+    return List::create(_["statistic"]=statistic,_["df"]=df);
 }
 
 
-List g2Test_univariate_perm(NumericMatrix data, IntegerVector dc, int nperm) {
+List g2Test_univariate_perm(IntegerMatrix data, IntegerVector dc, int nperm) {
   int nvars = data.ncol();
   IntegerVector trash;
   
@@ -29,7 +79,7 @@ List g2Test_univariate_perm(NumericMatrix data, IntegerVector dc, int nperm) {
   int idx = 0;
   for(int i = 0; i < nvars; ++i) {
     for(int j = i+1; j < nvars; ++j) {
-      TestResult result = permG2Test(data, i, j, trash, 0, idc, nperm); // pass trash instead of null
+      TestResult result = permG2Test(data, i, j, trash, dc, nperm); // pass trash instead of null
       xout[idx] = i + 1;
       yout[idx] = j + 1;
       pvalues[idx] = result.pvalue;
@@ -47,7 +97,7 @@ List g2Test_univariate_perm(NumericMatrix data, IntegerVector dc, int nperm) {
 }
 
 
-List g2tests_perm(NumericMatrix data, IntegerVector x, int y, IntegerVector dc, int nperm) {
+List g2tests_perm(IntegerMatrix data, IntegerVector x, int y, IntegerVector dc, int nperm) {
   IntegerVector trash;
 	int nout = x.size();
 	IntegerVector xout(nout);
@@ -59,7 +109,7 @@ List g2tests_perm(NumericMatrix data, IntegerVector x, int y, IntegerVector dc, 
 	int xlen = x.size();
 	for(int i = 0; i < xlen; ++i) {
 		int curx = x[i] - 1;
-		TestResult result = permG2Test(data, curx, y, trash, 0, dc, nperm);// pass trash instead of null
+		TestResult result = permG2Test(data, curx, y, trash, dc, nperm);// pass trash instead of null
 		xout[i] = curx;
 		yout[i] = y;
 		pvalues[i] = result.pvalue;
@@ -75,7 +125,7 @@ List g2tests_perm(NumericMatrix data, IntegerVector x, int y, IntegerVector dc, 
 }
 
 
-List g2Test_univariate(NumericMatrix data, IntegerVector dc) {
+List g2Test_univariate(IntegerMatrix data, IntegerVector dc) {
     int nvars = data.ncol();
 
     int nout = nvars * (nvars - 1) / 2;
@@ -106,7 +156,7 @@ List g2Test_univariate(NumericMatrix data, IntegerVector dc) {
 
 
 
-List g2tests(NumericMatrix data, IntegerVector x, int y, IntegerVector dc) {
+List g2tests(IntegerMatrix data, IntegerVector x, int y, IntegerVector dc) {
 	int nout = x.size();
 	IntegerVector xout(nout);
 	IntegerVector yout(nout);
@@ -133,7 +183,7 @@ List g2tests(NumericMatrix data, IntegerVector x, int y, IntegerVector dc) {
 }
 
 
-List g2Test_perm(NumericMatrix data, int x, int y, IntegerVector cs, IntegerVector dc, int nperm) {
+List g2Test_perm(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc, int nperm) {
   IntegerVector ics = cs - 1;
   TestResult result = permG2Test(data, x-1, y-1, ics, dc, nperm);
   
@@ -148,14 +198,64 @@ List g2Test_perm(NumericMatrix data, int x, int y, IntegerVector cs, IntegerVect
 
 // CHI2 TESTS
 
-List chi2Test(NumericMatrix data, int x, int y, IntegerVector cs, IntegerVector dc){
-  IntegerVector ics = cs - 1;
-  TestResult result = chi2Test(data, x-1, y-1, ics, dc);
-  return List::create(_["statistic"]=result.stat,_["df"]=result.df);;
+List chi2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc){
+    IntegerVector ics = cs - 1;
+    --x;
+    --y;
+    double statistic = 0;
+    int df = 0;
+    const int ncs = cs.size();
+    if (ncs == 0) {
+        auto result = chi2Test(data, x, y, dc);
+        statistic = result.stat;
+        df = result.df;
+    }else{
+        int xdim = dc[x];
+        int ydim = dc[y];
+        int nsamples = data.nrow();
+        int* prod = new int[ncs + 1];
+        prod[0] = 1;
+        for (int i = 1; i <= ncs; ++i) {
+            prod[i] = prod[i - 1] * dc[cs[i - 1]];
+        }
+
+        int size = prod[ncs];
+        int **counts = new int*[size];
+        for (int i = 0; i < size; ++i) {
+            counts[i] = new int[xdim * ydim];
+        }
+
+        for (int i = 0; i < nsamples; ++i) {
+            int key = 0;
+            for (int j = 0; j < ncs; ++j) {
+                key += data(i, cs[j]) * prod[j];
+            }
+            int curx = data(i, x);
+            int cury = data(i, y);
+            if (counts[key] == nullptr) {
+                counts[key] = new int[xdim * ydim];
+            }
+            ++counts[key][cury * xdim + curx];
+        }
+
+        for (int i = 0; i < size; ++i) {
+            statistic += chi2Statistic(counts[i], xdim, ydim);
+        }
+        df = (xdim - 1) * (ydim - 1) * prod[ncs];
+
+        delete[] prod;
+        for (int i = 0; i < size; ++i) {
+            if (counts[i] != nullptr)
+              delete[] counts[i];
+        }
+        delete[] counts;
+    }
+
+    return List::create(_["statistic"]=statistic,_["df"]=df);
 }
 
 
-List chi2Test_univariate(NumericMatrix data, IntegerVector dc) {
+List chi2Test_univariate(IntegerMatrix data, IntegerVector dc) {
   int nvars = data.ncol();
   
   int nout = nvars * (nvars - 1) / 2;
@@ -185,7 +285,7 @@ List chi2Test_univariate(NumericMatrix data, IntegerVector dc) {
 }
 
 
-List chi2tests(NumericMatrix data, IntegerVector x, int y, IntegerVector dc) {
+List chi2tests(IntegerMatrix data, IntegerVector x, int y, IntegerVector dc) {
 
 	int nout = x.size();
 	IntegerVector xout(nout);

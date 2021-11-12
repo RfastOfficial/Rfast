@@ -11,12 +11,12 @@ using namespace std;
 using namespace arma;
 
 
-List g2Test(NumericMatrix data, int x, int y, IntegerVector cs, IntegerVector dc);
+List g2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc);
 RcppExport SEXP Rfast_g2Test(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP csSEXP,SEXP dcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type cs(csSEXP);
@@ -26,12 +26,12 @@ BEGIN_RCPP
 END_RCPP
 }
 
-List g2Test_univariate_perm(NumericMatrix data, IntegerVector dc, int nperm);
+List g2Test_univariate_perm(IntegerMatrix data, IntegerVector dc, int nperm);
 RcppExport SEXP Rfast_g2Test_univariate_perm(SEXP dataSEXP,SEXP dcSEXP,SEXP npermSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type dc(dcSEXP);
     Rcpp::traits::input_parameter< int >::type nperm(npermSEXP);
     __result = g2Test_univariate_perm(data,dc,nperm);
@@ -39,24 +39,24 @@ BEGIN_RCPP
 END_RCPP
 }
 
-List g2Test_univariate(NumericMatrix data, IntegerVector dc);
+List g2Test_univariate(IntegerMatrix data, IntegerVector dc);
 RcppExport SEXP Rfast_g2Test_univariate(SEXP dataSEXP,SEXP dcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type dc(dcSEXP);
     __result = g2Test_univariate(data,dc);
     return __result;
 END_RCPP
 }
 
-List g2Test_perm(NumericMatrix data, int x, int y, IntegerVector cs, IntegerVector dc, int nperm);
+List g2Test_perm(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc, int nperm);
 RcppExport SEXP Rfast_g2Test_perm(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP csSEXP,SEXP dcSEXP,SEXP npermSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type cs(csSEXP);
@@ -67,12 +67,12 @@ BEGIN_RCPP
 END_RCPP
 }
 
-List g2tests_perm(NumericMatrix data,IntegerVector x, int y, IntegerVector dc, int nperm);
+List g2tests_perm(IntegerMatrix data,IntegerVector x, int y, IntegerVector dc, int nperm);
 RcppExport SEXP Rfast_g2tests_perm(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP dcSEXP,SEXP npermSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type dc(dcSEXP);
@@ -82,12 +82,12 @@ BEGIN_RCPP
 END_RCPP
 }
 
-List g2tests(NumericMatrix data, IntegerVector x, int y, IntegerVector dc);
+List g2tests(IntegerMatrix data, IntegerVector x, int y, IntegerVector dc);
 RcppExport SEXP Rfast_g2tests(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP dcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type dc(dcSEXP);
@@ -96,12 +96,12 @@ BEGIN_RCPP
 END_RCPP
 }
 
-List chi2Test(NumericMatrix data, int x, int y, IntegerVector cs, IntegerVector dc);
+List chi2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc);
 RcppExport SEXP Rfast_chi2Test(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP csSEXP,SEXP dcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< int >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type cs(csSEXP);
@@ -111,24 +111,24 @@ BEGIN_RCPP
 END_RCPP
 }
 
-List chi2Test_univariate(NumericMatrix data, IntegerVector dc);
+List chi2Test_univariate(IntegerMatrix data, IntegerVector dc);
 RcppExport SEXP Rfast_chi2Test_univariate(SEXP dataSEXP,SEXP dcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type dc(dcSEXP);
     __result = chi2Test_univariate(data,dc);
     return __result;
 END_RCPP
 }
 
-List chi2tests(NumericMatrix data, IntegerVector x, int y, IntegerVector dc);
+List chi2tests(IntegerMatrix data, IntegerVector x, int y, IntegerVector dc);
 RcppExport SEXP Rfast_chi2tests(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP dcSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
-    Rcpp::traits::input_parameter< NumericMatrix >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< IntegerMatrix >::type data(dataSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type dc(dcSEXP);
