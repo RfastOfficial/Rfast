@@ -83,6 +83,7 @@ static int totalCounts(vector<int>& counts, int xdim, int ydim) {
 
 static void rowCounts(vector<int>& counts, int xdim, int ydim, int* countsX) {
     if (counts.size()) {
+        memset(countsX, 0, xdim * sizeof(int));
         for (int x = 0; x < xdim; ++x) {
             for (int y = 0; y < ydim; ++y) {
                 countsX[x] += counts[y * xdim + x];
@@ -93,6 +94,7 @@ static void rowCounts(vector<int>& counts, int xdim, int ydim, int* countsX) {
 
 static void colCounts(vector<int>& counts, int xdim, int ydim, int* countsY) {
     if (counts.size()) {
+        memset(countsY, 0, ydim * sizeof(int));
         for (int x = 0; x < xdim; ++x) {
             for (int y = 0; y < ydim; ++y) {
                 countsY[y] += counts[y * xdim + x];
