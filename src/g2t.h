@@ -17,7 +17,9 @@
 
 #include <Rcpp.h>
 #include <random>
+#include <vector>
 using namespace Rcpp;
+using std::vector;
 
 struct TestResult {
 	double pvalue;
@@ -30,8 +32,8 @@ struct TestResult {
 };
 
 void randomContigencyTable(int*, const int*, const int*, const int, const int, const double *, int *, const int , std::mt19937&);
-double g2Statistic(int*, int, int);
-double chi2Statistic(int*, int, int);
+double g2Statistic(vector<int>&, int, int);
+double chi2Statistic(vector<int>&, int, int);
 TestResult g2Test(IntegerMatrix&, int, int, IntegerVector& );
 TestResult chi2Test(IntegerMatrix&, int, int, IntegerVector& );
 TestResult chi2Test2(IntegerMatrix&, int, int, IntegerVector& , IntegerVector&);

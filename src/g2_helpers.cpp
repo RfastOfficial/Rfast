@@ -10,7 +10,7 @@ using namespace Rcpp;
 /////////////// GEORGE ///////////////////////////
 
 List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector dc){
-    IntegerVector cs = ics -1;
+    IntegerVector cs = ics - 1;
     --x;
     --y;
     const int ncs = cs.size();
@@ -24,17 +24,14 @@ List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector d
         int xdim = dc[x];
         int ydim = dc[y];
         int nsamples = data.nrow();
-        int* prod = new int[ncs + 1];
+        vector<int> prod(ncs+1);
         prod[0] = 1;
         for (int i = 1; i <= ncs; ++i) {
             prod[i] = prod[i - 1] * dc[cs[i - 1]];
         }
 
         int size = prod[ncs];
-        int **counts = new int*[size];
-        for (int i = 0; i < size; ++i) {
-            counts[i] = new int[xdim * ydim];
-        }
+        vector<vector<int>> counts(size,vector<int>(xdim * ydim));
 
         for (int i = 0; i < nsamples; ++i) {
             int key = 0;
@@ -43,23 +40,17 @@ List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector d
             }
             int curx = data(i, x);
             int cury = data(i, y);
-            if (counts[key] == nullptr) {
+            /*(if (counts[key] == NULL) {
                 counts[key] = new int[xdim * ydim];
-            }
-            ++counts[key][cury * xdim + curx];
+                memset(counts[key], 0, sizeof(int) * xdim * ydim);
+            }*/
+            counts[key][cury * xdim + curx]++;
         }
 
         for (int i = 0; i < size; ++i) {
             statistic += g2Statistic(counts[i], xdim, ydim);
         }
         df = (xdim - 1) * (ydim - 1) * prod[ncs];
-
-        delete[] prod;
-        for (int i = 0; i < size; ++i) {
-            if (counts[i] != nullptr)
-              delete[] counts[i];
-        }
-        delete[] counts;
     }
 
     return List::create(_["statistic"]=statistic,_["df"]=df);
@@ -132,7 +123,7 @@ List g2Test_univariate(IntegerMatrix data, IntegerVector dc) {
     IntegerVector xout(nout);
     IntegerVector yout(nout);
     NumericVector statistics(nout);
-    NumericVector df(nout);
+    IntegerVector df(nout);
   
     int idx = 0;
     for(int i = 0; i < nvars; ++i) {
@@ -161,7 +152,7 @@ List g2tests(IntegerMatrix data, IntegerVector x, int y, IntegerVector dc) {
 	IntegerVector xout(nout);
 	IntegerVector yout(nout);
 	NumericVector statistics(nout);
-	NumericVector df(nout);
+	IntegerVector df(nout);
 
 	y = y-1;
 	int xlen = x.size();
@@ -213,17 +204,14 @@ List chi2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector 
         int xdim = dc[x];
         int ydim = dc[y];
         int nsamples = data.nrow();
-        int* prod = new int[ncs + 1];
+        std::vector<int> prod(ncs + 1);
         prod[0] = 1;
         for (int i = 1; i <= ncs; ++i) {
             prod[i] = prod[i - 1] * dc[cs[i - 1]];
         }
 
         int size = prod[ncs];
-        int **counts = new int*[size];
-        for (int i = 0; i < size; ++i) {
-            counts[i] = new int[xdim * ydim];
-        }
+        std::vector<std::vector<int>> counts(size,std::vector<int>(xdim*ydim));
 
         for (int i = 0; i < nsamples; ++i) {
             int key = 0;
@@ -232,8 +220,8 @@ List chi2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector 
             }
             int curx = data(i, x);
             int cury = data(i, y);
-            if (counts[key] == nullptr) {
-                counts[key] = new int[xdim * ydim];
+            if (!counts[key].size()) {
+                counts[key].resize(xdim * ydim);
             }
             ++counts[key][cury * xdim + curx];
         }
@@ -242,13 +230,6 @@ List chi2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector 
             statistic += chi2Statistic(counts[i], xdim, ydim);
         }
         df = (xdim - 1) * (ydim - 1) * prod[ncs];
-
-        delete[] prod;
-        for (int i = 0; i < size; ++i) {
-            if (counts[i] != nullptr)
-              delete[] counts[i];
-        }
-        delete[] counts;
     }
 
     return List::create(_["statistic"]=statistic,_["df"]=df);
