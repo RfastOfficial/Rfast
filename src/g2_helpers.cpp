@@ -9,8 +9,8 @@ using namespace Rcpp;
 
 /////////////// GEORGE ///////////////////////////
 
-List g2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc){
-    IntegerVector ics = cs -1;
+List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector dc){
+    IntegerVector cs = ics -1;
     --x;
     --y;
     const int ncs = cs.size();
