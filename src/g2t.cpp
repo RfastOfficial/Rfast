@@ -158,7 +158,7 @@ TestResult permG2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, Inte
         if (!counts[key].size()) {
             counts[key].resize(xdim * ydim);
         }
-        ++counts[key][cury * xdim + curx];
+        counts[key][cury * xdim + curx]++;
     }
   
     double statistic = 0;
@@ -171,17 +171,17 @@ TestResult permG2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, Inte
         return TestResult(0, statistic, 0, df);
     }
   
-    double* permstats = new double[nperm];
+    double* permstats = new double[nperm]();
   
     std::random_device rd;
     std::mt19937 rng(rd());
 
-    int* jwork = new int[ydim - 1];
-    int* ct = new int[xdim * ydim];
-    int* rowcounts = new int[xdim];
-    int* colcounts = new int[ydim];
-    int* totals = new int[size];
-    double* nrc = new double[xdim * ydim];
+    int* jwork = new int[ydim - 1]();
+    int* ct = new int[xdim * ydim]();
+    int* rowcounts = new int[xdim]();
+    int* colcounts = new int[ydim]();
+    int* totals = new int[size]();
+    double* nrc = new double[xdim * ydim]();
   
     // Pre-computing total counts for each conditioning bin
     int maxtotal = 0;
@@ -191,8 +191,8 @@ TestResult permG2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, Inte
     }
   
     // Pre-computing logarithms and log factorials
-    double* plog = new double[1 + maxtotal];
-    double* logfact = new double[1 + maxtotal];
+    double* plog = new double[1 + maxtotal]();
+    double* logfact = new double[1 + maxtotal]();
     plog[0] = 0;
     logfact[0] = 0;
     for (int j = 1; j <= maxtotal; ++j) {
@@ -205,12 +205,14 @@ TestResult permG2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, Inte
         if (ntotal > 0) {
             rowCounts(counts[i], xdim, ydim, rowcounts);
             colCounts(counts[i], xdim, ydim, colcounts);
+            Rcout<<__LINE__<<std::endl;
             int ctr = 0;
             for (int x = 0; x < xdim; ++x) {
                 for (int y = 0; y < ydim; ++y) {
                   nrc[ctr++] = plog[ntotal] - plog[rowcounts[x]] - plog[colcounts[y]];
                 }
             }
+            Rcout<<__LINE__<<std::endl;
           
             for (int p = 0; p < nperm; ++p) {
                 memcpy(jwork, colcounts, (ydim - 1) * sizeof(int));
@@ -232,6 +234,7 @@ TestResult permG2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, Inte
                 }
                 permstats[p] += (2 * curstat);
             }
+            Rcout<<__LINE__<<std::endl;
         }
     }
     delete[] jwork;
