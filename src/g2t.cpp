@@ -207,14 +207,12 @@ TestResult permG2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, Inte
         if (ntotal > 0) {
             rowCounts(counts[i], xdim, ydim, rowcounts);
             colCounts(counts[i], xdim, ydim, colcounts);
-            Rcout<<__LINE__<<std::endl;
             int ctr = 0;
             for (int x = 0; x < xdim; ++x) {
                 for (int y = 0; y < ydim; ++y) {
                   nrc[ctr++] = plog[ntotal] - plog[rowcounts[x]] - plog[colcounts[y]];
                 }
             }
-            Rcout<<__LINE__<<std::endl;
           
             for (int p = 0; p < nperm; ++p) {
                 memcpy(jwork, colcounts, (ydim - 1) * sizeof(int));
@@ -236,7 +234,6 @@ TestResult permG2Test(IntegerMatrix& data, int x, int y, IntegerVector& cs, Inte
                 }
                 permstats[p] += (2 * curstat);
             }
-            Rcout<<__LINE__<<std::endl;
         }
     }
     delete[] jwork;
