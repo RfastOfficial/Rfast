@@ -9,7 +9,7 @@ using namespace Rcpp;
 
 /////////////// GEORGE ///////////////////////////
 
-List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector dc){
+List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector dc,const bool parallel){
     IntegerVector cs = ics - 1;
     --x;
     --y;
@@ -33,7 +33,29 @@ List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector d
         int size = prod[ncs];
         vector<vector<int>> counts(size,vector<int>(xdim * ydim));
 
-        for (int i = 0; i < nsamples; ++i) {
+        if(parallel){
+          #pragma omp parallel for
+          for (int i = 0; i < nsamples; ++i) {
+              int key = 0;
+              for (int j = 0; j < ncs; ++j) {
+                  key += data(i, cs[j]) * prod[j];
+              }
+              int curx = data(i, x);
+              int cury = data(i, y);
+              /*(if (counts[key] == NULL) {
+                  counts[key] = new int[xdim * ydim];
+                  memset(counts[key], 0, sizeof(int) * xdim * ydim);
+              }*/
+              #pragma omp critical
+              ++counts[key][cury * xdim + curx];
+          }
+
+          #pragma omp parallel for reduction(+: statistic)
+          for (int i = 0; i < size; ++i) {
+              statistic += g2Statistic(counts[i], xdim, ydim);
+          }
+        }else{
+          for (int i = 0; i < nsamples; ++i) {
             int key = 0;
             for (int j = 0; j < ncs; ++j) {
                 key += data(i, cs[j]) * prod[j];
@@ -44,11 +66,12 @@ List g2Test(IntegerMatrix data, int x, int y, IntegerVector ics, IntegerVector d
                 counts[key] = new int[xdim * ydim];
                 memset(counts[key], 0, sizeof(int) * xdim * ydim);
             }*/
-            counts[key][cury * xdim + curx]++;
-        }
+            ++counts[key][cury * xdim + curx];
+          }
 
-        for (int i = 0; i < size; ++i) {
-            statistic += g2Statistic(counts[i], xdim, ydim);
+          for (int i = 0; i < size; ++i) {
+              statistic += g2Statistic(counts[i], xdim, ydim);
+          }
         }
         df = (xdim - 1) * (ydim - 1) * prod[ncs];
     }
@@ -149,20 +172,21 @@ List g2Test_univariate(IntegerMatrix data, IntegerVector dc) {
 
 List g2tests(IntegerMatrix data, IntegerVector x, int y, IntegerVector dc) {
 	int nout = x.size();
+	int xlen = x.size();
 	IntegerVector xout(nout);
 	IntegerVector yout(nout);
 	NumericVector statistics(nout);
 	IntegerVector df(nout);
 
 	y = y-1;
-	int xlen = x.size();
+  const int dcy = dc[y];
 	for(int i = 0; i < xlen; ++i) {
 		int curx =  x[i] - 1;
 		TestResult result = g2Test(data, curx, y, dc);
 		xout[i] = curx;
 		yout[i] = y;
 		statistics[i] = result.stat;
-		df[i] = (dc[curx] - 1) * (dc[y] - 1);
+		df[i] = (dc[curx] - 1) * (dcy - 1);
 	}
 
 	List out;

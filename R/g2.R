@@ -21,6 +21,6 @@ g2Test_univariate_perm <- function(data,dc,nperm) {
     .Call(Rfast_g2Test_univariate_perm,data,dc,nperm)
 }
 #[export]
-g2Test <- function(data,x,y,cs,dc) {
-    .Call(Rfast_g2Test,data,x,y,cs,dc)
+g2Test <- function(data,x,y,cs,dc,parallel = FALSE) {
+    .Call(Rfast_g2Test,data,x,y,cs,dc,parallel)
 }

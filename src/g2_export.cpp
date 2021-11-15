@@ -11,8 +11,8 @@ using namespace std;
 using namespace arma;
 
 
-List g2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc);
-RcppExport SEXP Rfast_g2Test(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP csSEXP,SEXP dcSEXP) {
+List g2Test(IntegerMatrix data, int x, int y, IntegerVector cs, IntegerVector dc,const bool parallel);
+RcppExport SEXP Rfast_g2Test(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP csSEXP,SEXP dcSEXP,SEXP parallelSEXP) {
 BEGIN_RCPP
     Rcpp::RObject __result;
     Rcpp::RNGScope __rngScope;
@@ -21,7 +21,8 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type cs(csSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type dc(dcSEXP);
-    __result = g2Test(data,x,y,cs,dc);
+    Rcpp::traits::input_parameter< const bool >::type parallel(parallelSEXP);
+    __result = g2Test(data,x,y,cs,dc,parallel);
     return __result;
 END_RCPP
 }
