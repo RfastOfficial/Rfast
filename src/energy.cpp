@@ -111,6 +111,7 @@ double edist(NumericMatrix x,NumericMatrix y){
 	const int n1=x.ncol(),n2=y.ncol();
 	double mij=total_dista(x, y,false),mii=total_euclidean_dist(x,false),mjj=total_euclidean_dist(y,false);
 	return (2 * mij - n2 * mii / n1 - n1 * mjj/n2 ) / (n1 + n2);
+	// return (2 * mij/(n1 * n2) - 2 * mii/n1^2 - 2 * mjj/n2^2 ) * n1 * n2 / (n1 + n2);
 }
 
 RcppExport SEXP Rfast_edist(SEXP xSEXP,SEXP ySEXP) {
