@@ -1,3 +1,9 @@
+#[export]
+knn <- function(xnew, y, x, k, dist.type = "euclidean", type = "C", method = "average", freq.option = 0, mem.eff = FALSE) {
+  .Call(Rfast_k_nn,xnew, y, x, k, dist.type, type, method, freq.option, mem.eff)
+}
+
+
 
 #[export]
 knn.cv <- function(folds = NULL, nfolds = 10, stratified = FALSE, seed = FALSE, y, x, k, dist.type = "euclidean", type = "C", 

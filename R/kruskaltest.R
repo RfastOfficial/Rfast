@@ -13,3 +13,19 @@ kruskaltest <- function (x, ina, logged = FALSE) {
     names(res) <- c("stat", "p-value")
     res
 }
+
+
+
+#[export]
+kruskaltests <- function(x, ina, logged = FALSE) { 
+  n <- length(ina)
+  R <- Rfast::colRanks(x)
+  ni <- tabulate(ina)
+  ni <- ni[ni > 0]
+  up <- Rfast::colsums( rowsum(R, ina)^2 / ni ) - n * (n + 1)^2 / 4
+  down <- Rfast::colsums(R^2) - n * (n + 1)^2 / 4
+  stat <- (n - 1) * up / down
+  pvalue <- pchisq(stat, length(ni) - 1, lower.tail = FALSE, log.p = logged) 
+  cbind(stat, pvalue)
+}
+
