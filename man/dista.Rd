@@ -48,7 +48,7 @@ of columns of xnew are the dimensions of this matrix.
 
 %\references{
 %Tsagris M.T., Preston S. and Wood A.T.A. (2011). A data-based power transformation for compositional data. 
-In Proceedings of the 4th Compositional Data Analysis Workshop, Girona, Spain.
+%In Proceedings of the 4th Compositional Data Analysis Workshop, Girona, Spain.
 %}
 
 \author{
