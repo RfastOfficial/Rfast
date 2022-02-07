@@ -297,6 +297,28 @@ NumericMatrix itakura_saito_dist(NumericMatrix x){
   return f;
 }
 
+//[[Rcpp::export]]
+NumericMatrix harvesine_dist(NumericMatrix x){
+  const int nrw=x.nrow();
+  const int nrw_1=nrw-1;
+  colvec x0(x.begin(),nrw,false),x1(x.begin()+nrw,nrw,false);
+  NumericMatrix f(nrw,nrw);
+  mat ff(f.begin(),nrw,nrw,false);
+  colvec ind_col(nrw_1);
+  colvec a(nrw_1);
+  int i;
+  
+  for(i=0;i<nrw_1;++i){
+    span ind(i+1,nrw_1);
+    ind_col = x0(ind);
+    a = square(sin( 0.5 * (x0[i] -ind_col))) + cos(x0[i]) * (cos(ind_col) % square(sin( 0.5 * (x1[i] - x1(ind)))));
+    a = 2 * asin( sqrt(a) );
+    ff(i,ind)=a.t();
+    ff(ind,i)=a;
+  }
+  return f;
+}
+
 
 //[[Rcpp::export]]
 NumericMatrix dist(NumericMatrix x,const string method,const bool sqr,const int p){
@@ -326,6 +348,8 @@ NumericMatrix dist(NumericMatrix x,const string method,const bool sqr,const int 
     return jensen_shannon_dist(x);
   }else if(method == "itakura_saito"){
     return itakura_saito_dist(x);
+  }else if(method == "harvesine"){
+    return harvesine_dist(x);
   }
   stop("Unsupported Method: %s",method);
 }

@@ -76,6 +76,7 @@ SEXP Rfast_eachrow(SEXP x,SEXP y,SEXP operSEXP,SEXP method);
 SEXP Rfast_floyd_john(SEXP nSEXP,SEXP xSEXP);
 SEXP Rfast_frame_to_matrix(SEXP xSEXP);
 SEXP Rfast_fs_reg(SEXP ySEXP,SEXP dsSEXP,SEXP sigSEXP,SEXP tolSEXP,SEXP typeSEXP);
+SEXP Rfast_gaussian_nb(SEXP XSEXP,SEXP MSEXP,SEXP SSEXP,SEXP lDetsSEXP,SEXP ConSEXP,SEXP kSEXP,SEXP parallelSEXP);
 SEXP Rfast_g2Test(SEXP dataSEXP,SEXP xSEXP,SEXP ySEXP,SEXP csSEXP,SEXP dcSEXP);
 SEXP Rfast_g2Test_univariate_perm(SEXP dataSEXP,SEXP dcSEXP,SEXP npermSEXP);
 SEXP Rfast_g2Test_univariate(SEXP dataSEXP,SEXP dcSEXP);
@@ -330,6 +331,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_floyd_john", (DL_FUNC) &Rfast_floyd_john, 2},
   {"Rfast_frame_to_matrix", (DL_FUNC) &Rfast_frame_to_matrix, 1},
   {"Rfast_fs_reg", (DL_FUNC) &Rfast_fs_reg, 5},
+  {"Rfast_gaussian_nb", (DL_FUNC) &Rfast_gaussian_nb, 7},
   {"Rfast_g2Test_univariate_perm", (DL_FUNC) &Rfast_g2Test_univariate_perm, 3},
   {"Rfast_g2Test_univariate", (DL_FUNC) &Rfast_g2Test_univariate, 2},
   {"Rfast_g2Test_perm", (DL_FUNC) &Rfast_g2Test_perm, 6},
