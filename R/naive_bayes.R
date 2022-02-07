@@ -31,7 +31,7 @@ gammanb.pred <- function(xnew, a, b) {
 
 
 #[export]
-gaussian.nb <- function(xnew = NULL, x, ina) {
+gaussian.nb <- function(xnew = NULL, x, ina,parallel = FALSE) {
   est <- NULL
   ni <- tabulate(ina)
   ni <- ni[ni > 0] 
@@ -39,12 +39,10 @@ gaussian.nb <- function(xnew = NULL, x, ina) {
   con <- 2 * log( ni )
   m <- rowsum(x, ina) / ni 
   s <- ( rowsum(x^2, ina) - m^2 * ni ) / (ni - 1)
-  dets <- Rfast::rowsums( log(s) )
+  dets <- Rfast::rowsums( log(s), parallel = parallel )
   if ( !is.null(xnew) ) {
-    xnew <- t(xnew)
-    mat <- matrix(nrow = dim(xnew)[2], ncol = k)
-    for (j in 1:k)  mat[, j] <-  - Rfast::colsums( (xnew - m[j, ])^2 / s[j, ] ) - dets[j] + con[j]
-    est <- Rfast::rowMaxs(mat)
+    mat <- mat<-gaussian_nb(xnew,m,s,dets,con,k,parallel)
+    est <- Rfast::colMaxs(mat, parallel = parallel)
   }
   rownames(m) <- rownames(s) <- paste("Group", 1:k)
   list(mu = m, sigma = s, ni = ni, est = est )
