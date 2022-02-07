@@ -1,5 +1,17 @@
 <h1 align="center"> _Rfast_ </h1>
 
+### **Version 2.0.5**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | :-------------------: | :-------------------------------: |
+>  |        Quantile       | New algorithm. 2 times faster than the old version. |
+>  |  gaussian.nb          | Optimized algorithm. 3 times faster than the old version. Add new option for parallel. |
+
+</br>
+</br>
+
 ### **Version 2.0.4**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
