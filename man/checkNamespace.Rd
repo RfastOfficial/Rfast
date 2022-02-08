@@ -67,18 +67,18 @@ For function "checkNamespace": a vector with the names of missing R files. (Don'
 
 For function "checkAliases": a list with 4 fields.
 \item{Missing Man files}{
-A vector with the names of the missing Rd files.
+A vector with the names of the missing Rd files or nothing.
 }
 \item{Missing R files}{
-A vector with the names of the missing R files.
+A vector with the names of the missing R files or nothing.
 }
 \item{Duplicate alias}{
-A vector with the names of the dublicate aliases.
+A vector with the names of the dublicate aliases or nothing.
 }
 \item{dont read}{
 A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]"
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]"
+R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -92,38 +92,38 @@ A character vector with the names of the Rd files that has big examples per line
 }
 \item{dont read}{
 A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]"
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]"
+R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 For function "checkTF": a list with 3 fields 
 \item{TRUE}{
-A character vector with the names of the Rd files that has "T".
+A character vector with the names of the Rd files that has "T" or nothing.
 }
 \item{FALSE}{
-A character vector with the names of the Rd files that has "F".
+A character vector with the names of the Rd files that has "F" or nothing.
 }
 \item{dont read}{
 A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]"
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]"
+R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 For function "checkUsage": a list with 3 fields 
 \item{missing functions}{
-A character vector with the name of the file that is missing and the Rd file that is found.
+A character vector with the name of the file that is missing and the Rd file that is found or nothing.
 }
 \item{missmatch functions}{
-A character vector with the name of the file that has missmatch function and the Rd file that is found.
+A character vector with the name of the file that has missmatch function and the Rd file that is found or nothing.
 }
 \item{dont read}{
 A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]"
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]"
+R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
 }
 }
 
