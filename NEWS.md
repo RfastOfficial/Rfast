@@ -10,7 +10,7 @@
 >  |  gaussian.nb          | 3 times faster than the old version. Add new option for parallel which decreases execution 18 times. |
 >  |  checkUsage           | Fix bug about "=function". Optimized empty return values and error messages. |
 >  |  checkAliases, checkTF | Optimized empty return values. |
->  |  vale edo to onoma | ti diorthoses. |
+>  |  edist | fix bug. |
 
 </br>
 </br>
