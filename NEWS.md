@@ -6,8 +6,11 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | :-------------------: | :-------------------------------: |
->  |        Quantile       | New algorithm. 2 times faster than the old version. |
->  |  gaussian.nb          | Optimized algorithm. 3 times faster than the old version. Add new option for parallel. |
+>  |        Dist, total.dist, vecdist       | New distance algorithm named "harversine". |
+>  |  gaussian.nb          | 3 times faster than the old version. Add new option for parallel which decreases execution 18 times. |
+>  |  checkUsage           | Fix bug about "=function". Optimized empty return values and error messages. |
+>  |  checkAliases, checkTF | Optimized empty return values. |
+>  |  vale edo to onoma | ti diorthoses. |
 
 </br>
 </br>
