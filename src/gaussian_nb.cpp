@@ -20,8 +20,9 @@ NumericMatrix gaussian_nb(NumericMatrix X,NumericMatrix M,NumericMatrix S,Numeri
 	if(parallel){
 		#pragma omp parallel for
 		for (int i=0;i<k;++i){
-			mi = m.row(i);
-			si = s.row(i);
+			rowvec mi = m.row(i);
+			rowvec si = s.row(i);
+			rowvec y(x.n_rows);
 			auto detsi = dets[i];
 			auto coni = con[i];
 			for (unsigned int j=0;j<x.n_rows;++j)
@@ -45,7 +46,7 @@ NumericMatrix gaussian_nb(NumericMatrix X,NumericMatrix M,NumericMatrix S,Numeri
 	return Res;
 }
 
-RcppExport SEXP Rfast_gaussian_nb(SEXP XSEXP,SEXP MSEXP,SEXP SSEXP,SEXP lDetsSEXP,SEXP ConSEXP,SEXP kSEXP,SEXP parallelSEXP) {
+RcppExport SEXP Rfast_gaussian_nb(SEXP XSEXP,SEXP MSEXP,SEXP SSEXP,SEXP DetsSEXP,SEXP ConSEXP,SEXP kSEXP,SEXP parallelSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
