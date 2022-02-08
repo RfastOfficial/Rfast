@@ -8,6 +8,7 @@ using namespace std;
 using namespace Rcpp;
 using std::vector;
 using std::string;
+using std::find_if;
 using std::count;
 using std::ofstream;
 using std::remove;
@@ -166,7 +167,7 @@ void remove_alias_and_spaces(string &s){
   DEBUG("Start remove_alias_and_spaces");
   s.erase(s.end()-1);
   s.erase(s.begin(),s.begin()+7);
-  remove_spaces(s);
+  remove_spaces_from_begin_end(s);
   if(is_R_operator(s.substr(0,2)) or find_string(s,"<-")){
   	s="\""+s+"\"";
   }
@@ -358,6 +359,13 @@ void remove_spaces(string& s){
   s.erase(remove_if(s.begin(),s.end(),[&](char& x){return isspace(x);}),s.end());
 }
 
+void remove_spaces_from_begin_end(string& s){
+  auto it = find_if(s.begin(), s.end(),[&](char& c) {return !isspace(c);});
+  s.erase(s.begin(),it);
+  int it2 = find_if(s.rbegin(), s.rend(),[&](char& c) {return !isspace(c);}) - s.rbegin();
+  s.erase(s.end()-it2,s.end());
+}
+
 
 string read_function_from_r_file(ifstream &file){
   string func;
@@ -406,7 +414,7 @@ bool check_read_file(ifstream& file,char attr){
         if(is_dont_read(s,attr)){
             ret=false;
             break;
-        }else if(!std::isspace(s[0])){
+        }else if(!isspace(s[0])){
             break;
         }
     }
@@ -494,7 +502,7 @@ void read_functions_from_r_file(const string filename,vector<string> &exported_f
             for(unsigned int i=0;i<line.size();++i){
                 char ch=line[i];
                 
-                if(std::isspace(ch))
+                if(isspace(ch))
                     continue;
                 else if(ch=='\"'){ // kathe fora pou vrisko aytakia tote energopoio-apenergopoio ton mixanismo tou string
                     read_constant_string=!read_constant_string;
@@ -529,7 +537,7 @@ void read_functions_from_r_file(const string filename,vector<string> &exported_f
                 }else if(ch=='=' and i+8<line.size()){//an bro = kai exo akoma 8 theseis na psakso
                     position_of_function_key2=line.find("=function");
                     // an brika to function kai eimai sto global scope
-                    if(position_of_function_key1==i and depth_scope==0){
+                    if(position_of_function_key2==i and depth_scope==0){
                         DEBUG("=function: "+function_name);
                         if(found_export){
                             DEBUG("<-function export: "+function_name);
@@ -584,7 +592,7 @@ void read_functions_from_r_file(const string filename,vector<string> &exported_f
 }
 
 List read_functions_and_signatures(string path){
-    std::vector<string> exported_functions_names,exported_functions_s3,
+    vector<string> exported_functions_names,exported_functions_s3,
     not_exported_functions_names,files=read_directory(path),dont_read;
 
     exported_functions_names.reserve(500);
@@ -599,5 +607,18 @@ List read_functions_and_signatures(string path){
             dont_read.push_back(file);
         }
     }
-    return List::create(_["dont read"]=dont_read,_["export"]=List::create(_["functions"]=exported_functions_names,_["s3"]=exported_functions_s3),_["without export"]=not_exported_functions_names,_["signatures"]=signatures);
+    List l,exp;
+    if(!dont_read.empty())
+      l["dont read"]=dont_read;
+    if(!not_exported_functions_names.empty())
+      l["without export"]=not_exported_functions_names;
+    if(signatures.size()!=0)
+      l["signatures"]=signatures;
+    if(!exported_functions_names.empty())
+      exp["functions"]=exported_functions_names;
+    if(!exported_functions_s3.empty())
+      exp["s3"]=exported_functions_s3;
+    if(exp.size()!=0)
+      l["export"]=exp;
+    return l;
 }

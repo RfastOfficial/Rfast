@@ -8,6 +8,8 @@
 #include <fstream>
 #include <dirent.h>
 #include <chrono>
+#include <algorithm>
+#include <iterator>
 #include <Rcpp.h>
 
 using Rcpp::List;
@@ -95,6 +97,7 @@ bool binary_help(vector<string>::iterator,vector<string>::iterator,string&,vecto
 vector<string> read_usage(ifstream &);
 string read_function_from_r_file(ifstream &);
 void remove_spaces(string&);
+void remove_spaces_from_begin_end(string&);
 List read_examples(string);
 bool check_read_file(ifstream&,char);
 void dont_read_man(vector<string>&,vector<string>&);

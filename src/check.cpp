@@ -70,9 +70,14 @@ List check_true_false(string path_to_man){
       falses.push_back(names[i]);
     }
   } 
-  L["TRUE"] = sort_unique(trues);
-  L["FALSE"] = sort_unique(falses);
-  L["dont read"]=ex["dont read"];
+  trues = sort_unique(trues);
+  falses = sort_unique(falses);
+  if(!trues.size()==0)
+    L["TRUE"] = trues;
+  if(!falses.size()==0)
+    L["FALSE"] = falses;
+  if(ex.containsElementNamed("dont read"))
+    L["dont read"]=ex["dont read"];
   return L;
 }
 
@@ -121,10 +126,21 @@ List check_aliases(const string path_man,const string path_rf){
   sort(aliases.begin(),aliases.end());
   sort(all_r_functions.begin(),all_r_functions.end());
   List ls;
-  ls["Missing Man aliases"]=find_which(all_r_functions,aliases);
-  ls["Missing R functions"]=find_which(aliases,all_r_functions);
-  ls["Duplicate alias"]=find_duplis(aliases);
-  ls["dont read"]=List::create(_["Rd"]=dontread_rd);
+  auto r_to_al = find_which(all_r_functions,aliases);
+  auto al_to_r = find_which(aliases,all_r_functions);
+  auto dupAl = find_duplis(aliases);
+
+  
+  
+  if(!r_to_al.empty())
+    ls["Missing Man aliases"]=r_to_al;
+  if(!al_to_r.empty())
+    ls["Missing R functions"]=al_to_r;
+  if(!dupAl.empty())
+    ls["Duplicate alias"]= dupAl;
+  if(!dontread_rd.empty())
+    ls["dont read"]=List::create(_["Rd"]=dontread_rd);
+  
   return ls;
 }
 
@@ -188,7 +204,7 @@ List check_usage(string path_man,string path_rf){
                     }
                 }
                 if(curr_func.empty()){
-                    missing_functions.push_back(al+" not in "+file_rd.name); // aliase not in usage
+                    missing_functions.push_back("<"+al+"> not in <"+file_rd.name+">"); // aliase not in usage
                 }else{
                     if(functions_signatures.containsElementNamed(al.c_str())){ //  an iparxei to alias
                         List functions_details = functions_signatures[al];
@@ -201,7 +217,7 @@ List check_usage(string path_man,string path_rf){
                             missmatch_functions.push_back("signature of <"+al+"> missmatch with usage in <"+file_rd.name+">");
                         }
                     }else{
-                        missing_functions.push_back(al+" not in "+file_rd.name); // aliase not in usage
+                        missing_functions.push_back("<"+al+"> not in <"+file_rd.name+">"); // aliase not in usage
                     }
                     curr_func.clear();
                 }
@@ -209,10 +225,17 @@ List check_usage(string path_man,string path_rf){
         }
         file_rd.fclose();
     }
-    List L;
-    L["missing functions"]=missing_functions;
-    L["missmatch_functions"]=missmatch_functions;
-    L["dont read"]=List::create(_["R"]=functions["dont read"],_["Rd"]=dontread_rd);
+    List L,r_rd;
+    if(!missing_functions.empty())
+      L["missing functions"]=missing_functions;
+    if(!missmatch_functions.empty())
+      L["missmatch_functions"]=missmatch_functions;
+    if(functions.containsElementNamed("dont read"))
+      r_rd["R"]=functions["dont read"];
+    if(!dontread_rd.empty())
+      r_rd["Rd"]=dontread_rd;
+    if(r_rd.size()!=0)
+      L["dont read"]=r_rd;
     DEBUG("END");
     return L;
 }

@@ -87,10 +87,14 @@ List read_examples(string path_man){
 	}
   }
   List l;
-  l["examples"]=examples;
-  l["files"]=all_rd_files;
-  l["long_lines"]=files_long_lines;
-  l["dont read"]=List::create(_["Rd"]=dontread_rd);
+  if(!examples.empty())
+    l["examples"]=examples;
+  if(!all_rd_files.empty())
+    l["files"]=all_rd_files;
+  if(!files_long_lines.empty())
+    l["long_lines"]=files_long_lines;
+  if(!dontread_rd.empty())
+    l["dont read"]=List::create(_["Rd"]=dontread_rd);
   return l;
 }
 
