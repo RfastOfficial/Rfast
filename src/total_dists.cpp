@@ -240,10 +240,9 @@ double total_harvesine_dist(NumericMatrix x){
   for(i=0;i<nrw_1;++i){
     span ind(i+1,nrw_1);
     ind_col = x0(ind);
-    a = square(sin( 0.5 * (x0[i] -ind_col))) + cos(x0[i]) * (cos(ind_col) % square(sin( 0.5 * (x1[i] - x1(ind)))));
-    a = accu(2 * asin( sqrt(a) ));
+    a += accu(2*asin(sqrt(square(sin( 0.5 * (x0[i] -ind_col))) + cos(x0[i]) * (cos(ind_col) % square(sin( 0.5 * (x1[i] - x1(ind))))))));
   }
-  return f;
+  return a;
 }
 
 
