@@ -14,7 +14,7 @@ Gaussian, Poisson, geometric and multinomial naive Bayes classifiers.
 }
 
 \usage{
-gaussian.nb(xnew = NULL, x, ina)
+gaussian.nb(xnew = NULL, x, ina, parallel = FALSE)
 poisson.nb(xnew, x, ina)
 multinom.nb(xnew, x, ina) 
 geom.nb(xnew, x, ina, type = 1)
@@ -44,6 +44,9 @@ the case of the minimum being 1.
 }
 \item{tol}{
 The tolerance value to terminate the Newton-Raphson algorithm in the gamma distribution.
+}
+\item{parallel}{
+If you want parallel computations set this equal to TRUE.
 }
 }
 %\details{
