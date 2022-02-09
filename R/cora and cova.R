@@ -1,4 +1,12 @@
 #[export]
+cora <- function(x) {
+    mat <- t(x) - Rfast::colmeans(x)
+    mat <- mat / sqrt( Rfast::rowsums(mat^2) )
+    tcrossprod(mat)
+}
+
+
+#[export]
 cova <- function(x, center = FALSE) {
   n <- dim(x)[1]
   if ( !center ) {
@@ -11,5 +19,3 @@ cova <- function(x, center = FALSE) {
   }
   s
 }
-
-

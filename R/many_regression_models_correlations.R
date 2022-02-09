@@ -69,6 +69,46 @@ correls <- function(y, x, type = "pearson", a = 0.05, rho = 0) {
 
 
 #[export]
+groupcorrels <- function(y, x, type ="pearson", ina) {
+  p <- dim(x)[2]
+  a <- Rfast::sort_unique(ina)
+  d <- length(a) 
+  res <- matrix(nrow = d, ncol = p)
+  for (i in 1:d) res[i, ] <- cor(y[ina == i], x[ina == i, ], method = type)  
+  rownames(res) <- a
+  res
+}
+
+
+#[export]
+corpairs <- function(x, y, rho = NULL, logged = FALSE, parallel = FALSE) {
+
+  mx <- Rfast::colsums(x, parallel = parallel)
+  my <- Rfast::colsums(y, parallel = parallel)
+  mx2 <- Rfast::colsums(x^2, parallel = parallel)
+  my2 <- Rfast::colsums(y^2, parallel = parallel)
+  n <- dim(x)[1]
+  up <- n * Rfast::colsums(x * y, parallel = parallel) - mx * my
+  down <- (n * mx2 - mx^2) * (n * my2 - my^2)
+  r <- up / sqrt( down ) 
+  
+  if ( !is.null(rho) ) {
+    zh0 <- 0.5 * log( (1 + rho)/(1 - rho) )
+    zh1 <- 0.5 * log( (1 + r)/(1 - r) )
+    se <- 1 / sqrt(n - 3)
+    test <- as.vector( (zh1 - zh0) / se )
+    if ( logged ) { 
+       pvalue <- log(2) + pt( abs(test), n - 3, lower.tail = FALSE, log.p = TRUE)
+    } else  pvalue <- 2 * pt( abs(test), n - 3, lower.tail = FALSE )
+    r <- cbind(r, test, pvalue)
+    colnames(r) <- c("correlation", "z-stat", "p-value") 
+  }
+  
+  r  
+}
+
+
+#[export]
 expregs <- function(y, x, di, tol = 1e-09, logged = FALSE) {
     
   dm <- dim(x)
@@ -199,18 +239,6 @@ geom.regs <- function(y, x, tol = 1e-07, type = 1, logged = FALSE, parallel = FA
   mod <- .Call(Rfast_geom_regs,y, x, tol,logged, type,parallel,maxiters)
   colnames(mod) <- c("stat", "pval")
   mod
-}
-
-
-#[export]
-groupcorrels <- function(y, x, type ="pearson", ina) {
-  p <- dim(x)[2]
-  a <- Rfast::sort_unique(ina)
-  d <- length(a) 
-  res <- matrix(nrow = d, ncol = p)
-  for (i in 1:d) res[i, ] <- cor(y[ina == i], x[ina == i, ], method = type)  
-  rownames(res) <- a
-  res
 }
 
 
