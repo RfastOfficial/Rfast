@@ -39,7 +39,8 @@ Alternatively this can be a factor variable.
 }
 \item{type}{
 Type 1 refers to the case where the minimum is zero and type 2 for the case of the minimum being 1. This 
-is for the geometric distribution. This argument is for the geometric distribution. Type 1 refers to the case where the minimum is zero and type 2 for 
+is for the geometric distribution. This argument is for the geometric distribution. Type 1 refers to the case where 
+the minimum is zero and type 2 for 
 the case of the minimum being 1. 
 }
 \item{tol}{
