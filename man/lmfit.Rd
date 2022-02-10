@@ -64,7 +64,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 n <- 200  ;  p <- 5
 X <- matrnorm(n, p)
-y <- rnorm(200)
+y <- rnorm(n)
 a1 <- .lm.fit(X, y) 
 a2 <- lmfit(X, y) 
 x <- NULL

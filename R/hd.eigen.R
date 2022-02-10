@@ -1,21 +1,21 @@
 #[export]
-hd.eigen <- function(x, center = TRUE, scale = FALSE, k = NULL, vectors = FALSE) {
+hd.eigen <- function(x, center = TRUE, scale = FALSE, k = NULL, vectors = FALSE, large = TRUE) {
     n <- dim(x)[1]
     if (center & scale) {
         y <- t(x) - Rfast::colmeans(x)
         y <- y/sqrt(Rfast::rowsums(y^2)) * sqrt(n - 1)
-        xx <- crossprod(y)
+        xx <- Rfast::Crossprod(y, y)
     }   else if (center & !scale) {
         m <- Rfast::colmeans(x) 
         y <- t(x) - m
-        xx <- crossprod(y)
+        xx <- Rfast::Crossprod(y, y)
     }   else if (!center & scale) {
         s <- Rfast::colVars(x, std = TRUE)
         y <- t(x) / s 
-        xx <- crossprod(y)
+        xx <- Rfast::Crossprod(y, y)
     }   else {
         y <- t(x)
-        xx <- crossprod(y)
+        xx <- Rfast::Crossprod(y, y)
     }	
     a <- eigen(xx )
     if ( is.null(k) )   k <- n
