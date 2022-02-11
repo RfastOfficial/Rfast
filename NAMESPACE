@@ -16,7 +16,6 @@ S3method("[<-",Hash)
 S3method(Elem,iterator)
 S3method(length,Hash)
 S3method(print,Hash)
-S3method(print,environment)
 S3method(print,iterator)
 S3method(print,ufactor)
 
