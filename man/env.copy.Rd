@@ -1,17 +1,15 @@
-\name{ Deep copy and printing of an environment }
+\name{ Deep copy }
 \alias{ env.copy }
-\alias{ print.environment }
 \title{
-Deep copy and printing of an environment
+Deep copy
 }
 
 \description{
-Deep copy and printing of an environment.
+Deep copy.
 }
 
 \usage{
 env.copy(x,all.names=FALSE)
-\method{print}{environment}(x,all.names=FALSE,...)
 }
 
 \arguments{
@@ -19,23 +17,16 @@ env.copy(x,all.names=FALSE)
 An environment object.
 }
 \item{all.names}{
-An logical value (TRUE or FALSE):
-
-env.copy: copy all the hidden variables or not
-print.environment: print all the hidden variables or not
-}
-\item{...}{
-Anything the user want.
+An logical value (TRUE or FALSE). Copy all the hidden variables or not.
 }
 }
 
 \details{
-env.copy: deep copy of the environment object.
-print.environment: print the name, type and length or dimension of each variable inside environment. For printing the hidden objects set second argument to TRUE, by default it is FALSE.
+Deep copy of the environment object.
 }
 
 \value{
-env.copy: A copy of the first argument.
+A copy of the first argument.
 }
 
 \author{
@@ -67,4 +58,3 @@ x$real == y$real # FALSE
 
 \keyword{ Environment }
 \keyword{ Deep copy }
-\keyword{ Printing }
