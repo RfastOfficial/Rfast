@@ -229,7 +229,7 @@ double total_itakura_saito_dist(NumericMatrix x){
 }
 
 //[[Rcpp::export]]
-double total_harvesine_dist(NumericMatrix x){
+double total_haversine_dist(NumericMatrix x){
   const int nrw=x.nrow();
   const int nrw_1=nrw-1;
   colvec x0(x.begin(),nrw,false),x1(x.begin()+nrw,nrw,false);
@@ -271,8 +271,8 @@ double total_dists(NumericMatrix x,const string method,const bool sqr,const int 
     return total_kullback_leibler_dist(x);
   }else if(method == "itakura_saito"){
     return total_itakura_saito_dist(x);
-  }else if(method == "harvesine"){
-    return total_harvesine_dist(x);
+  }else if(method == "haversine"){
+    return total_haversine_dist(x);
   }
   stop("Unsupported Method: %s",method);
 }

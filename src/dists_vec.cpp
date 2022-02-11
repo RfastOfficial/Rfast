@@ -276,7 +276,7 @@ NumericVector itakura_saito_dist_vec(NumericMatrix x){
 }
 
 //[[Rcpp::export]]
-NumericVector harvesine_dist_vec(NumericMatrix x){
+NumericVector haversine_dist_vec(NumericMatrix x){
   const int nrw=x.nrow();
   const int nrw_1=nrw-1;
   colvec x0(x.begin(),nrw,false),x1(x.begin()+nrw,nrw,false);
@@ -325,8 +325,8 @@ NumericVector dist_vec(NumericMatrix x,const string method,const bool sqr,const 
     return kullback_leibler_dist_vec(x);
   }else if(method == "itakura_saito"){
     return itakura_saito_dist_vec(x);
-  }else if(method == "harvesine"){
-    return harvesine_dist_vec(x);
+  }else if(method == "haversine"){
+    return haversine_dist_vec(x);
   }
   stop("Unsupported Method: %s",method);
 }
