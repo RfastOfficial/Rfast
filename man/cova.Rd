@@ -10,9 +10,9 @@ Fast covariance and correlation matrix calculation.
 }
 
 \usage{
-cova(x, center = FALSE)
+cova(x, center = FALSE, large = FALSE)
 
-cora(x)
+cora(x, large = FALSE)
 }
 
 \arguments{
@@ -22,14 +22,19 @@ A matrix with data. It has to be matrix, if it is data.frame for example the fun
 \item{center}{
 If you want to center the data prior to applying the cross product of the mateix set this equal to TRUE, otherwise leave it NULL.
 }
+\item{large}{
+If you have large matrices, with thousands of rows and or many tens or hundreds of columns set this equal to TRUE in 
+order to use Rfast's \code{\link{Crossprod}} or \code{\link{\Tcrossprod}} functions. These functions are twice or up to
+3 times faster than the correpsonding built-in functions. 
+}
 }
 
 \details{
 The calculations take place faster than the built-in functions \code{\link{cor}} 
-as the number of variables increases. For a few tens of variables. This is true if the 
-number of variables is high, say from 500 and above. The "cova" on the other hand is always 
-faster. For the "cova" in specific, we have an option to center the data prior to the cross product. This can be more stable if you 
-have many tens of thousands of rows due to numerical issues that can arise. It is sligtly slower.
+as the number of variables increases. This is true if the number of variables is high, 
+say from 500 and above. The "cova" on the other hand is always faster. For the "cova" in specific, 
+we have an option to center the data prior to the cross product. This can be more stable if you 
+have many tens of thousands of rows due to numerical issues that can arise. 
 
 For the correlation matrix we took the code from here
 
@@ -41,7 +46,7 @@ The covariance or the correlation matrix.
 }
 
 \author{
-Michail Tsagris
+Michail Tsagris and Manos Papadakis <papadakm95@gmail.com>.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }

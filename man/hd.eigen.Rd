@@ -36,7 +36,8 @@ When n<<p, at most the first n eigenvalues are non zero. Hence, there is no need
 p-n zero eigenvalues. When center is TRUE, the eigenvalues of the covariance matrix are calculated. 
 When both the center and scale is TRUE the eigenvalues of the correlation matrix are calculated. One or more
 eigenvectors (towards the end) will be 0. In general the signs might be the opposite than R's, but this makes
-no difference. 
+no difference. We use the \code{\link{Crossprod}} instead of the relevant built-in function. The higher the 
+dimensions of the matrix are the faster this function becomes. 
 }
 
 \value{
