@@ -79,37 +79,37 @@ print.Hash<-function(x,...){
 
 
 ##########################################################################################################################
-#[export s3]
-print.environment<-function(x,all.names=FALSE,...){
-	.print_helper_for_environment<-function(x,all.names,count_depth){
-	    all.vars<-ls(x,all.names = all.names)
-	    for(var in all.vars){
-	    	spaces <- rep("  ",count_depth)
-	        cat(spaces)
-	        cat(var,"= ")
-	        val<-x[[var]]
-	        if(is.environment(val)){
-	            len<-length(val)
-	            cat(sprintf("environment(%s){",len))
-	            if(len>0){
-	                cat("\n")
-	                .print_helper_for_environment(val,all.names,count_depth+1)
-	            }
-	            if(count_depth > 0)
-	            	cat(rep(" ",count_depth),"}\n")
-	            else
-	            	cat("}\n")
-	        }else{
-	            cl<-class(val)
-	            cat(cl)
-	            len<-if(is.matrix(val) || is.data.frame(val)){ dm<-dim(val);sprintf("%s,%s",dm[1],dm[2]) }
-	            else if(is.function(val)) length(formals(val)) else length(val)
-	            cat(sprintf("(%s)\n",len))
-	        }
-	    }
-	}
-    .print_helper_for_environment(x,all.names,0)
-}
+##[export s3]
+#print.environment<-function(x,all.names=FALSE,...){
+#	.print_helper_for_environment<-function(x,all.names,count_depth){
+#	    all.vars<-ls(x,all.names = all.names)
+#	    for(var in all.vars){
+#	    	spaces <- rep("  ",count_depth)
+#	        cat(spaces)
+#	        cat(var,"= ")
+#	        val<-x[[var]]
+#	        if(is.environment(val)){
+#	            len<-length(val)
+#	            cat(sprintf("environment(%s){",len))
+#	            if(len>0){
+#	                cat("\n")
+#	                .print_helper_for_environment(val,all.names,count_depth+1)
+#	            }
+#	            if(count_depth > 0)
+#	            	cat(rep(" ",count_depth),"}\n")
+#	            else
+#	            	cat("}\n")
+#	        }else{
+#	            cl<-class(val)
+#	            cat(cl)
+#	            len<-if(is.matrix(val) || is.data.frame(val)){ dm<-dim(val);sprintf("%s,%s",dm[1],dm[2]) }
+#	            else if(is.function(val)) length(formals(val)) else length(val)
+#	            cat(sprintf("(%s)\n",len))
+#	        }
+#	    }
+#	}
+#    .print_helper_for_environment(x,all.names,0)
+#}
 
 ##########################################################################################################################
 
