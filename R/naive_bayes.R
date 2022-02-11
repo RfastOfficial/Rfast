@@ -41,7 +41,7 @@ gaussian.nb <- function(xnew = NULL, x, ina,parallel = FALSE) {
   s <- ( rowsum(x^2, ina) - m^2 * ni ) / (ni - 1)
   dets <- Rfast::rowsums( log(s), parallel = parallel )
   if ( !is.null(xnew) ) {
-    mat <- mat<-gaussian_nb(xnew,m,s,dets,con,k,parallel)
+    mat <- mat<-.Call(Rfast_gaussian_nb,xnew,m,s,dets,con,k,parallel)
     est <- Rfast::colMaxs(mat, parallel = parallel)
   }
   rownames(m) <- rownames(s) <- paste("Group", 1:k)
