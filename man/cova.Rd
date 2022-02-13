@@ -24,7 +24,7 @@ If you want to center the data prior to applying the cross product of the mateix
 }
 \item{large}{
 If you have large matrices, with thousands of rows and or many tens or hundreds of columns set this equal to TRUE in 
-order to use Rfast's \code{\link{Crossprod}} or \code{\link{\Tcrossprod}} functions. These functions are twice or up to
+order to use Rfast's \code{\link{Crossprod}} or \code{\link{Tcrossprod}} functions. These functions are twice or up to
 3 times faster than the correpsonding built-in functions. 
 }
 }
