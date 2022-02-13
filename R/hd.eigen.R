@@ -1,5 +1,5 @@
 #[export]
-hd.eigen <- function(x, center = TRUE, scale = FALSE, k = NULL, vectors = FALSE, large = TRUE) {
+hd.eigen <- function(x, center = TRUE, scale = FALSE, k = NULL, vectors = FALSE, large = FALSE) {
     n <- dim(x)[1]
     if (center & scale) {
         y <- t(x) - Rfast::colmeans(x)

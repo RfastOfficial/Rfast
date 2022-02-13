@@ -9,7 +9,7 @@ Eigenvalues in high dimensional (n<<p) principal component analysis.
 }
 
 \usage{
-hd.eigen(x, center = TRUE, scale = FALSE, k = NULL, vectors = FALSE)
+hd.eigen(x, center = TRUE, scale = FALSE, k = NULL, vectors = FALSE, large = FALSE)
 }
 
 \arguments{
@@ -29,10 +29,15 @@ eigenvalues (and eigenvectors if requested) will be returned.
 \item{vectors}{
 Do you want the eigenvectors be returned? By dafault this is FALSE.
 }
+\item{large}{
+If you have large matrices, with thousands of rows and or many tens or hundreds of columns set this equal to TRUE in 
+order to use Rfast's \code{\link{Crossprod}} or \code{\link{\Tcrossprod}} functions. These functions are twice or up to
+3 times faster than the correpsonding built-in functions. 
+}
 }
 
 \details{
-When n<<p, at most the first n eigenvalues are non zero. Hence, there is no need to calculate the other 
+When \eqn{n<<p}, at most the first n eigenvalues are non zero. Hence, there is no need to calculate the other 
 p-n zero eigenvalues. When center is TRUE, the eigenvalues of the covariance matrix are calculated. 
 When both the center and scale is TRUE the eigenvalues of the correlation matrix are calculated. One or more
 eigenvectors (towards the end) will be 0. In general the signs might be the opposite than R's, but this makes
@@ -51,7 +56,7 @@ A matrix of \eqn{p \times n} or \eqn{p \times k} eigenvectors.
 }
 
 \author{
-Michail Tsagris 
+Michail Tsagris.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
