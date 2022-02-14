@@ -148,9 +148,9 @@ dirimultinom.mle <- function(x, tol = 1e-07) {
   dm <- dim(x)
   p <- dm[2]  ## dimensionality
   n <- dm[1]  ## sample size
-  rs <- Rfast::rowsums(x)
-  a1 <- Rfast::colmeans(x) 
-  
+  rs <- sum(x[1, ])
+  a1 <- Rfast::colmeans(x) / rs
+
   x <- t(x)
   y <- x + a1
   sa <- sum(a1)
