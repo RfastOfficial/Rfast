@@ -5,12 +5,14 @@
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
 >
 >  |	    Function	    |           What's new!             |
->  | :-------------------: | :-------------------------------: |
->  |        Dist, total.dist, vecdist       | New distance algorithm named "haversine". |
->  |  gaussian.nb          | 3 times faster than the old version. Add new option for parallel which decreases execution 18 times. |
->  |  checkUsage           | Fix bug about "=function". Optimized empty return values and error messages. |
+>  | :-------------------:  | :-------------------------------: |
+>  |  Dist, total.dist, vecdist       | New distance algorithm named "haversine". |
+>  |  gaussian.nb           | 3 times faster than the old version. Add new option for parallel which decreases execution 18 times. |
+>  |  checkUsage            | Fix a bug about "=function". Optimized empty return values and error messages. |
 >  |  checkAliases, checkTF | Optimized empty return values. |
->  |  edist | fix bug. |
+>  |  edist                 | Fix a bug. |
+>  |  dirimultinm.mle       | fix a bug. |
+
 
 </br>
 </br>
@@ -21,8 +23,8 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | :-------------------: | :-------------------------------: |
->  |         nth           | fix bug using na_rm. In github is #52. |
->  |  colsums,rowsums      | add new option for removing NAs and optimize option indices. |
+>  |         nth           | Fix a bug using na_rm. In github is #52. |
+>  |  colsums,rowsums      | Add new option for removing NAs and optimize option indices. |
 
 </br>
 </br>
@@ -35,8 +37,8 @@
 >  | :-------------------: | :-------------------------------: |
 >  |         Var           | Time improvement for removing NAs.|
 >  |  checkUsage           | From now on check for S3methods and fix bug.        |
->  |  Tcrossprod           | same as R's tcrossprod.        |
->  |  Crossprod            | same as R's crossprod.        |
+>  |  Tcrossprod           | Same as R's tcrossprod.        |
+>  |  Crossprod            | Same as R's crossprod.        |
 >  |  matrix_multiplication | Add new arguments for perfoming cross or tcross product. |
 
 </br>

@@ -66,6 +66,7 @@ their invaluable help with this R package.
 \item Calvin Pan from the Department of Human Genetics at UCLA found a bug in the function glm_logistic and he is greatly acknowledged for that.
 \item Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is greatly acknowledged for that.
 \item Bret Presnell for detecting and correcting a bug in the function rvmf.
+\item Gabriel Hoffman for spotting a mistake in the fuction dirimultinom.mle.
 }
 From now on the Rfast can be used in C++ via LinkingTo mechanism.
 \itemize{
