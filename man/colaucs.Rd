@@ -1,12 +1,12 @@
-\name{Many (and one) area aunder the curve values}
+\name{Many (and one) area under the curve values}
 \alias{colaucs}
 \alias{auc}
 \title{
-Many are aunder the curve values
+Many area under the curve values
 }
 
 \description{
-Many are aunder the curve values.
+Many area under the curve values.
 }
 
 \usage{
