@@ -29,8 +29,8 @@ The AUCs are calculated column-wise or just an AUC if the vector function is use
 }
 
 \value{
-A vector with length equal to the number of columns of the "preds" argument. 
-The AUC vlaues for each column. If the "auc" function is used then a signle number is returned.
+A vector with length equal to the number of columns of the "preds" argument, with  
+the AUC values for each column. If the "auc" function is used then a signle number is returned.
 }
 
 %\references{
