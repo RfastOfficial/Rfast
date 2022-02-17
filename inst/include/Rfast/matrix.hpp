@@ -118,14 +118,14 @@ namespace Rfast {
 		}
 
 		inline mat matrix_multiplication(mat x,mat y,const bool tx=false,const bool ty=false){
-			int p,n;
+			int p=0,n=0;
 
-			if(!tx){
-				n=x.n_rows;
-				p= ty ? x.n_rows : x.n_cols;
-			}else if(tx){
+			if(tx){
 				n=x.n_cols;
 				p=x.n_cols;
+			}else{
+				n=x.n_rows;
+				p= ty ? x.n_rows : x.n_cols;
 			}
 			mat C(n,p);
 			colvec yi;

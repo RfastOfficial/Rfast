@@ -72,9 +72,9 @@ List check_true_false(string path_to_man){
   } 
   trues = sort_unique(trues);
   falses = sort_unique(falses);
-  if(!trues.size()==0)
+  if(trues.size())
     L["TRUE"] = trues;
-  if(!falses.size()==0)
+  if(falses.size())
     L["FALSE"] = falses;
   if(ex.containsElementNamed("dont read"))
     L["dont read"]=ex["dont read"];
