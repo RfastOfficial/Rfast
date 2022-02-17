@@ -11,7 +11,7 @@
 >  |  checkUsage            | Fix a bug about "=function". Optimized empty return values and error messages. |
 >  |  checkAliases, checkTF | Optimized empty return values. |
 >  |  edist                 | Fix a bug. |
->  |  dirimultinm.mle       | fix a bug. |
+>  |  dirimultinom.mle       | Fix a bug. |
 
 
 </br>
