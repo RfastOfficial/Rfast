@@ -39,7 +39,7 @@ betabinom.mle <- function(x, N, tol = 1e-07) {
           sum( Rfast::Lgamma(z1 + a) * n1 ) + sum( Rfast::Lgamma(z2 + b) * n2 ) - n * lgamma(N + a + b) - n * lbeta(a, b)
    pa <- c(a, b) 
    names(pa) <- c( "alpha", "beta" )
-   list(iters = i, param = c(a, b), loglik = loglik)
+   list(iters = i, param = pa, loglik = loglik)
 }
 
 
@@ -51,6 +51,7 @@ betageom.mle <- function(x, tol = 1e-07) {
   m2 <- sum(x^2) / n
   b <- abs( 2 * (m2 - m1^2) / (m2 - m1 - 2 * m1^2) )
   a <- abs( m1 * (b - 1) )
+  lik1 <- sum( lbeta(a + 1, b + x) ) - n * lbeta(a, b)
   ya <- a + x
   y <- ya + b + 1
 
@@ -63,10 +64,13 @@ betageom.mle <- function(x, tol = 1e-07) {
   
   aold <- c(a, b)
   anew <- aold - c( derb2 * dera - derab * derb, - derab * dera + dera2 * derb ) / ( dera2 * derb2 - derab^2 )
+  a <- anew[1]    ;    b <- anew[2]
+  lik2 <- sum( lbeta(a + 1, b + x) ) - n * lbeta(a, b)
   
   i <- 2
-  while ( sum( abs(anew - aold) ) > tol ) {
+  while ( abs(lik2 - lik1) > tol ) {
     i <- i + 1
+    lik1 <- lik2
     aold <- anew
     a <- aold[1]    ;    b <- aold[2]
     ya <- a + x
@@ -79,9 +83,12 @@ betageom.mle <- function(x, tol = 1e-07) {
     dera2 <- sum( .Call("Rfast_Trigamma", PACKAGE = "Rfast", ya) ) + derab - n * trigamma(a)
     derb2 <- n * trigamma(b + 1) + derab - n * trigamma(b)
     anew <- aold - c( derb2 * dera - derab * derb, - derab * dera + dera2 * derb ) / ( dera2 * derb2 - derab^2 )
+    a <- anew[1]    ;    b <- anew[2]
+    lik2 <- sum( lbeta(a + 1, b + x) ) - n * lbeta(a, b)
   }
   
-  list(iters = i, anew = anew)
+  names(anew) <- c("alpha", "beta")
+  list(iters = i, loglik = lik2, param = anew)
 
 }
   

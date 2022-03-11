@@ -10,19 +10,17 @@ Column and row-wise variances and standard deviations of a matrix
 }
 
 \usage{
-colVars(x, suma = NULL, std = FALSE, na.rm = FALSE, parallel = FALSE)
-rowVars(x, suma = NULL, std = FALSE, na.rm = FALSE, parallel = FALSE)
+colVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
+rowVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
 }
 
 \arguments{
 \item{x}{
 A matrix with the data.
 }
-\item{suma}{
-If you already have the column sums vector supply it, otherwise leave it NULL. Depricated.
-}
 \item{std}{
-A boolean variable specyfying whether you want the variances (FALSE) or the standard deviations (TRUE) of each column.
+A boolean variable specyfying whether you want the variances (FALSE) 
+or the standard deviations (TRUE) of each column.
 }
 \item{na.rm}{
 TRUE or FAlSE for remove NAs if exists.
@@ -41,7 +39,7 @@ A vector with the column variances or standard deviations.
 }
 
 \author{
-Michail Tsagris
+Michail Tsagris and Manos Papadakis.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }

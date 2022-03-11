@@ -1,10 +1,10 @@
 #[export]
-rowVars <- function(x, suma = NULL, std = FALSE, na.rm = FALSE,parallel = FALSE) {
+rowVars <- function(x, std = FALSE, na.rm = FALSE,parallel = FALSE) {
 	.Call(Rfast_row_vars,x,std,na.rm,parallel)
 }
 
 #[export]
-colVars <- function(x, suma = NULL, std = FALSE, na.rm = FALSE, parallel = FALSE) {
+colVars <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE) {
 	.Call(Rfast_col_vars,x,std,na.rm,parallel)
 }
 

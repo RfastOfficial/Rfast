@@ -22,8 +22,7 @@ a matrix with two columns, the first column is the latitude and the second the l
 }
 \item{method}{
 This is either "euclidean", "manhattan", "canberra1", "canberra2", "minimum", "maximum", 
-"minkowski", "bhattacharyya", "hellinger", "kullback_leibler", "jensen_shannon" or "haversine".
-The last two options are basically the same. 
+"minkowski", "bhattacharyya", "hellinger", "kullback_leibler", "jensen_shannon" or "haversine". 
 }
 \item{square}{
 If you choose "euclidean" or "hellinger" as the method, then you can have the option to return the 
