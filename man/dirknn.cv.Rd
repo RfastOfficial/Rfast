@@ -10,7 +10,7 @@ Cross-Validation for the k-NN algorithm using the arc cosinus distance.
 
 \usage{
 dirknn.cv(y, x, k = 5:10, type = "C", folds = NULL, nfolds = 10,
-stratified = TRUE, seed = FALSE, parallel = FALSE, pred.ret = FALSE)
+stratified = TRUE, seed = NULL, parallel = FALSE, pred.ret = FALSE)
 }
 
 \arguments{
@@ -41,7 +41,7 @@ Make this TRUE if you wish, but only for the classification. If you have regress
 it will cause problems or return wrong results.
 }
 \item{seed}{
-If you set this to TRUE, the same folds will be created every time. 
+If NULL different folds will be created every time. Otherwise set your own seed. 
 }
 \item{parallel}{
 Do you want th ecalculations to take place in parallel? The default value is FALSE. 

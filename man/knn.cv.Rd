@@ -9,7 +9,7 @@ Cross-Validation for the k-NN algorithm.
 }
 
 \usage{
-knn.cv(folds = NULL, nfolds = 10, stratified = FALSE, seed = FALSE, y, x, k, 
+knn.cv(folds = NULL, nfolds = 10, stratified = FALSE, seed = NULL, y, x, k, 
 dist.type = "euclidean", type = "C", method = "average", freq.option = 0, 
 pred.ret = FALSE, mem.eff = FALSE) 
 }
@@ -27,7 +27,7 @@ TRUE if you wish, but only for the classification.
 If you have regression (type = "R"), do not put this to TRUE as it will cause problems or return wrong results.
 }
 \item{seed}{
-If you set this to TRUE, the same folds will be created every time.
+If NULL different folds will be created every time. Otherwise set your own seed. 
 }
 \item{y}{
 A vector of data. The response variable, which can be either continuous or categorical (factor is acceptable).  
@@ -117,7 +117,7 @@ R implementation and documentation: Marios Dimitriadis <kmdimitriadis@gmail.com>
 \examples{
 x <- as.matrix(iris[, 1:4])
 y <- iris[, 5]
-mod <- knn.cv(folds = NULL, nfolds = 10, stratified = TRUE, seed = FALSE, y = y, x = x, 
+mod <- knn.cv(folds = NULL, nfolds = 10, stratified = NULL, seed = NULL, y = y, x = x, 
 k = c(3, 4), dist.type = "euclidean", type = "C", method = "average", 
 freq.option = 0, pred.ret = FALSE, mem.eff = FALSE) 
 }
