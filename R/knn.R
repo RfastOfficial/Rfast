@@ -12,10 +12,10 @@ knn.cv <- function(folds = NULL, nfolds = 10, stratified = FALSE, seed = FALSE, 
   .Call(Rfast_k_nn_cv,folds, y, x, k, dist.type, type, method, freq.option, pred.ret, mem.eff)
 }
 
-generateFolds <- function(target, nfolds = 10, stratified = TRUE, seed = FALSE) {
+generateFolds <- function(target, nfolds = 10, stratified = TRUE, seed = NULL) {
   names <- paste("Fold", 1:nfolds)
   runs <- sapply(names, function(x) NULL)
-  if (seed) set.seed(1234)
+  if ( is.null(seed) )  set.seed(seed)
 
   if (!stratified) {
     oop <- options(warn = -1)
