@@ -10,7 +10,6 @@ using std::vector;
 using std::string;
 using std::binary_search;
 
-
 //[[Rcpp::export]]
 vector<string> add_to_namespace(const string dir_to_export,const string dir_to_file){
   int which_string_has_export=0;
@@ -20,7 +19,7 @@ vector<string> add_to_namespace(const string dir_to_export,const string dir_to_f
   if(newfiles.empty()){
   	stop("Warning: empty folder.\n");
   }
-  vector<string> data_export=readFile(dir_to_export,which_string_has_export);
+  vector<string> data_export=readNamespaceFile(dir_to_export,which_string_has_export);
   if(which_string_has_export==-1){
   	stop("Error. can't find \"export\" function in NAMESPACE file with path \"%s\".\n",dir_to_export);
   }
@@ -33,20 +32,16 @@ vector<string> add_to_namespace(const string dir_to_export,const string dir_to_f
   }
   exported_files[exported_files.size()-1]=')';
   exported_files+="\n\n";
-  vector<string> s3_names;
+  array<string,2> s3_names;
   for(auto& newfile : s3){
-    s3_names=split_words(newfile,".");
+    s3_names=split_words_in_half(newfile,'.');
     if(newfile[0]=='\"'){ // an einai tis morfis me "elem<-.iterator"
       s3_names[0]+='\"';
       s3_names[1].erase(s3_names[1].end()-1);
     }
     exported_files+="S3method("+s3_names[0]+","+s3_names[1]+")\n";
   }
-  for(unsigned int i=which_string_has_export+1;i<data_export.size();++i){
-    if(is_s3method(data_export[i]))
-      data_export[i]="";
-  }
-
+  data_export.erase(data_export.begin() + which_string_has_export + 1,data_export.end());
   data_export[which_string_has_export]="export("+exported_files;
   writeFile(data_export,dir_to_export);
   return data["without export"];
@@ -70,7 +65,7 @@ END_RCPP
 //[[Rcpp::export]]
 vector<string> remove_from_namespace(const string dir_to_export,vector<string> files_to_remove){
   int which_string_has_export=0;
-  vector<string> data_export=readFile(dir_to_export,which_string_has_export);
+  vector<string> data_export=readNamespaceFile(dir_to_export,which_string_has_export);
   if(which_string_has_export==-1){
   	stop("Error. can't find \"export\" function in NAMESPACE file with path \"%s\".\n",dir_to_export);
   }

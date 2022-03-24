@@ -4,6 +4,7 @@
 #define SYSTEM_FILES
 
 #include <vector>
+#include <array>
 #include <string>
 #include <fstream>
 #include <dirent.h>
@@ -14,6 +15,7 @@
 
 using Rcpp::List;
 using std::vector;
+using std::array;
 using std::string;
 using std::ifstream;
 
@@ -80,9 +82,10 @@ void print_error(T values,Args... args){
 
 
 vector<string> split_words(string,const char*);
+array<string,2> split_words_in_half(string,const char);
 void writeFile(vector<string>,string);
-vector<string> readFile(string,int&);
-bool find_export(string,string);
+vector<string> readNamespaceFile(string,int&);
+bool is_namespace_export(string);
 vector<string> readDirectory(const string,const int);
 bool is_alias(const char *s,int);
 bool next_alias(ifstream &,string &);

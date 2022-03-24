@@ -42,6 +42,12 @@ vector<string> split_words(string x,const char* sep=","){
   return y;
 }
 
+array<string,2> split_words_in_half(string x,const char sep){
+  x.erase(remove(x.begin(),x.end(), ' '),x.end());
+  int index_to_sep = find(x.begin(),x.end(),sep) - x.begin();
+  return { x.substr(0,index_to_sep), x.substr(index_to_sep+1,x.size()-1) };
+}
+
 void writeFile(vector<string> f,string path){
   ofstream oput(path.c_str());
   if(!oput.is_open()){
@@ -52,14 +58,14 @@ void writeFile(vector<string> f,string path){
   }
 }
 
-vector<string> readFile(string path,int& which_string_has_export){
+vector<string> readNamespaceFile(string path,int& which_string_has_export){
   ifstream input(path.c_str());
-  string s,export_word="export";
+  string s;
   vector<string> f;
   which_string_has_export=-1;
   bool found_export=false;
   while(getline(input,s)){
-    if(find_export(s,export_word) and !found_export){ // oso briskei to export kai den to exei ksanavrei
+    if(is_namespace_export(s) and !found_export){ // oso briskei to export kai den to exei ksanavrei
       which_string_has_export=f.size();
         found_export=true;
     }
@@ -68,17 +74,28 @@ vector<string> readFile(string path,int& which_string_has_export){
   return f;
 }
 
-bool find_export(string x,string y){
-  unsigned int leny=y.size();
-  if(x.size()<leny){
-    return false;
+bool is_namespace_export(string x){
+  return x.size() > sizeof("export") and x[0]=='e' and x[1]=='x' and x[2]=='p'
+   and x[3]=='o' and x[4]=='r' and x[5]=='t';
+}
+
+vector<string> read_directory(string path){
+  DIR *dir=NULL;
+  struct dirent *ent;
+  vector<string> files;
+  string textf;
+  if((dir = opendir(path.c_str())) != NULL) {
+    readdir(dir);
+    readdir(dir);
+    while((ent = readdir(dir)) != NULL) {
+      textf=ent->d_name;
+      files.push_back(textf);
+    }
+    closedir(dir);
+  }else{
+    stop("Error: Could not open directory with path \""+path+"\"");
   }
-  unsigned int i=0;
-  for(i=0;i<y.size();++i){
-    if(x[i]!=y[i])
-      return false;
-  }
-  return true;
+  return files;
 }
 
 vector<string> readDirectory(const string path,const int n){
