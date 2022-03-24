@@ -6,7 +6,7 @@ knn <- function(xnew, y, x, k, dist.type = "euclidean", type = "C", method = "av
 
 
 #[export]
-knn.cv <- function(folds = NULL, nfolds = 10, stratified = FALSE, seed = FALSE, y, x, k, dist.type = "euclidean", type = "C", 
+knn.cv <- function(folds = NULL, nfolds = 10, stratified = FALSE, seed = NULL, y, x, k, dist.type = "euclidean", type = "C", 
 				   method = "average", freq.option = 0, pred.ret = FALSE, mem.eff = FALSE) {
   if (is.null(folds)) folds <- generateFolds(y, nfolds = nfolds, stratified = stratified, seed = seed) 
   .Call(Rfast_k_nn_cv,folds, y, x, k, dist.type, type, method, freq.option, pred.ret, mem.eff)

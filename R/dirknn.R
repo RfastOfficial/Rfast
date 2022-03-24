@@ -6,10 +6,10 @@ dirknn <- function(xnew, x, y, k, type = "C", parallel = FALSE) {
 
 #[export]
 dirknn.cv <- function(y, x, k = 5:10, type = "C", folds = NULL, nfolds = 10, 
-stratified = TRUE, seed = FALSE, parallel = FALSE, pred.ret = FALSE) {
+stratified = TRUE, seed = NULL, parallel = FALSE, pred.ret = FALSE) {
   
   crit <- matrix(nrow = nfolds, ncol = length(k))
-  if ( is.null( folds ) )   folds <- makefolds(y, nfolds = nfolds, stratified = stratified, seed = FALSE)
+  if ( is.null( folds ) )   folds <- makefolds(y, nfolds = nfolds, stratified = stratified, seed = NULL)
   preds <- list() 
   y <- as.numeric(y)
   for (i in 1:nfolds) {  

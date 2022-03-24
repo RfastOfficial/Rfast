@@ -10,7 +10,7 @@ Cross-Validation for the k-NN algorithm using the arc cosinus distance.
 
 \usage{
 dirknn.cv(y, x, k = 5:10, type = "C", folds = NULL, nfolds = 10,
-stratified = TRUE, seed = NULL, parallel = FALSE, pred.ret = FALSE)
+stratified = TRUE, seed = FALSE, parallel = FALSE, pred.ret = FALSE)
 }
 
 \arguments{
