@@ -1,4 +1,4 @@
 
 1) add support list to every utility function.
-2) AddToNamespace S3method(colQuantile,data), correct is S3method(colQuantile,data.frame.matrix)
 3) Function starting with "." called hidden function and they don't need to have a man file. Add check option in checkUsage if a function is hidden.
+4) create function for checking non portable file names. 
