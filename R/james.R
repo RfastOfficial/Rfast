@@ -37,7 +37,7 @@ james <- function(y1, y2, a = 0.05, R = 1) {
 
   } else if (R == 2) {
     ## MNV test
-    low <- ( sum( b1^2 ) + trb1^2 ) / n1 + ( sum( b2^2 ) + trb2^2 ) / n2
+    low <- ( sum( b1 %*% b1 ) + trb1^2 ) / n1 + ( sum( b2 %*% b2 ) + trb2^2 ) / n2
     v <- (p + p^2) / low
     test <- as.numeric( (v - p + 1) / (v * p) * test )  ## test statistic
     crit <- qf(1 - a, p, v - p + 1)  ## critical value of the F distribution
