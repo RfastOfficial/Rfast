@@ -33,7 +33,13 @@ RemoveFromNamespace: Remove every function, from argument "files.to.remove", fro
 }
 
 \value{
-AddToNameSpace: Return the files that didn't have the attribute "#[export]" or empty character vector if all the files was inserted.
+AddToNameSpace:
+\item{without export}{
+A character vector with the names of the R functions that don't have te "#[export]" attribute.
+}
+\item{hidden functions}{
+A character vector with the names of the R functions that are hidden.
+}
 
 RemoveFromNamespace: Return the files that could not be removed.
 }
