@@ -46,9 +46,9 @@ A boolean value (TRUE/FALSE) for printing the names of the files before running 
 For function "checkNamespace": reads from the NAMESPACE folder all the export R functions, reads from folder R all the R functions and check if all the functions are export.
 
 For function "checkAliases": reads from the man directory all the Rd files, then reads from each file the aliases and check if:
-	1) All the R files has man file or an alias.
-	2) All aliases belongs to functions.
-	3) If there are dublicated aliases.
+1) All the R files has man file or an alias.
+2) All aliases belongs to functions.
+3) If there are dublicated aliases.
 
 For function "checkExamples": reads from the man directory all the Rd files, then read from each file the examples and then run each of them. If you want to print the errors in any file then set "print.errors=file_name" or in the standard error "print.errors=stderr()" and then you will see all the errors for every file. For succeed run of your code you should first run "library(PACKAGE_NAME)". 
 The argument "print.names" it is very helpful because if any of you function crashes R during running you will never know which one was. 
@@ -59,7 +59,7 @@ For function checkTF: reads from the man directory all the Rd files, then read f
 
 For function checkUsage: reads from the man directory all the Rd files and for each man check if the usage section has the right signature for the functions from the R directory.
 
-For functions "checkTF", "checkUsage", "checkAliases" you can choose which files not to read for both R and Rd. You must add in the first line of the file in comment the "attribute" "[dont read]". Then each function will now which file to read or not. For Rd you add "\%[dont read]" and for R "#[dont read]". Finally, these functions will return in the result a list of which files had this attribute.
+For functions "checkTF", "checkUsage", "checkAliases" you can choose which files not to read for both R and Rd. You must add in the first line of the file in comment the "attribute" "[dont read]". Then each function will know which file to read or not. For Rd you add "\%[dont read]" and for R "#[dont read]". Finally, these functions will return in the result a list of which files had this attribute.
 }
 
 \value{
@@ -125,6 +125,9 @@ A list with 2 fields
 R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
 Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
 }
+\item{hidden functions}{
+A character vector with the name of the functions thath have been declared as hidden.
+}
 }
 
 \author{
@@ -139,15 +142,15 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 \examples{
 \dontrun{
- for example: path.namespace="C:\\some_file\\NAMESPACE"
- for example: path.rfolder="C:\\some_file\\R\\"
- for example: path.man="C:\\some_file\\man\\"
- system.time( a<-checkNamespace(path.namespace,path.rfolder) )
- system.time( b<-checkAliases(path.man,path.rfolder) )
- system.time( b<-checkExamples(path.man) )
- system.time( b<-checkExamples(path.man,2) )
- system.time( b<-checkTF(path.man) )
- system.time( b<-checkTF(path.man,path.rfolder) )
+	for example: path.namespace="C:\\some_file\\NAMESPACE"
+	for example: path.rfolder="C:\\some_file\\R\\"
+	for example: path.man="C:\\some_file\\man\\"
+	system.time( a<-checkNamespace(path.namespace,path.rfolder) )
+	system.time( b<-checkAliases(path.man,path.rfolder) )
+	system.time( b<-checkExamples(path.man) )
+	system.time( b<-checkExamples(path.man,2) )
+	system.time( b<-checkTF(path.man) )
+	system.time( b<-checkTF(path.man,path.rfolder) )
 }
 }
 

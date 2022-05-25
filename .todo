@@ -1,4 +1,3 @@
 
 1) add support list to every utility function.
-3) Function starting with "." called hidden function and they don't need to have a man file. Add check option in checkUsage if a function is hidden.
 4) create function for checking non portable file names. 

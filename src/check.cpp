@@ -23,7 +23,7 @@ vector<string> check_namespace(const string dir_to_export,const string dir_to_fi
   if(allfiles.empty()){
     stop("Warning: empty folder.\n");
   }
-  vector<string> data_export=readFile(dir_to_export,which_string_has_export);
+  vector<string> data_export=readNamespaceFile(dir_to_export,which_string_has_export);
   if(which_string_has_export==-1){
     stop("Error. can't find \"export\" function in NAMESPACE file.\n");
   }
@@ -94,11 +94,10 @@ END_RCPP
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 using std::remove;
-/*
 //[[Rcpp::export]]
 List read_export(const string path_rf){
     return read_functions_and_signatures(path_rf);
-}*/
+}
 
 //[[Rcpp::export]]
 List check_aliases(const string path_man,const string path_rf){
@@ -236,6 +235,8 @@ List check_usage(string path_man,string path_rf){
       r_rd["Rd"]=dontread_rd;
     if(r_rd.size()!=0)
       L["dont read"]=r_rd;
+    if(functions.containsElementNamed("hidden functions"))
+      L["hidden functions"]=functions["hidden functions"];
     DEBUG("END");
     return L;
 }
