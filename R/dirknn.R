@@ -37,8 +37,7 @@ makefolds <- function(ina, nfolds = 10, stratified = TRUE, seed = NULL) {
   if ( is.null(seed) )  set.seed(seed)
 
   if ( !stratified ) {
-    oop <- options(warn = -1)
-    on.exit(options(oop))
+    suppressWarnings()
     ep <- sample( length(ina) )
     nr <- round( length(ina)/nfolds )
     mat <- matrix( ep[1:(nr * nfolds) ], ncol = nfolds )

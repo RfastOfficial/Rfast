@@ -18,8 +18,7 @@ generateFolds <- function(target, nfolds = 10, stratified = TRUE, seed = NULL) {
   if ( is.null(seed) )  set.seed(seed)
 
   if (!stratified) {
-    oop <- options(warn = -1)
-    on.exit(options(oop))
+    suppressWarnings()
     ep <- sample(length(target))
     nr <- round(length(target) / nfolds)
     mat <- matrix(ep[1:(nr * nfolds)], ncol = nfolds)
