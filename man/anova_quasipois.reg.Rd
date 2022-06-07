@@ -55,7 +55,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- rnbinom(200, 10, 0.5)
 x <- matrix(rnorm(200 * 3), ncol = 3)
 a1 <- qpois.reg(x, y)

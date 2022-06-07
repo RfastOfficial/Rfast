@@ -55,7 +55,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-\dontrun{
+\donttest{
 	for example: path.namespace="C:\\some_file\\NAMESPACE" where is NAMESPACE file
 	path.rfolder="C:\\some_file\\R\\" where is R files are
 	system.time( a<-AddToNamespace(path.namespace,path.rfolder) )

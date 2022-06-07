@@ -85,7 +85,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- rbeta(100, 1, 4)
 x <- matrix(rnorm(100 * 3), ncol = 3)
 a <- prop.reg(y, x)

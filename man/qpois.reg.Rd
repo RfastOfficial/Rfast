@@ -89,7 +89,7 @@ Marios Dimitriadis <kmdimitriadis@gmail.com>.
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- rnbinom(100, 10, 0.6)
 x <- matrix(rnorm(100*3), ncol = 3)
 mod1 <- glm(y ~ x, quasipoisson)

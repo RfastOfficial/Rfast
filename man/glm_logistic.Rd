@@ -74,7 +74,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-\dontrun{
+\donttest{
 x <- matrix(rnorm(100 * 3), ncol = 3)
 y <- rbinom(100, 1, 0.6)   ## binary logistic regression
 a1 <- glm_logistic(x, y, full = TRUE) 

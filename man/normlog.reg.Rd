@@ -62,7 +62,7 @@ R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.co
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- abs( rnorm(100) )
 x <- matrix( rnorm(100 * 2), ncol = 2)
 a <- normlog.reg(y, x)

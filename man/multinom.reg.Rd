@@ -61,7 +61,7 @@ Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- iris[, 5]
 x <- matrnorm(150, 3)
 res <- multinom.reg(y, x)

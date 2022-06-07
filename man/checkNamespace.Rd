@@ -141,7 +141,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-\dontrun{
+\donttest{
 	for example: path.namespace="C:\\some_file\\NAMESPACE"
 	for example: path.rfolder="C:\\some_file\\R\\"
 	for example: path.man="C:\\some_file\\man\\"

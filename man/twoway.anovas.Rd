@@ -61,7 +61,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- as.matrix( rnorm(125) )
 x1 <- rep(1:5, 25)
 x2 <- rep(1:5, each = 25)

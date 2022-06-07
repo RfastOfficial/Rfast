@@ -68,7 +68,7 @@ R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.co
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- abs( rnorm(100) )
 x <- matrnorm(100, 100)
 a <- normlog.regs(y, x)

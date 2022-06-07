@@ -60,7 +60,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>
 }
 
 \examples{
-\dontrun{
+\donttest{
 x <- as.matrix(iris[, 3:4])
 y <- as.matrix(iris[, 1:2])
 mod1 <- spatmed.reg(y, x)

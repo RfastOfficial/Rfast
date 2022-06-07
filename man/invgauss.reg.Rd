@@ -73,7 +73,7 @@ R implementation and documentation: Stefanos Fafalios <mtsagris@uoc.gr>
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- abs( rnorm(100) )
 x <- matrix( rnorm(100 * 2), ncol = 2)
 a <- invgauss.reg(y, x)

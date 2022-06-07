@@ -80,7 +80,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-\dontrun{
+\donttest{
 y <- rnorm(100) 
 x <- rnorm(10)
 x <- rep(x, 10)

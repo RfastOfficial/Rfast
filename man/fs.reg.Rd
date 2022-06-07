@@ -62,7 +62,7 @@ Documentation: Marios Dimitriadis <kmdimitriadis@gmail.com>.
 
 \examples{
 
-\dontrun{
+\donttest{
 set.seed(123)
 
 #simulate a dataset with continuous data

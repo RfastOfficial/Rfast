@@ -77,7 +77,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-\dontrun{
+\donttest{
 x <- rnorm(100)
 z <- cbind(3 + 2 * x, 1 -3 * x)
 y <- cbind( rnorm(100,z[ ,1], 1), rnorm(100, z[ ,2], 1) )

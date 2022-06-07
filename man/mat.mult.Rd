@@ -57,7 +57,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>
 }
 
 \examples{
-\dontrun{
+\donttest{
 x <- matrnorm(100, 100)
 y <- matrnorm(100, 100)
 a <- x %*% y

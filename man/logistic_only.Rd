@@ -57,7 +57,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-\dontrun{
+\donttest{
 ## 300 variables, hence 300 univariate regressions are to be fitted
 x <- matrix( rnorm(100 * 300), ncol = 300 )
 
