@@ -54,13 +54,14 @@ A two-column matrix with the test statistics (Wald statistic) and the associated
 }
 
 \references{
-Eugene Demidenko (2013). Mixed Models: Theory and Applications with R, 2nd Edition. New Jersey: Wiley \& Sons (excellent book). 
+Eugene Demidenko (2013). Mixed Models: Theory and Applications with R, 2nd Edition. 
+New Jersey: Wiley & Sons (excellent book). 
 }
 
 \author{
-Stefanos Fafalios
+Stefanos Fafalios.
 
-R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.com>
+R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.com>.
 }
 %\note{
 %%  ~~further notes~~

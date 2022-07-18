@@ -63,15 +63,15 @@ Each column contains the randome effects of each variable.
 }
 
 \references{
-D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley \& Sons. 
+Montgomery D.C. (2001). Design and analysis of experiments (5th Edition). New York: John Wiley & Sons. 
 
-Charles S. Davis (2002). Statistical methods for the analysis of repeated measures. New York: Springer-Verlag.
+Davis C.S. (2002). Statistical methods for the analysis of repeated measures. New York: Springer-Verlag.
 
-Demidenko E. (2013). Mixed Models: Theory and Applications with R 2nd Edition). New Jersey: John Wiley \& Sons (Excellent book).
+Demidenko E. (2013). Mixed Models: Theory and Applications with R 2nd Edition). New Jersey: John Wiley & Sons (Excellent book).
 }
 
 \author{
-Michail Tsagris and Manos Papadakis
+Michail Tsagris and Manos Papadakis.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }

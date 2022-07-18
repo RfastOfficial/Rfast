@@ -66,12 +66,12 @@ as the data. Each column contains the randome effects of each variable.
 }
 
 \references{
-D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley \& Sons. 
+D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley & Sons. 
 
 Charles S. Davis (2002). Statistical methods for the analysis of repeated measures. New York: Springer-Verlag.
 
 Demidenko E. (2013). Mixed Models: Thoery and Applications with R 2nd Edition). New Jersey: 
-John Wiley \& Sons (Excellent book).
+John Wiley & Sons (Excellent book).
 }
 
 \author{

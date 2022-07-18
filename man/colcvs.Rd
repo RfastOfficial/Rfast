@@ -35,7 +35,7 @@ A vector with the coefficient of variation for each column or row.
 }
 
 %\references{
-%Eugene Demidenko (2013). Mixed Models: Theory and Applications with R, 2nd Edition. New Jersey: Wiley \& Sons 
+%Eugene Demidenko (2013). Mixed Models: Theory and Applications with R, 2nd Edition. New Jersey: Wiley & Sons 
 %(excellent book).
 %}
 
