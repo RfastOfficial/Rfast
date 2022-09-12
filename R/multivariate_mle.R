@@ -98,7 +98,7 @@ mvlnorm.mle <- function(x) {
   y <- Rfast::Log(x)  ## transform the data to the whole of R^d
   m1 <- Rfast::colmeans(y)  ## mean vector of y
   sigma <- crossprod(y)/n - tcrossprod(m1)
-  a <- n * d * log(2 * pi) + n * log(det(s)) + n * d - sum(y)
+  a <- n * d * log(2 * pi) + n * log(det(sigma)) + n * d - sum(y)
   
   s1 <- diag(sigma)
   m <- exp( m1 + 0.5 * s1 )  ## mean vector of x
