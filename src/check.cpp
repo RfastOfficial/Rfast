@@ -103,7 +103,8 @@ List read_export(const string path_rf){
 List check_aliases(const string path_man,const string path_rf){
   ifstream file;
   List all_functions=read_functions_and_signatures(path_rf)["export"];
-  vector<string> aliases,all_r_functions=all_functions["functions"],all_s3method=all_functions["s3"],all_rd_files=readDirectory(path_man,3),tmp,dontread_rd;
+  vector<string> aliases,all_r_functions=all_functions["functions"],
+  all_s3method=all_functions["s3"],all_rd_files=readDirectory(path_man,3),tmp,dontread_rd;
   all_r_functions.reserve(all_r_functions.size()+all_s3method.size());
   all_r_functions.insert(all_r_functions.end(),all_s3method.begin(),all_s3method.end());
   for(auto& rd_file : all_rd_files){
@@ -215,8 +216,8 @@ List check_usage(string path_man,string path_rf){
                             DEBUG(curr_func+" : "+function_signature +" ["+al+"]");
                             missmatch_functions.push_back("signature of <"+al+"> missmatch with usage in <"+file_rd.name+">");
                         }
-                    }else{
-                        missing_functions.push_back("<"+al+"> not in <"+file_rd.name+">"); // aliase not in usage
+                    }else{ // an to alias den iparxei stis sinartiseis simainei oti leipei h R sinartisi
+                        missing_functions.push_back("<"+al+"> not in any R file");
                     }
                     curr_func.clear();
                 }
