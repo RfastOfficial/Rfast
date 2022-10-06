@@ -39,7 +39,7 @@ A matrix with the test statistic and the p-value for the factor variable and the
 }
 
 \references{
-D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley \& Sons 
+D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley & Sons 
 }
 
 \author{

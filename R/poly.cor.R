@@ -16,7 +16,8 @@ poly.cor <- function(x, y) {
   a1 <- cts[y]
   a2 <- cts[y + 1]
   rho <- sum(y * z) / Var(y, std = TRUE) / n
-  suppressWarnings()
+  oop <- options(warn = -1)
+  on.exit( options(oop) )
   mod <- optim(rho, funa, a1 = a1, a2 = a2, z = z, hessian = TRUE)
   if ( abs(mod$par) > 0.9999 )  mod$par <- sign(mod$par) * 0.9999
   est <- c(mod$par, 1/mod$hessian)

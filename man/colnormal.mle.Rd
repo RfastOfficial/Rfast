@@ -69,12 +69,12 @@ and the other columns contain the log-likelihood values.
 Kalimuthu Krishnamoorthy, Meesook Lee and Wang Xiao (2015). Likelihood ratio tests for comparing several
 gamma distributions. Environmetrics, 26(8):571-583.
 
-N.L. Johnson, S. Kotz \& N. Balakrishnan (1994). Continuous Univariate Distributions, Volume 1 (2nd Edition).
+N.L. Johnson, S. Kotz and N. Balakrishnan (1994). Continuous Univariate Distributions, Volume 1 (2nd Edition).
 
-N.L. Johnson, S. Kotz \& N. Balakrishnan (1970). Distributions in statistics: continuous univariate distributions,
-Volume 2
+N.L. Johnson, S. Kotz and N. Balakrishnan (1970). Distributions in statistics: continuous univariate distributions,
+Volume 2.
 
-Sharma V. K., Singh S. K., Singh U. \& Agiwal V. (2015). The inverse Lindley distribution: a stress-strength
+Sharma V. K., Singh S. K., Singh U. and Agiwal V. (2015). The inverse Lindley distribution: a stress-strength
 reliability model with application to head and neck cancer data. Journal of Industrial and Production
 Engineering, 32(3): 162-173.
 }

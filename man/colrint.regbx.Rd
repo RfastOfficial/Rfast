@@ -55,7 +55,7 @@ same number of columns as y we return a transposed matrix.
 }
 
 \references{
-Eugene Demidenko (2013). Mixed Models: Theory and Applications with R, 2nd Edition. New Jersey: Wiley \& Sons 
+Eugene Demidenko (2013). Mixed Models: Theory and Applications with R, 2nd Edition. New Jersey: Wiley & Sons 
 (excellent book).
 }
 

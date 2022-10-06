@@ -78,14 +78,14 @@ Usually a list with three elements, but this is not for all cases.
 Kalimuthu Krishnamoorthy, Meesook Lee and Wang Xiao (2015). Likelihood ratio tests for comparing several 
 gamma distributions. Environmetrics, 26(8):571-583.
 
-N.L. Johnson, S. Kotz \& N. Balakrishnan (1994). Continuous Univariate Distributions, Volume 1 (2nd Edition).
+N.L. Johnson, S. Kotz and N. Balakrishnan (1994). Continuous Univariate Distributions, Volume 1 (2nd Edition).
 
-N.L. Johnson, S. Kotz \& N. Balakrishnan (1970). Distributions in statistics: continuous univariate 
-distributions, Volume 2
+N.L. Johnson, S. Kotz a nd N. Balakrishnan (1970). Distributions in statistics: continuous univariate 
+distributions, Volume 2.
 
 Tsagris M., Beneki C. and Hassani H. (2014). On the folded normal distribution. Mathematics, 2(1):12-28.
 
-Sharma V. K., Singh S. K., Singh U. \& Agiwal V. (2015). The inverse Lindley distribution: 
+Sharma V. K., Singh S. K., Singh U. and Agiwal V. (2015). The inverse Lindley distribution: 
 a stress-strength reliability model with application to head and neck cancer data. Journal of 
 Industrial and Production Engineering, 32(3): 162-173.
 

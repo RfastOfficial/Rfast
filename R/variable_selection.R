@@ -11,7 +11,8 @@ bic.corfsreg <- function (y, x, tol = 2) {
     tool <- sela <- numeric( min(n, p) )
     tool[1] <- n * log( Var(y) * (n - 1) /n) + 2 * logn 
     sela[1] <- 0
-    suppressWarnings()
+    oop <- options(warn = -1)
+    on.exit( options(oop) )
     yx <- Rfast::eachcol.apply(x, y)
     sel <- which.max(abs(yx))
     r <- yx[sel] / (n - 1)
@@ -73,7 +74,8 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
   runtime <- proc.time()
   if (xstand)   x <- Rfast::standardise(x)
   if (ystand)   y <- ( y - mean(y) ) / Rfast::Var(y, std = TRUE)
-  suppressWarnings()
+  oop <- options(warn = -1)
+  on.exit( options(oop) )
   yx <- Rfast::eachcol.apply(x, y) / (n - 1)
   n.tests <- p
   stat <- abs( 0.5 * log( (1 + yx) / (1 - yx) ) * sqrt(n - 3) ) 
@@ -285,7 +287,8 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
   logn <- log(n)
   if (xstand)   x <- Rfast::standardise(x)
   if (ystand)   y <- ( y - mean(y) ) / Rfast::Var(y, std = TRUE) 
-  suppressWarnings()
+  oop <- options(warn = -1)
+  on.exit( options(oop) )
   yx <- Rfast::eachcol.apply(x, y) / (n - 1)
   sel <- which.max( abs(yx) )
   r <- yx[sel] 
@@ -369,7 +372,8 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
       tool[1] <- 1 - (1 - r2) * (n - 1 ) / ( n - 2)
     } else  info <- rbind(info, c(0, 0, 0))
     if ( !is.null(model) ) {
-      suppressWarnings()
+      oop <- options(warn = -1)
+      on.exit( options(oop) )
       xz <- as.vector( cor(z, x) )
       yx.z <- ( yx - xz * r ) / sqrt(1 - xz^2) / sqrt(1 - r2)
       sel <- which.max( abs(yx.z) )
@@ -512,7 +516,8 @@ omp <- function (y, x, xstand = TRUE, tol = qchisq(0.95, 1) + log(length(y)), ty
     ind <- 1:d
     if (xstand)   x <- Rfast::standardise(x)
     phi <- NULL
-    suppressWarnings()
+    oop <- options(warn = -1)
+    on.exit( options(oop) )
 
   a <- try( 
     if ( type == "logistic" ) {

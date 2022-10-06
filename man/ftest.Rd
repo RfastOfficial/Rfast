@@ -87,7 +87,7 @@ the same number of p-values.
 \references{
 B.L. Welch (1951). On the comparison of several mean values: an alternative approach. Biometrika, 38(3/4), 330-336.
 
-D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley \& Sons.
+D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley & Sons.
 
 McNemar Q. (1947). Note on the sampling error of the difference between correlated proportions or percentages. 
 Psychometrika. 12(2):153-157. 

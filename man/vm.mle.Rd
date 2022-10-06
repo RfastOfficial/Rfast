@@ -57,7 +57,7 @@ The mean vector of the angular Gaussian distribution.
 }
 
 \references{
-Mardia K. V. and Jupp P. E. (2000). Directional statistics. Chicester: John Wiley \& Sons.
+Mardia K. V. and Jupp P. E. (2000). Directional statistics. Chicester: John Wiley & Sons.
 
 Sra S. (2012). A short note on parameter approximation for von Mises-Fisher distributions:
 and a fast implementation of Is(x). Computational Statistics, 27(1): 177-190.

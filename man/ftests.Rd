@@ -63,13 +63,15 @@ A matrix with the test statistic and the p-value of each test.
 }
 
 \references{
-B.L. Welch (1951). On the comparison of several mean values: an alternative approach. Biometrika, 38(3/4), 330-336.
+Welch B.L. (1951). On the comparison of several mean values: an alternative approach. 
+Biometrika, 38(3/4), 330-336.
 
-D.C. Montgomery (2001). Design and analysis of experiments (5th Edition). New York: John Wiley \& Sons 
+Montgomery D.C. (2001). Design and analysis of experiments (5th Edition). 
+New York: John Wiley & Sons. 
 }
 
 \author{
-Michail Tsagris
+Michail Tsagris.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }

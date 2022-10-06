@@ -68,7 +68,6 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> and M
 x <- rgamma(100,1, 4)
 ina <- sample(1:5, 100, TRUE)
 res<-group(x, ina,method="var")
-
 }
 }
 

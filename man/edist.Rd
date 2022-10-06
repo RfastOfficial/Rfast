@@ -24,7 +24,7 @@ A second matrix with data. The number of columns of x and y must match. The numb
 \details{
 This calculates the energy distance between two matrices. It will work even for tens of thousands of rows, 
 it will just take some time. See the references for more information. If you have many matrices and want to 
-calculate the distance matrix, then put them in a list and use eDist.
+calculate the distance matrix, then put them in a list and use the function.
 }
 
 \value{
