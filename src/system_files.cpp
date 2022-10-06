@@ -104,8 +104,8 @@ vector<string> readDirectory(const string path,const int n){
     vector<string> files;
     string textf;
     if((dir = opendir(path.c_str())) != NULL) {
-        readdir(dir);
-        readdir(dir);
+        readdir(dir); // read . file
+        readdir(dir); // read .. file
         while((ent = readdir(dir)) != NULL) {
             textf=ent->d_name;
             textf.erase(textf.end()-n,textf.end());
@@ -660,6 +660,8 @@ List read_functions_and_signatures(string path){
         exp["functions"]=exported_functions_names;
     if(!exported_functions_s3.empty())
         exp["s3"]=exported_functions_s3;
+    else
+        exp["s3"]= std::vector<string>();
     if(exp.size()!=0)
         l["export"]=exp;
     return l;
