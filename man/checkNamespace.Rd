@@ -142,9 +142,9 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 \examples{
 \donttest{
-	for example: path.namespace="C:\\some_file\\NAMESPACE"
-	for example: path.rfolder="C:\\some_file\\R\\"
-	for example: path.man="C:\\some_file\\man\\"
+	#for example: path.namespace="C:\\some_file\\NAMESPACE"
+	#for example: path.rfolder="C:\\some_file\\R\\"
+	#for example: path.man="C:\\some_file\\man\\"
 	system.time( a<-checkNamespace(path.namespace,path.rfolder) )
 	system.time( b<-checkAliases(path.man,path.rfolder) )
 	system.time( b<-checkExamples(path.man) )
