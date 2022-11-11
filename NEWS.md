@@ -6,7 +6,7 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | :-------------------:  | :-------------------------------: |
->  |  						| 									|
+>  |  Dist(method = "bhattacharyya") | Minor optimize. |
 
 
 </br>
