@@ -67,6 +67,7 @@ their invaluable help with this R package.
 \item Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is greatly acknowledged for that.
 \item Bret Presnell for detecting and correcting a bug in the function rvmf.
 \item Gabriel Hoffman for spotting a mistake in the fuction dirimultinom.mle.
+\item  Lutz von der Burchard for spotting a bug in the function bic.corfsreg.
 }
 From now on the Rfast can be used in C++ via LinkingTo mechanism.
 \itemize{
