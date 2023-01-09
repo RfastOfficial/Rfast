@@ -385,6 +385,8 @@ spml.reg <- function(y, x, tol = 1e-07, seb = FALSE, maxiters = 100) {
   x <- model.matrix(~., data.frame(x) )
   y <- as.matrix(y)
   mod <- .Call(Rfast_spml_reg, y, x, tol, seb, maxiters)
+  colnames(mod$be) <- c("Cosinus of y", "Sinus of y")
+  rownames(mod$be) <- colnames(x)   
  
   if ( seb ) {
     colnames(mod$seb) <- c("Cosinus of y", "Sinus of y")
