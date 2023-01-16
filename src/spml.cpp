@@ -403,7 +403,7 @@ List spml_mle(NumericMatrix X, const double tol, const int maxiters){
 
   l["loglik"] = -n * (0.5  * gam + 1.83787706640935) + sum_with<log1p, colvec>(((tau % ptau) * con)/exp(f*tau%tau));
 
-  l["gamma"] = gam;
+  l["gamma"] = sqrt(gam);
   l["mu"] = conv_to<rowvec>::from(mu2);
 
   return l;
