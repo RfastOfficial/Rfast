@@ -20,7 +20,7 @@ rowhameans(x)
 
 \arguments{
 \item{x}{
-A numerical matrix with data.
+A numerical matrix or data.frame with data.
 }
 \item{parallel}{
 Do you want to do it in parallel in C++? TRUE or FALSE.
