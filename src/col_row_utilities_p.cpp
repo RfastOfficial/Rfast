@@ -334,34 +334,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-///////////////////////////////////////////////////////////////////////////
-
-
-SEXP col_mean_p(NumericMatrix x){
-  const int n=x.ncol();
-  SEXP F=PROTECT(Rf_allocVector(REALSXP,n));
-  double *FF=REAL(F);
-  mat xx(x.begin(),x.nrow(),n,false);
-  #ifdef _OPENMP
-    #pragma omp parallel for
-  #endif
-  for(int i=0;i<n;i++){
-    FF[i]=mean(xx.col(i));
-  }
-  UNPROTECT(1);
-  return F;
-}
-
-RcppExport SEXP Rfast_col_mean_p(SEXP xSEXP){
-BEGIN_RCPP
-    RObject __result;
-    RNGScope __rngScope;
-    traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = col_mean_p(x);
-    return __result;
-END_RCPP
-}
-
 //////////////////////////////////////////////////////////////
 
 using std::min_element;
