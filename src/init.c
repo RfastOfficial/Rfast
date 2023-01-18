@@ -24,7 +24,7 @@ SEXP Rfast_col_sums(SEXP xSEXP,SEXP SEXPindices,SEXP na_rmSEXP);
 SEXP Rfast_col_min_max(SEXP x);
 SEXP Rfast_col_max_indices(SEXP xSEXP);
 SEXP Rfast_col_max(SEXP x);
-SEXP Rfast_col_means(SEXP xSEXP);
+SEXP Rfast_col_means(SEXP xSEXP, SEXP parallelSEXP);
 SEXP Rfast_col_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
 SEXP Rfast_col_len_sort_un_int(SEXP xSEXP);
 SEXP Rfast_col_ranks(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP);
@@ -243,7 +243,6 @@ SEXP Rfast_quasi_poisson_only(SEXP xSEXP,SEXP ySEXP,SEXP ylogySEXP,SEXP tolSEXP,
 SEXP Rfast_col_all_p(SEXP xSEXP);
 SEXP Rfast_col_count_values_p(SEXP xSEXP,SEXP valuesSEXP);
 SEXP Rfast_col_max_p(SEXP nSEXP);
-SEXP Rfast_col_mean_p(SEXP xSEXP);
 SEXP Rfast_col_min_p(SEXP nSEXP);
 SEXP Rfast_col_nth_p(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
 SEXP Rfast_col_order_p(SEXP xSEXP,SEXP stableSEXP,SEXP descendingSEXP);
@@ -279,7 +278,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_col_min_max", (DL_FUNC) &Rfast_col_min_max, 1},
   {"Rfast_col_max_indices", (DL_FUNC) &Rfast_col_max_indices, 1},
   {"Rfast_col_max", (DL_FUNC) &Rfast_col_max, 1},
-  {"Rfast_col_means", (DL_FUNC) &Rfast_col_means, 1},
+  {"Rfast_col_means", (DL_FUNC) &Rfast_col_means, 2},
   {"Rfast_col_nth", (DL_FUNC) &Rfast_col_nth, 6},
   {"Rfast_col_len_sort_un_int", (DL_FUNC) &Rfast_col_len_sort_un_int, 1},
   {"Rfast_col_ranks", (DL_FUNC) &Rfast_col_ranks, 4},
@@ -481,7 +480,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_col_all_p", (DL_FUNC) &Rfast_col_all_p, 1},
   {"Rfast_col_count_values_p", (DL_FUNC) &Rfast_col_count_values_p, 2},
   {"Rfast_col_max_p", (DL_FUNC) &Rfast_col_max_p, 1},
-  {"Rfast_col_mean_p", (DL_FUNC) &Rfast_col_mean_p, 1},
   {"Rfast_col_min_p", (DL_FUNC) &Rfast_col_min_p, 1},
   {"Rfast_col_nth_p", (DL_FUNC) &Rfast_col_nth_p, 5},
   {"Rfast_col_ranks_p", (DL_FUNC) &Rfast_col_ranks_p, 4},
