@@ -83,35 +83,35 @@ namespace Rfast {
 			if(!tx and !ty){ // matrix multiplication
 				mat xx=transpose(x);
 				for(int i=0;i<p;++i){
-				  yi=y.col(i);
+					yi=y.col(i);
 				  #ifdef _OPENMP
 				  #pragma omp parallel for
 				  #endif
-				  for(int j=0;j<n;++j){
-				    CC(j,i)=dot(xx.col(j),yi);
-				  }
+					for(int j=0;j<n;++j){
+						CC(j,i)=dot(xx.col(j),yi);
+					}
 				}
 			}else if(tx){ // crossprod
 				for(int i=0;i<p;++i){
-				  yi=y.col(i);
+					yi=y.col(i);
 				  #ifdef _OPENMP
 				  #pragma omp parallel for
 				  #endif
-				  for(int j=0;j<n;++j){
-				    CC(j,i)=dot(x.col(j),yi);
-				  }
+					for(int j=0;j<n;++j){
+						CC(j,i)=dot(x.col(j),yi);
+					}
 				}
 			}else{ // tcrossprod
 				mat yy=transpose(y);
 				mat xx=transpose(x);
 				for(int i=0;i<p;++i){
-				  yi=yy.col(i);
+					yi=yy.col(i);
 				  #ifdef _OPENMP
 				  #pragma omp parallel for
 				  #endif
-				  for(int j=0;j<n;++j){
-				    CC(j,i)=dot(xx.col(j),yi);
-				  }
+					for(int j=0;j<n;++j){
+						CC(j,i)=dot(xx.col(j),yi);
+					}
 				}
 			}
 			return C;
@@ -138,30 +138,30 @@ namespace Rfast {
 					#pragma omp parallel for
 					#endif
 					for(int j=0;j<n;++j){
-					C(j,i)=dot(xx.col(j),yi);
+						C(j,i)=dot(xx.col(j),yi);
 					}
 				}
 			}else if(tx){ // crossprod
 				for(int i=0;i<p;++i){
-				  yi=y.col(i);
+					yi=y.col(i);
 				  #ifdef _OPENMP
 				  #pragma omp parallel for
 				  #endif
-				  for(int j=0;j<n;++j){
-				    C(j,i)=dot(x.col(j),yi);
-				  }
+					for(int j=0;j<n;++j){
+						C(j,i)=dot(x.col(j),yi);
+					}
 				}
 			}else{ // tcrossprod
 				mat yy=Rfast::matrix::transpose(y);
 				mat xx=Rfast::matrix::transpose(x);
 				for(int i=0;i<p;++i){
-				  yi=yy.col(i);
+					yi=yy.col(i);
 				  #ifdef _OPENMP
 				  #pragma omp parallel for
 				  #endif
-				  for(int j=0;j<n;++j){
-				    C(j,i)=dot(xx.col(j),yi);
-				  }
+					for(int j=0;j<n;++j){
+						C(j,i)=dot(xx.col(j),yi);
+					}
 				}
 			}
 			return C;
@@ -181,14 +181,14 @@ namespace Rfast {
 							colvec coli=xx.col(i);
 							stable_sort(coli.begin(),coli.end(),greater<double>());
 							ff.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=xx.col(i);
 							stable_sort(coli.begin(),coli.end(),greater<double>());
 							ff.col(i)=coli;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -199,14 +199,14 @@ namespace Rfast {
 							colvec coli=xx.col(i);
 							sort(coli.begin(),coli.end(),greater<double>());
 							ff.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=xx.col(i);
 							sort(coli.begin(),coli.end(),greater<double>());
 							ff.col(i)=coli;
-					    }
+						}
 					}
 				}
 			}
@@ -220,14 +220,14 @@ namespace Rfast {
 							colvec coli=xx.col(i);
 							stable_sort(coli.begin(),coli.end());
 							ff.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=xx.col(i);
 							stable_sort(coli.begin(),coli.end());
 							ff.col(i)=coli;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -238,14 +238,14 @@ namespace Rfast {
 							colvec coli=xx.col(i);
 							sort(coli.begin(),coli.end());
 							ff.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=xx.col(i);
 							sort(coli.begin(),coli.end());
 							ff.col(i)=coli;
-					    }
+						}
 					}
 				}
 			}  
@@ -265,14 +265,14 @@ namespace Rfast {
 							colvec coli=x.col(i);
 							stable_sort(coli.begin(),coli.end(),greater<double>());
 							f.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=x.col(i);
 							stable_sort(coli.begin(),coli.end(),greater<double>());
 							f.col(i)=coli;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -283,14 +283,14 @@ namespace Rfast {
 							colvec coli=x.col(i);
 							sort(coli.begin(),coli.end(),greater<double>());
 							f.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=x.col(i);
 							sort(coli.begin(),coli.end(),greater<double>());
 							f.col(i)=coli;
-					    }
+						}
 					}
 				}
 			}
@@ -304,14 +304,14 @@ namespace Rfast {
 							colvec coli=x.col(i);
 							stable_sort(coli.begin(),coli.end());
 							f.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=x.col(i);
 							stable_sort(coli.begin(),coli.end());
 							f.col(i)=coli;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -322,14 +322,14 @@ namespace Rfast {
 							colvec coli=x.col(i);
 							sort(coli.begin(),coli.end());
 							f.col(i)=coli;
-					    }
+						}
 					}else{
 						colvec coli(n);
 						for(int i=0;i<p;++i){
 							coli=x.col(i);
 							sort(coli.begin(),coli.end());
 							f.col(i)=coli;
-					    }
+						}
 					}
 				}
 			}  
@@ -350,14 +350,14 @@ namespace Rfast {
 							rowvec rowi=xx.row(i);
 							stable_sort(rowi.begin(),rowi.end(),greater<double>());
 							ff.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=xx.row(i);
 							stable_sort(rowi.begin(),rowi.end(),greater<double>());
 							ff.row(i)=rowi;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -368,14 +368,14 @@ namespace Rfast {
 							rowvec rowi=xx.row(i);
 							sort(rowi.begin(),rowi.end(),greater<double>());
 							ff.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=xx.row(i);
 							sort(rowi.begin(),rowi.end(),greater<double>());
 							ff.row(i)=rowi;
-					    }
+						}
 					}
 				}
 			}
@@ -389,14 +389,14 @@ namespace Rfast {
 							rowvec rowi=xx.row(i);
 							stable_sort(rowi.begin(),rowi.end());
 							ff.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=xx.row(i);
 							stable_sort(rowi.begin(),rowi.end());
 							ff.row(i)=rowi;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -407,14 +407,14 @@ namespace Rfast {
 							rowvec rowi=xx.row(i);
 							sort(rowi.begin(),rowi.end());
 							ff.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=xx.row(i);
 							sort(rowi.begin(),rowi.end());
 							ff.row(i)=rowi;
-					    }
+						}
 					}
 				}
 			}  
@@ -434,14 +434,14 @@ namespace Rfast {
 							rowvec rowi=x.row(i);
 							stable_sort(rowi.begin(),rowi.end(),greater<double>());
 							f.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=x.row(i);
 							stable_sort(rowi.begin(),rowi.end(),greater<double>());
 							f.row(i)=rowi;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -452,14 +452,14 @@ namespace Rfast {
 							rowvec rowi=x.row(i);
 							sort(rowi.begin(),rowi.end(),greater<double>());
 							f.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=x.row(i);
 							sort(rowi.begin(),rowi.end(),greater<double>());
 							f.row(i)=rowi;
-					    }
+						}
 					}
 				}
 			}
@@ -473,14 +473,14 @@ namespace Rfast {
 							rowvec rowi=x.row(i);
 							stable_sort(rowi.begin(),rowi.end());
 							f.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=x.row(i);
 							stable_sort(rowi.begin(),rowi.end());
 							f.row(i)=rowi;
-					    }
+						}
 					}
 				}else{
 					if(parallel){
@@ -491,14 +491,14 @@ namespace Rfast {
 							rowvec rowi=x.row(i);
 							sort(rowi.begin(),rowi.end());
 							f.row(i)=rowi;
-					    }
+						}
 					}else{
 						rowvec rowi(n);
 						for(int i=0;i<n;++i){
 							rowi=x.row(i);
 							sort(rowi.begin(),rowi.end());
 							f.row(i)=rowi;
-					    }
+						}
 					}
 				}
 			}  
@@ -530,208 +530,237 @@ namespace Rfast {
 		}
 
 		inline NumericVector colMedian(NumericMatrix x,const bool na_rm=false,const bool parallel=false){
-		    return na_rm ? col_meds_na_rm(x,parallel) : col_meds_simple(x,parallel);
+			return na_rm ? col_meds_na_rm(x,parallel) : col_meds_simple(x,parallel);
 		}
 
 		inline rowvec colMedian(mat x,const bool na_rm=false,const bool parallel=false){
-		    return na_rm ? col_meds_na_rm(x,parallel) : col_meds_simple(x,parallel);
+			return na_rm ? col_meds_na_rm(x,parallel) : col_meds_simple(x,parallel);
 		}
 
 		inline NumericVector rowMedian(NumericMatrix x,const bool na_rm=false,const bool parallel=false){
-		    return na_rm ? row_meds_na_rm(x,parallel) : row_meds_simple(x,parallel);
+			return na_rm ? row_meds_na_rm(x,parallel) : row_meds_simple(x,parallel);
 		}
 
 		inline colvec rowMedian(mat x,const bool na_rm=false,const bool parallel=false){
-		    return na_rm ? row_meds_na_rm(x,parallel) : row_meds_simple(x,parallel);
+			return na_rm ? row_meds_na_rm(x,parallel) : row_meds_simple(x,parallel);
 		}
 
 		inline NumericVector colVars(NumericMatrix x,const bool std=false,const bool na_rm=false,const bool parallel=false){
-		    mat xx(x.begin(),x.nrow(),x.ncol(),false);
-		    NumericVector f(xx.n_cols);
-		    rowvec ff(f.begin(),f.size(),false);
-		    if(parallel){
+			mat xx(x.begin(),x.nrow(),x.ncol(),false);
+			NumericVector f(xx.n_cols);
+			rowvec ff(f.begin(),f.size(),false);
+			if(parallel){
 				#pragma omp parallel for
-		        for(unsigned int i=0;i<xx.n_cols;++i){
-		            ff[i]=Rfast::vector::var<colvec>(xx.col(i),std,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<xx.n_cols;++i){
-		            ff[i]=Rfast::vector::var<colvec>(xx.col(i),std,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<xx.n_cols;++i){
+					ff[i]=Rfast::vector::var<colvec>(xx.col(i),std,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<xx.n_cols;++i){
+					ff[i]=Rfast::vector::var<colvec>(xx.col(i),std,na_rm);
+				}
+			}
+			return f;
+		}
+
+		inline NumericVector colVars(DataFrame x,const bool std=false,const bool na_rm=false,const bool parallel=false){
+			NumericVector f(x.size());
+			if(parallel){
+				colvec ff(f.begin(),f.size(),false);
+				#pragma omp parallel for
+				for(DataFrame::iterator s = x.begin(); s < x.end(); ++s){
+					colvec y;
+					int i;
+					#pragma omp critical
+					{
+						NumericVector yy;
+						yy=*s;
+						y = colvec(yy.begin(),yy.size(),false);
+						i = s-x.begin();
+					}
+					ff[i]=Rfast::vector::var<colvec>(y,std,na_rm);
+				}
+			}else{
+				int i=0;
+				NumericVector y(x.nrows());
+				for(auto c : x){
+					y=c;
+					f[i++]=Rfast::vector::var<colvec>(y,std,na_rm);
+				}
+			}
+			f.names() = x.names();
+			return f;
 		}
 
 		inline NumericVector rowVars(NumericMatrix x,const bool std=false,const bool na_rm=false,const bool parallel=false){
-		    mat xx(x.begin(),x.nrow(),x.ncol(),false);
-		    NumericVector f(xx.n_rows);
-		    colvec ff(f.begin(),f.size(),false);
-		    if(parallel){
+			mat xx(x.begin(),x.nrow(),x.ncol(),false);
+			NumericVector f(xx.n_rows);
+			colvec ff(f.begin(),f.size(),false);
+			if(parallel){
 		    	#ifdef _OPENMP
 				#pragma omp parallel for
 				#endif
-		        for(unsigned int i=0;i<xx.n_rows;++i){
-		            ff[i]=Rfast::vector::var<rowvec>(xx.row(i),std,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<xx.n_rows;++i){
-		            ff[i]=Rfast::vector::var<rowvec>(xx.row(i),std,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<xx.n_rows;++i){
+					ff[i]=Rfast::vector::var<rowvec>(xx.row(i),std,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<xx.n_rows;++i){
+					ff[i]=Rfast::vector::var<rowvec>(xx.row(i),std,na_rm);
+				}
+			}
+			return f;
 		}
 
 		inline rowvec colVars(mat x,const bool std=false,const bool na_rm=false,const bool parallel=false){
-		    rowvec f(x.n_cols);
-		    if(parallel){
+			rowvec f(x.n_cols);
+			if(parallel){
 		    	#ifdef _OPENMP
 				#pragma omp parallel for
 				#endif
-		        for(unsigned int i=0;i<x.n_cols;++i){
-		            f[i]=Rfast::vector::var<colvec>(x.col(i),std,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<x.n_cols;++i){
-		            f[i]=Rfast::vector::var<colvec>(x.col(i),std,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<x.n_cols;++i){
+					f[i]=Rfast::vector::var<colvec>(x.col(i),std,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<x.n_cols;++i){
+					f[i]=Rfast::vector::var<colvec>(x.col(i),std,na_rm);
+				}
+			}
+			return f;
 		}
 
 		inline colvec rowVars(mat x,const bool std=false,const bool na_rm=false,const bool parallel=false){
-		    colvec f(x.n_rows);
-		    if(parallel){
+			colvec f(x.n_rows);
+			if(parallel){
 				#pragma omp parallel for
-		        for(unsigned int i=0;i<x.n_rows;++i){
-		            f[i]=Rfast::vector::var<rowvec>(x.row(i),std,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<x.n_rows;++i){
-		            f[i]=Rfast::vector::var<rowvec>(x.row(i),std,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<x.n_rows;++i){
+					f[i]=Rfast::vector::var<rowvec>(x.row(i),std,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<x.n_rows;++i){
+					f[i]=Rfast::vector::var<rowvec>(x.row(i),std,na_rm);
+				}
+			}
+			return f;
 		}
 
 		inline NumericVector colMads(NumericMatrix x,const string method="median",const bool na_rm=false,const bool parallel=false){
-		    mat xx(x.begin(),x.nrow(),x.ncol(),false);
-		    NumericVector f(xx.n_cols);
-		    rowvec ff(f.begin(),f.size(),false);
-		    if(parallel){
+			mat xx(x.begin(),x.nrow(),x.ncol(),false);
+			NumericVector f(xx.n_cols);
+			rowvec ff(f.begin(),f.size(),false);
+			if(parallel){
 		    #pragma omp parallel for
-		        for(unsigned int i=0;i<xx.n_cols;++i){
-		            ff[i]=Rfast::vector::mad<colvec>(xx.col(i),method,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<xx.n_cols;++i){
-		            ff[i]=Rfast::vector::mad<colvec>(xx.col(i),method,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<xx.n_cols;++i){
+					ff[i]=Rfast::vector::mad<colvec>(xx.col(i),method,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<xx.n_cols;++i){
+					ff[i]=Rfast::vector::mad<colvec>(xx.col(i),method,na_rm);
+				}
+			}
+			return f;
 		}
 
 
 		inline NumericVector rowMads(NumericMatrix x,const string method="median",const bool na_rm=false,const bool parallel=false){
-		    mat xx(x.begin(),x.nrow(),x.ncol(),false);
-		    NumericVector f(xx.n_rows);
-		    colvec ff(f.begin(),f.size(),false);
-		    if(parallel){
+			mat xx(x.begin(),x.nrow(),x.ncol(),false);
+			NumericVector f(xx.n_rows);
+			colvec ff(f.begin(),f.size(),false);
+			if(parallel){
 		        #pragma omp parallel for
-		        for(unsigned int i=0;i<xx.n_rows;++i){
-		            ff[i]=Rfast::vector::mad<rowvec>(xx.row(i),method,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<xx.n_rows;++i){
-		            ff[i]=Rfast::vector::mad<rowvec>(xx.row(i),method,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<xx.n_rows;++i){
+					ff[i]=Rfast::vector::mad<rowvec>(xx.row(i),method,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<xx.n_rows;++i){
+					ff[i]=Rfast::vector::mad<rowvec>(xx.row(i),method,na_rm);
+				}
+			}
+			return f;
 		}
 
 		inline rowvec colMads(mat x,const string method="median",const bool na_rm=false,const bool parallel=false){
-		    rowvec f(x.n_cols);
-		    if(parallel){
+			rowvec f(x.n_cols);
+			if(parallel){
 		    #pragma omp parallel for
-		        for(unsigned int i=0;i<x.n_cols;++i){
-		            f[i]=Rfast::vector::mad<colvec>(x.col(i),method,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<x.n_cols;++i){
-		            f[i]=Rfast::vector::mad<colvec>(x.col(i),method,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<x.n_cols;++i){
+					f[i]=Rfast::vector::mad<colvec>(x.col(i),method,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<x.n_cols;++i){
+					f[i]=Rfast::vector::mad<colvec>(x.col(i),method,na_rm);
+				}
+			}
+			return f;
 		}
 
 		inline colvec rowMads(mat x,const string method="median",const bool na_rm=false,const bool parallel=false){
-		    colvec f(x.n_rows);
-		    if(parallel){
+			colvec f(x.n_rows);
+			if(parallel){
 		        #pragma omp parallel for
-		        for(unsigned int i=0;i<x.n_rows;++i){
-		            f[i]=Rfast::vector::mad<rowvec>(x.row(i),method,na_rm);
-		        }
-		    }else{
-		        for(unsigned int i=0;i<x.n_rows;++i){
-		            f[i]=Rfast::vector::mad<rowvec>(x.row(i),method,na_rm);
-		        }
-		    }
-		    return f;
+				for(unsigned int i=0;i<x.n_rows;++i){
+					f[i]=Rfast::vector::mad<rowvec>(x.row(i),method,na_rm);
+				}
+			}else{
+				for(unsigned int i=0;i<x.n_rows;++i){
+					f[i]=Rfast::vector::mad<rowvec>(x.row(i),method,na_rm);
+				}
+			}
+			return f;
 		}
 
 		template<class Engine=std::default_random_engine>
 		inline NumericMatrix colShuffle(NumericMatrix x,Engine engine=Engine()){
-		    const int n=x.ncol();
-		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long unsigned  int> seeds(n);
-		    seq.generate(seeds.begin(),seeds.end());
-		    NumericMatrix y(x.nrow(),n);
-		    for(int i=0;i<n;++i){
-		        engine.seed(seeds[i]);
-		        y.column(i)=Rfast::vector::shuffle<NumericVector>(x.column(i),engine);
-		    }
-		    return y;
+			const int n=x.ncol();
+			seed_seq seq{get_current_nanoseconds()};
+			std::vector<long long unsigned  int> seeds(n);
+			seq.generate(seeds.begin(),seeds.end());
+			NumericMatrix y(x.nrow(),n);
+			for(int i=0;i<n;++i){
+				engine.seed(seeds[i]);
+				y.column(i)=Rfast::vector::shuffle<NumericVector>(x.column(i),engine);
+			}
+			return y;
 		}
 
 		template<class Engine=std::default_random_engine>
 		NumericMatrix rowShuffle(NumericMatrix x,Engine engine=Engine()){
-		    const int n=x.ncol();
-		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long unsigned  int> seeds(n);
-		    seq.generate(seeds.begin(),seeds.end());
-		    NumericMatrix y(n,x.ncol());
-		    for(int i=0;i<n;++i){
-		        engine.seed(seeds[i]);
-		        y.row(i)=Rfast::vector::shuffle<NumericVector>(x.row(i),engine);
-		    }
-		    return y;
+			const int n=x.ncol();
+			seed_seq seq{get_current_nanoseconds()};
+			std::vector<long long unsigned  int> seeds(n);
+			seq.generate(seeds.begin(),seeds.end());
+			NumericMatrix y(n,x.ncol());
+			for(int i=0;i<n;++i){
+				engine.seed(seeds[i]);
+				y.row(i)=Rfast::vector::shuffle<NumericVector>(x.row(i),engine);
+			}
+			return y;
 		}
 
 		template<class Engine=std::default_random_engine>
 		mat colShuffle(mat x,Engine engine=Engine()){
-		    const int n=x.n_cols;
-		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long unsigned int> seeds(n);
-		    seq.generate(seeds.begin(),seeds.end());
-		    mat y(x.n_rows,n);
-		    for(int i=0;i<n;++i){
-		        engine.seed(seeds[i]);
-		        y.col(i)=Rfast::vector::shuffle<colvec>(x.col(i),engine);
-		    }
-		    return y;
+			const int n=x.n_cols;
+			seed_seq seq{get_current_nanoseconds()};
+			std::vector<long long unsigned int> seeds(n);
+			seq.generate(seeds.begin(),seeds.end());
+			mat y(x.n_rows,n);
+			for(int i=0;i<n;++i){
+				engine.seed(seeds[i]);
+				y.col(i)=Rfast::vector::shuffle<colvec>(x.col(i),engine);
+			}
+			return y;
 		}
 
 		template<class Engine=std::default_random_engine>
 		mat rowShuffle(mat x,Engine engine=Engine()){
-		    const int n=x.n_rows;
-		    seed_seq seq{get_current_nanoseconds()};
-		    std::vector<long long unsigned int> seeds(n);
-		    seq.generate(seeds.begin(),seeds.end());
-		    mat y(n,x.n_cols);
-		    for(int i=0;i<n;++i){
+			const int n=x.n_rows;
+			seed_seq seq{get_current_nanoseconds()};
+			std::vector<long long unsigned int> seeds(n);
+			seq.generate(seeds.begin(),seeds.end());
+			mat y(n,x.n_cols);
+			for(int i=0;i<n;++i){
 				engine.seed(seeds[i]);
-		        y.row(i)=Rfast::vector::shuffle<rowvec>(x.row(i),engine);
-		    }
-		    return y;
+				y.row(i)=Rfast::vector::shuffle<rowvec>(x.row(i),engine);
+			}
+			return y;
 		}
 	}
 }
