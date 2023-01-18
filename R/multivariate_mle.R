@@ -7,7 +7,7 @@ invdir.mle <- function(x, tol = 1e-09) {
   sx2 <- sum( log1p( Rfast::rowsums(x) ) )
   com <- c( Rfast::rowsums(zx) - sx2, -sx2 )
   a <- Rfast::colmeans(x)   
-  b <- Rfast::colVars(x, suma = n * a)
+  b <- Rfast::colVars(x)
   D <- p + 1 
   aD <- 0.5 * ( mean(a)^2 + mean(a) ) / mean(b) + 1
   a1 <- abs( c( a * (aD - 1), aD) ) / 2

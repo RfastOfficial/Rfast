@@ -3,7 +3,7 @@ ttest <- function(x, m, alternative = "unequal", logged = FALSE, conf = NULL) {
 
   n <- dim(x)[1] 
   xbar <- Rfast::colmeans(x)
-  s <- Rfast::colVars(x, suma = n * m, std = TRUE)
+  s <- Rfast::colVars(x, std = TRUE)
   stat <- sqrt(n) * ( xbar - m ) / s
   
   if ( alternative == "unequal" ) {
@@ -114,8 +114,8 @@ ttests <- function(x, y = NULL, ina, paired = FALSE, logged = FALSE, parallel = 
 
     m1 <- Rfast::colmeans(x1, parallel = parallel)
     m2 <- Rfast::colmeans(x2, parallel = parallel)
-    f1 <- Rfast::colVars(x1, suma = n1 * m1, parallel = parallel) / n1
-    f2 <- Rfast::colVars(x2, suma = n2 * m2, parallel = parallel) / n2
+    f1 <- Rfast::colVars(x1, parallel = parallel) / n1
+    f2 <- Rfast::colVars(x2, parallel = parallel) / n2
     fac <- f1 + f2
     dof <- fac^2 / ( f1^2 / (n1 - 1) + f2^2 / (n2 - 1) )
     stat <- ( m1 - m2 ) / sqrt(fac)
@@ -130,7 +130,7 @@ ttests <- function(x, y = NULL, ina, paired = FALSE, logged = FALSE, parallel = 
       z <- x[ ina == 1, ] - x[ ina == 2, ]
     } else  z <- x - y    
     m <- Rfast::colmeans(z, parallel = parallel)
-    s <- Rfast::colVars(z, suma = n * m, std = TRUE, parallel = parallel)
+    s <- Rfast::colVars(z, std = TRUE, parallel = parallel)
     stat <- sqrt(n) * m / s
     if ( logged ) {
       pvalue <- log(2) + pt( abs(stat), n - 1, lower.tail = FALSE, log.p = TRUE )  
@@ -147,7 +147,7 @@ ttests.pairs <- function(x, logged = FALSE) {
   
   n <- dim(x)[1]
   m <- Rfast::colmeans(x)
-  s <- Rfast::colVars(x, suma = n * m) / n
+  s <- Rfast::colVars(x) / n
   fac <- outer(s, s, "+")
   down <- outer( s^2/(n - 1), s^2/(n - 1), "+" )
   dof <- fac^2 / down 
@@ -184,8 +184,8 @@ allttests <- function (x, y = NULL, ina, logged = FALSE) {
     }
     m1 <- Rfast::colmeans(x1)
     m2 <- Rfast::colmeans(x2)
-    f1 <- Rfast::colVars(x1, suma = n1 * m1)/n1
-    f2 <- Rfast::colVars(x2, suma = n2 * m2)/n2
+    f1 <- Rfast::colVars(x1)/n1
+    f2 <- Rfast::colVars(x2)/n2
     fac <- outer(f1, f2, "+")
     down <- outer(f1^2/(n1 - 1), f2^2/(n2 - 1), "+")
     dof <- fac^2/down

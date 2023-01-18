@@ -7,7 +7,7 @@ allbetas <- function(y, x, pvalue = FALSE, logged = FALSE) {
   m <- Rfast::colmeans(x)
   r <- ( Rfast::eachcol.apply(x, y) - n * my * m )/denom
 
-  sx <- Rfast::colVars(x, suma = n * m)
+  sx <- Rfast::colVars(x)
   be <- r / sx
   a <- my - be * m
 
@@ -333,7 +333,7 @@ mvbetas <- function (y, x, pvalue = FALSE) {
       }  else  rownames(result) <- colnames(x)
 
     } else {
-      sy <- Rfast::colVars(y, suma = n * my, std = TRUE)
+      sy <- Rfast::colVars(y, std = TRUE)
       rho <- r/(sqrt(sx) * sy)
       sqdof <- sqrt(n - 2)
       ta <- rho * sqdof/sqrt(1 - rho^2)

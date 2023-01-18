@@ -31,7 +31,7 @@ rmdp <- function(y, alpha = 0.05, itertime = 100) {
   nw <- sum(w0)
   sub <- seq(1, n)[w0]
   mu_t <- Rfast::colmeans( y[sub, ] ) 
-  var_t <- Rfast::colVars( y[sub, ], suma = nw * mu_t )
+  var_t <- Rfast::colVars( y[sub, ])
   sama <- ( t(y) - mu_t )^2 / var_t
   disa <- Rfast::colsums(sama)
   b <- Rfast::hd.eigen(y[sub, ], center = TRUE, scale = TRUE)$values
