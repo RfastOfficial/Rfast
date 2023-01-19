@@ -1,8 +1,8 @@
 Package: Rfast
 Type: Package
 Title: A Collection of Efficient and Extremely Fast R Functions
-Version: 2.0.6
-Date: 2022-02-15
+Version: 2.0.7
+Date: 2023-01-20
 Author: Manos Papadakis, Michail Tsagris, Marios Dimitriadis, Stefanos Fafalios, Ioannis Tsamardinos, Matteo Fasiolo, Giorgos Borboudakis, John Burkardt, Changliang Zou, Kleanthi Lakiotaki and Christina Chatzipantsiou.
 Maintainer: Manos Papadakis <rfastofficial@gmail.com>
 Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), RcppZiggurat
