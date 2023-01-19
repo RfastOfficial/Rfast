@@ -117,7 +117,7 @@ R implementation and documentation: Marios Dimitriadis <kmdimitriadis@gmail.com>
 \examples{
 x <- as.matrix(iris[, 1:4])
 y <- iris[, 5]
-mod <- knn.cv(folds = NULL, nfolds = 10, stratified = NULL, seed = NULL, y = y, x = x, 
+mod <- knn.cv(folds = NULL, nfolds = 10, stratified = FALSE, seed = NULL, y = y, x = x, 
 k = c(3, 4), dist.type = "euclidean", type = "C", method = "average", 
 freq.option = 0, pred.ret = FALSE, mem.eff = FALSE) 
 }
