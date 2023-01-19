@@ -1,5 +1,19 @@
 <h1 align="center"> _Rfast_ </h1>
 
+### **Version 2.0.7**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | :-------------------:  | :-------------------------------: |
+>  |  colVars				| Support data.frame |
+>  |  colmeans				| Support data.frame |
+>  |  				|  |
+
+
+</br>
+</br>
+
 ### **Version 2.0.6**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
