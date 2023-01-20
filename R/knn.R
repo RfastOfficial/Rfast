@@ -8,11 +8,11 @@ knn <- function(xnew, y, x, k, dist.type = "euclidean", type = "C", method = "av
 #[export]
 knn.cv <- function(folds = NULL, nfolds = 10, stratified = FALSE, seed = NULL, y, x, k, dist.type = "euclidean", type = "C", 
 				   method = "average", freq.option = 0, pred.ret = FALSE, mem.eff = FALSE) {
-  if (is.null(folds)) folds <- generateFolds(y, nfolds = nfolds, stratified = stratified, seed = seed) 
+  if (is.null(folds)) folds <- .makefolds(y, nfolds = nfolds, stratified = stratified, seed = seed) 
   .Call(Rfast_k_nn_cv,folds, y, x, k, dist.type, type, method, freq.option, pred.ret, mem.eff)
 }
 
-generateFolds <- function (ina, nfolds = 10, stratified = TRUE, seed = NULL) {
+.makefolds <- function (ina, nfolds = 10, stratified = TRUE, seed = NULL) {
     names <- paste("Fold", 1:nfolds)
     runs <- sapply(names, function(x) NULL)
     if (!is.null(seed)) 
