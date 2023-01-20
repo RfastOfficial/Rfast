@@ -6,8 +6,8 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | :-------------------:  | :-------------------------------: |
->  |  colVars				| Support data.frame |
->  |  colmeans				| Support data.frame |
+>  |  colVars				| Supports data.frame |
+>  |  colmeans				| Supports data.frame |
 >  |  				|  |
 
 
@@ -20,7 +20,7 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | :-------------------:  | :-------------------------------: |
->  |  Dist(method = "bhattacharyya") | Minor optimize. |
+>  |  Dist(method = "bhattacharyya") | Minor optimization. |
 
 
 </br>
@@ -37,7 +37,7 @@
 >  |  checkUsage            | Fix a bug about "=function". Optimized empty return values and error messages. |
 >  |  checkAliases, checkTF | Optimized empty return values. |
 >  |  edist                 | Fix a bug. |
->  |  dirimultinom.mle       | Fix a bug. |
+>  |  dirimultinom.mle      | Fix a bug. |
 
 
 </br>
