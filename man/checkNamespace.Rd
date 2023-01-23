@@ -145,12 +145,12 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 	#for example: path.namespace="C:\\some_file\\NAMESPACE"
 	#for example: path.rfolder="C:\\some_file\\R\\"
 	#for example: path.man="C:\\some_file\\man\\"
-	system.time( a<-checkNamespace(path.namespace,path.rfolder) )
-	system.time( b<-checkAliases(path.man,path.rfolder) )
-	system.time( b<-checkExamples(path.man) )
-	system.time( b<-checkExamples(path.man,2) )
-	system.time( b<-checkTF(path.man) )
-	system.time( b<-checkTF(path.man,path.rfolder) )
+	#system.time( a<-checkNamespace(path.namespace,path.rfolder) )
+	#system.time( b<-checkAliases(path.man,path.rfolder) )
+	#system.time( b<-checkExamples(path.man) )
+	#system.time( b<-checkExamples(path.man,2) )
+	#system.time( b<-checkTF(path.man) )
+	#system.time( b<-checkTF(path.man,path.rfolder) )
 }
 }
 
