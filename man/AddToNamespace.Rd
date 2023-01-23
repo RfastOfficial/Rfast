@@ -55,23 +55,23 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-\donttest{
+\dontrun{
 	#for example: path.namespace="C:\\some_file\\NAMESPACE" where is NAMESPACE file
 	#path.rfolder="C:\\some_file\\R\\" where is R files are
-	system.time( a<-AddToNamespace(path.namespace,path.rfolder) )
-	if(length(a)==0){
-		print("all the files are inserted")
-	}else{
-		print("The new files that inserted are: \n")
-		a
-	}
-	system.time( a<-RemoveFromNamespace(path.namespace,c("a","b")) )
-	if(length(a)==0){
-		print("all the files are inserted")
-	}else{
-		print("The files thatcould not be deleted are: \n")
-		a
-	}
+	#system.time( a<-AddToNamespace(path.namespace,path.rfolder) )
+	#if(length(a)==0){
+	#	print("all the files are inserted")
+	#}else{
+	#	print("The new files that inserted are: \n")
+	#	a
+	#}
+	#system.time( a<-RemoveFromNamespace(path.namespace,c("a","b")) )
+	#if(length(a)==0){
+	#	print("all the files are inserted")
+	#}else{
+	#	print("The files thatcould not be deleted are: \n")
+	#	a
+	#}
 }
 }
 
