@@ -63,7 +63,7 @@ List check_true_false(string path_to_man){
   CharacterVector trues,falses;
   for(unsigned int i=0;i<exams.size();++i){
     s=exams[i];
-    remove(s.begin(),s.end(),' ');
+    [[maybe_unused]] auto temp = remove(s.begin(),s.end(),' ');
     if(find_string(s,"=T)") || find_string(s,"=T,")){
       trues.push_back(names[i]);
     }else if(find_string(s,"=F)") || find_string(s,"=F,")){
