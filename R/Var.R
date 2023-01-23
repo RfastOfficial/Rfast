@@ -5,6 +5,16 @@ rowVars <- function(x, std = FALSE, na.rm = FALSE,parallel = FALSE) {
 
 #[export]
 colVars <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE) {
+	UseMethod("colVars")
+}
+
+#[export s3]
+colVars.matrix <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE) {
+	.Call(Rfast_col_vars,x,std,na.rm,parallel)
+}
+
+#[export s3]
+colVars.data.frame <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE) {
 	.Call(Rfast_col_vars,x,std,na.rm,parallel)
 }
 

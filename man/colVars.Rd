@@ -10,6 +10,8 @@ Column and row-wise variances and standard deviations of a matrix
 }
 
 \usage{
+\method{colVars}{matrix}(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
+\method{colVars}{data.frame}(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
 colVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
 rowVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
 }
