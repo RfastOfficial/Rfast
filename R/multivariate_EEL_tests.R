@@ -44,7 +44,7 @@ mv.eeltest1 <- function(x, mu, tol = 1e-06) {
   runtime <- proc.time() - runtime
   res$runtime <- runtime
 
-  if ( class(res) == "try-error" ) {
+  if ( identical(class(res), "try-error") ) {
     res$info[1] <- 1e10
     res$info[2] <- 0
     res$p <- NA
@@ -115,7 +115,7 @@ mv.eeltest2 <- function(y1, y2, tol = 1e-07, R = 0) {
   res$runtime <- runtime
   res$note <- paste("Chi-square approximation")
 
-  if ( class(res) == "try-error" ) {
+  if ( identical(class(res), "try-error") ) {
     res$info[1] <- 1e10
     res$info[2] <- 0
     res$p1 <- NA

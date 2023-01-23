@@ -80,7 +80,8 @@ eel.test1 <- function(x, mu, tol = 1e-09, logged = FALSE) {
   n <- length(x)   
   res <- try( funa(x, mu, n), silent = TRUE)
 
-  if ( class(res) == "try-error" )  {
+  if ( identical(class(res), "try-error") ) {
+
     p <- iters <- NULL    ;   info <- c(0, 10^5, 0)
   } else {
     p <- res$p    
@@ -137,7 +138,7 @@ eel.test2 <- function(x, y, tol = 1e-09, logged = FALSE) {
   n1 <- length(x)   ;   n2 <- length(y)
   res <- try( funa2(x, y, n1, n2), silent = TRUE)
 
-  if ( class(res) == "try-error" )  {
+  if ( identical(class(res), "try-error") ) {
     p1 <- p2 <- iters <- NULL    ;   info <- c(0, 10^5, 0)
     
   } else {
