@@ -8,12 +8,12 @@ lockEnvironment(delete,TRUE)
 "[<-.Hash"<-function(x,...,sep = " ",value){
     key<-paste0(c(...),collapse = sep)
     if(is.null(x[[key]])){
-        if(class(value) == "delete"){
+        if(inherits(value,"delete")){
             return(x)
         }else{
             x$.length <- x$.length + 1 
         }
-    }else if(class(value) == "delete"){
+    }else if(inherits(value,"delete")){
         x$.length <- x$.length - 1 
     }
     x[[key]]<-value
@@ -23,7 +23,7 @@ lockEnvironment(delete,TRUE)
 "[.Hash"<-function(x,...,sep = " "){
     key<-paste0(c(...),collapse = sep)
     val <- x[[key]]
-    if(class(val) == "delete"){
+    if(inherits(val,"delete")){
         NULL
     }else{
         val
@@ -50,7 +50,7 @@ print.Hash<-function(x,...){
         for(i in 1:length(nam)){
             key <- nam[i]
             val <-  x[[key]]
-            if(class(val) == "delete"){
+            if(inherits(val,"delete")){
             	next
             }
             space <- paste0(rep(" ",max_size_of_keys-size_of_each_name[i]),collapse = "")
@@ -162,7 +162,7 @@ print.iterator<-function(x,...){
 }
 #[export s3]
 "==.iterator"<-function(x,y){
-    if(class(y)=="iterator"){
+    if(inherits(y,"iterator")){
         identical(y$.variable,x$.variable) && identical(y$.by,x$.by) && 
         identical(y$.type,x$.type) && identical(y$.method,x$.method) && identical(y$.value,x$.value)
     }else{

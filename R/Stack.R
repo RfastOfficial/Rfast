@@ -2,7 +2,7 @@
 Stack<-function(x,type=NULL){
     y<-new.env()
     class(y)<-"Stack"
-    var<- if(class(x)=="Stack") y$.variable else x
+    var<- if(inherits(y,"Stack")) y$.variable else x
     y$.variable<-if(is.null(type)){ y$.total<-length(var);var }else{ y$.total<-x;type(x)}
     y$.top_element<-y$.total + 1
     y$pop = function(){ 
