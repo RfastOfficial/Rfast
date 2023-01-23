@@ -1,5 +1,7 @@
 \name{Column and row-wise variances and standard deviations}
 \alias{colVars}
+\alias{colVars.matrix}
+\alias{colVars.data.frame}
 \alias{rowVars}
 \title{
 Column and row-wise variances and standard deviations of a matrix
