@@ -1,5 +1,7 @@
 \name{Column and row-wise means of a matrix}
 \alias{colmeans}
+\alias{colmeans.matrix}
+\alias{colmeans.data.frame}
 \alias{rowmeans}
 \alias{colhameans}
 \alias{rowhameans}
@@ -13,6 +15,8 @@ Column and row-wise means of a matrix.
 
 \usage{
 colmeans(x, parallel = FALSE)
+\method{colmeans}{matrix}(x, parallel = FALSE)
+\method{colmeans}{data.frame}(x, parallel = FALSE)
 rowmeans(x)
 colhameans(x, parallel = FALSE)
 rowhameans(x)
