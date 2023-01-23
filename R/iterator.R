@@ -5,7 +5,7 @@ iterator<-function(x,method="ceil",type="vector",by=1){
     }
     y<-new.env()
     class(y)<-"iterator"
-    var <- if(class(x)=="iterator") x$.variable else x
+    var <- if(inherits(x,"iterator")) x$.variable else x
     y$.variable<-var
     y$.method <- method
     y$.value <- 1
