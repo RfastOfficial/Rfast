@@ -256,7 +256,7 @@ multinom.reg <- function(y, x, tol = 1e-07, maxiters = 50) {
       }  
       b2 <- b1 + solve(der2, der)
     }, silent = TRUE)
-    if (class(res) == "try-error")   b2 <- b1
+    if (inherits(res,"try-error"))   b2 <- b1
     colnames(b2) <- paste("Y", 1:d, sep = "")
     rownames(b2) <- colnames(X)
     Y1 <- design_matrix(y, ones = FALSE)
