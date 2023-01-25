@@ -9,7 +9,7 @@ MLE of the inverted Dirichlet distribution.
 }
 
 \usage{
-invdir.mle(x, tol = 1e-09)
+invdir.mle(x, tol = 1e-07)
 }
 
 \arguments{
