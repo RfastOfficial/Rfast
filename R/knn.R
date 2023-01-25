@@ -21,7 +21,7 @@ knn.cv <- function(folds = NULL, nfolds = 10, stratified = FALSE, seed = NULL, y
     on.exit(options(oop))
     if (!stratified) {
         rat <- length(ina)%%nfolds
-        mat <- matrix(Rfast2::Sample.int(length(ina)), ncol = nfolds)
+        mat <- matrix( sample.int( length(ina) ), ncol = nfolds)
         mat[-c(1:length(ina))] <- NA
         for (i in 1:c(nfolds - 1)) runs[[i]] <- mat[, i]
         a <- prod(dim(mat)) - length(ina)
