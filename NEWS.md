@@ -6,9 +6,9 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | :-------------------:  | :-------------------------------: |
->  |  colVars				| Supports data.frame |
->  |  colmeans				| Supports data.frame |
->  |  				|  |
+>  |  colVars				| Supports data.frame  |
+>  |  colmeans				| Supports data.frame  |
+>  |  invdir.mle			| A small optimization |
 
 
 </br>
