@@ -2,7 +2,7 @@
 
 #[export]
 Dist <- function(x,method = "euclidean", square = FALSE,p=0,vector = FALSE) {
-	if(method != "harvesine")
+	if(method != "haversine")
   		x <- t(x)
 	if(method == "hellinger"){
 		x <- sqrt(x)
