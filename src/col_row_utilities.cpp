@@ -447,7 +447,7 @@ SEXP row_max(SEXP x){
 		RObject __result;
 		RNGScope __rngScope;
 		traits::input_parameter< const bool >::type parallel(parallelSEXP);
-		__result = !Rf_isMatrix(xSEXP) ? col_means(NumericMatrix(xSEXP)) : col_means(DataFrame(xSEXP),parallel);
+		__result = Rf_isMatrix(xSEXP) ? col_means(NumericMatrix(xSEXP)) : col_means(DataFrame(xSEXP),parallel);
 		return __result;
 		END_RCPP
 	}
