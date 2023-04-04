@@ -29,7 +29,20 @@ is used for the hypothesis test that the distance correlation is zero (see \code
 }
 
 \value{
-The value of the distance correlation of the bias corrected distance correlation.
+For the bias corrected distance correlation its value only. 
+For the distance correlation a list including:
+\item{dcov}{
+The distance covariance.
+}
+\item{dvarX}{
+The distance variance of x.
+}
+\item{dvarY}{
+The distance variance of Y.
+}
+\item{dcor}{
+The distance correlation.
+}
 }
 
 \references{
