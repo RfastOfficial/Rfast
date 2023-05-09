@@ -16,7 +16,7 @@ rowMedians(x,na.rm = FALSE, parallel = FALSE)
 
 \arguments{
 \item{x}{
-A matrix with the data.
+A matrix or data.frame with the data.
 }
 \item{parallel}{
 Do you want to do it in parallel in C++? TRUE or FALSE.
