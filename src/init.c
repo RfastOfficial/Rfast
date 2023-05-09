@@ -246,7 +246,6 @@ SEXP Rfast_col_max_p(SEXP nSEXP);
 SEXP Rfast_col_min_p(SEXP nSEXP);
 SEXP Rfast_col_nth_p(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
 SEXP Rfast_col_order_p(SEXP xSEXP,SEXP stableSEXP,SEXP descendingSEXP);
-SEXP Rfast_col_ranks_p(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP);
 SEXP Rfast_col_sums_p(SEXP xSEXP);
 SEXP Rfast_mat_mult_p(SEXP xSEXP,SEXP ySEXP,SEXP txSEXP,SEXP tySEXP);
 SEXP Rfast_row_all_p(SEXP xSEXP);
@@ -482,7 +481,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_col_max_p", (DL_FUNC) &Rfast_col_max_p, 1},
   {"Rfast_col_min_p", (DL_FUNC) &Rfast_col_min_p, 1},
   {"Rfast_col_nth_p", (DL_FUNC) &Rfast_col_nth_p, 5},
-  {"Rfast_col_ranks_p", (DL_FUNC) &Rfast_col_ranks_p, 4},
   {"Rfast_col_sums_p", (DL_FUNC) &Rfast_col_sums_p, 1},
   {"Rfast_col_order_p", (DL_FUNC) &Rfast_col_order_p, 3},
   {"Rfast_mat_mult_p", (DL_FUNC) &Rfast_mat_mult_p, 4},
