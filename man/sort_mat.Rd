@@ -18,7 +18,7 @@ sort_mat(x,by.row=FALSE,descending=FALSE,stable=FALSE,parallel=FALSE)
 
 \arguments{
 \item{x}{
-A numerical matrix with data.
+A numerical matrix or data.frame with data.
 }
 \item{descending}{
 If you want the sorting in descending order, set this to TRUE.

@@ -16,7 +16,7 @@ rowShuffle(x)
 
 \arguments{
 \item{x}{
-A matrix with the data.
+A matrix or data.frame with the data.
 }
 }
 
