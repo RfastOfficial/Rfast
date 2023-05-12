@@ -13,17 +13,21 @@ NumericMatrix sort_mat(NumericMatrix x,const bool descend,const bool by_row,cons
 	return by_row ? Rfast::matrix::rowSort(x,descend,stable,parallel) : Rfast::matrix::colSort(x,descend,stable,parallel);
 }
 
+
 // sort_mat
 RcppExport SEXP Rfast_sort_mat(SEXP xSEXP,SEXP descendSEXP,SEXP by_rowSEXP,SEXP stableSEXP,SEXP parallelSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type by_row(by_rowSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type parallel(parallelSEXP);
-    __result = sort_mat(x,descend,by_row,stable,parallel);
+    if(Rf_isMatrix(xSEXP)){
+        __result = sort_mat(NumericMatrix(xSEXP),descend,by_row,stable,parallel);
+    }else if(Rf_isNewList(xSEXP)){
+        __result = Rfast::matrix::colSort(DataFrame(xSEXP),descend,stable,parallel);
+    }
     return __result;
 END_RCPP
 }
