@@ -10,7 +10,7 @@ using std::greater;
 
 //[[Rcpp::export]]
 NumericMatrix sort_mat(NumericMatrix x,const bool descend,const bool by_row,const bool stable,const bool parallel){
-	return by_row ? Rfast::matrix::rowSort(x,descend,stable,parallel) : Rfast::matrix::colSort(x,descend,stable,parallel);
+	return by_row ? Rfast::rowSort(x,descend,stable,parallel) : Rfast::colSort(x,descend,stable,parallel);
 }
 
 
@@ -26,7 +26,7 @@ BEGIN_RCPP
     if(Rf_isMatrix(xSEXP)){
         __result = sort_mat(NumericMatrix(xSEXP),descend,by_row,stable,parallel);
     }else if(Rf_isNewList(xSEXP)){
-        __result = Rfast::matrix::colSort(DataFrame(xSEXP),descend,stable,parallel);
+        __result = Rfast::colSort(DataFrame(xSEXP),descend,stable,parallel);
     }
     return __result;
 END_RCPP
