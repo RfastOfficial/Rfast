@@ -17,11 +17,7 @@ using namespace Rcpp;
 
 //[[Rcpp::plugins(cpp11)]]
 
-struct NA {
-template<class T> static T value(){
-    return is_same<T,int>::value ? NA_INTEGER : NA_REAL;
-}
-};
+
 
 template<typename f,typename s>
 struct pr{
@@ -695,6 +691,11 @@ inline RET mgreater_eq(T x,T y){
 
 template<typename RET, typename T>
 inline RET mgreater(T x,T y){
+    return x>y;
+}
+
+template<typename T>
+inline bool mgreater(T x,T y){
     return x>y;
 }
 
