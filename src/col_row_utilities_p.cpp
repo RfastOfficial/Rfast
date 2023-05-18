@@ -152,58 +152,6 @@ END_RCPP
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-NumericMatrix col_ranks_p(NumericMatrix x,string method,const bool descend,const bool stable){
-  const int ncl=x.ncol(),nrw=x.nrow();
-  NumericMatrix f(nrw,ncl);
-  mat xx(x.begin(),nrw,ncl,false);
-  mat ff(f.begin(),nrw,ncl,false);
-  if(method == "average"){
-    #ifdef _OPENMP
-    #pragma omp parallel for
-    #endif
-    for(int i=0;i<ncl;++i){
-      ff.col(i)=rank_mean<colvec,colvec,ivec>(xx.col(i),descend);
-  }
-  }else if(method == "min"){
-  #ifdef _OPENMP
-  #pragma omp parallel for
-  #endif
-    for(int i=0;i<ncl;++i){
-      ff.col(i)=rank_min<colvec,colvec,ivec>(xx.col(i),descend);
-  }
-  }else if(method == "max"){
-  #ifdef _OPENMP
-  #pragma omp parallel for
-  #endif    
-    for(int i=0;i<ncl;++i){
-      ff.col(i)=rank_max<colvec,colvec,ivec>(xx.col(i),descend);
-    }
-  }else if(method == "first"){
-  #ifdef _OPENMP
-  #pragma omp parallel for
-  #endif    
-    for(int i=0;i<ncl;++i){
-      ff.col(i)=rank_first<colvec,colvec,ivec>(xx.col(i),descend,stable);
-    }
-  }else
-    stop("Error. Wrong method.");  
-  return f;
-}
-
-
-RcppExport SEXP Rfast_col_ranks_p(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP) {
-BEGIN_RCPP
-    RObject __result;
-    RNGScope __rngScope;
-    traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    traits::input_parameter< string >::type method(methodSEXP);
-    traits::input_parameter< const bool >::type descend(descendSEXP);
-    traits::input_parameter< const bool >::type stable(stableSEXP);
-    __result = col_ranks_p(x,method,descend,stable);
-    return __result;
-END_RCPP
-}
-
 NumericMatrix row_ranks_p(NumericMatrix x,string method,const bool descend,const bool stable){
   const int ncl=x.ncol(),nrw=x.nrow();
   NumericMatrix f(nrw,ncl);

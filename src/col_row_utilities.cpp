@@ -244,11 +244,11 @@ RcppExport SEXP Rfast_col_mads(SEXP xSEXP,SEXP methodSEXP,SEXP na_rmSEXP,SEXP pa
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
-	traits::input_parameter< NumericMatrix >::type x(xSEXP);
 	traits::input_parameter< const string >::type method(methodSEXP);
 	traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
 	traits::input_parameter< const bool >::type parallel(parallelSEXP);
-	__result = Rfast::matrix::colMads(x,method,na_rm,parallel);
+	__result = Rf_isMatrix(xSEXP) ? Rfast::colMads(NumericMatrix(xSEXP),method,na_rm,parallel) :
+	Rfast::colMads(DataFrame(xSEXP),method,na_rm,parallel);
 	return __result;
 	END_RCPP
 }
@@ -261,7 +261,7 @@ RcppExport SEXP Rfast_row_mads(SEXP xSEXP,SEXP methodSEXP,SEXP na_rmSEXP,SEXP pa
 	traits::input_parameter< const string >::type method(methodSEXP);
 	traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
 	traits::input_parameter< const bool >::type parallel(parallelSEXP);
-	__result = Rfast::matrix::rowMads(x,method,na_rm,parallel);
+	__result = Rfast::rowMads(x,method,na_rm,parallel);
 	return __result;
 	END_RCPP
 }
@@ -412,7 +412,7 @@ SEXP row_max(SEXP x){
 		mat xx;
 		const int n=x.ncol();
 		NumericVector F(n);
-		colvec ff(F.begin(),n,false);
+		rowvec ff(F.begin(),n,false);
 		if(parallel){
 			xx=mat(x.begin(),x.nrow(),n,false);
 			#pragma omp parallel for
@@ -447,7 +447,7 @@ SEXP row_max(SEXP x){
 		RObject __result;
 		RNGScope __rngScope;
 		traits::input_parameter< const bool >::type parallel(parallelSEXP);
-		__result = Rf_isMatrix(xSEXP) ? col_means(NumericMatrix(xSEXP)) : col_means(DataFrame(xSEXP),parallel);
+		__result = Rf_isMatrix(xSEXP) ? col_means(NumericMatrix(xSEXP),parallel) : col_means(DataFrame(xSEXP),parallel);
 		return __result;
 		END_RCPP
 	}
@@ -461,10 +461,15 @@ SEXP row_max(SEXP x){
 		BEGIN_RCPP
 		RObject __result;
 		RNGScope __rngScope;
-		traits::input_parameter< NumericMatrix >::type x(xSEXP);
 		traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
 		traits::input_parameter< const bool >::type parallel(parallelSEXP);
-		__result = Rfast::matrix::colMedian(x,na_rm,parallel);
+		if(Rf_isMatrix(xSEXP)){
+			NumericMatrix x(xSEXP);
+			__result = Rfast::colMedian(x,na_rm,parallel);
+		}else{
+			DataFrame x(xSEXP);
+			__result = Rfast::colMedian(x,na_rm,parallel);
+		}
 		return __result;
 		END_RCPP
 	}
@@ -477,7 +482,7 @@ SEXP row_max(SEXP x){
 		traits::input_parameter< NumericMatrix >::type x(xSEXP);
 		traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
 		traits::input_parameter< const bool >::type parallel(parallelSEXP);
-		__result = Rfast::matrix::rowMedian(x,na_rm,parallel);
+		__result = Rfast::rowMedian(x,na_rm,parallel);
 		return __result;
 		END_RCPP
 	}
@@ -892,25 +897,158 @@ SEXP row_max(SEXP x){
 
 			using std::string;
 
+			inline DataFrame col_ranks(DataFrame x,string method,const bool descend,const bool stable, const bool parallel){
+				List f(x.size());
+				if(parallel){
+					if(method == "average"){
+						#ifdef _OPENMP
+						#pragma omp parallel for
+						#endif
+						for(DataFrame::iterator s = x.begin(); s < x.end(); ++s){
+							colvec y;
+							int i;
+							#pragma omp critical
+							{
+								NumericVector yy;
+								yy=*s;
+								y = colvec(yy.begin(),yy.size());
+								i = s-x.begin();
+							}
+							y=rank_mean<colvec,colvec,ivec>(y,descend);
+							#pragma omp critical
+							{
+								f.insert(i,NumericVector(y.begin(),y.end()));
+							}
+						}
+					}else if(method == "min"){
+						#ifdef _OPENMP
+						#pragma omp parallel for
+						#endif
+						for(DataFrame::iterator s = x.begin(); s < x.end(); ++s){
+							colvec y;
+							int i;
+							#pragma omp critical
+							{
+								NumericVector yy;
+								yy=*s;
+								y = colvec(yy.begin(),yy.size());
+								i = s-x.begin();
+							}
+							y=rank_min<colvec,colvec,ivec>(y,descend);
+							#pragma omp critical
+							{
+								f.insert(i,NumericVector(y.begin(),y.end()));
+							}
+						}
+					}else if(method == "max"){
+						#ifdef _OPENMP
+						#pragma omp parallel for
+						#endif
+						for(DataFrame::iterator s = x.begin(); s < x.end(); ++s){
+							colvec y;
+							int i;
+							#pragma omp critical
+							{
+								NumericVector yy;
+								yy=*s;
+								y = colvec(yy.begin(),yy.size());
+								i = s-x.begin();
+							}
+							y=rank_max<colvec,colvec,ivec>(y,descend);
+							#pragma omp critical
+							{
+								f.insert(i,NumericVector(y.begin(),y.end()));
+							}
+						}
+					}else if(method == "first"){
+						#ifdef _OPENMP
+						#pragma omp parallel for
+						#endif
+						for(DataFrame::iterator s = x.begin(); s < x.end(); ++s){
+							colvec y;
+							int i;
+							#pragma omp critical
+							{
+								NumericVector yy;
+								yy=*s;
+								y = colvec(yy.begin(),yy.size());
+								i = s-x.begin();
+							}
+							y=rank_first<colvec,colvec,ivec>(y,descend,stable);
+							#pragma omp critical
+							{
+								f.insert(i,NumericVector(y.begin(),y.end()));
+							}
+						}
+					} else
+					stop("Error. Wrong method.");
+				}else{
+					int i=0;
+					NumericVector y(x.nrows());
+					for(auto c : x){
+						y=c;
+						f[i++]=Rank(y,method,descend,stable);
+					}
+				}
+				f.names() = x.names();
+				return f;
+			}
 
-			NumericMatrix col_ranks(NumericMatrix x,string method,const bool descend,const bool stable){
-				const int n=x.ncol();
-				NumericMatrix f(x.nrow(),n);
-				for(int i=0;i<n;++i){
-					f.column(i)=Rank(x.column(i),method,descend,stable);
+			NumericMatrix col_ranks(NumericMatrix x,string method,const bool descend,const bool stable, const bool parallel){
+				const int ncl=x.ncol(),nrw=x.nrow();
+				NumericMatrix f(nrw,ncl);
+				if(parallel){
+					mat xx(x.begin(),nrw,ncl,false);
+					mat ff(f.begin(),nrw,ncl,false);
+					if(method == "average"){
+					    #ifdef _OPENMP
+					    #pragma omp parallel for
+					    #endif
+						for(int i=0;i<ncl;++i){
+							ff.col(i)=rank_mean<colvec,colvec,ivec>(xx.col(i),descend);
+						}
+					}else if(method == "min"){
+						#ifdef _OPENMP
+						#pragma omp parallel for
+						#endif
+						for(int i=0;i<ncl;++i){
+							ff.col(i)=rank_min<colvec,colvec,ivec>(xx.col(i),descend);
+						}
+					}else if(method == "max"){
+						#ifdef _OPENMP
+						#pragma omp parallel for
+						#endif    
+						for(int i=0;i<ncl;++i){
+							ff.col(i)=rank_max<colvec,colvec,ivec>(xx.col(i),descend);
+						}
+					}else if(method == "first"){
+						#ifdef _OPENMP
+						#pragma omp parallel for
+						#endif    
+						for(int i=0;i<ncl;++i){
+							ff.col(i)=rank_first<colvec,colvec,ivec>(xx.col(i),descend,stable);
+						}
+					}else
+					stop("Error. Wrong method.");  
+					return f;
+				}else{
+					for(int i=0;i<ncl;++i){
+						f.column(i)=Rank(x.column(i),method,descend,stable);
+					}
 				}
 				return f; 
 			}
 
-			RcppExport SEXP Rfast_col_ranks(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP) {
+			RcppExport SEXP Rfast_col_ranks(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP,SEXP parallelSEXP) {
 				BEGIN_RCPP
 				RObject __result;
 				RNGScope __rngScope;
-				traits::input_parameter< NumericMatrix >::type x(xSEXP);
 				traits::input_parameter< string >::type method(methodSEXP);
 				traits::input_parameter< const bool >::type descend(descendSEXP);
-				traits::input_parameter< const bool >::type stable(stableSEXP);    
-				__result = col_ranks(x,method,descend,stable);
+				traits::input_parameter< const bool >::type stable(stableSEXP);   
+				traits::input_parameter< const bool >::type parallel(parallelSEXP);   
+				__result = Rf_isMatrix(xSEXP) ? col_ranks(NumericMatrix(xSEXP),method,descend,stable,parallel)
+				:	col_ranks(DataFrame(xSEXP),method,descend,stable,parallel); 
 				return __result;
 				END_RCPP
 			}
@@ -945,7 +1083,7 @@ SEXP row_max(SEXP x){
 				RObject __result;
 				RNGScope __rngScope;
 				traits::input_parameter< NumericMatrix >::type x(xSEXP);
-				__result = Rfast::matrix::rowShuffle(x);
+				__result = Rfast::rowShuffle(x);
 				return __result;
 				END_RCPP
 			}
@@ -955,7 +1093,8 @@ SEXP row_max(SEXP x){
 				RObject __result;
 				RNGScope __rngScope;
 				traits::input_parameter< NumericMatrix >::type x(xSEXP);
-				__result = Rfast::matrix::colShuffle(x);
+				__result = Rf_isMatrix(xSEXP) ? Rfast::colShuffle(NumericMatrix(xSEXP))
+				:	Rfast::colShuffle(DataFrame(xSEXP)); 
 				return __result;
 				END_RCPP
 			}
@@ -1422,8 +1561,8 @@ template<class T,class Ret,class T1,class F1,class F2>
 				traits::input_parameter< const bool >::type std(stdSEXP);
 				traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
 				traits::input_parameter< const bool >::type parallel(parallelSEXP);
-				__result = !Rf_isMatrix(xSEXP) ? Rfast::matrix::colVars(NumericMatrix(xSEXP),std,na_rm,parallel) :
-				Rfast::matrix::colVars(DataFrame(xSEXP),std,na_rm,parallel);
+				__result = Rf_isMatrix(xSEXP) ? Rfast::colVars(NumericMatrix(xSEXP),std,na_rm,parallel) :
+				Rfast::colVars(DataFrame(xSEXP),std,na_rm,parallel);
 				return __result;
 				END_RCPP
 			}
@@ -1436,7 +1575,7 @@ template<class T,class Ret,class T1,class F1,class F2>
 				traits::input_parameter< const bool >::type std(stdSEXP);
 				traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
 				traits::input_parameter< const bool >::type parallel(parallelSEXP);
-				__result = Rfast::matrix::rowVars(x,std,na_rm,parallel);
+				__result = Rfast::rowVars(x,std,na_rm,parallel);
 				return __result;
 				END_RCPP
 			}
