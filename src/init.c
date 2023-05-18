@@ -27,7 +27,7 @@ SEXP Rfast_col_max(SEXP x);
 SEXP Rfast_col_means(SEXP xSEXP, SEXP parallelSEXP);
 SEXP Rfast_col_nth(SEXP xSEXP,SEXP ySEXP,SEXP num_of_nths,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP);
 SEXP Rfast_col_len_sort_un_int(SEXP xSEXP);
-SEXP Rfast_col_ranks(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP);
+SEXP Rfast_col_ranks(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP,SEXP parallelSEXP);
 SEXP Rfast_col_tabulate(SEXP xSEXP,SEXP nrowwSEXP);
 SEXP Rfast_col_shuffle(SEXP xSEXP);
 SEXP Rfast_col_true(SEXP xSEXP);
@@ -280,7 +280,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"Rfast_col_means", (DL_FUNC) &Rfast_col_means, 2},
   {"Rfast_col_nth", (DL_FUNC) &Rfast_col_nth, 6},
   {"Rfast_col_len_sort_un_int", (DL_FUNC) &Rfast_col_len_sort_un_int, 1},
-  {"Rfast_col_ranks", (DL_FUNC) &Rfast_col_ranks, 4},
+  {"Rfast_col_ranks", (DL_FUNC) &Rfast_col_ranks, 5},
   {"Rfast_col_tabulate", (DL_FUNC) &Rfast_col_tabulate, 2},
   {"Rfast_col_shuffle", (DL_FUNC) &Rfast_col_shuffle, 1},
   {"Rfast_col_true", (DL_FUNC) &Rfast_col_true, 1},
