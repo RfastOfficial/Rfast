@@ -1,4 +1,38 @@
-<h1 align="center"> _Rfast_ </h1>
+<h1 align="center">Rfast</h1>
+
+### **Version 2.0.8**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  colMads				| Supports data.frame  |
+>  |  colShuffle				| Supports data.frame  |
+>  |  colMedian				| Supports data.frame  |
+>  |  colRanks				| Supports data.frame  |
+>  |  colSort				| Supports data.frame  |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  colMads				| Supports data.frame  |
+>  |  colShuffle				| Supports data.frame  |
+>  |  colMedian				| Supports data.frame  |
+>  |  colSort				| Supports data.frame  |
+>  |  NA				| A structure for manage R's NA values. Supports {int, double, bool, string}.  |
+>  |  Type				| A structure for manage R's types. Supports {REAL,INT,CHAR,FACTOR,LIST,DATAFRAME}.  |
+>
+> ### **Comments**
+***
+> From now on all the function will be inside namespace Rfast. Sub-namespaces "vector" and "matrix" have been removed.
+>
+>
+
+
+</br>
+</br>
 
 ### **Version 2.0.7**
 ***
