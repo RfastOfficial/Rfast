@@ -2,3 +2,9 @@
 1) add support list to every utility function.
 4) create function for checking non portable file names.
 5) check_usage: when checking if usage is the same with R file, careful about comments.
+6) DATA.FRAMES
+	colNth
+	colProds
+	colOrder
+	colCums
+	colPmax
