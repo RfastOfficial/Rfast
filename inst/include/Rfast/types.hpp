@@ -71,6 +71,12 @@ namespace Rfast {
     		return internal::NA_helper<T>::val;
         }
     };
+
+    
+    inline Rfast::internal::NA_helper<string>::type Rfast::internal::NA_helper<string>::val = NA_STRING;
+    inline Rfast::internal::NA_helper<int>::type    Rfast::internal::NA_helper<int>::val    = NA_INTEGER;
+    inline Rfast::internal::NA_helper<bool>::type   Rfast::internal::NA_helper<bool>::val   = NA_LOGICAL;
+    inline Rfast::internal::NA_helper<double>::type Rfast::internal::NA_helper<double>::val = NA_REAL;
 }
 
 #endif
