@@ -9,7 +9,7 @@
 >  |  colMads				| Supports data.frame  |
 >  |  colShuffle				| Supports data.frame  |
 >  |  colMedian				| Supports data.frame  |
->  |  colRanks				| Supports data.frame  |
+>  |  colRanks				| Supports data.frame and fix bug about method "min".  |
 >  |  colSort				| Supports data.frame  |
 >
 >
