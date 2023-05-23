@@ -38,29 +38,28 @@ namespace Rfast {
     namespace internal { // the initialization of static variables are defined in file types.cpp
 	    template<class T>
 	    struct NA_helper : std::false_type {
-
 	    	using type = T;
-	    	static type val;
+	    	inline static type val;
 	    };
 	    template<>
 	    struct NA_helper<int> : std::true_type {
 	    	using type = int;
-	    	static type val;
+	    	inline static type val= NA_INTEGER;
 	    };
 	    template<>
 	    struct NA_helper<double> : std::true_type {
 	    	using type = double;
-	    	static type val;
+	    	inline static type val= NA_LOGICAL;
 	    };
 	    template<>
 	    struct NA_helper<bool> : std::true_type {
 	    	using type = int;
-	    	static type val;
+	    	inline static type val= NA_REAL;;
 	    };
 	    template<>
 	    struct NA_helper<string> : std::true_type {
 	    	using type = SEXP;
-	    	static type val;
+	    	inline static type val = NA_STRING;
 	    };
 	}
 
@@ -72,11 +71,20 @@ namespace Rfast {
         }
     };
 
-    
-    inline Rfast::internal::NA_helper<string>::type Rfast::internal::NA_helper<string>::val = NA_STRING;
-    inline Rfast::internal::NA_helper<int>::type    Rfast::internal::NA_helper<int>::val    = NA_INTEGER;
-    inline Rfast::internal::NA_helper<bool>::type   Rfast::internal::NA_helper<bool>::val   = NA_LOGICAL;
-    inline Rfast::internal::NA_helper<double>::type Rfast::internal::NA_helper<double>::val = NA_REAL;
+    // struct Na {
+    //     inline operator typename internal::NA_helper<double>::type(){
+    //         return internal::NA_helper<double>::val;
+    //     }
+    //     inline operator typename internal::NA_helper<string>::type(){
+    //         return internal::NA_helper<string>::val;
+    //     }
+    //     inline operator typename internal::NA_helper<bool>::type(){
+    //         return internal::NA_helper<bool>::val;
+    //     }
+    //     inline operator typename internal::NA_helper<double>::type(){
+    //         return internal::NA_helper<double>::val;
+    //     }
+    // };
 }
 
 #endif
