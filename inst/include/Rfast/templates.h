@@ -459,7 +459,7 @@ T square2(T x){
 * T: argument class
 */
 template<typename Ret,typename T>
-Ret Tabulate(T x,int &nroww){
+Ret Tabulate(T x,int nroww){
     Ret f(nroww);
     std::fill(f.begin(),f.end(),0);
     typename Ret::iterator F=f.begin();
