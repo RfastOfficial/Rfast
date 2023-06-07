@@ -1,6 +1,6 @@
 <h1 align="center">Rfast</h1>
 
-### **Version 2.0.8**
+### **Version 2.0.8 - Poseidon**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
 >
@@ -11,6 +11,10 @@
 >  |  colMedian				| Supports data.frame  |
 >  |  colRanks				| Supports data.frame and fix bug about method "min".  |
 >  |  colSort				| Supports data.frame  |
+>  |  colMaxs				| Supports data.frame  |
+>  |  colMins				| Supports data.frame  |
+>  |  colMinsMaxs				| Supports data.frame and add extra option for parallelism.  |
+>  |  colrange				| Supports data.frame and add extra option for parallelism.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
@@ -21,6 +25,9 @@
 >  |  colShuffle				| Supports data.frame  |
 >  |  colMedian				| Supports data.frame  |
 >  |  colSort				| Supports data.frame  |
+>  |  colMaxs				| Supports data.frame  |
+>  |  colMins				| Supports data.frame  |
+>  |  colMinsMaxs				| Supports data.frame and add extra option for parallelism.  |
 >  |  NA				| A structure for manage R's NA values. Supports {int, double, bool, string}.  |
 >  |  Type				| A structure for manage R's types. Supports {REAL,INT,CHAR,FACTOR,LIST,DATAFRAME}.  |
 >
@@ -34,7 +41,7 @@
 </br>
 </br>
 
-### **Version 2.0.7**
+### **Version 2.0.7 - Zeus**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
 >
