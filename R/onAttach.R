@@ -1,5 +1,5 @@
 
-#[export]
+#[export special]
 .onAttach <- function(lib, pkg) {
 	version <- read.dcf(file.path(lib, pkg, "DESCRIPTION"),"Version")
 	packageStartupMessage(paste("\nRfast: ",version))
