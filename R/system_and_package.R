@@ -177,8 +177,9 @@ checkNamespace <- function(path.namespace,path.rfolder) {
 }
 
 #[export]
-checkExamples<-function(path.man,each = 1,print.errors = stderr(),print.names = FALSE){
+checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.names = FALSE){
   examples_files <- .Call(Rfast_read_examples,path.man)
+  packageEnv <- new.env(parent = getNamespace(package))
   error_files<-vector("character")
   examples <- examples_files$examples
   file_names<-examples_files$files
@@ -196,13 +197,13 @@ checkExamples<-function(path.man,each = 1,print.errors = stderr(),print.names = 
     for(i in 1:length(examples)){
       print(file_names[i])
       for(j in 1:each){
-      	tryCatch(eval(parse(text=examples[i])),error=warning_error_function, warning=warning_error_function)
+      	tryCatch(eval(parse(text=examples[i]),envir=packageEnv),error=warning_error_function, warning=warning_error_function)
       }
     }
   }else{
     for(i in 1:length(examples)){
       for(j in 1:each){
-      	tryCatch(eval(parse(text=examples[i])),error=warning_error_function, warning=warning_error_function)
+      	tryCatch(eval(parse(text=examples[i]),envir=packageEnv),error=warning_error_function, warning=warning_error_function)
       }
     }
   }
