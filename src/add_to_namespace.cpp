@@ -15,7 +15,7 @@ List add_to_namespace(const string dir_to_export,const string dir_to_file){
     int which_string_has_export=0;
     List data = read_functions_and_signatures(dir_to_file);
     List functions=data["export"];
-    vector<string> newfiles=functions["functions"],s3=functions["s3"],already_exported_files;
+    vector<string> newfiles=functions["functions"],s3=functions["s3"],special = functions["special"],already_exported_files;
     if(newfiles.empty()){
         stop("Warning: empty folder.\n");
     }
@@ -26,12 +26,20 @@ List add_to_namespace(const string dir_to_export,const string dir_to_file){
     string exported_files;
     sort(newfiles.begin(),newfiles.end());
     sort(s3.begin(),s3.end());
+    sort(special.begin(),special.end());
 
     for(auto& newfile : newfiles){
         exported_files+=newfile+',';
     }
     exported_files[exported_files.size()-1]=')';
+    exported_files+="\n\nexport(";
+
+    for(auto& newfile : special){
+        exported_files+=newfile+',';
+    }
+    exported_files[exported_files.size()-1]=')';
     exported_files+="\n\n";
+
     array<string,2> s3_names;
     for(auto& newfile : s3){
         s3_names=split_words_in_half(newfile,'.');
