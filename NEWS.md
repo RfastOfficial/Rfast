@@ -15,6 +15,7 @@
 >  |  colMins				| Supports data.frame  |
 >  |  colMinsMaxs				| Supports data.frame and add extra option for parallelism.  |
 >  |  colrange				| Supports data.frame and add extra option for parallelism.  |
+>  |  checkExamples				| Add extra option for running examples inside environment. Treat special functions with new export attribute. |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
