@@ -43,7 +43,7 @@ colMaxs <- function(x,value=FALSE,parallel = FALSE) {
 
 #[export]
 colMinsMaxs <- function(x,parallel = FALSE) {
-	x <- .Call(Rfast_col_min_max,x)
+	x <- .Call(Rfast_col_min_max,x,parallel)
 	rownames(x) <- c("min","max")
 	x
 }
