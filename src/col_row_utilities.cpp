@@ -1042,7 +1042,7 @@ RcppExport SEXP Rfast_row_prods(SEXP xSEXP)
 
 using std::string;
 
-inline DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool stable, const bool parallel)
+DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool stable, const bool parallel)
 {
 	List f(x.size());
 	if (parallel)
@@ -1206,7 +1206,6 @@ NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, cons
 		}
 		else
 			stop("Error. Wrong method.");
-		return f;
 	}
 	else
 	{
@@ -1227,8 +1226,10 @@ RcppExport SEXP Rfast_col_ranks(SEXP xSEXP, SEXP methodSEXP, SEXP descendSEXP, S
 	traits::input_parameter<const bool>::type descend(descendSEXP);
 	traits::input_parameter<const bool>::type stable(stableSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = Rf_isMatrix(xSEXP) ? col_ranks(NumericMatrix(xSEXP), method, descend, stable, parallel)
-								  : col_ranks(DataFrame(xSEXP), method, descend, stable, parallel);
+	if(Rf_isMatrix(xSEXP))
+		__result = col_ranks(NumericMatrix(xSEXP), method, descend, stable, parallel);
+	else
+		__result = col_ranks(DataFrame(xSEXP), method, descend, stable, parallel);
 	return __result;
 	END_RCPP
 }
