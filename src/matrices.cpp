@@ -16,7 +16,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = Rfast::matrix::transpose(x);
+    __result = Rfast::transpose(x);
     return __result;
 END_RCPP
 }
@@ -60,7 +60,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericMatrix >::type y(ySEXP);
     traits::input_parameter< const bool >::type tx(txSEXP);
     traits::input_parameter< const bool >::type ty(tySEXP);
-    __result = Rfast::matrix::matrix_multiplication(x,y,tx,ty);
+    __result = Rfast::matrix_multiplication(x,y,tx,ty);
     return __result;
 END_RCPP
 }
