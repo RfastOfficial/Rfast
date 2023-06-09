@@ -441,11 +441,11 @@ namespace Rfast
 		return F;
 	}
 
-inline NumericMatrix colSort(NumericMatrix x, const bool descend = false, const bool stable = false, const bool parallel = false)
+inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const bool stable = false, const bool parallel = false)
 	{
+		const int n = X.nrow(), p = X.ncol();
 		NumericMatrix F(n, p);
-		mat f(F.begin(),F.nrow(),F.ncol(),false);
-		const int n = x.n_rows, p = x.n_cols;
+		mat f(F.begin(),n, p,false),x(X.begin(),n, p,false);
 		if (descend)
 		{
 			if (stable)
@@ -1695,7 +1695,7 @@ inline NumericMatrix colSort(NumericMatrix x, const bool descend = false, const 
 		seed_seq seq{get_current_nanoseconds()};
 		std::vector<long long unsigned int> seeds(n);
 		seq.generate(seeds.begin(), seeds.end());
-		NumericMatrix y(n, x.ncol());
+		NumericMatrix y(x.nrow(),n);
 		for (int i = 0; i < n; ++i)
 		{
 			engine.seed(seeds[i]);
