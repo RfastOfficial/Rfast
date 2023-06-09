@@ -16,7 +16,7 @@ Check Namespace/Rd and examples files.
 checkNamespace(path.namespace,path.rfolder)
 checkAliases(path.man,path.rfolder)
 checkTF(path.man)
-checkExamples(path.man,each = 1,print.errors = stderr(),
+checkExamples(path.man,package,each = 1,print.errors = stderr(),
 	print.names = FALSE)
 checkUsage(path.man,path.rfolder)
 }
@@ -24,6 +24,9 @@ checkUsage(path.man,path.rfolder)
 \arguments{
 \item{path.namespace}{
 An full path to the "NAMESPACE" file.
+}
+\item{package}{
+A character vector with the name of the package.
 }
 \item{path.rfolder}{
 An full path to the directory that contains the "R" files.
