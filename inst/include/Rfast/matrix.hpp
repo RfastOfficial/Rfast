@@ -441,6 +441,121 @@ namespace Rfast
 		return F;
 	}
 
+inline NumericMatrix colSort(NumericMatrix x, const bool descend = false, const bool stable = false, const bool parallel = false)
+	{
+		NumericMatrix F(n, p);
+		mat f(F.begin(),F.nrow(),F.ncol(),false);
+		const int n = x.n_rows, p = x.n_cols;
+		if (descend)
+		{
+			if (stable)
+			{
+				if (parallel)
+				{
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+					for (int i = 0; i < p; ++i)
+					{
+						colvec coli = x.col(i);
+						stable_sort(coli.begin(), coli.end(), greater<double>());
+						f.col(i) = coli;
+					}
+				}
+				else
+				{
+					colvec coli(n);
+					for (int i = 0; i < p; ++i)
+					{
+						coli = x.col(i);
+						stable_sort(coli.begin(), coli.end(), greater<double>());
+						f.col(i) = coli;
+					}
+				}
+			}
+			else
+			{
+				if (parallel)
+				{
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+					for (int i = 0; i < p; ++i)
+					{
+						colvec coli = x.col(i);
+						sort(coli.begin(), coli.end(), greater<double>());
+						f.col(i) = coli;
+					}
+				}
+				else
+				{
+					colvec coli(n);
+					for (int i = 0; i < p; ++i)
+					{
+						coli = x.col(i);
+						sort(coli.begin(), coli.end(), greater<double>());
+						f.col(i) = coli;
+					}
+				}
+			}
+		}
+		else
+		{
+			if (stable)
+			{
+				if (parallel)
+				{
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+					for (int i = 0; i < p; ++i)
+					{
+						colvec coli = x.col(i);
+						stable_sort(coli.begin(), coli.end());
+						f.col(i) = coli;
+					}
+				}
+				else
+				{
+					colvec coli(n);
+					for (int i = 0; i < p; ++i)
+					{
+						coli = x.col(i);
+						stable_sort(coli.begin(), coli.end());
+						f.col(i) = coli;
+					}
+				}
+			}
+			else
+			{
+				if (parallel)
+				{
+#ifdef _OPENMP
+#pragma omp parallel for
+#endif
+					for (int i = 0; i < p; ++i)
+					{
+						colvec coli = x.col(i);
+						sort(coli.begin(), coli.end());
+						f.col(i) = coli;
+					}
+				}
+				else
+				{
+					colvec coli(n);
+					for (int i = 0; i < p; ++i)
+					{
+						coli = x.col(i);
+						sort(coli.begin(), coli.end());
+						f.col(i) = coli;
+					}
+				}
+			}
+		}
+		return F;
+	}
+
+	
 	inline mat colSort(mat x, const bool descend = false, const bool stable = false, const bool parallel = false)
 	{
 		const int n = x.n_rows, p = x.n_cols;
