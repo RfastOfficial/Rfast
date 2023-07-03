@@ -18,7 +18,7 @@ sort_mat(x,by.row=FALSE,descending=FALSE,stable=FALSE,parallel=FALSE)
 
 \arguments{
 \item{x}{
-A numerical matrix with data.
+A numerical matrix or data.frame with data.
 }
 \item{descending}{
 If you want the sorting in descending order, set this to TRUE.
@@ -53,10 +53,10 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-x <- matrix( rnorm(100 * 500), ncol = 500 )
-system.time( s1 <- colSort(x) )
-system.time( s2 <- apply(x, 2, sort)  )
-all.equal(as.vector(s1), as.vector(s2))
+x <- matrix( rnorm(100 * 200), ncol = 200 )
+s1 <- colSort(x)
+#s2 <- apply(x, 2, sort)
+#all.equal(as.vector(s1), as.vector(s2))
 
 x<-NULL
 }

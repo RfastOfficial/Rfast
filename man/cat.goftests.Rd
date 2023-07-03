@@ -58,7 +58,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 x <- matrix( rbinom(300 * 100, 4, 0.6), ncol = 100 ) + 1
 props <- dbinom(0:4, 4, 0.6)
 ## can we assume that each column comes from a distribution  whose mass is given by props?
-system.time( cat.goftests(x, props) )
+cat.goftests(x, props)
 a1 <- cat.goftests(x, props)  ## G-square test
 a2 <- cat.goftests(x, props, type = "chisq")  ## Chi-square test
 cor(a1, a2)

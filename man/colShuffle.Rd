@@ -16,7 +16,7 @@ rowShuffle(x)
 
 \arguments{
 \item{x}{
-A matrix with the data.
+A matrix or data.frame with the data.
 }
 }
 
@@ -44,8 +44,8 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 \examples{
 x <- matrix( rnorm(100 * 100), ncol = 100 )
-system.time( colShuffle(x) )
-system.time( rowShuffle(x) )
+colShuffle(x)
+rowShuffle(x)
 
 x<-NULL
 }

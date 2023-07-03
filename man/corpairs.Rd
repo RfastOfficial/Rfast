@@ -69,7 +69,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 x <- matrnorm(100, 100)
 y <- matrnorm(100, 100)
-system.time( corpairs(x, y) )
+corpairs(x, y)
 a <- corpairs(x, y)
 x <- NULL
 y <- NULL

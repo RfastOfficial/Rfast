@@ -61,7 +61,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 y <- matrix( rnorm(90 * 100), ncol = 100 )
 ina <- rbinom(90, 2, 0.5) + 1
 x <- rnorm(90)
-system.time( a <- ancovas(y, ina, x) )
+a <- ancovas(y, ina, x)
 \donttest{
 m1 <- lm(y[, 15] ~ factor(ina) + x)
 m2 <- lm(y[, 15] ~ x + factor(ina))

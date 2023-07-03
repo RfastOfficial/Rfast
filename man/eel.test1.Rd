@@ -71,8 +71,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 x <- rnorm(500)
-system.time(a1 <- eel.test1(x, 0) )
-system.time(a2 <- el.test1(x, 0) )
+a1 <- eel.test1(x, 0)
+a2 <- el.test1(x, 0)
 }
 
 \keyword{ Hypothesis testing }

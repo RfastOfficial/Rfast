@@ -15,12 +15,12 @@ colMins(x, value = FALSE, parallel = FALSE)
 
 colMaxs(x, value = FALSE, parallel = FALSE)
 
-colMinsMaxs(x)
+colMinsMaxs(x, parallel = FALSE)
 }
 
 \arguments{
 \item{x}{
-A numerical matrix with data.
+A numerical matrix or data.frame with data.
 }
 \item{value}{
 If the value is FALSE it returns the indices of the minimum/maximum, otherwise it returns the minimum and maximum values.

@@ -44,9 +44,9 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 x = matrix(rnorm(1000 * 50), ncol = 50)
 s = cov(x)
-system.time(a1 <- cholesky(s))
-system.time(a2 <- chol(s))
-all.equal(a1[upper.tri(a1)], a2[upper.tri(a2)])
+a1 <- cholesky(s)
+#a2 <- chol(s)
+#all.equal(a1[upper.tri(a1)], a2[upper.tri(a2)])
 x <- NULL
 s <- NULL
 a1 <- NULL

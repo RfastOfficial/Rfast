@@ -116,11 +116,13 @@ void read_functions_from_r_file(
     vector<string> &,
     vector<string> &,
     vector<string> &,
+    vector<string> &,
     List& ,
     bool& );        
 
 List read_functions_and_signatures(string path);
 bool is_export_s3(string&);
+bool is_export_special(string&);
 bool is_s3method(string&);
 bool is_R_operator(string);
 bool is_hidden_function(string&);

@@ -47,9 +47,8 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 \examples{
 x <- matrix( rbinom(100 * 100, 4, 0.5), ncol = 100 )
-system.time( colTabulate(x) )
-x <- t(x)
-system.time( rowTabulate(x) )
+colTabulate(x)
+rowTabulate(x)
 
 x<-NULL
 }

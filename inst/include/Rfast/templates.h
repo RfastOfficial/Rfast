@@ -17,11 +17,7 @@ using namespace Rcpp;
 
 //[[Rcpp::plugins(cpp11)]]
 
-struct NA {
-template<class T> static T value(){
-    return is_same<T,int>::value ? NA_INTEGER : NA_REAL;
-}
-};
+
 
 template<typename f,typename s>
 struct pr{
@@ -463,7 +459,7 @@ T square2(T x){
 * T: argument class
 */
 template<typename Ret,typename T>
-Ret Tabulate(T x,int &nroww){
+Ret Tabulate(T x,int nroww){
     Ret f(nroww);
     std::fill(f.begin(),f.end(),0);
     typename Ret::iterator F=f.begin();
@@ -695,6 +691,11 @@ inline RET mgreater_eq(T x,T y){
 
 template<typename RET, typename T>
 inline RET mgreater(T x,T y){
+    return x>y;
+}
+
+template<typename T>
+inline bool mgreater(T x,T y){
     return x>y;
 }
 
@@ -1004,13 +1005,15 @@ Ret rank_max(T x,const bool descend){
 
 template<typename Ret,typename T,typename I>
 Ret rank_min(T x,const bool descend){
-    const int n=x.size();
+    const int n=x.size(),n_1=n+1;
     int i,j=0;
-    I ind=Order_rank<I,T>(x,descend,false,0,1);
+    x.resize(n_1);
+    x[n]=std::numeric_limits<typename T::value_type>::max();
+    I ind=Order_rank<I,T>(x,descend,false,1,0);
     Ret f(n);
     double v=x[ind[j]];
     f[ind[0]]=1;
-    for(i=1;i<n;++i){
+    for(i=1;i<n_1;++i){
         if(v!=x[ind[i]]){
             j=i;
             v=x[ind[j]];

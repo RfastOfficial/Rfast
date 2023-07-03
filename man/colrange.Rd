@@ -10,13 +10,16 @@ Column and row-wise range of values of a matrix.
 }
 
 \usage{
-colrange(x, cont = TRUE)
+colrange(x, cont = TRUE, parallel = FALSE)
 rowrange(x, cont = TRUE)
 }
 
 \arguments{
 \item{x}{
-A numerical matrix with data.
+A numerical matrix or data.frame with data.
+}
+\item{parallel}{
+Execute algorithm in parallel for data.frame.
 }
 \item{cont}{
 If the data are continuous, leave this TRUE and it will return the range of values for each variable (column). If the data are integers, categorical, or if you want 

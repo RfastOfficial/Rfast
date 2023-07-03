@@ -62,8 +62,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 ## 200 variables, hence 200 univariate regressions are to be fitted
 x <- matrix( rnorm(200 * 200), ncol = 200 )
 y <- rnorm(200)
-system.time( a1 <- bic.corfsreg(y, x) )
-system.time( a2 <- cor.fsreg(y, x) )
+a1 <- bic.corfsreg(y, x)
+a2 <- cor.fsreg(y, x)
 x <- NULL
 }
 

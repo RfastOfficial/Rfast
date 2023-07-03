@@ -108,9 +108,9 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 x <- rgamma(100, 3, 4)
-system.time( for (i in 1:20) gammamle(x) )
-## system.time( for (i in 1:20) fitdistr(x,"gamma") )
-a <- glm(x ~ 1, gaussian(log) )
+for (i in 1:20) gammamle(x)
+## for (i in 1:20) fitdistr(x,"gamma")
+#a <- glm(x ~ 1, gaussian(log) )
 res<-normlog.mle(x)
 }
 

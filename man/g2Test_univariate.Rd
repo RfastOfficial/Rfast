@@ -87,7 +87,7 @@ nvars <- 10
 nsamples <- 2000
 data <- matrix( sample( 0:(nvalues - 1), nvars * nsamples, replace = TRUE ), nsamples, nvars )
 dc <- rep(nvalues, nvars)
-system.time( g2Test_univariate(data = data, dc = dc) )
+g2Test_univariate(data = data, dc = dc)
 a <- g2Test_univariate(data = data, dc = dc)
 pval <- pchisq(a$statistic, a$df, lower.tail = FALSE)
 

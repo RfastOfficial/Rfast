@@ -55,10 +55,10 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 \examples{
 x <- rnorm(100)
 value <- x[50]
-system.time( count_value(x,value) )
+count_value(x,value)
 y <- sample(letters,replace=TRUE)
 value <- "r"
-system.time( count_value(y,value) )
+count_value(y,value)
 values <- sample(x,100,replace=TRUE)
 x <- matrix(x,100,100)
 res<-colCountValues(x,values)

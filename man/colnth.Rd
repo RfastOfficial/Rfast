@@ -71,11 +71,12 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 x <- matrix( rnorm(100 * 100), ncol = 100 )
 elems <- sample(1:100,100,TRUE)
-system.time( colnth(x,elems) )
-system.time( rownth(x,elems) )
+colnth(x,elems)
+rownth(x,elems)
 x <- rnorm(1000)
+
 nth(x, 500)
-sort(x)[500]
+#sort(x)[500]
 
 x<-elems<-NULL
 }

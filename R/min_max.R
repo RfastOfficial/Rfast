@@ -25,10 +25,8 @@ rowMaxs <- function(x,value=FALSE) {
 
 #[export]
 colMins <- function(x,value=FALSE,parallel = FALSE) {
-	if(parallel){
-		.Call(Rfast_col_min_p,x)	
-	}else if(value){
-		.Call(Rfast_col_min,x)
+	if(value){
+		.Call(Rfast_col_min,x,parallel)
 	}else{
     	.Call(Rfast_col_min_indices,x)
 	}
@@ -36,18 +34,16 @@ colMins <- function(x,value=FALSE,parallel = FALSE) {
 
 #[export]
 colMaxs <- function(x,value=FALSE,parallel = FALSE) {
-	if(parallel){
-		.Call(Rfast_col_max_p,x)	
-	}else if(value){
-		.Call(Rfast_col_max,x)
+	if(value){
+		.Call(Rfast_col_max,x,parallel)
 	}else{
     	.Call(Rfast_col_max_indices,x)
 	}
 }
 
 #[export]
-colMinsMaxs <- function(x) {
-	x <- .Call(Rfast_col_min_max,x)
+colMinsMaxs <- function(x,parallel = FALSE) {
+	x <- .Call(Rfast_col_min_max,x,parallel)
 	rownames(x) <- c("min","max")
 	x
 }

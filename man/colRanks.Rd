@@ -16,7 +16,7 @@ rowRanks(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALS
 
 \arguments{
 \item{x}{
-A mumerical matrix with the data.
+A mumerical matrix or data.frame with the data.
 }
 \item{parallel}{
 A boolean value for parallel version.

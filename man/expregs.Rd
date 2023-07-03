@@ -59,7 +59,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 ## 200 variables, hence 200 univariate regressions are to be fitted
 x <- matrnorm(100, 100)
 y <- rexp(100, 4)
-system.time( expregs(y, x, di = rep(1, length(y))) )
+expregs(y, x, di = rep(1, length(y)))
 x <- NULL
 }
 

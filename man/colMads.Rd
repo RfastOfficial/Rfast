@@ -17,7 +17,7 @@ rowMads(x,method = "median",na.rm=FALSE,parallel = FALSE)
 
 \arguments{
 \item{x}{
-A matrix with the data.
+A matrix or data.frame with the data.
 }
 \item{method}{
 A character vector with values "median", for median absolute deviation or "mean", for mean absolute deviation. 
@@ -56,7 +56,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 x <- matrix( rnorm(100 * 100), ncol = 100 )
-system.time( a <- colMads(x) )
+a <- colMads(x)
 
 x<-NULL
 }

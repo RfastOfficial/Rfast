@@ -56,7 +56,7 @@ a <- mvbetas(y, x, pvalue = FALSE)
 b <- matrix(nrow = 100, ncol = 2)
 z <- cbind(1, x)
 
-system.time( a <- mvbetas(y, x) )
+a <- mvbetas(y, x)
 b[2, ] <- coef( lm.fit( z, y[, 1] ) )
 b[2, ] <- coef( lm.fit( z, y[, 2] ) )
 x <- NULL

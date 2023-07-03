@@ -1,8 +1,8 @@
 
 #[export]
 group.sum <- function(x, ina,ina.max = NULL,ina.min = NULL) {
-	#.Defunct("group(x,ina,method=\"sum\")","Rfast")
-	group(x,ina,ina.min=ina.min,ina.max=ina.max)
+	.Defunct("group(x,ina,method=\"sum\")","Rfast")
+	#group(x,ina,ina.min=ina.min,ina.max=ina.max)
 }
 
 
@@ -25,8 +25,8 @@ group.sum <- function(x, ina,ina.max = NULL,ina.min = NULL) {
 #
 #[export]
 group.mean <- function(x, ina,ina.max = max(ina)) {
-	#.Defunct("group(x,ina,method=\"mean\")","Rfast")
-	group(x,ina,ina.max=ina.max)
+	.Defunct("group(x,ina,method=\"mean\")","Rfast")
+	#group(x,ina,ina.max=ina.max)
 }
 #
 ##[export]

@@ -70,22 +70,22 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 \examples{
 x <- rnorm(1000)
-system.time( s1 <- Sort(x) )
-system.time( s2 <- sort(x) )
+s1 <- Sort(x)
+s2 <- sort(x)
 all.equal(s1,s2) #true  but not if many duplicates.
 
-system.time( s1 <- Sort(x,partial=100) )
-system.time( s2 <- sort(x,partial=100) )
+s1 <- Sort(x,partial=100)
+s2 <- sort(x,partial=100)
 all.equal(s1,s2) #true
 
 
-system.time( s1 <- Sort(x,stable=TRUE) )
-system.time( s2 <- sort(x) )
+s1 <- Sort(x,stable=TRUE)
+s2 <- sort(x)
 all.equal(s1,s2) #true
 
 x <- as.character(x)
-system.time( s1 <- Sort(x) )
-system.time( s2 <- sort(x) )
+s1 <- Sort(x)
+s2 <- sort(x)
 all.equal(s1,s2) #true
 
 y <- runif(1000)

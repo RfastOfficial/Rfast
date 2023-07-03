@@ -86,7 +86,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 ## 200 variables, hence 200 univariate regressions are to be fitted
 x <- matrnorm(200,  100)
 y <- rnorm(200)
-system.time( cor.fsreg(y, x) )
+cor.fsreg(y, x)
 x <- NULL
 }
 

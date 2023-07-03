@@ -725,7 +725,7 @@ BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = Rfast::matrix::is_symmetric(x);
+    __result = Rfast::is_symmetric(x);
     return __result;
 END_RCPP
 }
@@ -739,7 +739,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type x(xSEXP);
     traits::input_parameter< const bool >::type std(stdSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
-    __result = Rfast::vector::var<NumericVector>(x,std,na_rm);
+    __result = Rfast::var<NumericVector>(x,std,na_rm);
     return __result;
 END_RCPP
 }
@@ -918,7 +918,7 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     //if method is median then copy the vector because median changes the memory
     traits::input_parameter< NumericVector >::type x( method=="median" ? Rf_duplicate(xSEXP) : xSEXP);
-    __result = Rfast::vector::mad<NumericVector>(x,method,na_rm);
+    __result = Rfast::mad<NumericVector>(x,method,na_rm);
     return __result;
 END_RCPP
 }

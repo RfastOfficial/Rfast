@@ -57,7 +57,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 x <- rnorm(300, 3, 5)
 x[ x < 0 ] <- 0   ## left censoring. Values below zero become zero
-system.time( for (i in 1:100) tobit.mle(x) )
+for (i in 1:50) tobit.mle(x)
 }
 
 \keyword{ Tobit model }
