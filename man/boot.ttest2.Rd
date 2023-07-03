@@ -63,7 +63,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Christ
 tic <- proc.time()
 x <- rexp(40, 4)
 y <- rbeta(50, 2.5, 7.5)
-system.time( a <- boot.ttest2(x, y, 9999) )
+a <- boot.ttest2(x, y, 9999)
 a
 }
 

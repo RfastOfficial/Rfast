@@ -55,14 +55,15 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 \examples{
 x <- matrix(rpois(100 * 100, 10),ncol = 100)
 x1 <- colmeans(x)
-x2 <- colMeans(x)
-all.equal(x1,x2)
+#x2 <- colMeans(x)
+#all.equal(x1,x2)
 
 x1 <- rowmeans(x)
-x2 <- rowMeans(x)
-all.equal(x1,x2)
-system.time( colhameans(x) )
-system.time( rowhameans(x) ) 
+#x2 <- rowMeans(x)
+#all.equal(x1,x2)
+
+colhameans(x)
+rowhameans(x) 
 
 x<-x1<-x2<-NULL
 }

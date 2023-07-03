@@ -72,8 +72,8 @@ res<-twoway.anovas(y, x1, x2)
 res<-anova( lm(y ~ x1*x2) )
 res<-twoway.anovas(y, x1, x2, interact = TRUE) 
 y <- matrnorm(125, 100)
-system.time( a1 <- twoway.anovas(y, x1, x2) )
-system.time( a2 <- twoway.anovas(y, x1, x2, interact = TRUE) )
+a1 <- twoway.anovas(y, x1, x2)
+a2 <- twoway.anovas(y, x1, x2, interact = TRUE)
 y <- NULL
 }
 }

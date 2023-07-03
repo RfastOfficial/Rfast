@@ -243,8 +243,6 @@ Ret Order_rank(T& x,const bool descend,const bool stable,const int n,const int k
 /*
 * F: unary function
 * T1,T2: arguent class
-*
-* fill memory that starts from "startf" applying function F from "start" to "end"
 */
 template<class T,ConditionFunction<T> COND,class F>
 T sum_with_condition(F x){
@@ -255,6 +253,19 @@ T sum_with_condition(F x){
         }
     }
     return a;
+}
+
+/*
+* F: unary function
+* T1,T2: arguent class
+*/
+template<class Ret, ConditionFunction<double> COND>
+Ret colsum_with_condition(mat &x){
+    rowvec r(x.n_cols);
+    for(unsigned int i=0;i<x.n_cols;++i){
+        r[i] = sum_with_condition<double,COND>(x.col(i));
+    }
+    return r;
 }
 
 /*

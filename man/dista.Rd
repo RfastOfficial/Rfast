@@ -73,8 +73,8 @@ sum( abs(a - b) )
 
 ## see the time
 x <- matrix( rnorm(1000 * 4), ncol = 4 )
-system.time( dista(xnew, x) )
-system.time( as.matrix( dist( rbind(xnew, x) ) ) )
+dista(xnew, x)
+as.matrix( dist( rbind(xnew, x) ) )
 
 x<-b<-a<-xnew<-NULL
 }

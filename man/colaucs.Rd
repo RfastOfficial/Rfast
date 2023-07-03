@@ -55,7 +55,7 @@ Manos Papadakis <papadakm95@gmail.com>.
 ## 200 variables, hence 200 AUCs will be calculated
 x <- matrix( rnorm(100 * 200), ncol = 200 )
 ina <- rbinom(100, 1, 0.6)
-system.time( colaucs(ina, x) )
+colaucs(ina, x)
 a <- colaucs(ina, x) 
 b <- auc(ina, x[, 1])
 x <- NULL

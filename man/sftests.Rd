@@ -57,7 +57,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 x <- matrnorm(200, 100)
-system.time( sftests(x) )
+sftests(x)
 a <- sftests(x)
 mean(a[, 3]<0.05) 
 x <- rnorm(100)

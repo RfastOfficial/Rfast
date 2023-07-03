@@ -77,7 +77,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 y <- matrix( rnorm(100 * 50), ncol = 50)
 id <- rep(1:20, each = 5)
 x <- rep(1:10, 10)
-system.time( a<- colrint.regbx(y, x, id) )
+a<- colrint.regbx(y, x, id)
 }
 
 \keyword{ Linear mixed models }

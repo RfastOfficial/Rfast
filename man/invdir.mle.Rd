@@ -59,7 +59,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 x <- as.matrix(iris[, 1:4])
-system.time( for(i in 1:100) invdir.mle(x) )
+for(i in 1:10) invdir.mle(x)
 res<-invdir.mle(x)
 }
 

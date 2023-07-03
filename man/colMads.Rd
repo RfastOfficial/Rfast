@@ -56,7 +56,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 x <- matrix( rnorm(100 * 100), ncol = 100 )
-system.time( a <- colMads(x) )
+a <- colMads(x)
 
 x<-NULL
 }

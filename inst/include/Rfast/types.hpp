@@ -54,7 +54,7 @@ namespace Rfast {
 	    template<>
 	    struct NA_helper<bool> : std::true_type {
 	    	using type = int;
-	    	inline static type val= NA_REAL;;
+	    	inline static type val= NA_REAL;
 	    };
 	    template<>
 	    struct NA_helper<string> : std::true_type {

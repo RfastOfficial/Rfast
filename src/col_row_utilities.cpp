@@ -1278,8 +1278,10 @@ RcppExport SEXP Rfast_col_shuffle(SEXP xSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<NumericMatrix>::type x(xSEXP);
-	__result = Rf_isMatrix(xSEXP) ? Rfast::colShuffle(NumericMatrix(xSEXP))
-								  : Rfast::colShuffle(DataFrame(xSEXP));
+	if(Rf_isMatrix(xSEXP))
+		__result = Rfast::colShuffle(NumericMatrix(xSEXP));
+	else
+		__result = Rfast::colShuffle(DataFrame(xSEXP));
 	return __result;
 	END_RCPP
 }

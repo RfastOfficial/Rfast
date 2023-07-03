@@ -46,13 +46,13 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-x <-matrix( rnorm( 500 * 100), ncol = 100 )
-system.time( a <- Round(x,5) )
-system.time( b <- round(x,5) )
+x <-matrix( rnorm( 50 * 10), ncol = 10 )
+a <- Round(x,5)
+b <- round(x,5)
 all.equal(a,b) #true
 x <-rnorm( 1000)
-system.time( a <- Round(x,5) )
-system.time( b <- round(x,5) )
+a <- Round(x,5)
+b <- round(x,5)
 all.equal(a,b) # true
 }
 

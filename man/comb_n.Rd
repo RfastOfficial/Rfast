@@ -48,8 +48,8 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> and M
 }
 
 \examples{
-system.time( comb_n(20, 4) )
-system.time( combn(20, 4) )
+comb_n(20, 4)
+combn(20, 4)
 x <- rnorm(5)
 res<-comb_n(x, 3)
 }
