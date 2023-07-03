@@ -48,17 +48,17 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 \examples{
 x <- matrix(as.logical(rbinom(100*100,1,0.5)),100,100)
-system.time( a<-colAny(x) )
-system.time( b<-apply(x,2,any) )
-all.equal(a,b)
+a<-colAny(x)
+#b<-apply(x,2,any)
+#all.equal(a,b)
 
-system.time( a<-rowAny(x) )
-system.time( b<-apply(x,1,any) )
-all.equal(a,b)
+a<-rowAny(x)
+#b<-apply(x,1,any)
+#all.equal(a,b)
 
-system.time( a<-colAll(x) )
-system.time( b<-apply(x,2,all) )
-all.equal(a,b)
+a<-colAll(x)
+#b<-apply(x,2,all)
+#all.equal(a,b)
 
 a<-b<-x<-NULL
 }

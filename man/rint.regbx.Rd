@@ -85,7 +85,7 @@ y <- rnorm(100)
 x <- rnorm(10)
 x <- rep(x, 10)
 id <- rep(1:10, each = 10)
-system.time( for (i in 1:40) a <- rint.reg(y, x, id) )
+for (i in 1:20) a <- rint.reg(y, x, id)
 }
 }
 

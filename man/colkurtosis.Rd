@@ -55,8 +55,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 ## 200 variables, hence 200 F-tests will be performed
 x = matrix( rnorm(200 * 50), ncol = 50 )
 ## 200 observations in total
-system.time( colkurtosis(x) )
-system.time( colskewness(x) )
+colkurtosis(x)
+colskewness(x)
 x <- NULL
 }
 

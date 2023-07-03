@@ -76,10 +76,10 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 x = matrnorm(100, 100)
 ## 100 observations in total
 ina = rbinom(100, 1, 0.6) + 1   ## independent samples t-test
-system.time( ttests(x, ina = ina) )
+ttests(x, ina = ina)
 x1 = x[ina == 1, ]
 x2 = x[ina == 2, ]
-system.time( ttests(x1, x2) )
+ttests(x1, x2)
 x <- NULL
 }
 

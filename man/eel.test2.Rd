@@ -74,8 +74,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 x <- rnorm(200)
 y <- rnorm(300)
-system.time( eel.test2(x, y) )
-system.time( el.test2(x, y) )
+eel.test2(x, y)
+el.test2(x, y)
 }
 
 \keyword{ Hypothesis testing }

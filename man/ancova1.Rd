@@ -60,7 +60,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 y <- rnorm(90)
 ina <- rbinom(90, 2, 0.5) + 1
 x <- rnorm(90)
-system.time( a <- ancova1(y, ina, x) )
+a <- ancova1(y, ina, x)
 }
 
 \keyword{ Analysis of covariance }

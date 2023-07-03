@@ -69,15 +69,13 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 y <- rbinom(20000, 1, 0.6)
 x <- as.factor( rbinom(20000, 3, 0.5) )
-system.time( a1 <- logistic.cat1(y, x) )
-system.time( a2 <- glm(y ~ x, binomial) ) 
-a1  ;  a2
+a1 <- logistic.cat1(y, x)
+#a2 <- glm(y ~ x, binomial) 
 
 y <- rpois(20000, 10)
 x <- as.factor( rbinom(20000, 3, 0.5) )
-system.time( a1 <- poisson.cat1(y, x) )
-system.time( a2 <- glm(y ~ x, poisson) ) 
-a1   ;  a2
+a1 <- poisson.cat1(y, x)
+#a2 <- glm(y ~ x, poisson) 
 
 x<-y<-a1<-a2<-NULL
 }

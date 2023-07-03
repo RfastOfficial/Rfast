@@ -63,7 +63,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 x <- rbeta(1000, 1, 4)
-system.time( for(i in 1:1000) beta.mle(x) )
+for(i in 1:1000) beta.mle(x)
 res<-beta.mle(x)
 res<-ibeta.mle(x)
 

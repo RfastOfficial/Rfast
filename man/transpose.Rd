@@ -40,9 +40,8 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-x <- matrix( rnorm(500 * 500), ncol = 500, nrow=500 )
-system.time( transpose(x) )
-system.time( t(x)  )
+x <- matrix( rnorm(100 * 100), ncol = 100, nrow=100 )
+transpose(x) #t(x)
 
 x<-NULL
 }
