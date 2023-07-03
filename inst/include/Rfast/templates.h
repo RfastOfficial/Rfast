@@ -1035,18 +1035,35 @@ Ret rank_first(T x,const bool descend,const bool stable){
 }
 
 template<Binary_Function oper,Binary_Function func>
-NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind){
+NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = R_NilValue, const bool parallel=false){
     const bool is_ind_null = Rf_isNull(ind);
     const int n = is_ind_null ? x.ncol() : LENGTH(ind);
     NumericVector f(n);
+    mat xx(x.begin(),x.nrow(),x.ncol(),false);
+    colvec yy(y.begin(),y.size(),false),ff(f.begin(),f.size(),false);
     if(is_ind_null){
-        for(int i=0;i<n;++i){
-            f[i]=Apply<Rcpp::Matrix<14>::Column,NumericVector,oper,func >(x.column(i),y);
+        if(parallel){
+            #pragma omp parallel for
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
+            }
+        }else{
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
+            }
         }
     }else{
         IntegerVector indd(ind);
-        for(int i=0;i<n;++i){
-            f[i]=Apply<Rcpp::Matrix<14>::Column,NumericVector,oper,func >(x.column(indd[i]-1),y);
+        icolvec iind(indd.begin(),indd.size(),false);
+        if(parallel){
+            #pragma omp parallel for
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
+            }
+        }else{
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
+            }
         }
     }
     return f;
