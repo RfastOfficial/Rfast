@@ -441,11 +441,11 @@ namespace Rfast
 		return F;
 	}
 
-inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const bool stable = false, const bool parallel = false)
+	inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const bool stable = false, const bool parallel = false)
 	{
 		const int n = X.nrow(), p = X.ncol();
 		NumericMatrix F(n, p);
-		mat f(F.begin(),n, p,false),x(X.begin(),n, p,false);
+		mat f(F.begin(), n, p, false), x(X.begin(), n, p, false);
 		if (descend)
 		{
 			if (stable)
@@ -555,7 +555,6 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return F;
 	}
 
-	
 	inline mat colSort(mat x, const bool descend = false, const bool stable = false, const bool parallel = false)
 	{
 		const int n = x.n_rows, p = x.n_cols;
@@ -936,12 +935,16 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 			if (parallel)
 			{
 				colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 				for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 				{
 					colvec y;
 					int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 					{
 						NumericVector yy;
 						yy = *s;
@@ -970,12 +973,16 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 					colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						colvec y;
 						int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 						{
 							NumericVector yy;
 							yy = *s;
@@ -1003,12 +1010,16 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 					colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						colvec y;
 						int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 						{
 							NumericVector yy;
 							yy = *s;
@@ -1391,7 +1402,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		rowvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < xx.n_cols; ++i)
 			{
 				ff[i] = Rfast::var<colvec>(xx.col(i), std, na_rm);
@@ -1413,12 +1426,16 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		if (parallel)
 		{
 			colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				colvec y;
 				int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					NumericVector yy;
 					yy = *s;
@@ -1495,7 +1512,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		colvec f(x.n_rows);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < x.n_rows; ++i)
 			{
 				f[i] = Rfast::var<rowvec>(x.row(i), std, na_rm);
@@ -1517,12 +1536,16 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		if (parallel)
 		{
 			colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				colvec y;
 				int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					NumericVector yy;
 					yy = *s;
@@ -1553,7 +1576,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		rowvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < xx.n_cols; ++i)
 			{
 				ff[i] = Rfast::mad<colvec>(xx.col(i), method, na_rm);
@@ -1576,7 +1601,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < xx.n_rows; ++i)
 			{
 				ff[i] = Rfast::mad<rowvec>(xx.row(i), method, na_rm);
@@ -1597,7 +1624,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		rowvec f(x.n_cols);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < x.n_cols; ++i)
 			{
 				f[i] = Rfast::mad<colvec>(x.col(i), method, na_rm);
@@ -1618,7 +1647,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		colvec f(x.n_rows);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < x.n_rows; ++i)
 			{
 				f[i] = Rfast::mad<rowvec>(x.row(i), method, na_rm);
@@ -1695,7 +1726,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		seed_seq seq{get_current_nanoseconds()};
 		std::vector<long long unsigned int> seeds(n);
 		seq.generate(seeds.begin(), seeds.end());
-		NumericMatrix y(x.nrow(),n);
+		NumericMatrix y(x.nrow(), n);
 		for (int i = 0; i < n; ++i)
 		{
 			engine.seed(seeds[i]);
@@ -1759,7 +1790,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s->get());
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f[s - x.begin()] = FactorVector(s->get()).maxIndex();
 				}
@@ -1820,7 +1853,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s->get());
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f[s - x.begin()] = FactorVector(s->get()).maxIndex();
 				}
@@ -1881,7 +1916,9 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s->get());
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f.col(s - x.begin()) = FactorVector(s->get()).minmaxIndex<colvec>();
 				}
