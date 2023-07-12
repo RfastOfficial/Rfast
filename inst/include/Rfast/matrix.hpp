@@ -15,6 +15,7 @@
 #include "types.hpp"
 #include "helpers.hpp"
 #include "vector.hpp"
+#include "FactorVector.hpp"
 
 namespace Rfast
 {
