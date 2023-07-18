@@ -1,5 +1,31 @@
 <h1 align="center">Rfast</h1>
 
+
+### **Version 2.0.9 - Hades**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  colMads				| Supports data.frame  |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  colMads				| Supports data.frame  |
+>
+> ### **Comments**
+***
+> From now on all the function will be inside namespace Rfast. Sub-namespaces "vector" and "matrix" have been removed.
+>
+>
+
+
+</br>
+</br>
+
 ### **Version 2.0.8 - Poseidon**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
