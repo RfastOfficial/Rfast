@@ -99,9 +99,10 @@ void canberra1_dista(mat &xnew, mat &x, mat &disa)
 
 void canberra2_dista(mat &xnew, mat &x, mat &disa)
 {
+	mat x_abs = abs(x);
 	for (unsigned int i = 0; i < disa.n_cols; ++i)
 	{
-		disa.col(i) = sum(abs((x.each_col() - xnew.col(i))) / abs((x.each_col() + xnew.col(i))), 0).t();
+		disa.col(i) = sum(abs((x.each_col() - xnew.col(i))) / (x_abs.each_col() - abs(xnew.col(i))), 0).t();
 	}
 }
 
@@ -180,11 +181,11 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const bool sqr, const s
 	{
 		hellinger_dista(xnew, x, disa, sqr);
 	}
-	else if (method == "max")
+	else if (method == "maximum")
 	{
 		max_dista(xnew, x, disa);
 	}
-	else if (method == "min")
+	else if (method == "minimum")
 	{
 		min_dista(xnew, x, disa);
 	}
