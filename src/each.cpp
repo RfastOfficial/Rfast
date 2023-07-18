@@ -152,7 +152,7 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< const char >::type oper(operSEXP);
     traits::input_parameter< const string >::type method(methodSEXP);
-    traits::input_parameter< const string >::type parallel(parallelSEXP);
+    traits::input_parameter< const bool >::type parallel(parallelSEXP);
     __result = eachcol_apply(x,y,ind,oper,method,parallel);
     return __result;
 END_RCPP
