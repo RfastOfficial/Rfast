@@ -100,43 +100,45 @@ Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
 
 
 # [export]
-rvmf_r <- function(n, mu, k) {
-  rotation <- function(a, b) {
-    p <- length(a)
-    ab <- sum(a * b)
-    ca <- a - b * ab
-    ca <- ca / sqrt(sum(ca^2))
-    A <- b %*% t(ca)
-    A <- A - t(A)
-    theta <- acos(ab)
-    diag(p) + sin(theta) * A + (cos(theta) - 1) * (b %*%
-      t(b) + ca %*% t(ca))
-  }
-  d <- length(mu)
-  if (k > 0) {
-    mu <- mu / sqrt(sum(mu^2))
-    ini <- c(numeric(d - 1), 1)
-    d1 <- d - 1
-    v1 <- Rfast::matrnorm(n, d1) ##  matrix( RcppZiggurat::zrnorm(n * d1), ncol = d1 )
-    v <- v1 / sqrt(Rfast::rowsums(v1^2))
-    b <- (-2 * k + sqrt(4 * k^2 + d1^2)) / d1
-    x0 <- (1 - b) / (1 + b)
-    m <- 0.5 * d1
-    ca <- k * x0 + (d - 1) * log(1 - x0^2)
-    w <- as.vector(rvmf_h(n, ca, d1, x0, m, k, b))
-    S <- cbind(sqrt(1 - w^2) * v, w)
-    if (isTRUE(all.equal(ini, mu, check.attributes = FALSE))) {
-      x <- S
-    } else if (isTRUE(all.equal(-ini, mu, check.attributes = FALSE))) {
-      x <- -S
-    } else {
-      A <- rotation_R(ini, mu)
-      x <- tcrossprod(S, A)
-    }
-  } else {
-    x1 <- Rfast::matrnorm(n, d) ## matrix( RcppZiggurat::zrnorm(n * d), ncol = d )
-    x <- x1 / sqrt(Rfast::rowsums(x1^2))
-  }
+rvmf <- function(n, mu, k) {
+  # rotation <- function(a, b) {
+    # p <- length(a)
+    # ab <- sum(a * b)
+    # ca <- a - b * ab
+    # ca <- ca / sqrt(sum(ca^2))
+    # A <- b %*% t(ca)
+    # A <- A - t(A)
+    # theta <- acos(ab)
+    # diag(p) + sin(theta) * A + (cos(theta) - 1) * (b %*%
+      # t(b) + ca %*% t(ca))
+  # }
+  # d <- length(mu)
+  # if (k > 0) {
+    # mu <- mu / sqrt(sum(mu^2))
+    # ini <- c(numeric(d - 1), 1)
+    # d1 <- d - 1
+    # v1 <- Rfast::matrnorm(n, d1) ##  matrix( RcppZiggurat::zrnorm(n * d1), ncol = d1 )
+    # v <- v1 / sqrt(Rfast::rowsums(v1^2))
+    # b <- (-2 * k + sqrt(4 * k^2 + d1^2)) / d1
+    # x0 <- (1 - b) / (1 + b)
+    # m <- 0.5 * d1
+    # ca <- k * x0 + (d - 1) * log(1 - x0^2)
+    # w <- as.vector(rvmf_h(n, ca, d1, x0, m, k, b))
+    # S <- cbind(sqrt(1 - w^2) * v, w)
+    # if (isTRUE(all.equal(ini, mu, check.attributes = FALSE))) {
+      # x <- S
+    # } else if (isTRUE(all.equal(-ini, mu, check.attributes = FALSE))) {
+      # x <- -S
+    # } else {
+      # A <- rotation_R(ini, mu)
+      # x <- tcrossprod(S, A)
+    # }
+  # } else {
+    # x1 <- Rfast::matrnorm(n, d) ## matrix( RcppZiggurat::zrnorm(n * d), ncol = d )
+    # x <- x1 / sqrt(Rfast::rowsums(x1^2))
+  # }
+
+  x <- .Call(Rfast_rvmf,n,mu,k)
   colnames(x) <- names(mu)
   x
 }

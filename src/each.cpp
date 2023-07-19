@@ -104,46 +104,47 @@ static NumericVector eachcol_med_helper(NumericMatrix& x,NumericVector& y,SEXP i
   return f;
 }*/
 
+
 //[[Rcpp::export]]
-NumericVector eachcol_apply(NumericMatrix x,NumericVector y,SEXP ind,const char oper,const string method){
-  if(method == "sum"){
-    switch(oper){
-    case '*': return eachcol_apply_helper<mmult<double>,madd<double> >(x,y,ind);
-    case '/': return eachcol_apply_helper<mdiv<double>,madd<double> >(x,y,ind);
-    case '+': return eachcol_apply_helper<madd <double>,madd<double> >(x,y,ind);
-    case '-': return eachcol_apply_helper<mdiff<double>,madd<double> >(x,y,ind);
-	case '^': return eachcol_apply_helper<std::pow,madd<double> >(x,y,ind);
+NumericVector eachcol_apply(NumericMatrix x,NumericVector y,SEXP ind = R_NilValue,const char oper='*',const string method="sum", const bool parallel=false){
+    if(method == "sum"){
+        switch(oper){
+        case '*': return eachcol_apply_helper<mmult<double>,madd<double> >(x,y,ind,parallel);
+        case '/': return eachcol_apply_helper<mdiv<double>,madd<double> >(x,y,ind,parallel);
+        case '+': return eachcol_apply_helper<madd <double>,madd<double> >(x,y,ind,parallel);
+        case '-': return eachcol_apply_helper<mdiff<double>,madd<double> >(x,y,ind,parallel);
+        case '^': return eachcol_apply_helper<std::pow,madd<double> >(x,y,ind,parallel);
+        }
+    }else if(method == "median"){
+        switch(oper){
+        case '*': return eachcol_med_mult(x,y,ind);
+        case '/': return eachcol_med_div(x,y,ind);
+        case '+': return eachcol_med_sum(x,y,ind);
+        case '-': return eachcol_med_min(x,y,ind);
+        case '^': stop("Error: Median does not support operator \'^\'.\n");
+        }
+    }else if(method == "max"){
+        switch(oper){
+        case '*': return eachcol_apply_helper<mmult<double>,mmax<double> >(x,y,ind,parallel);
+        case '/': return eachcol_apply_helper<mdiv<double>,mmax<double> >(x,y,ind,parallel);
+        case '+': return eachcol_apply_helper<madd <double>,mmax<double> >(x,y,ind,parallel);
+        case '-': return eachcol_apply_helper<mdiff<double>,mmax<double> >(x,y,ind,parallel);
+        case '^': return eachcol_apply_helper<std::pow,mmax<double> >(x,y,ind,parallel);
+        }
+    }else if(method == "min"){
+        switch(oper){
+        case '*': return eachcol_apply_helper<mmult<double>,mmin<double> >(x,y,ind,parallel);
+        case '/': return eachcol_apply_helper<mdiv<double>,mmin<double> >(x,y,ind,parallel);
+        case '+': return eachcol_apply_helper<madd <double>,mmin<double> >(x,y,ind,parallel);
+        case '-': return eachcol_apply_helper<mdiff<double>,mmin<double> >(x,y,ind,parallel);
+        case '^': return eachcol_apply_helper<std::pow,mmin<double> >(x,y,ind,parallel);
+        }
     }
-  }else if(method == "median"){
-    switch(oper){
-    case '*': return eachcol_med_mult(x,y,ind);
-    case '/': return eachcol_med_div(x,y,ind);
-    case '+': return eachcol_med_sum(x,y,ind);
-    case '-': return eachcol_med_min(x,y,ind);
-    case '^': stop("Error: Median does not support operator \'^\'.\n");
-    }
-  }else if(method == "max"){
-    switch(oper){
-    case '*': return eachcol_apply_helper<mmult<double>,mmax<double> >(x,y,ind);
-    case '/': return eachcol_apply_helper<mdiv<double>,mmax<double> >(x,y,ind);
-    case '+': return eachcol_apply_helper<madd <double>,mmax<double> >(x,y,ind);
-    case '-': return eachcol_apply_helper<mdiff<double>,mmax<double> >(x,y,ind);
-	case '^': return eachcol_apply_helper<std::pow,mmax<double> >(x,y,ind);
-    }
-  }else if(method == "min"){
-    switch(oper){
-    case '*': return eachcol_apply_helper<mmult<double>,mmin<double> >(x,y,ind);
-    case '/': return eachcol_apply_helper<mdiv<double>,mmin<double> >(x,y,ind);
-    case '+': return eachcol_apply_helper<madd <double>,mmin<double> >(x,y,ind);
-    case '-': return eachcol_apply_helper<mdiff<double>,mmin<double> >(x,y,ind);
-	case '^': return eachcol_apply_helper<std::pow,mmin<double> >(x,y,ind);
-    }
-  }
-  stop("Error: wrong operation type.\n");
-  return {};
+    stop("Error: wrong operation type.\n");
+    return {};
 }
 
-RcppExport SEXP Rfast_eachcol_apply(SEXP xSEXP,SEXP ySEXP,SEXP ind,SEXP operSEXP,SEXP methodSEXP) {
+RcppExport SEXP Rfast_eachcol_apply(SEXP xSEXP,SEXP ySEXP,SEXP ind,SEXP operSEXP,SEXP methodSEXP,SEXP parallelSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
@@ -151,7 +152,8 @@ BEGIN_RCPP
     traits::input_parameter< NumericVector >::type y(ySEXP);
     traits::input_parameter< const char >::type oper(operSEXP);
     traits::input_parameter< const string >::type method(methodSEXP);
-    __result = eachcol_apply(x,y,ind,oper,method);
+    traits::input_parameter< const bool >::type parallel(parallelSEXP);
+    __result = eachcol_apply(x,y,ind,oper,method,parallel);
     return __result;
 END_RCPP
 }

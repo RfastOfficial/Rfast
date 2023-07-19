@@ -15,6 +15,7 @@
 #include "types.hpp"
 #include "helpers.hpp"
 #include "vector.hpp"
+#include "FactorVector.hpp"
 
 namespace Rfast
 {
@@ -935,12 +936,16 @@ namespace Rfast
 			if (parallel)
 			{
 				colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 				for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 				{
 					colvec y;
 					int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 					{
 						NumericVector yy;
 						yy = *s;
@@ -969,12 +974,16 @@ namespace Rfast
 				if (parallel)
 				{
 					colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						colvec y;
 						int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 						{
 							NumericVector yy;
 							yy = *s;
@@ -1002,12 +1011,16 @@ namespace Rfast
 				if (parallel)
 				{
 					colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						colvec y;
 						int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 						{
 							NumericVector yy;
 							yy = *s;
@@ -1390,7 +1403,9 @@ namespace Rfast
 		rowvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < xx.n_cols; ++i)
 			{
 				ff[i] = Rfast::var<colvec>(xx.col(i), std, na_rm);
@@ -1412,12 +1427,16 @@ namespace Rfast
 		if (parallel)
 		{
 			colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				colvec y;
 				int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					NumericVector yy;
 					yy = *s;
@@ -1494,7 +1513,9 @@ namespace Rfast
 		colvec f(x.n_rows);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < x.n_rows; ++i)
 			{
 				f[i] = Rfast::var<rowvec>(x.row(i), std, na_rm);
@@ -1516,12 +1537,16 @@ namespace Rfast
 		if (parallel)
 		{
 			colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				colvec y;
 				int i;
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					NumericVector yy;
 					yy = *s;
@@ -1552,7 +1577,9 @@ namespace Rfast
 		rowvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < xx.n_cols; ++i)
 			{
 				ff[i] = Rfast::mad<colvec>(xx.col(i), method, na_rm);
@@ -1575,7 +1602,9 @@ namespace Rfast
 		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < xx.n_rows; ++i)
 			{
 				ff[i] = Rfast::mad<rowvec>(xx.row(i), method, na_rm);
@@ -1596,7 +1625,9 @@ namespace Rfast
 		rowvec f(x.n_cols);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < x.n_cols; ++i)
 			{
 				f[i] = Rfast::mad<colvec>(x.col(i), method, na_rm);
@@ -1617,7 +1648,9 @@ namespace Rfast
 		colvec f(x.n_rows);
 		if (parallel)
 		{
+#ifdef _OPENMP
 #pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < x.n_rows; ++i)
 			{
 				f[i] = Rfast::mad<rowvec>(x.row(i), method, na_rm);
@@ -1758,7 +1791,9 @@ namespace Rfast
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s->get());
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f[s - x.begin()] = FactorVector(s->get()).maxIndex();
 				}
@@ -1819,7 +1854,9 @@ namespace Rfast
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s->get());
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f[s - x.begin()] = FactorVector(s->get()).maxIndex();
 				}
@@ -1880,7 +1917,9 @@ namespace Rfast
 					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s->get());
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f.col(s - x.begin()) = FactorVector(s->get()).minmaxIndex<colvec>();
 				}
