@@ -313,7 +313,7 @@ NumericMatrix bhattacharyya_dist(NumericMatrix x)
     xv = xx.col(i);
     for (j = i + 1; j < ncl; ++j)
     {
-      a = sum(sqrt(xv * xx.col(j)));
+      a = sum(sqrt(xv % xx.col(j)));
       f(i, j) = a;
       f(j, i) = a;
     }
