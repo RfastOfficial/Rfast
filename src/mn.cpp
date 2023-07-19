@@ -344,6 +344,17 @@ icolvec get_k_indices(rowvec x,const int& k){
   return ind(span(0,k-1));
 }
 
+colvec get_k_values(rowvec x, const int &k)
+{
+	sort(x.begin(), x.end());
+	return conv_to<colvec>::from(x.subvec(0, k - 1));
+}
+
+bool check_if_is_finite(double x)
+{
+	return x > 0 and !R_IsNA(x);
+}
+
 double calcDevRes(colvec p,colvec y,colvec expyhat){
   int psize = p.n_elem;
   double s=0.0;
