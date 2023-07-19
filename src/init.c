@@ -64,9 +64,7 @@ SEXP Rfast_dist(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_dist_vec(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_Digamma(SEXP);
 SEXP Rfast_design_matrix_big(SEXP);
-SEXP Rfast_dista(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_dista_index(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_dista_values(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_dista(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_diri_nr_type2(SEXP a1SEXP, SEXP a2SEXP, SEXP maSEXP, SEXP, SEXP);
 SEXP Rfast_edist(SEXP, SEXP);
 SEXP Rfast_eachcol_apply(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -316,9 +314,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_dist_vec", (DL_FUNC)&Rfast_dist_vec, 4},
     {"Rfast_Digamma", (DL_FUNC)&Rfast_Digamma, 1},
     {"Rfast_design_matrix_big", (DL_FUNC)&Rfast_design_matrix_big, 1},
-    {"Rfast_dista", (DL_FUNC)&Rfast_dista, 4},
-    {"Rfast_dista_index", (DL_FUNC)&Rfast_dista_index, 4},
-    {"Rfast_dista_values", (DL_FUNC)&Rfast_dista_values, 5},
+    {"Rfast_dista", (DL_FUNC)&Rfast_dista, 8},
     {"Rfast_diri_nr_type2", (DL_FUNC)&Rfast_diri_nr_type2, 5},
     {"Rfast_edist", (DL_FUNC)&Rfast_edist, 2},
     {"Rfast_eachrow", (DL_FUNC)&Rfast_eachrow, 4},
