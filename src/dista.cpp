@@ -8,24 +8,13 @@ using namespace arma;
 using namespace Rcpp;
 using std::string;
 
-void euclidean_dista(mat &xnew, mat &x, mat &disa, const bool sqr, const bool parallel = false)
+void euclidean_dista(mat &xnew, mat &x, mat &disa, const bool sqr)
 {
 	if (sqr)
 	{
-		if (parallel)
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-#pragma omp parallel for
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
-			{
-				disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
-			}
-		}
-		else
-		{
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
-			{
-				disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
-			}
+			disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
 		}
 	}
 	else
@@ -89,20 +78,12 @@ void minkowski_dista(mat &xnew, mat &x, mat &disa, const double p)
 	}
 }
 
-void canberra1_dista(mat &xnew, mat &x, mat &disa)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
-	{
-		disa.col(i) = sum(abs((x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i))), 0).t();
-	}
-}
-
-void canberra2_dista(mat &xnew, mat &x, mat &disa)
+void canberra_dista(mat &xnew, mat &x, mat &disa)
 {
 	mat x_abs = abs(x);
 	for (unsigned int i = 0; i < disa.n_cols; ++i)
 	{
-		disa.col(i) = sum(abs((x.each_col() - xnew.col(i))) / (x_abs.each_col() - abs(xnew.col(i))), 0).t();
+		disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0).t();
 	}
 }
 
@@ -114,14 +95,27 @@ void total_variation_dista(mat &xnew, mat &x, mat &disa)
 	}
 }
 
-void kullback_leibler_dista(mat &xnew, mat &x, mat &disa)
+void kullback_leibler_dista(mat &xnew, mat &x, mat &disa, const bool parallel = false)
 {
-	mat log_xx(disa.n_rows, disa.n_cols, fill::none);
+	mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
+	if (parallel)
 	{
-		mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xx.col(i));
-		disa.col(i) = colsum_with_condition<rowvec, std::isfinite>(m);
+#pragma omp parallel for
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+			disa.col(i) = colsum_with_condition<rowvec, std::isfinite>(m).t();
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+			disa.col(i) = colsum_with_condition<rowvec, std::isfinite>(m).t();
+		}
 	}
 }
 
@@ -130,17 +124,33 @@ static bool check_if_is_finite(double x)
 	return x > 0 and !R_IsNA(x);
 }
 
-void jensen_shannon_dista(mat &xnew, mat &x, mat &disa)
+void jensen_shannon_dista(mat &xnew, mat &x, mat &disa, const bool parallel = false)
 {
-	mat log_xx(disa.n_rows, disa.n_cols, fill::none);
+	mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 	constexpr double log2 = std::log(2);
 	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
+	mat x_mod_log_xx = x % log_xx;
+	if (parallel)
 	{
-		mat xcolj = x.each_col() + xnew.col(i);
-		mat x_mod_log_xx = x % log_xx;
-		mat m = xcolj % (log2 - arma::log(xcolj)) + x_mod_log_xx.each_col() + xnew.col(i) % log_xx.col(i);
-		disa.col(i) = colsum_with_condition<rowvec, check_if_is_finite>(m);
+#pragma omp parallel for
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			mat xcolj = x.each_col() + xnew.col(i);
+			mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+			mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+			disa.col(i) = colsum_with_condition<rowvec, check_if_is_finite>(m).t();
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			mat xcolj = x.each_col() + xnew.col(i);
+			mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+			mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+			disa.col(i) = colsum_with_condition<rowvec, check_if_is_finite>(m).t();
+		}
 	}
 }
 
@@ -148,22 +158,23 @@ void bhattacharyya_dista(mat &xnew, mat &x, mat &disa)
 {
 	for (unsigned int i = 0; i < disa.n_cols; ++i)
 	{
-		disa.col(i) = sum(sqrt(x.each_col() - xnew.col(i)), 0).t();
+		disa.col(i) = sum(sqrt(x.each_col() % xnew.col(i)), 0).t();
 	}
 }
 
 void itakura_saito_dista(mat &xnew, mat &x, mat &disa)
 {
-	mat log_xx(disa.n_rows, disa.n_cols, fill::none);
-	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
+	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
+	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 	for (unsigned int i = 0; i < disa.n_cols; ++i)
 	{
-		disa.col(i) = sum((x.each_col() - xnew.col(i)) - (log_xx.each_col() - log_xx.col(i)));
+		disa.col(i) = sum(x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1, 0).t();
 	}
 }
 
 //[[Rcpp::export]]
-NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const bool sqr, const string method, const double p, const bool parallel = false)
+NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const bool sqr = false, const string method = "", const double p = 0.0, const bool parallel = false)
 {
 	const int n = X.ncol(), nu = Xnew.ncol();
 	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), n, false);
@@ -171,7 +182,7 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const bool sqr, const s
 	mat disa(disaa.begin(), n, nu, false);
 	if (method == "euclidean")
 	{
-		euclidean_dista(xnew, x, disa, sqr, parallel);
+		euclidean_dista(xnew, x, disa, sqr);
 	}
 	else if (method == "manhattan")
 	{
@@ -193,13 +204,9 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const bool sqr, const s
 	{
 		minkowski_dista(xnew, x, disa, p);
 	}
-	else if (method == "canberra1")
+	else if (method == "canberra")
 	{
-		canberra1_dista(xnew, x, disa);
-	}
-	else if (method == "canberra2")
-	{
-		canberra2_dista(xnew, x, disa);
+		canberra_dista(xnew, x, disa);
 	}
 	else if (method == "bhattacharyya")
 	{
@@ -207,11 +214,19 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const bool sqr, const s
 	}
 	else if (method == "jensen_shannon")
 	{
-		jensen_shannon_dista(xnew, x, disa);
+		jensen_shannon_dista(xnew, x, disa, parallel);
 	}
 	else if (method == "itakura_saito")
 	{
 		itakura_saito_dista(xnew, x, disa);
+	}
+	else if (method == "total_variation")
+	{
+		total_variation_dista(xnew, x, disa);
+	}
+	else if (method == "kullback_leibler", parallel)
+	{
+		kullback_leibler_dista(xnew, x, disa);
 	}
 	else
 		stop("Unsupported Method: %s", method);
