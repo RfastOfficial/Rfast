@@ -261,7 +261,7 @@ T sum_with_condition(F x){
 */
 template<class Ret, ConditionFunction<double> COND>
 Ret colsum_with_condition(mat &x){
-    rowvec r(x.n_cols);
+    Ret r(x.n_cols);
     for(unsigned int i=0;i<x.n_cols;++i){
         r[i] = sum_with_condition<double,COND>(x.col(i));
     }
