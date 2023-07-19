@@ -224,9 +224,9 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const bool sqr = false,
 	{
 		total_variation_dista(xnew, x, disa);
 	}
-	else if (method == "kullback_leibler", parallel)
+	else if (method == "kullback_leibler")
 	{
-		kullback_leibler_dista(xnew, x, disa);
+		kullback_leibler_dista(xnew, x, disa, parallel);
 	}
 	else
 		stop("Unsupported Method: %s", method);
