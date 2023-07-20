@@ -10,12 +10,12 @@
 >  |  colMads				| Supports data.frame  |
 >  |  Dist(...,method = "minimum") | Fix bug.  |
 >  |  Dist(...,method = "bhattacharyya") | Fix bug.  |
->  |  Dist(...,method = "itakura_saito") | Fix bug.  |
+>  |  Dist(...,method = "itakura_saito") | Fix bug. Support parallel.  |
 >  |  Dist(...,method = "canberra1") | Depricated.  |
 >  |  Dist(...,method = "canberra2") | Depricated.  |
 >  |  Dist(...,method = "jensen_shannon") | Support parallel.  |
 >  |  Dist(...,method = "kullback_leibler") | Support parallel.  |
->  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine")  |
+>  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean")  |
 >  |  dista | All the methods from the Dist function are now supported.  |
 >
 >
