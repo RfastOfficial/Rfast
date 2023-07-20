@@ -451,6 +451,25 @@ void itakura_saito_dista(mat &xnew, mat &x, mat &disa, const unsigned int k, con
 	}
 }
 
+void wave_hedges(mat &xnew, mat &x, imat &disa, const unsigned int k)
+{
+  	mat x_max = max(x,0),xnew_max = max(xnew,0);
+	if (k > 0)
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0).t() / max(x_max[i],xnew_max[i]), k);
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t() / max(x_max[i],xnew_max[i]).t();
+		}
+	}
+}
+
 //[[Rcpp::export]]
 NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
@@ -521,6 +540,10 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	else if (method == "cosine")
 	{
 		cosine_dista(xnew, x, disa, k);
+	}
+	else if (method == "wave_hedges")
+	{
+		return wave_hedges_dista(x);
 	}
 	else
 		stop("Unsupported Method: %s", method);
@@ -713,6 +736,15 @@ void cosine_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	}
 }
 
+void wave_hedges_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
+{
+  	mat x_max = max(x,0),xnew_max = max(xnew,0);
+	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	{
+		disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0).t() / max(x_max[i],xnew_max[i]), k);
+	}
+}
+
 void itakura_saito_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 {
 	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -807,6 +839,10 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	else if (method == "cosine")
 	{
 		cosine_dista_indices(xnew, x, disa, k);
+	}
+	else if (method == "wave_hedges")
+	{
+		return wave_hedges_dista_indices(x);
 	}
 	else
 		stop("Unsupported Method: %s", method);

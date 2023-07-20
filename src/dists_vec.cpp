@@ -16,7 +16,7 @@ static int proper_size(int nrw, int ncl)
   return ncl * (ncl - 1) * 0.5;
 }
 
-NumericVector euclidean_dist_vec(NumericMatrix x, const bool sqr)
+NumericVector euclidean_vec(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -44,7 +44,7 @@ NumericVector euclidean_dist_vec(NumericMatrix x, const bool sqr)
   return f;
 }
 
-NumericVector manhattan_dist_vec(NumericMatrix x)
+NumericVector manhattan_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -62,7 +62,7 @@ NumericVector manhattan_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector hellinger_dist_vec(NumericMatrix x, const bool sqr)
+NumericVector hellinger_vec(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   const double p = 1.0 / std::sqrt(2.0);
@@ -91,7 +91,7 @@ NumericVector hellinger_dist_vec(NumericMatrix x, const bool sqr)
   return f;
 }
 
-NumericVector max_dist_vec(NumericMatrix x)
+NumericVector max_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -110,7 +110,7 @@ NumericVector max_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector min_dist_vec(NumericMatrix x)
+NumericVector min_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -129,7 +129,7 @@ NumericVector min_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector minkowski_dist_vec(NumericMatrix x, const double p)
+NumericVector minkowski_vec(NumericMatrix x, const double p)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   const double p_1 = 1.0 / p;
@@ -148,7 +148,7 @@ NumericVector minkowski_dist_vec(NumericMatrix x, const double p)
   return f;
 }
 
-NumericVector canberra_dist_vec(NumericMatrix x)
+NumericVector canberra_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -168,7 +168,7 @@ NumericVector canberra_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector total_variation_dist_vec(NumericMatrix x)
+NumericVector total_variation_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -187,7 +187,7 @@ NumericVector total_variation_dist_vec(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericVector kullback_leibler_dist_vec(NumericMatrix x)
+NumericVector kullback_leibler_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericVector f(proper_size(nrw, ncl));
@@ -208,7 +208,7 @@ NumericVector kullback_leibler_dist_vec(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericVector bhattacharyya_dist_vec(NumericMatrix x)
+NumericVector bhattacharyya_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -227,7 +227,7 @@ NumericVector bhattacharyya_dist_vec(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericVector itakura_saito_dist_vec(NumericMatrix x)
+NumericVector itakura_saito_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericVector f(proper_size(nrw, ncl));
@@ -248,7 +248,7 @@ NumericVector itakura_saito_dist_vec(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericVector jensen_shannon_dist_vec(NumericMatrix x)
+NumericVector jensen_shannon_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericVector f(proper_size(nrw, ncl));
@@ -269,7 +269,7 @@ NumericVector jensen_shannon_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector cosine_dist_vec(NumericMatrix x)
+NumericVector cosine_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericVector f(proper_size(nrw, ncl));
@@ -289,7 +289,7 @@ NumericVector cosine_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector soergel_dist_vec(NumericMatrix x)
+NumericVector soergel_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -307,7 +307,7 @@ NumericVector soergel_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector chi_square_dist_vec(NumericMatrix x)
+NumericVector chi_square_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -325,7 +325,7 @@ NumericVector chi_square_dist_vec(NumericMatrix x)
   return f;
 }
 
-NumericVector sorensen_dist_vec(NumericMatrix x)
+NumericVector sorensen_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -344,8 +344,28 @@ NumericVector sorensen_dist_vec(NumericMatrix x)
   return f;
 }
 
+NumericMatrix wave_hedges_vec(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericVector f(proper_size(nrw, ncl));
+  mat x_max = max(xx,0);
+  colvec xv(nrw);
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    double xv_max = xv_max[i];
+    for (j = i + 1; j < ncl; ++j, ++k)
+    {
+      f[k] = sum(abs(xv - xx.col(j))) / max(xv_max,x_max[j]);
+    }
+  }
+  return f;
+}
+
 //[[Rcpp::export]]
-NumericVector haversine_dist_vec(NumericMatrix x)
+NumericVector haversine_vec(NumericMatrix x)
 {
   const int nrw = x.nrow();
   const int nrw_1 = nrw - 1;
@@ -374,76 +394,80 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 {
   if (method == "euclidean" || p == 2)
   {
-    return euclidean_dist_vec(x, sqr);
+    return euclidean_vec(x, sqr);
   }
   else if (method == "manhattan" || p == 1)
   {
-    return manhattan_dist_vec(x);
+    return manhattan_vec(x);
   }
   else if (method == "maximum")
   {
-    return max_dist_vec(x);
+    return max_vec(x);
   }
   else if (method == "minimum")
   {
-    return min_dist_vec(x);
+    return min_vec(x);
   }
   else if (method == "canberra")
   {
-    return canberra_dist_vec(x);
+    return canberra_vec(x);
   }
   else if (method == "minkowski")
   {
-    return minkowski_dist_vec(x, p);
+    return minkowski_vec(x, p);
   }
   else if (method == "bhattacharyya")
   {
-    return bhattacharyya_dist_vec(x);
+    return bhattacharyya_vec(x);
   }
   else if (method == "hellinger")
   {
-    return hellinger_dist_vec(x, sqr);
+    return hellinger_vec(x, sqr);
   }
   else if (method == "total_variation")
   {
-    return total_variation_dist_vec(x);
+    return total_variation_vec(x);
   }
   else if (method == "kullback_leibler")
   {
-    return kullback_leibler_dist_vec(x);
+    return kullback_leibler_vec(x);
   }
   else if (method == "jensen_shannon")
   {
-    return jensen_shannon_dist_vec(x);
+    return jensen_shannon_vec(x);
   }
   else if (method == "itakura_saito")
   {
-    return itakura_saito_dist_vec(x);
+    return itakura_saito_vec(x);
   }
   else if (method == "haversine")
   {
-    return haversine_dist_vec(x);
+    return haversine_vec(x);
   }
   else if (method == "chi_square")
   {
-    return chi_square_dist_vec(x);
+    return chi_square_vec(x);
   }
   else if (method == "sorensen")
   {
-    return sorensen_dist_vec(x);
+    return sorensen_vec(x);
   }
   else if (method == "soergel")
   {
-    return soergel_dist_vec(x);
+    return soergel_vec(x);
   }
   else if (method == "cosine")
   {
-    return cosine_dist_vec(x);
+    return cosine_vec(x);
+  }
+  else if (method == "wave_hedges")
+  {
+    return wave_hedges_vec(x);
   }
   stop("Unsupported Method: %s", method);
 }
 
-RcppExport SEXP Rfast_dist_vec(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
+RcppExport SEXP Rfast_vec(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
 {
   BEGIN_RCPP
   RObject __result;

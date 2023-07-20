@@ -9,7 +9,7 @@
 using namespace Rcpp;
 using namespace arma;
 
-double total_euclidean_dist(NumericMatrix x, const bool sqr)
+double total_euclidean(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -41,7 +41,7 @@ double total_euclidean_dist(NumericMatrix x, const bool sqr)
   return a;
 }
 
-double total_manhattan_dist(NumericMatrix x)
+double total_manhattan(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -59,7 +59,7 @@ double total_manhattan_dist(NumericMatrix x)
   return a;
 }
 
-double total_hellinger_dist(NumericMatrix x, const bool sqr)
+double total_hellinger(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   const double p = 1.0 / std::sqrt(2.0);
@@ -92,7 +92,7 @@ double total_hellinger_dist(NumericMatrix x, const bool sqr)
   return a;
 }
 
-double total_max_dist(NumericMatrix x)
+double total_max(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -111,7 +111,7 @@ double total_max_dist(NumericMatrix x)
   return a;
 }
 
-double total_min_dist(NumericMatrix x)
+double total_min(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -130,7 +130,7 @@ double total_min_dist(NumericMatrix x)
   return a;
 }
 
-double total_minkowski_dist(NumericMatrix x, const double p)
+double total_minkowski(NumericMatrix x, const double p)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   const double p_1 = 1.0 / p;
@@ -149,7 +149,7 @@ double total_minkowski_dist(NumericMatrix x, const double p)
   return a;
 }
 
-double total_canberra_dist(NumericMatrix x)
+double total_canberra(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -169,7 +169,7 @@ double total_canberra_dist(NumericMatrix x)
   return a;
 }
 
-double total_total_variation_dist(NumericMatrix x)
+double total_total_variation(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -187,7 +187,7 @@ double total_total_variation_dist(NumericMatrix x)
   return a;
 }
 
-double total_kullback_leibler_dist(NumericMatrix x)
+double total_kullback_leibler(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
@@ -207,7 +207,7 @@ double total_kullback_leibler_dist(NumericMatrix x)
   return a;
 }
 
-double total_bhattacharyya_dist(NumericMatrix x)
+double total_bhattacharyya(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -225,7 +225,7 @@ double total_bhattacharyya_dist(NumericMatrix x)
   return a;
 }
 
-double total_itakura_saito_dist(NumericMatrix x)
+double total_itakura_saito(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
@@ -246,7 +246,7 @@ double total_itakura_saito_dist(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-double total_haversine_dist(NumericMatrix x)
+double total_haversine(NumericMatrix x)
 {
   const int nrw = x.nrow();
   const int nrw_1 = nrw - 1;
@@ -264,7 +264,7 @@ double total_haversine_dist(NumericMatrix x)
   return a;
 }
 
-double total_jensen_shannon_dist(NumericMatrix x)
+double total_jensen_shannon(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
@@ -285,7 +285,7 @@ double total_jensen_shannon_dist(NumericMatrix x)
   }
   return a;
 }
-double total_cosine_dist(NumericMatrix x)
+double total_cosine(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -305,7 +305,27 @@ double total_cosine_dist(NumericMatrix x)
   return a;
 }
 
-double total_soergel_dist(NumericMatrix x)
+double wave_hedges(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  mat x_max = max(xx,0);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    double xv_max = xv_max[i];
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a += sum(abs(xv - xx.col(j))) / max(xv_max,x_max[j]);
+    }
+  }
+  return f;
+}
+
+double total_soergel(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -323,7 +343,7 @@ double total_soergel_dist(NumericMatrix x)
   return a;
 }
 
-double total_chi_square_dist(NumericMatrix x)
+double total_chi_square(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -341,7 +361,7 @@ double total_chi_square_dist(NumericMatrix x)
   return a;
 }
 
-double total_sorensen_dist(NumericMatrix x)
+double total_sorensen(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -364,71 +384,75 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
 {
   if (method == "euclidean" || p == 2)
   {
-    return total_euclidean_dist(x, sqr);
+    return total_euclidean(x, sqr);
   }
   else if (method == "manhattan" || p == 1)
   {
-    return total_manhattan_dist(x);
+    return total_manhattan(x);
   }
   else if (method == "maximum")
   {
-    return total_max_dist(x);
+    return total_max(x);
   }
   else if (method == "minimum")
   {
-    return total_min_dist(x);
+    return total_min(x);
   }
   else if (method == "canberra")
   {
-    return total_canberra_dist(x);
+    return total_canberra(x);
   }
   else if (method == "minkowski")
   {
-    return total_minkowski_dist(x, p);
+    return total_minkowski(x, p);
   }
   else if (method == "bhattacharyya")
   {
-    return total_bhattacharyya_dist(x);
+    return total_bhattacharyya(x);
   }
   else if (method == "hellinger")
   {
-    return total_hellinger_dist(x, sqr);
+    return total_hellinger(x, sqr);
   }
   else if (method == "total_variation")
   {
-    return total_total_variation_dist(x);
+    return total_total_variation(x);
   }
   else if (method == "kullback_leibler")
   {
-    return total_kullback_leibler_dist(x);
+    return total_kullback_leibler(x);
   }
   else if (method == "jensen_shannon")
   {
-    return total_jensen_shannon_dist(x);
+    return total_jensen_shannon(x);
   }
   else if (method == "itakura_saito")
   {
-    return total_itakura_saito_dist(x);
+    return total_itakura_saito(x);
   }
   else if (method == "haversine")
   {
-    return total_haversine_dist(x);
+    return total_haversine(x);
   }
   else if (method == "chi_square")
   {
-    return total_chi_square_dist(x);
+    return total_chi_square(x);
   }
   else if (method == "sorensen")
   {
-    return total_sorensen_dist(x);
+    return total_sorensen(x);
   }
   else if (method == "soergel")
   {
-    return total_soergel_dist(x);
+    return total_soergel(x);
   }
   else if (method == "cosine")
   {
-    return total_cosine_dist(x);
+    return total_cosine(x);
+  }
+  else if (method == "wave_hedges")
+  {
+    return total_wave_hedges(x);
   }
   stop("Unsupported Method: %s", method);
 }

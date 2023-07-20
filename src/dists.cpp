@@ -110,6 +110,29 @@ NumericMatrix soergel(NumericMatrix x)
   return f;
 }
 
+NumericMatrix wave_hedges(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  mat x_max = max(xx,0);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    double xv_max = xv_max[i];
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = sum(abs(xv - xx.col(j))) / max(xv_max,x_max[j]);
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
+}
+
 NumericMatrix hellinger(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -500,6 +523,10 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "cosine")
   {
     return cosine(x);
+  }
+  else if (method == "wave_hedges")
+  {
+    return wave_hedges(x);
   }
   stop("Unsupported Method: %s", method);
 }
