@@ -68,6 +68,48 @@ NumericMatrix manhattan_dist(NumericMatrix x)
   return f;
 }
 
+NumericMatrix chi_square_dist(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = sum(square(xv - xx.col(j)) / (xv + xx.col(j)));
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
+}
+
+NumericMatrix soergel_dist(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = sum(abs(xv - xx.col(j))) / sum_max_elems(xv, xx.col(j));
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
+}
+
 NumericMatrix hellinger_dist(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -173,45 +215,23 @@ NumericMatrix minkowski_dist(NumericMatrix x, const double p)
   return f;
 }
 
-NumericMatrix canberra1_dist(NumericMatrix x)
+NumericMatrix canberra_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
   NumericMatrix f(ncl, ncl);
-  colvec xv(nrw), yv(nrw);
+  colvec xv(nrw), absx(nrw);
+  mat x_abs = abs(x);
   double a;
   int i, j;
 
   for (i = 0; i < ncl - 1; ++i)
   {
     xv = xx.col(i);
+    absx = x_abs.col(i);
     for (j = i + 1; j < ncl; ++j)
     {
-      yv = xx.col(j);
-      a = sum(abs((xv - yv) / (xv + yv)));
-      f(i, j) = a;
-      f(j, i) = a;
-    }
-  }
-  return f;
-}
-
-NumericMatrix canberra2_dist(NumericMatrix x)
-{
-  const int ncl = x.ncol(), nrw = x.nrow();
-  mat xx(x.begin(), nrw, ncl, false);
-  NumericMatrix f(ncl, ncl);
-  colvec xv(nrw), yv(nrw);
-  double a;
-  int i, j;
-
-  for (i = 0; i < ncl - 1; ++i)
-  {
-    xv = xx.col(i);
-    for (j = i + 1; j < ncl; ++j)
-    {
-      yv = xx.col(j);
-      a = sum(abs(xv - yv) / (abs(xv) - abs(yv)));
+      a = sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
       f(i, j) = a;
       f(j, i) = a;
     }
@@ -241,9 +261,49 @@ NumericMatrix total_variation_dist(NumericMatrix x)
   return f;
 }
 
-static bool check_if_is_finite(double x)
+NumericMatrix sorensen_dist(NumericMatrix x)
 {
-  return x > 0 and !R_IsNA(x);
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = sum(abs(xv - xx.col(j)) / (xv + xx.col(j)));
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
+}
+
+NumericMatrix cosine_dist(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  colvec xv(nrw), norm_x = euclidean_norm(xx);
+  double a;
+  int i, j;
+
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    double normx = norm_x[i];
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = dot(xv, xx.col(j)) / (normx * norm_x[j]);
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
 }
 
 //[[Rcpp::export]]
@@ -389,13 +449,9 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   {
     return min_dist(x);
   }
-  else if (method == "canberra1")
+  else if (method == "canberra")
   {
-    return canberra1_dist(x);
-  }
-  else if (method == "canberra2")
-  {
-    return canberra2_dist(x);
+    return canberra_dist(x);
   }
   else if (method == "minkowski")
   {
@@ -428,6 +484,22 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "haversine")
   {
     return haversine_dist(x);
+  }
+  else if (method == "chi_square")
+  {
+    return chi_square_dist(x);
+  }
+  else if (method == "sorensen")
+  {
+    return sorensen_dist(x);
+  }
+  else if (method == "soergel")
+  {
+    return soergel_dist(x);
+  }
+  else if (method == "cosine")
+  {
+    return cosine_dist(x);
   }
   stop("Unsupported Method: %s", method);
 }
