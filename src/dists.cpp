@@ -152,6 +152,27 @@ NumericMatrix motyka(NumericMatrix x)
   return f;
 }
 
+NumericMatrix harmonic_mean(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = 2.0 * dot(xv,xx.col(j)) / sum(xv + xx.col(j));
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
+}
+
 NumericMatrix hellinger(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -550,6 +571,10 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "motyka")
   {
     return motyka(x);
+  }
+  else if (method == "harmonic_mean")
+  {
+    return harmonic_mean(x);
   }
   stop("Unsupported Method: %s", method);
 }

@@ -160,6 +160,24 @@ void motyka_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	}
 }
 
+void harmonic_mean_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
+{
+	if (k > 0)
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_values(sum(x.each_col() % xnew.col(i),0) / sum(x.each_col() + xnew.col(i),0), k) * 2.0;
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = (sum(x.each_col() % xnew.col(i),0) / sum(x.each_col() + xnew.col(i),0)).t() * 2.0;
+		}
+	}
+}
+
 void hellinger_dista(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
 {
 	if (sqr)
@@ -566,6 +584,10 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	{
 		motyka_dista(xnew, x, disa, k);
 	}
+	else if (method == "harmonic_mean")
+	{
+		harmonic_mean_dista(xnew, x, disa, k);
+	}
 	else
 		stop("Unsupported Method: %s", method);
 	return disaa;
@@ -773,6 +795,14 @@ void motyka_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	}
 }
 
+void harmonic_mean_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
+{
+	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	{
+		disa.col(i) = get_k_indices(sum(x.each_col() % xnew.col(i),0) / sum(x.each_col() + xnew.col(i),0) * 2.0, k);
+	}
+}
+
 void itakura_saito_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 {
 	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -875,6 +905,10 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	else if (method == "motyka")
 	{
 		motyka_dista_indices(xnew, x, disa, k);
+	}
+	else if (method == "harmonic_mean")
+	{
+		harmonic_mean_dista_indices(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);

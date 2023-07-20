@@ -344,6 +344,24 @@ NumericVector sorensen_vec(NumericMatrix x)
   return f;
 }
 
+NumericVector harmonic_mean_vec(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericVector f(proper_size(nrw, ncl));
+  colvec xv(nrw);
+  int i, j, k = 0;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j, ++k)
+    {
+      f[k] = 2.0 * dot(xv,xx.col(j)) / sum(xv + xx.col(j));
+    }
+  }
+  return f;
+}
+
 NumericVector wave_hedges_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -483,6 +501,10 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
   else if (method == "motyka")
   {
     return motyka_vec(x);
+  }
+  else if (method == "harmonic_mean")
+  {
+    return harmonic_mean_vec(x);
   }
   stop("Unsupported Method: %s", method);
 }
