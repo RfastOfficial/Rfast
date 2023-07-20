@@ -8,6 +8,16 @@
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  colMads				| Supports data.frame  |
+>  |  Dist(...,method = "minimum") | Fix bug.  |
+>  |  Dist(...,method = "bhattacharyya") | Fix bug.  |
+>  |  Dist(...,method = "itakura_saito") | Fix bug.  |
+>  |  Dist(...,method = "minkowski") | Fix bug.  |
+>  |  Dist(...,method = "canberra1") | Depricated.  |
+>  |  Dist(...,method = "canberra2") | Depricated.  |
+>  |  Dist(...,method = "canberra") | New method.  |
+>  |  Dist(...,method = "jensen_shannon") | Support parallel.  |
+>  |  Dist(...,method = "kullback_leibler") | Support parallel.  |
+>  |  dista | All the methods from the Dist function are now supported.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
@@ -15,11 +25,6 @@
 >  |	    Function/Structure	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  colMads				| Supports data.frame  |
->
-> ### **Comments**
-***
-> From now on all the function will be inside namespace Rfast. Sub-namespaces "vector" and "matrix" have been removed.
->
 >
 
 
