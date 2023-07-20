@@ -11,12 +11,11 @@
 >  |  Dist(...,method = "minimum") | Fix bug.  |
 >  |  Dist(...,method = "bhattacharyya") | Fix bug.  |
 >  |  Dist(...,method = "itakura_saito") | Fix bug.  |
->  |  Dist(...,method = "minkowski") | Fix bug.  |
 >  |  Dist(...,method = "canberra1") | Depricated.  |
 >  |  Dist(...,method = "canberra2") | Depricated.  |
->  |  Dist(...,method = "canberra") | New method.  |
 >  |  Dist(...,method = "jensen_shannon") | Support parallel.  |
 >  |  Dist(...,method = "kullback_leibler") | Support parallel.  |
+>  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine")  |
 >  |  dista | All the methods from the Dist function are now supported.  |
 >
 >
