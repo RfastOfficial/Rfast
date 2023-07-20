@@ -190,9 +190,8 @@ NumericVector total_variation_dist_vec(NumericMatrix x)
 NumericVector kullback_leibler_dist_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
-  NumericMatrix log_x(nrw, ncl);
   NumericVector f(proper_size(nrw, ncl));
-  mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
+  mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
   colvec xv(nrw), log_xv(nrw);
   int i, j, k = 0;
   fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
@@ -232,8 +231,7 @@ NumericVector itakura_saito_dist_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericVector f(proper_size(nrw, ncl));
-  NumericMatrix log_x(nrw, ncl);
-  mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
+  mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
   colvec xv(nrw), log_xv(nrw);
   int i, j, k = 0;
   fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
@@ -254,8 +252,7 @@ NumericVector jensen_shannon_dist_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericVector f(proper_size(nrw, ncl));
-  NumericMatrix log_x(nrw, ncl);
-  mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
+  mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
   colvec xv(nrw), log_xv(nrw);
   constexpr double log2 = std::log(2);
   int i, j, k = 0;
@@ -316,7 +313,6 @@ NumericVector chi_square_dist_vec(NumericMatrix x)
   mat xx(x.begin(), nrw, ncl, false);
   NumericVector f(proper_size(nrw, ncl));
   colvec xv(nrw);
-  double a;
   int i, j, k = 0;
   for (i = 0; i < ncl - 1; ++i)
   {
@@ -335,7 +331,6 @@ NumericVector sorensen_dist_vec(NumericMatrix x)
   mat xx(x.begin(), nrw, ncl, false);
   NumericVector f(proper_size(nrw, ncl));
   colvec xv(nrw);
-  double a;
   int i, j, k = 0;
 
   for (i = 0; i < ncl - 1; ++i)

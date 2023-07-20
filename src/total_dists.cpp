@@ -190,8 +190,7 @@ double total_total_variation_dist(NumericMatrix x)
 double total_kullback_leibler_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
-  NumericMatrix log_x(nrw, ncl);
-  mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
+  mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
   colvec xv(nrw), log_xv(nrw);
   double a = 0;
   int i, j;
@@ -229,8 +228,7 @@ double total_bhattacharyya_dist(NumericMatrix x)
 double total_itakura_saito_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
-  NumericMatrix log_x(nrw, ncl);
-  mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
+  mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
   colvec xv(nrw), log_xv(nrw);
   double a = 0;
   int i, j;
@@ -269,9 +267,9 @@ double total_haversine_dist(NumericMatrix x)
 double total_jensen_shannon_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
-  mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
+  mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
   colvec xv(nrw), log_xv(nrw);
-  double a;
+  double a=0.0;
   constexpr double log2 = std::log(2);
   int i, j;
   fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
@@ -293,6 +291,7 @@ double total_cosine_dist(NumericMatrix x)
   mat xx(x.begin(), nrw, ncl, false);
   colvec xv(nrw), norm_x = euclidean_norm(xx);
   int i, j, k = 0;
+  double a=0.0;
 
   for (i = 0; i < ncl - 1; ++i)
   {
@@ -311,6 +310,7 @@ double total_soergel_dist(NumericMatrix x)
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
   colvec xv(nrw);
+  double a=0.0;
   int i, j, k = 0;
   for (i = 0; i < ncl - 1; ++i)
   {
@@ -328,7 +328,7 @@ double total_chi_square_dist(NumericMatrix x)
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
   colvec xv(nrw);
-  double a;
+  double a=0.0;
   int i, j, k = 0;
   for (i = 0; i < ncl - 1; ++i)
   {
@@ -346,7 +346,7 @@ double total_sorensen_dist(NumericMatrix x)
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
   colvec xv(nrw);
-  double a;
+  double a=0.0;
   int i, j, k = 0;
 
   for (i = 0; i < ncl - 1; ++i)
@@ -404,7 +404,7 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
   }
   else if (method == "jensen_shannon")
   {
-    return total_jensen_shannon_dist_vec(x);
+    return total_jensen_shannon_dist(x);
   }
   else if (method == "itakura_saito")
   {
