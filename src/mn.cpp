@@ -11,7 +11,20 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
+double sum_max_elems(colvec x, colvec y)
+{
+  double maxs = 0.0;
+  for (unsigned int i = 0; i < x.n_elem; ++i)
+  {
+    maxs += max(x[i], y[i]);
+  }
+  return maxs;
+}
 
+colvec euclidean_norm(mat &x)
+{
+	return sqrt(sum(square(x), 0).t());
+}
 
 bool my_compare_order_second(const pr<double,int>& a,const pr<double,int>& b){
   return a.second<b.second;
