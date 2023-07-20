@@ -149,39 +149,21 @@ double total_minkowski_dist(NumericMatrix x, const double p)
   return a;
 }
 
-double total_canberra1_dist(NumericMatrix x)
+double total_canberra_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
-  colvec xv(nrw), yv(nrw);
+  colvec xv(nrw), absx(nrw);
+  mat x_abs = abs(x);
   double a = 0;
   int i, j;
   for (i = 0; i < ncl - 1; ++i)
   {
     xv = xx.col(i);
+    absx = x_abs.col(i);
     for (j = i + 1; j < ncl; ++j)
     {
-      yv = xx.col(j);
-      a += sum(abs((xv - yv) / (xv + yv)));
-    }
-  }
-  return a;
-}
-
-double total_canberra2_dist(NumericMatrix x)
-{
-  const int ncl = x.ncol(), nrw = x.nrow();
-  mat xx(x.begin(), nrw, ncl, false);
-  colvec xv(nrw), yv(nrw);
-  double a = 0;
-  int i, j;
-  for (i = 0; i < ncl - 1; ++i)
-  {
-    xv = xx.col(i);
-    for (j = i + 1; j < ncl; ++j)
-    {
-      yv = xx.col(j);
-      a += sum(abs(xv - yv) / (abs(xv) - abs(yv)));
+      a += sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
     }
   }
   return a;
@@ -284,7 +266,7 @@ double total_haversine_dist(NumericMatrix x)
   return a;
 }
 
-double jensen_shannon_dist(NumericMatrix x)
+double total_jensen_shannon_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
@@ -305,7 +287,7 @@ double jensen_shannon_dist(NumericMatrix x)
   }
   return a;
 }
-double cosine_dist_vec(NumericMatrix x)
+double total_cosine_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -324,7 +306,7 @@ double cosine_dist_vec(NumericMatrix x)
   return a;
 }
 
-double soergel_dist_vec(NumericMatrix x)
+double total_soergel_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -341,7 +323,7 @@ double soergel_dist_vec(NumericMatrix x)
   return a;
 }
 
-double chi_square_dist_vec(NumericMatrix x)
+double total_chi_square_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -359,7 +341,7 @@ double chi_square_dist_vec(NumericMatrix x)
   return a;
 }
 
-double sorensen_dist_vec(NumericMatrix x)
+double total_sorensen_dist(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -396,13 +378,9 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
   {
     return total_min_dist(x);
   }
-  else if (method == "canberra1")
+  else if (method == "canberra")
   {
-    return total_canberra1_dist(x);
-  }
-  else if (method == "canberra2")
-  {
-    return total_canberra2_dist(x);
+    return total_canberra_dist(x);
   }
   else if (method == "minkowski")
   {

@@ -395,7 +395,7 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
   }
   else if (method == "canberra")
   {
-    return canberra2_dist_vec(x);
+    return canberra_dist_vec(x);
   }
   else if (method == "minkowski")
   {
