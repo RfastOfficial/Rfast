@@ -21,6 +21,26 @@ double sum_max_elems(colvec x, colvec y)
   return maxs;
 }
 
+colvec max_elems(colvec x, colvec y)
+{
+  colvec maxs(x.n_elem,fill::none);
+  for (unsigned int i = 0; i < x.n_elem; ++i)
+  {
+    maxs[i] = max(x[i], y[i]);
+  }
+  return maxs;
+}
+
+mat colMaxElems(mat x, colvec y)
+{
+  mat maxs(x.n_rows,x.n_cols,fill::none);
+  for (unsigned int i = 0; i < x.n_cols; ++i)
+  {
+    maxs.col(i) = max_elems(x.col(i),y);
+  }
+  return maxs;
+}
+
 colvec euclidean_norm(mat &x)
 {
 	return sqrt(sum(square(x), 0).t());

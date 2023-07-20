@@ -9,7 +9,7 @@
 using namespace Rcpp;
 using namespace arma;
 
-double total_euclidean(NumericMatrix x, const bool sqr)
+double total_euclidean_dist(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -305,24 +305,22 @@ double total_cosine(NumericMatrix x)
   return a;
 }
 
-double wave_hedges(NumericMatrix x)
+double total_wave_hedges(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
-  mat x_max = max(xx,0);
   colvec xv(nrw);
-  double a;
+  double a=0.0;
   int i, j;
   for (i = 0; i < ncl - 1; ++i)
   {
     xv = xx.col(i);
-    double xv_max = xv_max[i];
     for (j = i + 1; j < ncl; ++j)
     {
-      a += sum(abs(xv - xx.col(j))) / max(xv_max,x_max[j]);
+      a += sum(abs(xv - xx.col(j)) / max_elems(xv , xx.col(j)));
     }
   }
-  return f;
+  return a;
 }
 
 double total_soergel(NumericMatrix x)
@@ -384,7 +382,7 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
 {
   if (method == "euclidean" || p == 2)
   {
-    return total_euclidean(x, sqr);
+    return total_euclidean_dist(x, sqr);
   }
   else if (method == "manhattan" || p == 1)
   {

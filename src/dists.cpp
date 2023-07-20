@@ -10,7 +10,7 @@ using namespace Rcpp;
 using namespace arma;
 using std::string;
 
-NumericMatrix euclidean(NumericMatrix x, const bool sqr)
+NumericMatrix euclidean_dist(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -115,17 +115,15 @@ NumericMatrix wave_hedges(NumericMatrix x)
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
   NumericMatrix f(ncl, ncl);
-  mat x_max = max(xx,0);
   colvec xv(nrw);
   double a;
   int i, j;
   for (i = 0; i < ncl - 1; ++i)
   {
     xv = xx.col(i);
-    double xv_max = xv_max[i];
     for (j = i + 1; j < ncl; ++j)
     {
-      a = sum(abs(xv - xx.col(j))) / max(xv_max,x_max[j]);
+      a = sum(abs(xv - xx.col(j)) / max_elems(xv , xx.col(j)));
       f(i, j) = a;
       f(j, i) = a;
     }
@@ -458,7 +456,7 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 {
   if (method == "euclidean" || p == 2)
   {
-    return euclidean(x, sqr);
+    return euclidean_dist(x, sqr);
   }
   else if (method == "manhattan" || p == 1)
   {
@@ -531,7 +529,7 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   stop("Unsupported Method: %s", method);
 }
 
-RcppExport SEXP Rfast(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
+RcppExport SEXP Rfast_dist(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
 {
   BEGIN_RCPP
   RObject __result;

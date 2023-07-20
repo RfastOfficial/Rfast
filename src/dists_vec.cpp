@@ -344,21 +344,19 @@ NumericVector sorensen_vec(NumericMatrix x)
   return f;
 }
 
-NumericMatrix wave_hedges_vec(NumericMatrix x)
+NumericVector wave_hedges_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
   NumericVector f(proper_size(nrw, ncl));
-  mat x_max = max(xx,0);
   colvec xv(nrw);
-  int i, j;
+  int i, j,k=0;
   for (i = 0; i < ncl - 1; ++i)
   {
     xv = xx.col(i);
-    double xv_max = xv_max[i];
     for (j = i + 1; j < ncl; ++j, ++k)
     {
-      f[k] = sum(abs(xv - xx.col(j))) / max(xv_max,x_max[j]);
+      f[k] = sum(abs(xv - xx.col(j)) / max_elems(xv , xx.col(j)));
     }
   }
   return f;
@@ -467,7 +465,7 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
   stop("Unsupported Method: %s", method);
 }
 
-RcppExport SEXP Rfast_vec(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
+RcppExport SEXP Rfast_dist_vec(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
 {
   BEGIN_RCPP
   RObject __result;

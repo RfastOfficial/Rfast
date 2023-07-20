@@ -13,6 +13,8 @@ using std::string;
 using std::vector;
 
 double sum_max_elems(colvec, colvec);
+colvec max_elems(colvec, colvec);
+mat colMaxElems(mat, colvec);
 
 template<class T>
 T colSumMaxs(mat &x, colvec y){
