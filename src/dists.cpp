@@ -10,7 +10,7 @@ using namespace Rcpp;
 using namespace arma;
 using std::string;
 
-NumericMatrix euclidean_dist(NumericMatrix x, const bool sqr)
+NumericMatrix euclidean(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -47,7 +47,7 @@ NumericMatrix euclidean_dist(NumericMatrix x, const bool sqr)
   return f;
 }
 
-NumericMatrix manhattan_dist(NumericMatrix x)
+NumericMatrix manhattan(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -68,7 +68,7 @@ NumericMatrix manhattan_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix chi_square_dist(NumericMatrix x)
+NumericMatrix chi_square(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -89,7 +89,7 @@ NumericMatrix chi_square_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix soergel_dist(NumericMatrix x)
+NumericMatrix soergel(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -110,7 +110,7 @@ NumericMatrix soergel_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix hellinger_dist(NumericMatrix x, const bool sqr)
+NumericMatrix hellinger(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   const double p = 1.0 / std::sqrt(2.0);
@@ -148,7 +148,7 @@ NumericMatrix hellinger_dist(NumericMatrix x, const bool sqr)
   return f;
 }
 
-NumericMatrix max_dist(NumericMatrix x)
+NumericMatrix max(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -170,7 +170,7 @@ NumericMatrix max_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix min_dist(NumericMatrix x)
+NumericMatrix min(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -192,7 +192,7 @@ NumericMatrix min_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix minkowski_dist(NumericMatrix x, const double p)
+NumericMatrix minkowski(NumericMatrix x, const double p)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   const double p_1 = 1.0 / p;
@@ -215,7 +215,7 @@ NumericMatrix minkowski_dist(NumericMatrix x, const double p)
   return f;
 }
 
-NumericMatrix canberra_dist(NumericMatrix x)
+NumericMatrix canberra(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -239,7 +239,7 @@ NumericMatrix canberra_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix total_variation_dist(NumericMatrix x)
+NumericMatrix total_variation(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -261,7 +261,7 @@ NumericMatrix total_variation_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix sorensen_dist(NumericMatrix x)
+NumericMatrix sorensen(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -283,7 +283,7 @@ NumericMatrix sorensen_dist(NumericMatrix x)
   return f;
 }
 
-NumericMatrix cosine_dist(NumericMatrix x)
+NumericMatrix cosine(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -307,7 +307,7 @@ NumericMatrix cosine_dist(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericMatrix kullback_leibler_dist(NumericMatrix x)
+NumericMatrix kullback_leibler(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
@@ -333,7 +333,7 @@ NumericMatrix kullback_leibler_dist(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericMatrix jensen_shannon_dist(NumericMatrix x)
+NumericMatrix jensen_shannon(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
@@ -359,7 +359,7 @@ NumericMatrix jensen_shannon_dist(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericMatrix bhattacharyya_dist(NumericMatrix x)
+NumericMatrix bhattacharyya(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   mat xx(x.begin(), nrw, ncl, false);
@@ -382,7 +382,7 @@ NumericMatrix bhattacharyya_dist(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericMatrix itakura_saito_dist(NumericMatrix x)
+NumericMatrix itakura_saito(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
   NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
@@ -407,7 +407,7 @@ NumericMatrix itakura_saito_dist(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
-NumericMatrix haversine_dist(NumericMatrix x)
+NumericMatrix haversine(NumericMatrix x)
 {
   const int nrw = x.nrow();
   const int nrw_1 = nrw - 1;
@@ -435,76 +435,76 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 {
   if (method == "euclidean" || p == 2)
   {
-    return euclidean_dist(x, sqr);
+    return euclidean(x, sqr);
   }
   else if (method == "manhattan" || p == 1)
   {
-    return manhattan_dist(x);
+    return manhattan(x);
   }
   else if (method == "maximum")
   {
-    return max_dist(x);
+    return max(x);
   }
   else if (method == "minimum")
   {
-    return min_dist(x);
+    return min(x);
   }
   else if (method == "canberra")
   {
-    return canberra_dist(x);
+    return canberra(x);
   }
   else if (method == "minkowski")
   {
-    return minkowski_dist(x, p);
+    return minkowski(x, p);
   }
   else if (method == "bhattacharyya")
   {
-    return bhattacharyya_dist(x);
+    return bhattacharyya(x);
   }
   else if (method == "hellinger")
   {
-    return hellinger_dist(x, sqr);
+    return hellinger(x, sqr);
   }
   else if (method == "total_variation")
   {
-    return total_variation_dist(x);
+    return total_variation(x);
   }
   else if (method == "kullback_leibler")
   {
-    return kullback_leibler_dist(x);
+    return kullback_leibler(x);
   }
   else if (method == "jensen_shannon")
   {
-    return jensen_shannon_dist(x);
+    return jensen_shannon(x);
   }
   else if (method == "itakura_saito")
   {
-    return itakura_saito_dist(x);
+    return itakura_saito(x);
   }
   else if (method == "haversine")
   {
-    return haversine_dist(x);
+    return haversine(x);
   }
   else if (method == "chi_square")
   {
-    return chi_square_dist(x);
+    return chi_square(x);
   }
   else if (method == "sorensen")
   {
-    return sorensen_dist(x);
+    return sorensen(x);
   }
   else if (method == "soergel")
   {
-    return soergel_dist(x);
+    return soergel(x);
   }
   else if (method == "cosine")
   {
-    return cosine_dist(x);
+    return cosine(x);
   }
   stop("Unsupported Method: %s", method);
 }
 
-RcppExport SEXP Rfast_dist(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
+RcppExport SEXP Rfast(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP)
 {
   BEGIN_RCPP
   RObject __result;
