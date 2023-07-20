@@ -7,7 +7,16 @@ dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRU
         xnew <- sqrt(xnew)
         x <- sqrt(x)
     }
-    x <- .Call(Rfast_dista, t(xnew), t(x), type, square, p, k, index, parallel)
+    if(type != "haversine"){
+        xnew <- t(xnew)
+        x <- t(x)
+    }
+    x <- .Call(Rfast_dista, xnew, x, type, square, p, k, index, parallel)
     if (trans) x <- t(x)
     x
+}
+
+#[export]
+total.dista <- function(x,y,square = FALSE) {
+    .Call(Rfast_total_dista,t(x),t(y),square)
 }
