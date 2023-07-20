@@ -12,6 +12,18 @@ using namespace Rcpp;
 using std::string;
 using std::vector;
 
+double sum_max_elems(colvec, colvec);
+
+template<class T>
+T colSumMaxs(mat &x, colvec y){
+	T res(x.n_cols);
+	for(unsigned int i=0;i<x.n_cols;++i){
+		res[i] = sum_max_elems(x.col(i),y);
+	}
+	return res;
+}
+
+colvec euclidean_norm(mat &);
 rowvec operator/(colvec x, double s);
 bool my_compare_order_second(const pr<double, int> &, const pr<double, int> &);
 NumericMatrix design_matrix_regr(CharacterVector x);
