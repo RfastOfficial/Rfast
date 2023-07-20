@@ -3,7 +3,11 @@ dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRU
     if (type == "canberra1" || type == "canberra2") {
         .Deprecated("The replacement type is \"canberra\"", "Rfast")
     }
-    x <- .Call(Rfast_dista_index, t(xnew), t(x), type, square, p, k, index, parallel)
+    if (type == "hellinger") {
+        xnew <- sqrt(xnew)
+        x <- sqrt(x)
+    }
+    x <- .Call(Rfast_dista, t(xnew), t(x), type, square, p, k, index, parallel)
     if (trans) x <- t(x)
     x
 }
