@@ -21,6 +21,16 @@ double sum_max_elems(colvec x, colvec y)
   return maxs;
 }
 
+double sum_min_elems(colvec x, colvec y)
+{
+  double mins = 0.0;
+  for (unsigned int i = 0; i < x.n_elem; ++i)
+  {
+    mins += min(x[i], y[i]);
+  }
+  return mins;
+}
+
 colvec max_elems(colvec x, colvec y)
 {
   colvec maxs(x.n_elem,fill::none);

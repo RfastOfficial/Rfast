@@ -131,6 +131,27 @@ NumericMatrix wave_hedges(NumericMatrix x)
   return f;
 }
 
+NumericMatrix motyka(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = 1.0 - sum_min_elems(xv , xx.col(j)) / sum(xv + xx.col(j));
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
+}
+
 NumericMatrix hellinger(NumericMatrix x, const bool sqr)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -525,6 +546,10 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "wave_hedges")
   {
     return wave_hedges(x);
+  }
+  else if (method == "motyka")
+  {
+    return motyka(x);
   }
   stop("Unsupported Method: %s", method);
 }

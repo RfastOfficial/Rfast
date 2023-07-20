@@ -323,6 +323,24 @@ double total_wave_hedges(NumericMatrix x)
   return a;
 }
 
+double total_motyka(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  colvec xv(nrw);
+  double a=0.0;
+  int i, j;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a += 1.0 - sum_min_elems(xv , xx.col(j)) / sum(xv + xx.col(j));
+    }
+  }
+  return a;
+}
+
 double total_soergel(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -451,6 +469,10 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "wave_hedges")
   {
     return total_wave_hedges(x);
+  }
+  else if (method == "motyka")
+  {
+    return total_motyka(x);
   }
   stop("Unsupported Method: %s", method);
 }

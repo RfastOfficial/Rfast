@@ -13,6 +13,7 @@ using std::string;
 using std::vector;
 
 double sum_max_elems(colvec, colvec);
+double sum_min_elems(colvec, colvec);
 colvec max_elems(colvec, colvec);
 mat colMaxElems(mat, colvec);
 
@@ -21,6 +22,15 @@ T colSumMaxs(mat &x, colvec y){
 	T res(x.n_cols);
 	for(unsigned int i=0;i<x.n_cols;++i){
 		res[i] = sum_max_elems(x.col(i),y);
+	}
+	return res;
+}
+
+template<class T>
+T colSumMins(mat &x, colvec y){
+	T res(x.n_cols);
+	for(unsigned int i=0;i<x.n_cols;++i){
+		res[i] = sum_min_elems(x.col(i),y);
 	}
 	return res;
 }

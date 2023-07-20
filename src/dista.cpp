@@ -142,6 +142,24 @@ void soergel_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	}
 }
 
+void motyka_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
+{
+	if (k > 0)
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_values(1.0 - colSumMins<rowvec>(x,xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0), k);
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = 1.0 - colSumMins<colvec>(x,xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0).t();
+		}
+	}
+}
+
 void hellinger_dista(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
 {
 	if (sqr)
@@ -544,6 +562,10 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	{
 		wave_hedges_dista(xnew, x, disa, k);
 	}
+	else if (method == "motyka")
+	{
+		motyka_dista(xnew, x, disa, k);
+	}
 	else
 		stop("Unsupported Method: %s", method);
 	return disaa;
@@ -743,6 +765,14 @@ void wave_hedges_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int
 	}
 }
 
+void motyka_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
+{
+	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	{
+		disa.col(i) = get_k_indices(1.0 - colSumMins<rowvec>(x,xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0), k);
+	}
+}
+
 void itakura_saito_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 {
 	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -841,6 +871,10 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	else if (method == "wave_hedges")
 	{
 		wave_hedges_dista_indices(xnew, x, disa, k);
+	}
+	else if (method == "motyka")
+	{
+		motyka_dista_indices(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);
