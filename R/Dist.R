@@ -2,6 +2,9 @@
 
 #[export]
 Dist <- function(x,method = "euclidean", square = FALSE,p=0,vector = FALSE) {
+	if (type == "canberra1" || type == "canberra2") {
+        .Deprecated("The replacement type is \"canberra\"", "Rfast")
+    }
 	if(method != "haversine")
   		x <- t(x)
 	if(method == "hellinger"){
@@ -36,18 +39,15 @@ edist <- function(x, y = NULL){
 	  }
 	  dis
 	}else{
-    	.Call("Rfast_edist", PACKAGE = "Rfast", t(x), t(y))
+    	.Call(Rfast_edist, t(x), t(y))
     }
 }
- 
-#[export]
-total.dista <- function(x,y,square = FALSE) {
-    .Call(Rfast_total_dista,t(x),t(y),square)
-}
-
 
 #[export]
 total.dist <- function(x,method = "euclidean", square = FALSE,p=0) {
+  if (method == "canberra1" || method == "canberra2") {
+        .Deprecated("The replacement method is \"canberra\"", "Rfast")
+    }
   if(method != "haversine")
 	x <- t(x)
   if(method == "hellinger"){
