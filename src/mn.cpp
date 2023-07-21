@@ -179,25 +179,6 @@ void i4mat_floyd_with_paths( const int n, NumericVector &a,NumericVector &p ){
   }
 }
 
-//spat_med
-rowvec colMedians(mat x){
-  int i,p=x.n_cols,sz=x.n_rows,middle=sz/2-1,step=sz;
-  mat::iterator first=x.begin(),last=first+step;
-  rowvec F(p);
-  rowvec::iterator FF=F.begin();
-  if(sz%2==0){
-    for(i=0;i<p;++i,++FF,first=last,last+=step){
-      nth_element(first,first+middle,last);
-      *FF=(x(middle,i)+*(min_element(first+middle+1,last)))/2.0;
-    }
-  }else{
-    for(i=0;i<p;++i,++FF,first=last,last+=step){
-      nth_element(first,first+middle+1,last);
-      *FF=x(middle+1,i);
-    }
-  }
-  return F;
-}
 
 //comb_n
 void combn(arma::vec& vals, const int n, const unsigned int start_idx, 

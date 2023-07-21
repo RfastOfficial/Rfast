@@ -8,520 +8,525 @@ using namespace arma;
 using namespace Rcpp;
 using std::string;
 
-void euclidean_dista(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
+namespace Dista
 {
-	if (sqr)
+
+	void euclidean(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
+	{
+		if (sqr)
+		{
+			if (k > 0)
+			{
+
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k);
+				}
+			}
+			else
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
+				}
+			}
+		}
+		else
+		{
+			if (k > 0)
+			{
+
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
+				}
+			}
+			else
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t();
+				}
+			}
+		}
+	}
+
+	void manhattan(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
 		if (k > 0)
 		{
 
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k);
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0), k);
 			}
 		}
 		else
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t();
 			}
 		}
 	}
-	else
+
+	void sorensen(mat &xnew, mat &x, mat &disa, const unsigned int k)
+	{
+		if (k > 0)
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0).t();
+			}
+		}
+	}
+
+	void chi_square(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
 		if (k > 0)
 		{
 
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
+				disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
 			}
 		}
 		else
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t();
+				disa.col(i) = sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0).t();
 			}
 		}
 	}
-}
 
-void manhattan_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
+	void cosine(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
+		colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
+		if (k > 0)
+		{
 
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k);
+			}
+		}
+		else
 		{
-			disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0), k);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]);
+			}
 		}
 	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t();
-		}
-	}
-}
 
-void sorensen_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0).t();
-		}
-	}
-}
-
-void chi_square_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
-	{
-
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0).t();
-		}
-	}
-}
-
-void cosine_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
-	if (k > 0)
-	{
-
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = get_k_values(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]);
-		}
-	}
-}
-
-void soergel_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMaxs<rowvec>(x,xnew.col(i)), k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t() / colSumMaxs<colvec>(x,xnew.col(i));
-		}
-	}
-}
-
-void motyka_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = get_k_values(1.0 - colSumMins<rowvec>(x,xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0), k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = 1.0 - colSumMins<colvec>(x,xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0).t();
-		}
-	}
-}
-
-void harmonic_mean_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = get_k_values(sum(x.each_col() % xnew.col(i),0) / sum(x.each_col() + xnew.col(i),0), k) * 2.0;
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = (sum(x.each_col() % xnew.col(i),0) / sum(x.each_col() + xnew.col(i),0)).t() * 2.0;
-		}
-	}
-}
-
-void hellinger_dista(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
-{
-	if (sqr)
+	void soergel(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
 		if (k > 0)
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMaxs<rowvec>(x, xnew.col(i)), k);
 			}
 		}
 		else
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t() * 0.5;
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t() / colSumMaxs<colvec>(x, xnew.col(i));
 			}
 		}
 	}
-	else
+
+	void motyka(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-		constexpr double p = 1.0 / std::sqrt(2.0);
 		if (k > 0)
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)) * p, k);
+				disa.col(i) = get_k_values(1.0 - colSumMins<rowvec>(x, xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0), k);
 			}
 		}
 		else
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t() * p;
+				disa.col(i) = 1.0 - colSumMins<colvec>(x, xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0).t();
 			}
 		}
 	}
-}
 
-void max_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
+	void harmonic_mean(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (k > 0)
 		{
-			disa.col(i) = get_k_values(max(abs(x.each_col() - xnew.col(i)), 0), k);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sum(x.each_col() % xnew.col(i), 0) / sum(x.each_col() + xnew.col(i), 0), k) * 2.0;
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = (sum(x.each_col() % xnew.col(i), 0) / sum(x.each_col() + xnew.col(i), 0)).t() * 2.0;
+			}
 		}
 	}
-	else
+
+	void hellinger(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
 	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (sqr)
 		{
-			disa.col(i) = max(abs(x.each_col() - xnew.col(i)), 0).t();
+			if (k > 0)
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+				}
+			}
+			else
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t() * 0.5;
+				}
+			}
+		}
+		else
+		{
+			constexpr double p = 1.0 / std::sqrt(2.0);
+			if (k > 0)
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)) * p, k);
+				}
+			}
+			else
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t() * p;
+				}
+			}
 		}
 	}
-}
 
-void min_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
+	void max(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (k > 0)
 		{
-			disa.col(i) = get_k_values(min(abs(x.each_col() - xnew.col(i)), 0), k);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(max(abs(x.each_col() - xnew.col(i)), 0), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = max(abs(x.each_col() - xnew.col(i)), 0).t();
+			}
 		}
 	}
-	else
+
+	void min(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (k > 0)
 		{
-			disa.col(i) = min(abs(x.each_col() - xnew.col(i)), 0).t();
+
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(min(abs(x.each_col() - xnew.col(i)), 0), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = min(abs(x.each_col() - xnew.col(i)), 0).t();
+			}
 		}
 	}
-}
 
-void minkowski_dista(mat &xnew, mat &x, mat &disa, const double p, const unsigned int k)
-{
-	const double p_1 = 1.0 / p;
-
-	if (k > 0)
+	void minkowski(mat &xnew, mat &x, mat &disa, const double p, const unsigned int k)
 	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		const double p_1 = 1.0 / p;
+
+		if (k > 0)
 		{
-			disa.col(i) = get_k_values(pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1), k);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1).t();
+			}
 		}
 	}
-	else
+
+	void canberra(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		mat x_abs = abs(x);
+
+		if (k > 0)
 		{
-			disa.col(i) = pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1).t();
+
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0).t();
+			}
 		}
 	}
-}
 
-void canberra_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	mat x_abs = abs(x);
-
-	if (k > 0)
+	void total_variation(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (k > 0)
 		{
-			disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0), k);
+
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t() * 0.5;
+			}
 		}
 	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0).t();
-		}
-	}
-}
 
-void total_variation_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
+	void kullback_leibler(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
 	{
+		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
+		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (k > 0)
 		{
-			disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) * 0.5, k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t() * 0.5;
-		}
-	}
-}
-
-void kullback_leibler_dista(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
-{
-	mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-
-	if (k > 0)
-	{
-		if (parallel)
-		{
+			if (parallel)
+			{
 #pragma omp parallel for
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				}
+			}
+			else
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				}
 			}
 		}
 		else
 		{
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			if (parallel)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
-			}
-		}
-	}
-	else
-	{
-		if (parallel)
-		{
 #pragma omp parallel for
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
-			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-				disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				}
 			}
-		}
-		else
-		{
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			else
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-				disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				}
 			}
 		}
 	}
-}
 
-void jensen_shannon_dista(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
-{
-	mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-	constexpr double log2 = std::log(2);
-	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-	mat x_mod_log_xx = x % log_xx;
-
-	if (k > 0)
+	void jensen_shannon(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
 	{
-		if (parallel)
+		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		constexpr double log2 = std::log(2);
+		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
+		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
+		mat x_mod_log_xx = x % log_xx;
+
+		if (k > 0)
 		{
+			if (parallel)
+			{
 #pragma omp parallel for
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat xcolj = x.each_col() + xnew.col(i);
+					mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+					mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+				}
+			}
+			else
 			{
-				mat xcolj = x.each_col() + xnew.col(i);
-				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat xcolj = x.each_col() + xnew.col(i);
+					mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+					mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+				}
 			}
 		}
 		else
 		{
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			if (parallel)
 			{
-				mat xcolj = x.each_col() + xnew.col(i);
-				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, check_if_is_finite>(m), k);
-			}
-		}
-	}
-	else
-	{
-		if (parallel)
-		{
 #pragma omp parallel for
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat xcolj = x.each_col() + xnew.col(i);
+					mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+					mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
+				}
+			}
+			else
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat xcolj = x.each_col() + xnew.col(i);
+					mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+					mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
+				}
+			}
+		}
+	}
+
+	void bhattacharyya(mat &xnew, mat &x, mat &disa, const unsigned int k)
+	{
+		if (k > 0)
+		{
+
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat xcolj = x.each_col() + xnew.col(i);
-				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-				disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
+				disa.col(i) = get_k_values(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
 			}
 		}
 		else
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat xcolj = x.each_col() + xnew.col(i);
-				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-				disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
+				disa.col(i) = -log(sum(sqrt(x.each_col() % xnew.col(i)), 0)).t();
 			}
 		}
 	}
-}
 
-void bhattacharyya_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
+	void jeffries_matusita(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (k > 0)
 		{
-			disa.col(i) = get_k_values(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
+
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0)).t();
+			}
 		}
 	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = -log(sum(sqrt(x.each_col() % xnew.col(i)), 0)).t();
-		}
-	}
-}
 
-void jeffries_matusita_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
+	void itakura_saito(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
 	{
+		mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
+		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		if (k > 0)
 		{
-			disa.col(i) = get_k_values(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)),0)), k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)),0)).t();
-		}
-	}
-}
-
-void itakura_saito_dista(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
-{
-	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
-	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-
-	if (k > 0)
-	{
-		if (parallel)
-		{
+			if (parallel)
+			{
 #pragma omp parallel for
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				}
+			}
+			else
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				}
 			}
 		}
 		else
 		{
-			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			if (parallel)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
-			}
-		}
-	}
-	else
-	{
-		if (parallel)
-		{
 #pragma omp parallel for
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m).t();
+				}
+			}
+			else
+			{
+				for (unsigned int i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m).t();
+				}
+			}
+		}
+	}
+
+	void wave_hedges(mat &xnew, mat &x, mat &disa, const unsigned int k)
+	{
+		if (k > 0)
+		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-				disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m).t();
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)) / colMaxElems(x, xnew.col(i)), 0), k);
 			}
 		}
 		else
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-				disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m).t();
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) / colMaxElems(x, xnew.col(i)), 0).t();
 			}
 		}
 	}
-}
 
-void wave_hedges_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
-{
-	if (k > 0)
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)) / colMaxElems(x,xnew.col(i)),0), k);
-		}
-	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) / colMaxElems(x,xnew.col(i)),0).t();
-		}
-	}
 }
 
 //[[Rcpp::export]]
@@ -533,330 +538,335 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	mat disa(disaa.begin(), n, nu, false);
 	if (method == "euclidean")
 	{
-		euclidean_dista(xnew, x, disa, sqr, k);
+		Dista::euclidean(xnew, x, disa, sqr, k);
 	}
 	else if (method == "manhattan")
 	{
-		manhattan_dista(xnew, x, disa, k);
+		Dista::manhattan(xnew, x, disa, k);
 	}
 	else if (method == "hellinger")
 	{
-		hellinger_dista(xnew, x, disa, sqr, k);
+		Dista::hellinger(xnew, x, disa, sqr, k);
 	}
 	else if (method == "maximum")
 	{
-		max_dista(xnew, x, disa, k);
+		Dista::max(xnew, x, disa, k);
 	}
 	else if (method == "minimum")
 	{
-		min_dista(xnew, x, disa, k);
+		Dista::min(xnew, x, disa, k);
 	}
 	else if (method == "minkowski")
 	{
-		minkowski_dista(xnew, x, disa, p, k);
+		Dista::minkowski(xnew, x, disa, p, k);
 	}
 	else if (method == "canberra")
 	{
-		canberra_dista(xnew, x, disa, k);
+		Dista::canberra(xnew, x, disa, k);
 	}
 	else if (method == "bhattacharyya")
 	{
-		bhattacharyya_dista(xnew, x, disa, k);
+		Dista::bhattacharyya(xnew, x, disa, k);
 	}
 	else if (method == "jensen_shannon")
 	{
-		jensen_shannon_dista(xnew, x, disa, k, parallel);
+		Dista::jensen_shannon(xnew, x, disa, k, parallel);
 	}
 	else if (method == "itakura_saito")
 	{
-		itakura_saito_dista(xnew, x, disa, k, parallel);
+		Dista::itakura_saito(xnew, x, disa, k, parallel);
 	}
 	else if (method == "total_variation")
 	{
-		total_variation_dista(xnew, x, disa, k);
+		Dista::total_variation(xnew, x, disa, k);
 	}
 	else if (method == "kullback_leibler")
 	{
-		kullback_leibler_dista(xnew, x, disa, k, parallel);
+		Dista::kullback_leibler(xnew, x, disa, k, parallel);
 	}
 	else if (method == "chi_square")
 	{
-		chi_square_dista(xnew, x, disa, k);
+		Dista::chi_square(xnew, x, disa, k);
 	}
 	else if (method == "sorensen")
 	{
-		sorensen_dista(xnew, x, disa, k);
+		Dista::sorensen(xnew, x, disa, k);
 	}
 	else if (method == "soergel")
 	{
-		soergel_dista(xnew, x, disa, k);
+		Dista::soergel(xnew, x, disa, k);
 	}
 	else if (method == "cosine")
 	{
-		cosine_dista(xnew, x, disa, k);
+		Dista::cosine(xnew, x, disa, k);
 	}
 	else if (method == "wave_hedges")
 	{
-		wave_hedges_dista(xnew, x, disa, k);
+		Dista::wave_hedges(xnew, x, disa, k);
 	}
 	else if (method == "motyka")
 	{
-		motyka_dista(xnew, x, disa, k);
+		Dista::motyka(xnew, x, disa, k);
 	}
 	else if (method == "harmonic_mean")
 	{
-		harmonic_mean_dista(xnew, x, disa, k);
+		Dista::harmonic_mean(xnew, x, disa, k);
 	}
 	else if (method == "jeffries_matusita")
 	{
-		jeffries_matusita_dista(xnew, x, disa, k);
+		Dista::jeffries_matusita(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);
 	return disaa;
 }
 
-void euclidean_dista_indices(mat &xnew, mat &x, imat &disa, const bool sqr, const unsigned int k)
+namespace DistaIndices
 {
-	if (sqr)
+
+	void euclidean(mat &xnew, mat &x, imat &disa, const bool sqr, const unsigned int k)
+	{
+		if (sqr)
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_indices(sum(square(x.each_col() - xnew.col(i)), 0), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_indices(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
+			}
+		}
+	}
+
+	void manhattan(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = get_k_indices(sum(square(x.each_col() - xnew.col(i)), 0), k);
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0), k);
 		}
 	}
-	else
+
+	void sorensen(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = get_k_indices(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
 		}
 	}
-}
 
-void manhattan_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
-	{
-		disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0), k);
-	}
-}
-
-void sorensen_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
-	{
-		disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
-	}
-}
-
-void chi_square_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
-	{
-		disa.col(i) = get_k_indices(sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
-	}
-}
-
-void hellinger_dista_indices(mat &xnew, mat &x, imat &disa, const bool sqr, const unsigned int k)
-{
-	if (sqr)
+	void chi_square(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = get_k_indices(sum(square(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+			disa.col(i) = get_k_indices(sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k);
 		}
 	}
-	else
+
+	void hellinger(mat &xnew, mat &x, imat &disa, const bool sqr, const unsigned int k)
 	{
-		constexpr double p = 1.0 / std::sqrt(2.0);
+		if (sqr)
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_indices(sum(square(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+			}
+		}
+		else
+		{
+			constexpr double p = 1.0 / std::sqrt(2.0);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_indices(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)) * p, k);
+			}
+		}
+	}
+
+	void max(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	{
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = get_k_indices(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)) * p, k);
+			disa.col(i) = get_k_indices(max(abs(x.each_col() - xnew.col(i)), 0), k);
 		}
 	}
-}
 
-void max_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void min(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(max(abs(x.each_col() - xnew.col(i)), 0), k);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(min(abs(x.each_col() - xnew.col(i)), 0), k);
+		}
 	}
-}
 
-void min_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void minkowski(mat &xnew, mat &x, imat &disa, const double p, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(min(abs(x.each_col() - xnew.col(i)), 0), k);
+		const double p_1 = 1.0 / p;
+
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1), k);
+		}
 	}
-}
 
-void minkowski_dista_indices(mat &xnew, mat &x, imat &disa, const double p, const unsigned int k)
-{
-	const double p_1 = 1.0 / p;
-
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void canberra(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1), k);
+		mat x_abs = abs(x);
+
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0), k);
+		}
 	}
-}
 
-void canberra_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	mat x_abs = abs(x);
-
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void total_variation(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0), k);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+		}
 	}
-}
 
-void total_variation_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void soergel(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMaxs<colvec>(x, xnew.col(i)), k);
+		}
 	}
-}
 
-void soergel_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void kullback_leibler(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 	{
-		disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMaxs<colvec>(x,xnew.col(i)), k);
-	}
-}
+		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
+		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-void kullback_leibler_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
-{
-	mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-
-	if (parallel)
-	{
+		if (parallel)
+		{
 #pragma omp parallel for
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			}
+		}
+		else
 		{
-			mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			}
 		}
 	}
-	else
+
+	void jensen_shannon(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		constexpr double log2 = std::log(2);
+		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
+		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
+		mat x_mod_log_xx = x % log_xx;
+
+		if (parallel)
 		{
-			mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
-		}
-	}
-}
-
-void jensen_shannon_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
-{
-	mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-	constexpr double log2 = std::log(2);
-	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-	mat x_mod_log_xx = x % log_xx;
-
-	if (parallel)
-	{
 #pragma omp parallel for
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				mat xcolj = x.each_col() + xnew.col(i);
+				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+			}
+		}
+		else
 		{
-			mat xcolj = x.each_col() + xnew.col(i);
-			mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-			mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				mat xcolj = x.each_col() + xnew.col(i);
+				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
+				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+			}
 		}
 	}
-	else
+
+	void bhattacharyya(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			mat xcolj = x.each_col() + xnew.col(i);
-			mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-			mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+			disa.col(i) = get_k_indices(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
 		}
 	}
-}
 
-void bhattacharyya_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void cosine(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
+		colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k);
+		}
 	}
-}
 
-void cosine_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void wave_hedges(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)) / colMaxElems(x, xnew.col(i)), 0), k);
+		}
 	}
-}
 
-void wave_hedges_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void motyka(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)) / colMaxElems(x,xnew.col(i)),0), k);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(1.0 - colSumMins<rowvec>(x, xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0), k);
+		}
 	}
-}
 
-void motyka_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void harmonic_mean(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(1.0 - colSumMins<rowvec>(x,xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0), k);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(x.each_col() % xnew.col(i), 0) / sum(x.each_col() + xnew.col(i), 0) * 2.0, k);
+		}
 	}
-}
 
-void harmonic_mean_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void jeffries_matusita(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		disa.col(i) = get_k_indices(sum(x.each_col() % xnew.col(i),0) / sum(x.each_col() + xnew.col(i),0) * 2.0, k);
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
+		}
 	}
-}
 
-void jeffries_matusita_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
-{
-	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	void itakura_saito(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 	{
-		disa.col(i) = get_k_indices(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)),0)), k);
-	}
-}
+		mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
+		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-void itakura_saito_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
-{
-	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-	fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
-	fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-
-	if (parallel)
-	{
+		if (parallel)
+		{
 #pragma omp parallel for
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			}
+		}
+		else
 		{
-			mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			}
 		}
 	}
-	else
-	{
-		for (unsigned int i = 0; i < disa.n_cols; ++i)
-		{
-			mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
-		}
-	}
+
 }
 
 IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
@@ -867,83 +877,83 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	imat disa(disaa.begin(), n, nu, false);
 	if (method == "euclidean")
 	{
-		euclidean_dista_indices(xnew, x, disa, sqr, k);
+		DistaIndices::euclidean(xnew, x, disa, sqr, k);
 	}
 	else if (method == "manhattan")
 	{
-		manhattan_dista_indices(xnew, x, disa, k);
+		DistaIndices::manhattan(xnew, x, disa, k);
 	}
 	else if (method == "hellinger")
 	{
-		hellinger_dista_indices(xnew, x, disa, sqr, k);
+		DistaIndices::hellinger(xnew, x, disa, sqr, k);
 	}
 	else if (method == "maximum")
 	{
-		max_dista_indices(xnew, x, disa, k);
+		DistaIndices::max(xnew, x, disa, k);
 	}
 	else if (method == "minimum")
 	{
-		min_dista_indices(xnew, x, disa, k);
+		DistaIndices::min(xnew, x, disa, k);
 	}
 	else if (method == "minkowski")
 	{
-		minkowski_dista_indices(xnew, x, disa, p, k);
+		DistaIndices::minkowski(xnew, x, disa, p, k);
 	}
 	else if (method == "canberra")
 	{
-		canberra_dista_indices(xnew, x, disa, k);
+		DistaIndices::canberra(xnew, x, disa, k);
 	}
 	else if (method == "bhattacharyya")
 	{
-		bhattacharyya_dista_indices(xnew, x, disa, k);
+		DistaIndices::bhattacharyya(xnew, x, disa, k);
 	}
 	else if (method == "jensen_shannon")
 	{
-		jensen_shannon_dista_indices(xnew, x, disa, k, parallel);
+		DistaIndices::jensen_shannon(xnew, x, disa, k, parallel);
 	}
 	else if (method == "itakura_saito")
 	{
-		itakura_saito_dista_indices(xnew, x, disa, k, parallel);
+		DistaIndices::itakura_saito(xnew, x, disa, k, parallel);
 	}
 	else if (method == "total_variation")
 	{
-		total_variation_dista_indices(xnew, x, disa, k);
+		DistaIndices::total_variation(xnew, x, disa, k);
 	}
 	else if (method == "kullback_leibler")
 	{
-		kullback_leibler_dista_indices(xnew, x, disa, k, parallel);
+		DistaIndices::kullback_leibler(xnew, x, disa, k, parallel);
 	}
 	else if (method == "chi_square")
 	{
-		chi_square_dista_indices(xnew, x, disa, k);
+		DistaIndices::chi_square(xnew, x, disa, k);
 	}
 	else if (method == "sorensen")
 	{
-		sorensen_dista_indices(xnew, x, disa, k);
+		DistaIndices::sorensen(xnew, x, disa, k);
 	}
 	else if (method == "soergel")
 	{
-		soergel_dista_indices(xnew, x, disa, k);
+		DistaIndices::soergel(xnew, x, disa, k);
 	}
 	else if (method == "cosine")
 	{
-		cosine_dista_indices(xnew, x, disa, k);
+		DistaIndices::cosine(xnew, x, disa, k);
 	}
 	else if (method == "wave_hedges")
 	{
-		wave_hedges_dista_indices(xnew, x, disa, k);
+		DistaIndices::wave_hedges(xnew, x, disa, k);
 	}
 	else if (method == "motyka")
 	{
-		motyka_dista_indices(xnew, x, disa, k);
+		DistaIndices::motyka(xnew, x, disa, k);
 	}
 	else if (method == "harmonic_mean")
 	{
-		harmonic_mean_dista_indices(xnew, x, disa, k);
+		DistaIndices::harmonic_mean(xnew, x, disa, k);
 	}
 	else if (method == "jeffries_matusita")
 	{
-		jeffries_matusita_dista_indices(xnew, x, disa, k);
+		DistaIndices::jeffries_matusita(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);

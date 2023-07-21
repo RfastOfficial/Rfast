@@ -1,7 +1,7 @@
 //Author: Manos Papadakis
 
 #include <RcppArmadillo.h>
-#include "mn.h"
+#include "Rfast.h"
 
 using namespace arma;
 using namespace Rcpp;
@@ -13,7 +13,7 @@ rowvec spat_med(NumericMatrix Y,const double tol = 1e-09){
   rowvec u1(y.n_rows),u2;
   uvec ind;
   
-  u1=colMedians(y);
+  u1=Rfast::colMedian(y);
   z=y.each_row()-u1;
   ww =1/sqrt(sum(square(z),1));
   ind = find_finite(ww);
