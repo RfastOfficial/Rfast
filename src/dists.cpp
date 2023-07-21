@@ -113,6 +113,27 @@ namespace Dist
     return f;
   }
 
+  NumericMatrix kulczynski(NumericMatrix x)
+  {
+    const int ncl = x.ncol(), nrw = x.nrow();
+    mat xx(x.begin(), nrw, ncl, false);
+    NumericMatrix f(ncl, ncl);
+    colvec xv(nrw);
+    double a;
+    int i, j;
+    for (i = 0; i < ncl - 1; ++i)
+    {
+      xv = xx.col(i);
+      for (j = i + 1; j < ncl; ++j)
+      {
+        a = sum(abs(xv - xx.col(j))) / sum_min_elems(xv, xx.col(j));
+        f(i, j) = a;
+        f(j, i) = a;
+      }
+    }
+    return f;
+  }
+
   NumericMatrix wave_hedges(NumericMatrix x)
   {
     const int ncl = x.ncol(), nrw = x.nrow();
@@ -496,6 +517,30 @@ namespace Dist
   }
 
   //[[Rcpp::export]]
+  NumericMatrix gower(NumericMatrix x)
+  {
+    const int ncl = x.ncol(), nrw = x.nrow();
+    const double p = 1.0/nrw;
+    NumericMatrix f(ncl, ncl);
+    mat xx(x.begin(), nrw, ncl, false);
+    colvec xv(nrw);
+    double a;
+    int i, j;
+
+    for (i = 0; i < ncl - 1; ++i)
+    {
+      xv = xx.col(i);
+      for (j = i + 1; j < ncl; ++j)
+      {
+        a = sum(abs(xv - xx.col(j))) * p;
+        f(i, j) = a;
+        f(j, i) = a;
+      }
+    }
+    return f;
+  }
+
+  //[[Rcpp::export]]
   NumericMatrix haversine(NumericMatrix x)
   {
     const int nrw = x.nrow();
@@ -607,6 +652,14 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "jeffries_matusita")
   {
     return Dist::jeffries_matusita(x);
+  }
+  else if (method == "gower")
+  {
+    return Dist::gower(x);
+  }
+  else if (method == "kulczynski")
+  {
+    return Dist::kulczynski(x);
   }
   stop("Unsupported Method: %s", method);
 }

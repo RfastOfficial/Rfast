@@ -270,6 +270,45 @@ namespace DistVector
   }
 
   //[[Rcpp::export]]
+  NumericVector gower(NumericMatrix x)
+  {
+    const int ncl = x.ncol(), nrw = x.nrow();
+    const double p = 1.0 / nrw;
+    NumericVector f(proper_size(nrw, ncl));
+    mat xx(x.begin(), nrw, ncl, false);
+    colvec xv(nrw);
+    int i, j, k = 0;
+
+    for (i = 0; i < ncl - 1; ++i)
+    {
+      xv = xx.col(i);
+      for (j = i + 1; j < ncl; ++j, ++k)
+      {
+        f[k] = sum(abs(xv - xx.col(j))) * p;
+      }
+    }
+    return f;
+  }
+
+  NumericVector kulczynski(NumericMatrix x)
+  {
+    const int ncl = x.ncol(), nrw = x.nrow();
+    mat xx(x.begin(), nrw, ncl, false);
+    NumericVector f(proper_size(nrw, ncl));
+    colvec xv(nrw);
+    int i, j, k = 0;
+    for (i = 0; i < ncl - 1; ++i)
+    {
+      xv = xx.col(i);
+      for (j = i + 1; j < ncl; ++j, ++k)
+      {
+        f[k] = sum(abs(xv - xx.col(j))) / sum_min_elems(xv, xx.col(j));
+      }
+    }
+    return f;
+  }
+
+  //[[Rcpp::export]]
   NumericVector jensen_shannon(NumericMatrix x)
   {
     const int ncl = x.ncol(), nrw = x.nrow();
@@ -532,6 +571,14 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
   else if (method == "jeffries_matusita")
   {
     return DistVector::jeffries_matusita(x);
+  }
+  else if (method == "gower")
+  {
+    return DistVector::gower(x);
+  }
+  else if (method == "kulczynski")
+  {
+    return DistVector::kulczynski(x);
   }
   stop("Unsupported Method: %s", method);
 }

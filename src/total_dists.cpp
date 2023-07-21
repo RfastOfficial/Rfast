@@ -172,6 +172,46 @@ namespace DistTotal
     return a;
   }
 
+  //[[Rcpp::export]]
+  double gower(NumericMatrix x)
+  {
+    const int ncl = x.ncol(), nrw = x.nrow();
+    const double p = 1.0/nrw;
+    NumericMatrix f(ncl, ncl);
+    mat xx(x.begin(), nrw, ncl, false);
+    colvec xv(nrw), log_xv(nrw);
+    double a=0.0;
+    int i, j;
+
+    for (i = 0; i < ncl - 1; ++i)
+    {
+      xv = xx.col(i);
+      for (j = i + 1; j < ncl; ++j)
+      {
+        a += sum(abs(xv - xx.col(j))) * p;
+      }
+    }
+    return a;
+  }
+
+  double kulczynski(NumericMatrix x)
+  {
+    const int ncl = x.ncol(), nrw = x.nrow();
+    mat xx(x.begin(), nrw, ncl, false);
+    colvec xv(nrw);
+    double a=0.0;
+    int i, j;
+    for (i = 0; i < ncl - 1; ++i)
+    {
+      xv = xx.col(i);
+      for (j = i + 1; j < ncl; ++j)
+      {
+        a += sum(abs(xv - xx.col(j))) / sum_min_elems(xv, xx.col(j));
+      }
+    }
+    return a;
+  }
+
   double total_variation(NumericMatrix x)
   {
     const int ncl = x.ncol(), nrw = x.nrow();
@@ -524,6 +564,14 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "jeffries_matusita")
   {
     return DistTotal::jeffries_matusita(x);
+  }
+  else if (method == "gower")
+  {
+    return DistTotal::gower(x);
+  }
+  else if (method == "kulczynski")
+  {
+    return DistTotal::kulczynski(x);
   }
   stop("Unsupported Method: %s", method);
 }

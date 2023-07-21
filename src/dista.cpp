@@ -145,6 +145,24 @@ namespace Dista
 		}
 	}
 
+	void kulczynski(mat &xnew, mat &x, mat &disa, const unsigned int k)
+	{
+		if (k > 0)
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMins<rowvec>(x, xnew.col(i)), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)), 0).t() / colSumMins<colvec>(x, xnew.col(i));
+			}
+		}
+	}
+
 	void motyka(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
 		if (k > 0)
@@ -527,6 +545,25 @@ namespace Dista
 		}
 	}
 
+	void gower(mat &xnew, mat &x, mat &disa, const unsigned int k)
+	{
+		const double p = 1.0 / x.n_rows;
+		if (k > 0)
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)) * p, 0), k);
+			}
+		}
+		else
+		{
+			for (unsigned int i = 0; i < disa.n_cols; ++i)
+			{
+				disa.col(i) = sum(abs(x.each_col() - xnew.col(i)) * p, 0).t();
+			}
+		}
+	}
+
 }
 
 //[[Rcpp::export]]
@@ -615,6 +652,14 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	else if (method == "jeffries_matusita")
 	{
 		Dista::jeffries_matusita(xnew, x, disa, k);
+	}
+	else if (method == "gower")
+	{
+		Dista::gower(xnew, x, disa, k);
+	}
+	else if (method == "kulczynski")
+	{
+		Dista::kulczynski(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);
@@ -734,6 +779,14 @@ namespace DistaIndices
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
 			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMaxs<colvec>(x, xnew.col(i)), k);
+		}
+	}
+
+	void kulczynski(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMins<colvec>(x, xnew.col(i)), k);
 		}
 	}
 
@@ -867,6 +920,14 @@ namespace DistaIndices
 		}
 	}
 
+	void gower(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	{
+		const double p = 1.0 / x.n_rows;
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_indices(sum(abs(x.each_col() - xnew.col(i)) * p, 0), k);
+		}
+	}
 }
 
 IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
@@ -954,6 +1015,14 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	else if (method == "jeffries_matusita")
 	{
 		DistaIndices::jeffries_matusita(xnew, x, disa, k);
+	}
+	else if (method == "gower")
+	{
+		DistaIndices::gower(xnew, x, disa, k);
+	}
+	else if (method == "kulczynski")
+	{
+		DistaIndices::kulczynski(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);

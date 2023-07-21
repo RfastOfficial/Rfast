@@ -15,7 +15,7 @@
 >  |  Dist(...,method = "canberra2") | Depricated.  |
 >  |  Dist(...,method = "jensen_shannon") | Support parallel.  |
 >  |  Dist(...,method = "kullback_leibler") | Support parallel.  |
->  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean")  |
+>  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean","jeffries_matusita","gower","kulczynski")  |
 >  |  dista | All the methods from the Dist function are now supported.  |
 >
 >
