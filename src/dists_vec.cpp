@@ -126,7 +126,7 @@ namespace DistVector
       for (j = i + 1; j < ncl; ++j, ++k)
       {
         tmp = abs(xx.col(j) - xv);
-        f[k] = tmp(tmp.index_min());
+        f[k] = tmp[tmp.index_min()];
       }
     }
     return f;

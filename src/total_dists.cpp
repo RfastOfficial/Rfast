@@ -108,7 +108,7 @@ namespace DistTotal
       for (j = i + 1; j < ncl; ++j)
       {
         tmp = abs(xv - xx.col(j));
-        a += tmp.at(tmp.index_max());
+        a += tmp[tmp.index_max()];
       }
     }
     return a;
@@ -118,7 +118,7 @@ namespace DistTotal
   {
     const int ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
-    colvec xv(nrw);
+    colvec xv(nrw), tmp(nrw);
     double a = 0;
     int i, j;
     for (i = 0; i < ncl - 1; ++i)
@@ -126,8 +126,8 @@ namespace DistTotal
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        xv = abs(xx.col(j) - xv);
-        a += xv.at(xv.index_min());
+        tmp = abs(xx.col(j) - xv);
+        a += tmp[tmp.index_min()];
       }
     }
     return a;
@@ -262,7 +262,7 @@ namespace DistTotal
       log_xv = log_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += sum((xv - xx.col(j) - log_xv - log_xx.col(j)) - 1);
+        a += sum((xv / xx.col(j) - (log_xv - log_xx.col(j))) - 1);
       }
     }
     return a;
