@@ -220,7 +220,7 @@ NumericVector bhattacharyya_vec(NumericMatrix x)
     xv = xx.col(i);
     for (j = i + 1; j < ncl; ++j, ++k)
     {
-      f[k] = sum(sqrt(xv % xx.col(j)));
+      f[k] = -log(sum(sqrt(xv % xx.col(j))));
     }
   }
   return f;

@@ -219,7 +219,7 @@ double total_bhattacharyya(NumericMatrix x)
     xv = xx.col(i);
     for (j = i + 1; j < ncl; ++j)
     {
-      a += sum(sqrt(abs(xv % xx.col(j))));
+      a += -log(sum(sqrt(xv % xx.col(j))));
     }
   }
   return a;

@@ -427,14 +427,14 @@ void bhattacharyya_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
 
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = get_k_values(sum(sqrt(x.each_col() % xnew.col(i)), 0), k);
+			disa.col(i) = get_k_values(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
 		}
 	}
 	else
 	{
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = sum(sqrt(x.each_col() % xnew.col(i)), 0).t();
+			disa.col(i) = -log(sum(sqrt(x.each_col() % xnew.col(i)), 0)).t();
 		}
 	}
 }
@@ -766,7 +766,7 @@ void bhattacharyya_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned i
 {
 	for (unsigned int i = 0; i < disa.n_cols; ++i)
 	{
-		disa.col(i) = get_k_indices(sum(sqrt(x.each_col() % xnew.col(i)), 0), k);
+		disa.col(i) = get_k_indices(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
 	}
 }
 
