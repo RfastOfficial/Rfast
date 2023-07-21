@@ -439,6 +439,25 @@ void bhattacharyya_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	}
 }
 
+void jeffries_matusita_dista(mat &xnew, mat &x, mat &disa, const unsigned int k)
+{
+	if (k > 0)
+	{
+
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = get_k_values(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)),0)), k);
+		}
+	}
+	else
+	{
+		for (unsigned int i = 0; i < disa.n_cols; ++i)
+		{
+			disa.col(i) = sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)),0)).t();
+		}
+	}
+}
+
 void itakura_saito_dista(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
 {
 	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -587,6 +606,10 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	else if (method == "harmonic_mean")
 	{
 		harmonic_mean_dista(xnew, x, disa, k);
+	}
+	else if (method == "jeffries_matusita")
+	{
+		jeffries_matusita_dista(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);
@@ -803,6 +826,14 @@ void harmonic_mean_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned i
 	}
 }
 
+void jeffries_matusita_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k)
+{
+	for (unsigned int i = 0; i < disa.n_cols; ++i)
+	{
+		disa.col(i) = get_k_indices(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)),0)), k);
+	}
+}
+
 void itakura_saito_dista_indices(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 {
 	mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -909,6 +940,10 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	else if (method == "harmonic_mean")
 	{
 		harmonic_mean_dista_indices(xnew, x, disa, k);
+	}
+	else if (method == "jeffries_matusita")
+	{
+		jeffries_matusita_dista_indices(xnew, x, disa, k);
 	}
 	else
 		stop("Unsupported Method: %s", method);

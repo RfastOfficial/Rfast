@@ -225,6 +225,26 @@ double total_bhattacharyya(NumericMatrix x)
   return a;
 }
 
+//[[Rcpp::export]]
+double total_jeffries_matusita(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  colvec xv(nrw);
+  double a=0.0;
+  int i, j;
+
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a += sqrt(2.0 - 2.0 * sum(sqrt(xv % xx.col(j))));
+    }
+  }
+  return a;
+}
+
 double total_itakura_saito(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -495,6 +515,10 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "harmonic_mean")
   {
     return total_harmonic_mean(x);
+  }
+  else if (method == "jeffries_matusita")
+  {
+    return total_jeffries_matusita(x);
   }
   stop("Unsupported Method: %s", method);
 }

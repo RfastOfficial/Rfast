@@ -123,7 +123,7 @@ NumericMatrix wave_hedges(NumericMatrix x)
     xv = xx.col(i);
     for (j = i + 1; j < ncl; ++j)
     {
-      a = sum(abs(xv - xx.col(j)) / max_elems(xv , xx.col(j)));
+      a = sum(abs(xv - xx.col(j)) / max_elems(xv, xx.col(j)));
       f(i, j) = a;
       f(j, i) = a;
     }
@@ -144,7 +144,7 @@ NumericMatrix motyka(NumericMatrix x)
     xv = xx.col(i);
     for (j = i + 1; j < ncl; ++j)
     {
-      a = 1.0 - sum_min_elems(xv , xx.col(j)) / sum(xv + xx.col(j));
+      a = 1.0 - sum_min_elems(xv, xx.col(j)) / sum(xv + xx.col(j));
       f(i, j) = a;
       f(j, i) = a;
     }
@@ -165,7 +165,7 @@ NumericMatrix harmonic_mean(NumericMatrix x)
     xv = xx.col(i);
     for (j = i + 1; j < ncl; ++j)
     {
-      a = 2.0 * dot(xv,xx.col(j)) / sum(xv + xx.col(j));
+      a = 2.0 * dot(xv, xx.col(j)) / sum(xv + xx.col(j));
       f(i, j) = a;
       f(j, i) = a;
     }
@@ -445,6 +445,29 @@ NumericMatrix bhattacharyya(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
+NumericMatrix jeffries_matusita(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericMatrix f(ncl, ncl);
+  colvec xv(nrw);
+  double a;
+  int i, j;
+
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j)
+    {
+      a = sqrt(2.0 - 2.0 * sum(sqrt(xv % xx.col(j))));
+      f(i, j) = a;
+      f(j, i) = a;
+    }
+  }
+  return f;
+}
+
+//[[Rcpp::export]]
 NumericMatrix itakura_saito(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -575,6 +598,10 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
   else if (method == "harmonic_mean")
   {
     return harmonic_mean(x);
+  }
+  else if (method == "jeffries_matusita")
+  {
+    return jeffries_matusita(x);
   }
   stop("Unsupported Method: %s", method);
 }

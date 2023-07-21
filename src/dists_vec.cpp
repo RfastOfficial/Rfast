@@ -227,6 +227,25 @@ NumericVector bhattacharyya_vec(NumericMatrix x)
 }
 
 //[[Rcpp::export]]
+NumericVector jeffries_matusita_vec(NumericMatrix x)
+{
+  const int ncl = x.ncol(), nrw = x.nrow();
+  mat xx(x.begin(), nrw, ncl, false);
+  NumericVector f(proper_size(nrw, ncl));
+  colvec xv(nrw);
+  int i, j, k = 0;
+  for (i = 0; i < ncl - 1; ++i)
+  {
+    xv = xx.col(i);
+    for (j = i + 1; j < ncl; ++j, ++k)
+    {
+      f[k] = sqrt(2.0 - 2.0 * sum(sqrt(xv % xx.col(j))));
+    }
+  }
+  return f;
+}
+
+//[[Rcpp::export]]
 NumericVector itakura_saito_vec(NumericMatrix x)
 {
   const int ncl = x.ncol(), nrw = x.nrow();
@@ -505,6 +524,10 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
   else if (method == "harmonic_mean")
   {
     return harmonic_mean_vec(x);
+  }
+  else if (method == "jeffries_matusita")
+  {
+    return jeffries_matusita_vec(x);
   }
   stop("Unsupported Method: %s", method);
 }
