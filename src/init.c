@@ -200,7 +200,7 @@ SEXP Rfast_stable_sort(SEXP, SEXP);
 SEXP Rfast_spat_med(SEXP, SEXP);
 SEXP Rfast_squareform_c(SEXP);
 SEXP Rfast_total_dists(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_total_dista(SEXP, SEXP, SEXP);
+SEXP Rfast_total_dista(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_topological_sort(SEXP);
 SEXP Rfast_Trigamma(SEXP);
 SEXP Rfast_table_c(SEXP, SEXP);
@@ -450,7 +450,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_spat_med", (DL_FUNC)&Rfast_spat_med, 2},
     {"Rfast_squareform_c", (DL_FUNC)&Rfast_squareform_c, 1},
     {"Rfast_total_dists", (DL_FUNC)&Rfast_total_dists, 4},
-    {"Rfast_total_dista", (DL_FUNC)&Rfast_total_dista, 3},
+    {"Rfast_total_dista", (DL_FUNC)&Rfast_total_dista, 7},
     {"Rfast_topological_sort", (DL_FUNC)&Rfast_topological_sort, 1},
     {"Rfast_Trigamma", (DL_FUNC)&Rfast_Trigamma, 1},
     {"Rfast_table_c", (DL_FUNC)&Rfast_table_c, 2},
