@@ -18,6 +18,7 @@
 >  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean","jeffries_matusita","gower","kulczynski")  |
 >  |  dista | All the methods from the Dist function are now supported.  |
 >  |  total.dists | All the methods from the Dist function are now supported.  |
+>  |  total.dista | All the methods from the Dist function are now supported.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
