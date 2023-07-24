@@ -1080,7 +1080,7 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
     return f;
 }
 
-template<Binary_Function oper,Binary_Function func>
+template<class T,Mfunction<T,T,T> oper,Mfunction<T,T,T> func>
 double apply_eachrow_helper(SEXP x,SEXP y){
     int ncol=Rf_ncols(x),nrow=Rf_nrows(x);
     SEXP mat=Rf_duplicate(x);
@@ -1094,7 +1094,7 @@ double apply_eachrow_helper(SEXP x,SEXP y){
     return s;
 }
 
-template<Binary_Function oper,class T,class RETURN_TYPE,int type>
+template<class RETURN_TYPE,class T,Mfunction<T,T,T> oper,int type>
 SEXP eachrow_helper(SEXP x,SEXP y){
     int ncol=Rf_ncols(x),nrow=Rf_nrows(x);
     SEXP mat=PROTECT(Rf_allocMatrix(type,nrow,ncol));

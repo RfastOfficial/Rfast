@@ -1,6 +1,8 @@
 #include <RcppArmadillo.h>
 #include "Rfast.h"
+#include "Rfast\types.hpp"
 
+using Rfast::Type;
 
 using namespace arma;
 using namespace Rcpp;
@@ -165,12 +167,41 @@ END_RCPP
 
 static SEXP eachrow(SEXP x,SEXP y,const char oper){
   switch(oper){
-    case '*': return eachrow_helper< mmult<double>,double,double,REALSXP >(x,y);
-    case '+': return eachrow_helper< madd<double>,double,double,REALSXP >(x,y);
-    case '/': return eachrow_helper< mdiv<double>,double,double,REALSXP >(x,y);
-    case '-': return eachrow_helper< mdiff<double>,double,double,REALSXP >(x,y);
-    case '^': return eachrow_helper< std::pow,double,double,REALSXP >(x,y);
-    case '=': return eachrow_helper< mequal<double>,double,int,LGLSXP >(x,y);
+    case '*': 
+      switch(Type::type(x)){
+        case Type::Types::REAL: return eachrow_helper< double,double,mmult<double>,Type::R::Real >(x,y);
+        case Type::Types::INT: return eachrow_helper< int,int,mmult<int>,Type::R::Int >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+    case '+': 
+      switch(Type::type(x)){
+        case Type::Types::REAL: return eachrow_helper< double,double,madd<double>,Type::R::Real >(x,y);
+        case Type::Types::INT: return eachrow_helper< int,int,madd<int>,Type::R::Int >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+    case '/': 
+      switch(Type::type(x)){
+        case Type::Types::REAL: return eachrow_helper< double,double,mdiv<double>,Type::R::Real >(x,y);
+        case Type::Types::INT: return eachrow_helper< int,int,mdiv<int>,Type::R::Int >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+    case '-': 
+      switch(Type::type(x)){
+        case Type::Types::REAL: return eachrow_helper< double,double,mdiff<double>,Type::R::Real >(x,y);
+        case Type::Types::INT: return eachrow_helper< int,int,mdiff<int>,Type::R::Int >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      } 
+    case '^': 
+      switch(Type::type(x)){
+        case Type::Types::REAL: return eachrow_helper< double,double,std::pow,Type::R::Real >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      } 
+    case '=': 
+      switch(Type::type(x)){
+        case Type::Types::LOGICAL: return eachrow_helper<double,double,mequal<double>,Type::R::Lgl >(x,y);
+        default: stop("Unsupported type. Type must be logical.");
+      } 
+      
     default: stop("The operation doesn't supported.");
   }
   return R_NilValue;
@@ -179,29 +210,101 @@ static SEXP eachrow(SEXP x,SEXP y,const char oper){
 static double apply_eachrow(SEXP x,SEXP y,const char oper,const string method){
   if(method == "sum"){
     switch(oper){
-      case '*': return apply_eachrow_helper<mmult<double>,madd<double> >(x,y);
-      case '+': return apply_eachrow_helper<madd<double>,madd<double> >(x,y);
-      case '/': return apply_eachrow_helper<mdiv<double>,madd<double> >(x,y);
-      case '-': return apply_eachrow_helper<mdiff<double>,madd<double> >(x,y);
-      case '^': return apply_eachrow_helper<std::pow,madd<double> >(x,y);
+      case '*':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mmult<double>,madd<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mmult<int>,madd<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '+':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,madd<double>,madd<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,madd<int>,madd<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '/':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mdiv<double>,madd<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mdiv<int>,madd<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '-':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mdiff<double>,madd<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mdiff<int>,madd<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '^':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,std::pow,madd<double> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
       default: stop("The operation doesn't supported.");
     }
   }else if(method == "min"){
     switch(oper){
-      case '*': return apply_eachrow_helper<mmult<double>,mmin<double> >(x,y);
-      case '+': return apply_eachrow_helper<madd<double>,mmin<double> >(x,y);
-      case '/': return apply_eachrow_helper<mdiv<double>,mmin<double> >(x,y);
-      case '-': return apply_eachrow_helper<mdiff<double>,mmin<double> >(x,y);
-      case '^': return apply_eachrow_helper<std::pow,mmin<double> >(x,y);
+      case '*':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mmult<double>,mmin<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mmult<int>,mmin<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '+':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,madd<double>,mmin<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,madd<int>,mmin<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '/':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mdiv<double>,mmin<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mdiv<int>,mmin<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '-':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mdiff<double>,mmin<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mdiff<int>,mmin<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '^':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,std::pow,mmin<double> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
       default: stop("The operation doesn't supported.");
     }
   }else if(method == "max"){
     switch(oper){
-      case '*': return apply_eachrow_helper<mmult<double>,mmax<double> >(x,y);
-      case '+': return apply_eachrow_helper<madd<double>,mmax<double> >(x,y);
-      case '/': return apply_eachrow_helper<mdiv<double>,mmax<double> >(x,y);
-      case '-': return apply_eachrow_helper<mdiff<double>,mmax<double> >(x,y);
-      case '^': return apply_eachrow_helper<std::pow,mmax<double> >(x,y);
+      case '*':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mmult<double>,mmax<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mmult<int>,mmax<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '+':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,madd<double>,mmax<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,madd<int>,mmax<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '/':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mdiv<double>,mmax<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mdiv<int>,mmax<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '-':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,mdiff<double>,mmax<double> >(x,y);
+        case Type::Types::INT: return apply_eachrow_helper<int,mdiff<int>,mmax<int> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
+      case '^':  
+      switch(Type::type(x)){
+        case Type::Types::REAL: return apply_eachrow_helper<double,std::pow,mmax<double> >(x,y);
+        default: stop("Unsupported type. Type must be numeric or integer.");
+      }
       default: stop("The operation doesn't supported.");
     }
   }
