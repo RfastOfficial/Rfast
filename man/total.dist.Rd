@@ -10,7 +10,6 @@ Sum of all pairwise distances in a distance matrix.
 }
 
 \usage{
-total.dist(x, method = "euclidean", square = FALSE, p = 0)
 total.dista(x, y, square = FALSE)  
 }
 
