@@ -110,7 +110,7 @@ END_RCPP
 
 double edist(NumericMatrix x,NumericMatrix y){
 	const int n1=x.ncol(),n2=y.ncol();
-	double mij=total_dista(x, y,false),mii=DistTotal::euclidean(x,false),mjj=DistTotal::euclidean(y,false);
+	double mij=total_dista(x, y,"euclidean",false),mii=DistTotal::euclidean(x,false),mjj=DistTotal::euclidean(y,false);
         return (2 * mij/(n1 * n2) - 2 * mii/(n1*n1) - 2 * mjj/(n2*n2) ) * n1 * n2 / (n1 + n2);
 }
 

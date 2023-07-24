@@ -77,9 +77,10 @@ namespace DistTotal
         xv = xx.col(i);
         for (j = i + 1; j < ncl; ++j)
         {
-          a += sum(square(xv - xx.col(j))) * 0.5;
+          a += sum(square(xv - xx.col(j)));
         }
       }
+      a*=0.5;
     }
     else
     {
@@ -88,9 +89,10 @@ namespace DistTotal
         xv = xx.col(i);
         for (j = i + 1; j < ncl; ++j)
         {
-          a += p * std::sqrt(sum(square(xv - xx.col(j))));
+          a += std::sqrt(sum(square(xv - xx.col(j))));
         }
       }
+      a*=p;
     }
     return a;
   }
@@ -188,10 +190,10 @@ namespace DistTotal
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += sum(abs(xv - xx.col(j))) * p;
+        a += sum(abs(xv - xx.col(j)));
       }
     }
-    return a;
+    return a * p;
   }
 
   double kulczynski(NumericMatrix x)
@@ -224,10 +226,10 @@ namespace DistTotal
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += 0.5 * sum(abs(xv - xx.col(j)));
+        a += sum(abs(xv - xx.col(j)));
       }
     }
-    return a;
+    return a * 0.5;
   }
 
   double kullback_leibler(NumericMatrix x)
@@ -262,10 +264,10 @@ namespace DistTotal
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += -log(sum(sqrt(xv % xx.col(j))));
+        a += log(sum(sqrt(xv % xx.col(j))));
       }
     }
-    return a;
+    return -a;
   }
 
   //[[Rcpp::export]]
@@ -416,10 +418,10 @@ namespace DistTotal
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += 2.0 * dot(xv, xx.col(j)) / sum(xv + xx.col(j));
+        a += dot(xv, xx.col(j)) / sum(xv + xx.col(j));
       }
     }
-    return a;
+    return a * 2.0;
   }
 
   double soergel(NumericMatrix x)

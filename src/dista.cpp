@@ -207,7 +207,7 @@ namespace Dista
 			{
 				for (unsigned int i = 0; i < disa.n_cols; ++i)
 				{
-					disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+					disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k) * 0.5;
 				}
 			}
 			else
@@ -225,7 +225,7 @@ namespace Dista
 			{
 				for (unsigned int i = 0; i < disa.n_cols; ++i)
 				{
-					disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)) * p, k);
+					disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k) * p;
 				}
 			}
 			else
@@ -323,7 +323,7 @@ namespace Dista
 
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) * 0.5, k);
+				disa.col(i) = get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0), k) * 0.5;
 			}
 		}
 		else
