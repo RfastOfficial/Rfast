@@ -1045,7 +1045,7 @@ Ret rank_first(T x,const bool descend,const bool stable){
     return f;
 }
 
-template<Binary_Function oper,Binary_Function func>
+template<class T,Mfunction<T,T,T> oper,Mfunction<T,T,T> func>
 NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = R_NilValue, const bool parallel=false){
     const bool is_ind_null = Rf_isNull(ind);
     const int n = is_ind_null ? x.ncol() : LENGTH(ind);
