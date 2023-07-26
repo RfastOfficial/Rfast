@@ -9,6 +9,8 @@ SEXP Rfast_binarysearch(SEXP, SEXP);
 SEXP Rfast_bic_fs_reg(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_bs_reg(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_bincomb(SEXP);
+SEXP Rfast_coeff(SEXP, SEXP);
+SEXP Rfast_coeff_vec(SEXP, SEXP);
 SEXP Rfast_col_all(SEXP);
 SEXP Rfast_col_count_values(SEXP, SEXP);
 SEXP Rfast_col_cum_maxs(SEXP);
@@ -259,6 +261,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_bic_fs_reg", (DL_FUNC)&Rfast_bic_fs_reg, 4},
     {"Rfast_bs_reg", (DL_FUNC)&Rfast_bs_reg, 4},
     {"Rfast_bincomb", (DL_FUNC)&Rfast_bincomb, 1},
+    {"Rfast_coeff", (DL_FUNC)&Rfast_coeff, 2},
+    {"Rfast_coeff_vec", (DL_FUNC)&Rfast_coeff_vec, 2},
     {"Rfast_col_all", (DL_FUNC)&Rfast_col_all, 1},
     {"Rfast_col_count_values", (DL_FUNC)&Rfast_col_count_values, 2},
     {"Rfast_col_cum_maxs", (DL_FUNC)&Rfast_col_cum_maxs, 1},
