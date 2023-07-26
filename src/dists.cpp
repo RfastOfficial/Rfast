@@ -4,6 +4,8 @@
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include "Rfast.h"
+#include "Coeff.h"
+#include "Dist.h"
 #include <string>
 
 using namespace Rcpp;
@@ -63,7 +65,7 @@ namespace Dist
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sum(abs(xv - xx.col(j)));
+        a = manhattan(xv, xx.col(j));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -105,7 +107,7 @@ namespace Dist
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sum(abs(xv - xx.col(j))) / sum_max_elems(xv, xx.col(j));
+        a = manhattan(xv, xx.col(j)) / sum_max_elems(xv, xx.col(j));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -126,7 +128,7 @@ namespace Dist
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sum(abs(xv - xx.col(j))) / sum_min_elems(xv, xx.col(j));
+        a = manhattan(xv, xx.col(j)) / sum_min_elems(xv, xx.col(j));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -340,7 +342,7 @@ namespace Dist
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = 0.5 * sum(abs(xv - xx.col(j)));
+        a = 0.5 * manhattan(xv, xx.col(j));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -460,7 +462,7 @@ namespace Dist
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = -log(sum(sqrt(xv % xx.col(j))));
+        a = -log(Coeff::bhattacharyya(xv, xx.col(j)));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -483,7 +485,7 @@ namespace Dist
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sqrt(2.0 - 2.0 * sum(sqrt(xv % xx.col(j))));
+        a = sqrt(2.0 - 2.0 * Coeff::bhattacharyya(xv, xx.col(j)));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -520,7 +522,7 @@ namespace Dist
   NumericMatrix gower(NumericMatrix x)
   {
     const int ncl = x.ncol(), nrw = x.nrow();
-    const double p = 1.0/nrw;
+    const double p = 1.0 / nrw;
     NumericMatrix f(ncl, ncl);
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
@@ -532,7 +534,7 @@ namespace Dist
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sum(abs(xv - xx.col(j))) * p;
+        a = manhattan(xv, xx.col(j)) * p;
         f(i, j) = a;
         f(j, i) = a;
       }
