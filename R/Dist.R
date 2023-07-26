@@ -60,3 +60,12 @@ total.dist <- function(x,method = "euclidean", square = FALSE,p=0) {
 vecdist <- function(x) {
   	.Call(Rfast_vecdist,x)
 }
+
+#[export]
+coeff <- function(x,method = "euclidean",vector = FALSE) {
+	if(vector){
+		.Call(Rfast_coeff_vec,t(x),method)
+	}else{
+		.Call(Rfast_coeff,t(x),method)
+	}
+}

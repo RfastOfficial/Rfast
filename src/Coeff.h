@@ -3,12 +3,13 @@
 #ifndef COEFF_H
 #define COEFF_H
 
-#include <Rcpp.h>
+#include <RcppArmadillo.h>
 #include <string>
 
 using Rcpp::NumericMatrix;
 using std::string;
 using namespace arma;
+using namespace Rcpp;
 
 namespace Coeff
 {
