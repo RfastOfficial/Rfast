@@ -1,5 +1,6 @@
 \name{Distance matrix - Sum of all pairwise distances in a distance matrix}
 \alias{Dist}
+\alias{total.dist}
 \alias{vecdist}
 \title{
 Distance matrix - Sum of all pairwise distances in a distance matrix
