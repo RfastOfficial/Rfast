@@ -2,7 +2,7 @@
 
 #[export]
 Dist <- function(x,method = "euclidean", square = FALSE,p=0,vector = FALSE) {
-	if (type == "canberra1" || type == "canberra2") {
+	if (method == "canberra1" || method == "canberra2") {
         .Deprecated("The replacement type is \"canberra\"", "Rfast")
     }
 	if(method != "haversine")
