@@ -5,6 +5,8 @@
 #include <string>
 #include "mn.h"
 #include "Rfast.h"
+#include "Coeff.h"
+
 
 using namespace Rcpp;
 using namespace arma;
@@ -223,7 +225,7 @@ namespace DistVector
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j, ++k)
       {
-        f[k] = -log(sum(sqrt(xv % xx.col(j))));
+        f[k] = -log(Coeff::bhattacharyya(xv, xx.col(j)));
       }
     }
     return f;
@@ -242,7 +244,7 @@ namespace DistVector
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j, ++k)
       {
-        f[k] = sqrt(2.0 - 2.0 * sum(sqrt(xv % xx.col(j))));
+        f[k] = sqrt(2.0 - 2.0 * Coeff::bhattacharyya(xv, xx.col(j)));
       }
     }
     return f;
