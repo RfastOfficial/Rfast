@@ -3,6 +3,13 @@
 
 ### **Version 2.0.9 - Hades**
 ***
+> <u> **New** </u>
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  coeff				| Coefficient matrix.  |
+>
+>
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
 >
 >  |	    Function	    |           What's new!             |

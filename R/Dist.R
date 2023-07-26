@@ -62,7 +62,7 @@ vecdist <- function(x) {
 }
 
 #[export]
-coeff <- function(x,method = "euclidean",vector = FALSE) {
+coeff <- function(x,method,vector = FALSE) {
 	if(vector){
 		.Call(Rfast_coeff_vec,t(x),method)
 	}else{
