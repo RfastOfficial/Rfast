@@ -5,6 +5,7 @@
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include "Rfast.h"
+#include "Coeff.h"
 
 using namespace Rcpp;
 using namespace arma;
@@ -264,7 +265,7 @@ namespace DistTotal
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += log(sum(sqrt(xv % xx.col(j))));
+        a += -log(Coeff::bhattacharyya(xv, xx.col(j)));
       }
     }
     return -a;
@@ -284,7 +285,7 @@ namespace DistTotal
       xv = xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += sqrt(2.0 - 2.0 * sum(sqrt(xv % xx.col(j))));
+        a += sqrt(2.0 - 2.0 * Coeff::bhattacharyya(xv, xx.col(j)));
       }
     }
     return a;
