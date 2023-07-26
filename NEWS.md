@@ -8,6 +8,9 @@
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  colMads				| Supports data.frame  |
+>  |  eachrow | Fix bug.  |
+>  |  colMedians | Fix bug about data.frame.  |
+>  |  colVars | Fix bug about data.frame.  |
 >  |  Dist(...,method = "minimum") | Fix bug.  |
 >  |  Dist(...,method = "bhattacharyya") | Fix bug.  |
 >  |  Dist(...,method = "itakura_saito") | Fix bug. Support parallel.  |
