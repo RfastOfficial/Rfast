@@ -17,20 +17,24 @@ double sum_min_elems(colvec, colvec);
 colvec max_elems(colvec, colvec);
 mat colMaxElems(mat, colvec);
 
-template<class T>
-T colSumMaxs(mat &x, colvec y){
+template <class T>
+T colSumMaxs(mat &x, colvec y)
+{
 	T res(x.n_cols);
-	for(unsigned int i=0;i<x.n_cols;++i){
-		res[i] = sum_max_elems(x.col(i),y);
+	for (unsigned int i = 0; i < x.n_cols; ++i)
+	{
+		res[i] = sum_max_elems(x.col(i), y);
 	}
 	return res;
 }
 
-template<class T>
-T colSumMins(mat &x, colvec y){
+template <class T>
+T colSumMins(mat &x, colvec y)
+{
 	T res(x.n_cols);
-	for(unsigned int i=0;i<x.n_cols;++i){
-		res[i] = sum_min_elems(x.col(i),y);
+	for (unsigned int i = 0; i < x.n_cols; ++i)
+	{
+		res[i] = sum_min_elems(x.col(i), y);
 	}
 	return res;
 }
@@ -70,5 +74,6 @@ bool check_if_is_finite(double);
 IntegerVector Order(NumericVector, const bool, const bool);
 NumericVector Rank(NumericVector, string, const bool, const bool);
 double calcDevRes(colvec, colvec, colvec);
+int proper_size(int, int);
 
 #endif

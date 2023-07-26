@@ -11,6 +11,11 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
+int proper_size(int nrw, int ncl)
+{
+  return ncl * (ncl - 1) * 0.5;
+}
+
 double sum_max_elems(colvec x, colvec y)
 {
   double maxs = 0.0;
