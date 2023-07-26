@@ -620,11 +620,11 @@ double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = ""
 {
     const int n = X.ncol(), nu = Xnew.ncol();
     mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), n, false);
-    if (method == "euclidean")
+    if (method == "euclidean" || p == 2)
     {
         return DistaTotal::euclidean(xnew, x, sqr, k);
     }
-    else if (method == "manhattan")
+    else if (method == "manhattan" || p == 1)
     {
         return DistaTotal::manhattan(xnew, x, k);
     }
