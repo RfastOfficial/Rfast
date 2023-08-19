@@ -952,7 +952,7 @@ ompr <- function (y, x, ystand = TRUE, xstand = TRUE, method = "BIC", tol = 2) {
             sela <- c(sela, sel)
             res <- .lm.fit(x[, sela], y)$residuals
             r2 <- 1 - sum(res^2)/down
-            rho[i] <- 1 - (1 - r2) * (n - 1)/(n - i - 1)
+            rho[i] <- 1 - (1 - r2) * (n - 1)/(n - i)
             ind[sela] <- 0
         }
         len <- length(sela)
