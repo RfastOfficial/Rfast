@@ -14,20 +14,22 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
+>  |  cor.fsreg | Bug fix in the adjusted R-squared computation. 
+>  |  ompr | Bug fix in the adjusted R-squared computation. 
 >  |  colMads				| Supports data.frame  |
 >  |  eachrow | Fix bug.  |
 >  |  colMedians | Fix bug about data.frame.  |
 >  |  colVars | Fix bug about data.frame.  |
->  |  Dist(...,method = "minimum") | Fix bug.  |
->  |  Dist(...,method = "bhattacharyya") | Fix bug.  |
->  |  Dist(...,method = "itakura_saito") | Fix bug. Support parallel.  |
+>  |  Dist(...,method = "minimum") | Bug fix.  |
+>  |  Dist(...,method = "bhattacharyya") | Bug fix .  |
+>  |  Dist(...,method = "itakura_saito") | Bug fix. Supports parallel.  |
 >  |  Dist(...,method = "canberra1") | Depricated.  |
 >  |  Dist(...,method = "canberra2") | Depricated.  |
->  |  Dist(...,method = "jensen_shannon") | Support parallel.  |
->  |  Dist(...,method = "kullback_leibler") | Support parallel.  |
+>  |  Dist(...,method = "jensen_shannon") | Supports parallel.  |
+>  |  Dist(...,method = "kullback_leibler") | Supports parallel.  |
 >  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean","jeffries_matusita","gower","kulczynski")  |
 >  |  dista | All the methods from the Dist function are now supported.  |
->  |  total.dists | All the methods from the Dist function are now supported.  |
+>  |  total.dist  | All the methods from the Dist function are now supported.  |
 >  |  total.dista | All the methods from the Dist function are now supported.  |
 >
 >
