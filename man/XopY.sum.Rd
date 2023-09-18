@@ -50,6 +50,7 @@ Options:
 \item{parallel}{
 A boolean value for parallel version.
 }
+}
 
 \details{
 XopY.sum: sum(X op Y) where op can be on of "+,-,*,/".
