@@ -2,7 +2,7 @@
 #[export special]
 .onAttach <- function(lib, pkg) {
 	version <- read.dcf(file.path(lib, pkg, "DESCRIPTION"),"Version")
-	packageStartupMessage(paste("\nRfast: ",version))
+	packageStartupMessage(paste("\n",pkg["name"],": ",version,sep = ""))
 	msg <-  paste(
 			r"( ___ __ __ __ __    __ __ __ __ __ _             _               __ __ __ __ __     __ __ __ __ __ __   )",
 			r"(|  __ __ __ __  |  |  __ __ __ __ _/            / \             |  __ __ __ __ /   /__ __ _   _ __ __\  )",
