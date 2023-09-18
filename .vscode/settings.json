@@ -73,5 +73,6 @@
         "xtr1common": "cpp",
         "functional": "cpp",
         "queue": "cpp"
-    }
+    },
+    "r.lsp.promptToInstall": false
 }
