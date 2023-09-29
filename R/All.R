@@ -13,6 +13,6 @@ colAll <- function(x,parallel = FALSE,cores = 0) {
 	if(parallel){
 		.Call(Rfast_col_all_p,x,cores)
 	}else{
-		.Call(Rfast_col_all,x,)
+		.Call(Rfast_col_all,x)
 	}
 }
