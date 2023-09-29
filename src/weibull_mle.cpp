@@ -32,13 +32,10 @@ List weibull_mle(NumericVector X, const double tol, const int maxiters){
 
   l["iters"] = i-1;
   double theta = pow(sy/n,1/b2);
-  my_pow2(conv_to<vec>::from(x/theta),y.memptr(),b2,n);
+  my_pow2(x/theta,y.memptr(),b2,n);
   l["loglik"] = n * log(b2) - n * b2 * log(theta) + (b2 - 1) * n * mlx - sum(y);
-  vec param(2);
-  param[0] = b2;
-  param[1] = theta;
 
-  l["param"] = conv_to<rowvec>::from(param);
+  l["param"] = NumericVector::create(_["shape"] = b2, _["scale"] = theta);
 
   return l;
 }

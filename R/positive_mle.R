@@ -378,8 +378,6 @@ tobit.mle <- function(y, tol = 1e-09) {
 
 #[export]
 weibull.mle <- function(x, tol = 1e-09, maxiters = 100) {
-  mod <- .Call(Rfast_weibull_mle, x, tol, maxiters)
-  names(mod$param) <- c("shape", "scale")
-  mod
+  .Call(Rfast_weibull_mle, x, tol, maxiters)
 }
 
