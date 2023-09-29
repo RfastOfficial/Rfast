@@ -22,13 +22,13 @@ Sort.int <- function(x) {
 }
 
 #[export]
-rowSort <- function(x, descending = FALSE, stable = FALSE, parallel = FALSE) {
-  .Call(Rfast_sort_mat, x, descending, TRUE, stable, parallel)
+rowSort <- function(x, descending = FALSE, stable = FALSE, parallel = FALSE,cores = 0) {
+  .Call(Rfast_sort_mat, x, descending, TRUE, stable, parallel,cores)
 }
 
 #[export]
-colSort <- function(x, descending = FALSE, stable = FALSE, parallel = FALSE) {
-  .Call(Rfast_sort_mat, x, descending, FALSE, stable, parallel)
+colSort <- function(x, descending = FALSE, stable = FALSE, parallel = FALSE,cores = 0) {
+  .Call(Rfast_sort_mat, x, descending, FALSE, stable, parallel,cores)
 }
 
 #[export]

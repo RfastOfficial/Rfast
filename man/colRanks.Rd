@@ -10,8 +10,8 @@ Column and row-wise ranks.
 }
 
 \usage{
-colRanks(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE)
-rowRanks(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE)
+colRanks(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE, cores = 0)
+rowRanks(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -29,6 +29,10 @@ A boolean value (TRUE/FALSE) for sorting the vector in descending order. By defa
 }
 \item{stable}{
 A boolean value (TRUE/FALSE) for choosing a stable sort algorithm. Stable means that discriminates on the same elements. Only for the method "first".
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

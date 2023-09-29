@@ -11,11 +11,9 @@ Column-wise minimum and maximum of a matrix.
 }
 
 \usage{
-colMins(x, value = FALSE, parallel = FALSE)
-
-colMaxs(x, value = FALSE, parallel = FALSE)
-
-colMinsMaxs(x, parallel = FALSE)
+colMins(x, value = FALSE, parallel = FALSE, cores = 0)
+colMaxs(x, value = FALSE, parallel = FALSE, cores = 0)
+colMinsMaxs(x, parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -27,6 +25,10 @@ If the value is FALSE it returns the indices of the minimum/maximum, otherwise i
 }
 \item{parallel}{
 Do you want to do it in parallel in C++? TRUE or FALSE. The parallel will return the minimum/maximum value only. It will never return the indices.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

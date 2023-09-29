@@ -67,7 +67,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 %}
 
 \seealso{
-\code{ \link{ftests}, \link{ttests},, \link{ttest}
+\code{ \link{ftests}, \link{ttests}, \link{ttest}
 }
 }
 

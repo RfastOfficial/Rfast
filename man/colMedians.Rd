@@ -10,8 +10,8 @@ Column and row-wise medians of a matrix.
 }
 
 \usage{
-colMedians(x,na.rm = FALSE, parallel = FALSE)
-rowMedians(x,na.rm = FALSE, parallel = FALSE)
+colMedians(x,na.rm = FALSE, parallel = FALSE, cores = 0)
+rowMedians(x,na.rm = FALSE, parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -23,6 +23,10 @@ Do you want to do it in parallel in C++? TRUE or FALSE.
 }
 \item{na.rm}{
 TRUE or FAlSE for remove NAs if exists.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

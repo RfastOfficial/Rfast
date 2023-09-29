@@ -52,7 +52,7 @@ The "kullback_leibler" refers to the symmetric Kullback-Leibler divergence.
 \item hellinger : \eqn{  2 * \sqrt( 1 - \sum \sqrt(P_i * Q_i))}
 \item kullback_leibler : \eqn{  \sum P_i * log(P_i / Q_i)}
 \item jensen_shannon : \eqn{  0.5 * ( \sum P_i * log(2 * P_i / P_i + Q_i) + \sum Q_i * log(2 * Q_i / P_i + Q_i))}
-\item haversine : \eqn{ 2 * R * \arcsin(\sqrt(\sin((lat₂ - lat₁)/2)^2 + \cos(lat₁) * \cos(lat₂) * \sin((lon₂ - lon₁)/2)^2)) }
+\item haversine : \eqn{ 2 * R * \arcsin(\sqrt(\sin((lat_2 - lat_1)/2)^2 + \cos(lat_1) * \cos(lat_2) * \sin((lon_2 - lon_1)/2)^2)) }
 \item canberra : \eqn{  \sum | P_i - Q_i | / (P_i + Q_i)}
 \item chi_square \eqn{X}^2 : \eqn{  \sum ( (P_i - Q_i )^2 / (P_i + Q_i) )}
 \item soergel : \eqn{  \sum | P_i - Q_i | / \sum \max(P_i , Q_i)}

@@ -17,23 +17,23 @@ SEXP Rfast_col_cum_maxs(SEXP);
 SEXP Rfast_col_cum_sums(SEXP);
 SEXP Rfast_col_cum_mins(SEXP);
 SEXP Rfast_col_cum_prods(SEXP);
-SEXP Rfast_col_meds(SEXP, SEXP, SEXP);
+SEXP Rfast_col_meds(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_col_min_indices(SEXP);
 SEXP Rfast_col_min(SEXP, SEXP);
 SEXP Rfast_col_sums(SEXP, SEXP, SEXP);
-SEXP Rfast_col_min_max(SEXP, SEXP);
+SEXP Rfast_col_min_max(SEXP, SEXP, SEXP);
 SEXP Rfast_col_max_indices(SEXP);
-SEXP Rfast_col_max(SEXP, SEXP);
+SEXP Rfast_col_max(SEXP, SEXP, SEXP);
 SEXP Rfast_col_means(SEXP, SEXP);
 SEXP Rfast_col_nth(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_col_len_sort_un_int(SEXP);
-SEXP Rfast_col_ranks(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_col_ranks(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_col_tabulate(SEXP, SEXP);
 SEXP Rfast_col_shuffle(SEXP);
 SEXP Rfast_col_true(SEXP);
 SEXP Rfast_col_diffs(SEXP);
 SEXP Rfast_col_false(SEXP);
-SEXP Rfast_col_vars(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_col_vars(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_col_order(SEXP, SEXP, SEXP);
 SEXP Rfast_col_pmax(SEXP, SEXP);
 SEXP Rfast_col_pmin(SEXP, SEXP);
@@ -50,7 +50,7 @@ SEXP Rfast_col_any(SEXP);
 SEXP Rfast_col_anovas(SEXP, SEXP);
 SEXP Rfast_cholesky(SEXP);
 SEXP Rfast_cholesky_par(SEXP);
-SEXP Rfast_col_mads(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_col_mads(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_col_true_false(SEXP);
 SEXP Rfast_count_value(SEXP, SEXP);
 SEXP Rfast_Choose(SEXP, SEXP);
@@ -157,7 +157,7 @@ SEXP Rfast_rows(SEXP, SEXP);
 SEXP Rfast_row_any(SEXP);
 SEXP Rfast_row_means(SEXP);
 SEXP Rfast_row_max(SEXP);
-SEXP Rfast_row_meds(SEXP, SEXP, SEXP);
+SEXP Rfast_row_meds(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_min(SEXP);
 SEXP Rfast_row_len_sort_un_int(SEXP);
 SEXP Rfast_row_ranks(SEXP, SEXP, SEXP, SEXP);
@@ -181,12 +181,12 @@ SEXP Rfast_row_order(SEXP, SEXP, SEXP);
 SEXP Rfast_row_true_false(SEXP);
 SEXP Rfast_read_examples(SEXP);
 SEXP Rfast_row_count_values(SEXP, SEXP);
-SEXP Rfast_row_mads(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_row_vars(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_row_mads(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_row_vars(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_max_indices(SEXP);
 SEXP Rfast_row_min_indices(SEXP);
 SEXP Rfast_sort_unique_double(SEXP);
-SEXP Rfast_sort_mat(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_sort_mat(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_submatrix(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_sum_XopY(SEXP, SEXP, SEXP);
 SEXP Rfast_sum_XopX(SEXP, SEXP);
@@ -239,18 +239,18 @@ SEXP Rfast_spml_reg(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_colweibull_mle(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_quasi_poisson_only(SEXP, SEXP, SEXP, SEXP, SEXP);
 
-SEXP Rfast_col_all_p(SEXP);
-SEXP Rfast_col_count_values_p(SEXP, SEXP);
-SEXP Rfast_col_nth_p(SEXP, SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_col_order_p(SEXP, SEXP, SEXP);
-SEXP Rfast_col_sums_p(SEXP);
+SEXP Rfast_col_all_p(SEXP, SEXP);
+SEXP Rfast_col_count_values_p(SEXP, SEXP, SEXP);
+SEXP Rfast_col_nth_p(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_col_order_p(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_col_sums_p(SEXP, SEXP);
 SEXP Rfast_mat_mult_p(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_row_all_p(SEXP);
-SEXP Rfast_row_count_values_p(SEXP, SEXP);
-SEXP Rfast_row_nth_p(SEXP, SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_row_order_p(SEXP, SEXP, SEXP);
-SEXP Rfast_row_ranks_p(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_row_sums_p(SEXP);
+SEXP Rfast_row_all_p(SEXP, SEXP);
+SEXP Rfast_row_count_values_p(SEXP, SEXP, SEXP);
+SEXP Rfast_row_nth_p(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_row_order_p(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_row_ranks_p(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_row_sums_p(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"Rfast_add_to_namespace", (DL_FUNC)&Rfast_add_to_namespace, 2},
@@ -269,17 +269,17 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_col_cum_sums", (DL_FUNC)&Rfast_col_cum_sums, 1},
     {"Rfast_col_cum_mins", (DL_FUNC)&Rfast_col_cum_mins, 1},
     {"Rfast_col_cum_prods", (DL_FUNC)&Rfast_col_cum_prods, 1},
-    {"Rfast_col_meds", (DL_FUNC)&Rfast_col_meds, 3},
+    {"Rfast_col_meds", (DL_FUNC)&Rfast_col_meds, 4},
     {"Rfast_col_min_indices", (DL_FUNC)&Rfast_col_min_indices, 1},
     {"Rfast_col_min", (DL_FUNC)&Rfast_col_min, 2},
     {"Rfast_col_sums", (DL_FUNC)&Rfast_col_sums, 3},
-    {"Rfast_col_min_max", (DL_FUNC)&Rfast_col_min_max, 2},
+    {"Rfast_col_min_max", (DL_FUNC)&Rfast_col_min_max, 3},
     {"Rfast_col_max_indices", (DL_FUNC)&Rfast_col_max_indices, 1},
-    {"Rfast_col_max", (DL_FUNC)&Rfast_col_max, 2},
+    {"Rfast_col_max", (DL_FUNC)&Rfast_col_max, 3},
     {"Rfast_col_means", (DL_FUNC)&Rfast_col_means, 2},
     {"Rfast_col_nth", (DL_FUNC)&Rfast_col_nth, 6},
     {"Rfast_col_len_sort_un_int", (DL_FUNC)&Rfast_col_len_sort_un_int, 1},
-    {"Rfast_col_ranks", (DL_FUNC)&Rfast_col_ranks, 5},
+    {"Rfast_col_ranks", (DL_FUNC)&Rfast_col_ranks, 6},
     {"Rfast_col_tabulate", (DL_FUNC)&Rfast_col_tabulate, 2},
     {"Rfast_col_shuffle", (DL_FUNC)&Rfast_col_shuffle, 1},
     {"Rfast_col_true", (DL_FUNC)&Rfast_col_true, 1},
@@ -289,7 +289,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_col_pmax", (DL_FUNC)&Rfast_col_pmax, 2},
     {"Rfast_col_pmin", (DL_FUNC)&Rfast_col_pmin, 2},
     {"Rfast_col_prods", (DL_FUNC)&Rfast_col_prods, 2},
-    {"Rfast_col_vars", (DL_FUNC)&Rfast_col_vars, 4},
+    {"Rfast_col_vars", (DL_FUNC)&Rfast_col_vars, 5},
     {"Rfast_columns", (DL_FUNC)&Rfast_columns, 2},
     {"Rfast_chi2Test_univariate", (DL_FUNC)&Rfast_chi2Test_univariate, 2},
     {"Rfast_chi2Test", (DL_FUNC)&Rfast_chi2Test, 5},
@@ -302,7 +302,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_col_anovas", (DL_FUNC)&Rfast_col_anovas, 2},
     {"Rfast_cholesky", (DL_FUNC)&Rfast_cholesky, 1},
     {"Rfast_cholesky_par", (DL_FUNC)&Rfast_cholesky_par, 1},
-    {"Rfast_col_mads", (DL_FUNC)&Rfast_col_mads, 4},
+    {"Rfast_col_mads", (DL_FUNC)&Rfast_col_mads, 5},
     {"Rfast_col_true_false", (DL_FUNC)&Rfast_col_true_false, 1},
     {"Rfast_count_value", (DL_FUNC)&Rfast_count_value, 2},
     {"Rfast_Choose", (DL_FUNC)&Rfast_Choose, 2},
@@ -410,7 +410,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_row_any", (DL_FUNC)&Rfast_row_any, 1},
     {"Rfast_row_means", (DL_FUNC)&Rfast_row_means, 1},
     {"Rfast_row_max", (DL_FUNC)&Rfast_row_max, 1},
-    {"Rfast_row_meds", (DL_FUNC)&Rfast_row_meds, 3},
+    {"Rfast_row_meds", (DL_FUNC)&Rfast_row_meds, 4},
     {"Rfast_row_min", (DL_FUNC)&Rfast_row_min, 1},
     {"Rfast_row_len_sort_un_int", (DL_FUNC)&Rfast_row_len_sort_un_int, 1},
     {"Rfast_row_ranks", (DL_FUNC)&Rfast_row_ranks, 4},
@@ -433,12 +433,12 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_row_order", (DL_FUNC)&Rfast_row_order, 3},
     {"Rfast_row_true_false", (DL_FUNC)&Rfast_row_true_false, 1},
     {"Rfast_read_examples", (DL_FUNC)&Rfast_read_examples, 1},
-    {"Rfast_row_mads", (DL_FUNC)&Rfast_row_mads, 4},
-    {"Rfast_row_vars", (DL_FUNC)&Rfast_row_vars, 4},
+    {"Rfast_row_mads", (DL_FUNC)&Rfast_row_mads, 5},
+    {"Rfast_row_vars", (DL_FUNC)&Rfast_row_vars, 5},
     {"Rfast_row_max_indices", (DL_FUNC)&Rfast_row_max_indices, 1},
     {"Rfast_row_min_indices", (DL_FUNC)&Rfast_row_min_indices, 1},
     {"Rfast_sort_unique_double", (DL_FUNC)&Rfast_sort_unique_double, 1},
-    {"Rfast_sort_mat", (DL_FUNC)&Rfast_sort_mat, 5},
+    {"Rfast_sort_mat", (DL_FUNC)&Rfast_sort_mat, 6},
     {"Rfast_submatrix", (DL_FUNC)&Rfast_submatrix, 5},
     {"Rfast_sum_XopY", (DL_FUNC)&Rfast_sum_XopY, 3},
     {"Rfast_sum_XopX", (DL_FUNC)&Rfast_sum_XopX, 2},
@@ -473,18 +473,18 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_which_is", (DL_FUNC)&Rfast_which_is, 2},
     {"Rfast_col_row_value", (DL_FUNC)&Rfast_col_row_value, 2},
 
-    {"Rfast_col_all_p", (DL_FUNC)&Rfast_col_all_p, 1},
-    {"Rfast_col_count_values_p", (DL_FUNC)&Rfast_col_count_values_p, 2},
-    {"Rfast_col_nth_p", (DL_FUNC)&Rfast_col_nth_p, 5},
-    {"Rfast_col_sums_p", (DL_FUNC)&Rfast_col_sums_p, 1},
-    {"Rfast_col_order_p", (DL_FUNC)&Rfast_col_order_p, 3},
+    {"Rfast_col_all_p", (DL_FUNC)&Rfast_col_all_p, 2},
+    {"Rfast_col_count_values_p", (DL_FUNC)&Rfast_col_count_values_p, 3},
+    {"Rfast_col_nth_p", (DL_FUNC)&Rfast_col_nth_p, 6},
+    {"Rfast_col_sums_p", (DL_FUNC)&Rfast_col_sums_p, 2},
+    {"Rfast_col_order_p", (DL_FUNC)&Rfast_col_order_p, 4},
     {"Rfast_mat_mult_p", (DL_FUNC)&Rfast_mat_mult_p, 4},
-    {"Rfast_row_all_p", (DL_FUNC)&Rfast_row_all_p, 1},
-    {"Rfast_row_count_values_p", (DL_FUNC)&Rfast_row_count_values_p, 2},
-    {"Rfast_row_nth_p", (DL_FUNC)&Rfast_row_nth_p, 5},
-    {"Rfast_row_order_p", (DL_FUNC)&Rfast_row_order_p, 3},
-    {"Rfast_row_ranks_p", (DL_FUNC)&Rfast_row_ranks_p, 4},
-    {"Rfast_row_sums_p", (DL_FUNC)&Rfast_row_sums_p, 1},
+    {"Rfast_row_all_p", (DL_FUNC)&Rfast_row_all_p, 2},
+    {"Rfast_row_count_values_p", (DL_FUNC)&Rfast_row_count_values_p, 3},
+    {"Rfast_row_nth_p", (DL_FUNC)&Rfast_row_nth_p, 6},
+    {"Rfast_row_order_p", (DL_FUNC)&Rfast_row_order_p, 4},
+    {"Rfast_row_ranks_p", (DL_FUNC)&Rfast_row_ranks_p, 5},
+    {"Rfast_row_sums_p", (DL_FUNC)&Rfast_row_sums_p, 2},
 
     {"Rfast_colrint_mle", (DL_FUNC)&Rfast_colrint_mle, 6},
     {"Rfast_eigs_sym_c", (DL_FUNC)&Rfast_eigs_sym_c, 3},

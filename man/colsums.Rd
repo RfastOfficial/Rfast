@@ -10,9 +10,8 @@ Column and row-wise sums of a matrix.
 }
 
 \usage{
-colsums(x,indices = NULL, parallel = FALSE, na.rm = FALSE)
-
-rowsums(x,indices = NULL, parallel = FALSE, na.rm = FALSE)
+colsums(x,indices = NULL, parallel = FALSE, na.rm = FALSE, cores = 0)
+rowsums(x,indices = NULL, parallel = FALSE, na.rm = FALSE, cores = 0)
 }
 
 \arguments{
@@ -27,6 +26,10 @@ Do you want to do it in parallel in C++? TRUE or FALSE. Doens't work with argume
 }
 \item{na.rm}{
 A logical value indicating to remove NAs. The algorithm run in parallel so do not use with option parallel.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

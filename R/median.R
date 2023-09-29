@@ -10,11 +10,11 @@ Median <- function(x,na.rm=FALSE) {
 }
 
 #[export]
-colMedians <- function(x,na.rm=FALSE,parallel = FALSE) {
-	.Call(Rfast_col_meds,x,na.rm,parallel)
+colMedians <- function(x,na.rm=FALSE,parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_meds,x,na.rm,parallel,cores)
 }
 
 #[export]
-rowMedians <- function(x,na.rm=FALSE,parallel = FALSE) {
-	.Call(Rfast_row_meds,x,na.rm,parallel)
+rowMedians <- function(x,na.rm=FALSE,parallel = FALSE,cores = 0) {
+	.Call(Rfast_row_meds,x,na.rm,parallel,cores)
 }

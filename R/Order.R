@@ -11,18 +11,18 @@ Order<-function(x,stable=FALSE,descending=FALSE,partial=NULL){
 }
 
 #[export]
-rowOrder <- function(x,stable=FALSE,descending=FALSE,parallel=FALSE) {
+rowOrder <- function(x,stable=FALSE,descending=FALSE,parallel=FALSE,cores = 0) {
   if(parallel){
-  	.Call(Rfast_row_order_p,x,stable,descending)
+  	.Call(Rfast_row_order_p,x,stable,descending,cores)
   }else{
   	.Call(Rfast_row_order,x,stable,descending)
   }
 }
 
 #[export]
-colOrder <- function(x,stable=FALSE,descending=FALSE,parallel=FALSE) {
+colOrder <- function(x,stable=FALSE,descending=FALSE,parallel=FALSE,cores = 0) {
   if(parallel){
-  	.Call(Rfast_col_order_p,x,stable,descending)
+  	.Call(Rfast_col_order_p,x,stable,descending,cores)
   }else{
   	.Call(Rfast_col_order,x,stable,descending)
   }

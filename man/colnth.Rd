@@ -12,9 +12,9 @@ Column and row-wise nth smallest value of a matrix/vector.
 
 \usage{
 colnth(x,elems, num.of.nths = 1,descending = FALSE,na.rm = FALSE,
-	index.return = FALSE, parallel = FALSE)
+	index.return = FALSE, parallel = FALSE, cores = 0)
 rownth(x,elems, num.of.nths = 1,descending = FALSE,na.rm = FALSE,
-	index.return = FALSE, parallel = FALSE)
+	index.return = FALSE, parallel = FALSE, cores = 0)
 nth(x, k, num.of.nths = 1,descending = FALSE,index.return = FALSE,na.rm = FALSE)
 }
 
@@ -42,6 +42,10 @@ Do you want to do it in parallel in C++? TRUE or FALSE only for col-row wise.
 }
 \item{na.rm}{
 TRUE or FAlSE for remove NAs if exists. Only for function "nth".
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

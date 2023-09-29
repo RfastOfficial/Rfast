@@ -4,16 +4,16 @@ colmeans <- function(x,parallel = FALSE) {
 }
 
 #[export s3]
-colmeans.matrix <- function(x,parallel = FALSE) {
-	.Call(Rfast_col_means,x,parallel)
+colmeans.matrix <- function(x,parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_means,x,parallel,cores)
 }
 
 #[export s3]
-colmeans.data.frame <- function(x,parallel = FALSE) {
-	.Call(Rfast_col_means,x,parallel)
+colmeans.data.frame <- function(x,parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_means,x,parallel,cores)
 }
 
 #[export]
-rowmeans <- function(x) {
-  	as.vector(.Call(Rfast_row_means,x))
+rowmeans <- function(x,cores = 0) {
+  	as.vector(.Call(Rfast_row_means,x,cores))
 }

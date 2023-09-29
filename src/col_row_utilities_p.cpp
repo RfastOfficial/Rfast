@@ -11,14 +11,14 @@ using namespace std;
 
 using std::nth_element;
 
-SEXP col_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool na_rm,const bool index){
+SEXP col_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool na_rm,const bool index, const unsigned int cores){
   const int n=elems.size();
   mat xx(x.begin(),x.nrow(),n,false);
   SEXP F=PROTECT(Rf_allocVector(REALSXP,n));
   double *FF=REAL(F);
   if(index){
     #ifdef _OPENMP
-      #pragma omp parallel for
+      #pragma omp parallel for num_threads(cores)
     #endif
     for(int i=0;i<n;++i){
       colvec y=xx.col(i);
@@ -26,7 +26,7 @@ SEXP col_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool
     }
   }else{
     #ifdef _OPENMP
-      #pragma omp parallel for
+      #pragma omp parallel for num_threads(cores)
     #endif
     for(int i=0;i<n;++i){
       colvec y=xx.col(i);
@@ -38,7 +38,7 @@ SEXP col_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool
 }
 
 // nth_element
-RcppExport SEXP Rfast_col_nth_p(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
+RcppExport SEXP Rfast_col_nth_p(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP,SEXP coresSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
@@ -47,12 +47,13 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = col_nth_p(x,y,descend,na_rm,index);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = col_nth_p(x,y,descend,na_rm,index,cores);
     return __result;
 END_RCPP
 }
 
-SEXP row_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool na_rm,const bool index){
+SEXP row_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool na_rm,const bool index, const unsigned int cores){
   const int n=elems.size();
   mat xx(x.begin(),n,x.ncol(),false);
   SEXP F;
@@ -60,7 +61,7 @@ SEXP row_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool
     F=PROTECT(Rf_allocVector(INTSXP,n));
     int *FF=INTEGER(F);
     #ifdef _OPENMP
-      #pragma omp parallel for
+      #pragma omp parallel for num_threads(cores)
     #endif
     for(int i=0;i<n;++i){
       rowvec y=xx.row(i);
@@ -70,7 +71,7 @@ SEXP row_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool
     F=PROTECT(Rf_allocVector(REALSXP,n));
     double *FF=REAL(F);
     #ifdef _OPENMP
-      #pragma omp parallel for
+      #pragma omp parallel for num_threads(cores)
     #endif
     for(int i=0;i<n;++i){
       rowvec y=xx.row(i);
@@ -81,7 +82,7 @@ SEXP row_nth_p(NumericMatrix x,IntegerVector elems,const bool descend,const bool
   return F;
 }
 
-RcppExport SEXP Rfast_row_nth_p(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP) {
+RcppExport SEXP Rfast_row_nth_p(SEXP xSEXP,SEXP ySEXP,SEXP descendSEXP,SEXP na_rmSEXP,SEXP indexSEXP,SEXP coresSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
@@ -90,7 +91,8 @@ BEGIN_RCPP
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type na_rm(na_rmSEXP);
     traits::input_parameter< const bool >::type index(indexSEXP);
-    __result = row_nth_p(x,y,descend,na_rm,index);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = row_nth_p(x,y,descend,na_rm,index,cores);
     return __result;
 END_RCPP
 }
@@ -98,13 +100,13 @@ END_RCPP
 ////////////////////////////////////////////////////////////////////
 
 
-IntegerMatrix col_order_p(NumericMatrix x,const bool stable,const bool descending){
+IntegerMatrix col_order_p(NumericMatrix x,const bool stable,const bool descending, const unsigned int cores){
   const int ncl=x.ncol(),nrw=x.nrow();
   IntegerMatrix f(nrw,ncl);
   mat xx(x.begin(),nrw,ncl,false);
   imat ff(f.begin(),nrw,ncl,false);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
     #endif
     for(int i=0;i<ncl;++i){
       ff.col(i)=Order<icolvec,colvec>(xx.col(i),stable,descending,1);
@@ -112,25 +114,26 @@ IntegerMatrix col_order_p(NumericMatrix x,const bool stable,const bool descendin
     return f;
 }
 
-RcppExport SEXP Rfast_col_order_p(SEXP xSEXP,SEXP stableSEXP,SEXP descendingSEXP){
+RcppExport SEXP Rfast_col_order_p(SEXP xSEXP,SEXP stableSEXP,SEXP descendingSEXP,SEXP coresSEXP){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descending(descendingSEXP);
-    __result = col_order_p(x,stable,descending);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = col_order_p(x,stable,descending,cores);
     return __result;
 END_RCPP
 }
 
-IntegerMatrix row_order_p(NumericMatrix x,const bool stable,const bool descending){
+IntegerMatrix row_order_p(NumericMatrix x,const bool stable,const bool descending, const unsigned int cores){
   const int ncl=x.ncol(),nrw=x.nrow();
   IntegerMatrix f(nrw,ncl);
   mat xx(x.begin(),nrw,ncl,false);
   imat ff(f.begin(),nrw,ncl,false);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
     #endif
     for(int i=0;i<nrw;++i){
       ff.row(i)=Order<irowvec,rowvec>(xx.row(i),stable,descending,1);
@@ -138,49 +141,50 @@ IntegerMatrix row_order_p(NumericMatrix x,const bool stable,const bool descendin
     return f;
 }
 
-RcppExport SEXP Rfast_row_order_p(SEXP xSEXP,SEXP stableSEXP,SEXP descendingSEXP){
+RcppExport SEXP Rfast_row_order_p(SEXP xSEXP,SEXP stableSEXP,SEXP descendingSEXP,SEXP coresSEXP){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
     traits::input_parameter< const bool >::type descending(descendingSEXP);
-    __result = row_order_p(x,stable,descending);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = row_order_p(x,stable,descending,cores);
     return __result;
 END_RCPP
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
 
-NumericMatrix row_ranks_p(NumericMatrix x,string method,const bool descend,const bool stable){
+NumericMatrix row_ranks_p(NumericMatrix x,string method,const bool descend,const bool stable, const unsigned int cores){
   const int ncl=x.ncol(),nrw=x.nrow();
   NumericMatrix f(nrw,ncl);
   mat xx(x.begin(),nrw,ncl,false);
   mat ff(f.begin(),nrw,ncl,false);
   if(method == "average"){
     #ifdef _OPENMP
-  #pragma omp parallel for
+  #pragma omp parallel for num_threads(cores)
   #endif
     for(int i=0;i<nrw;++i){
       ff.row(i)=rank_mean<rowvec,rowvec,ivec>(xx.row(i),descend);
   }
   }else if(method == "min"){
   #ifdef _OPENMP
-  #pragma omp parallel for
+  #pragma omp parallel for num_threads(cores)
   #endif
     for(int i=0;i<nrw;++i){
       ff.row(i)=rank_min<rowvec,rowvec,ivec>(xx.row(i),descend);
   }
   }else if(method == "max"){
   #ifdef _OPENMP
-  #pragma omp parallel for
+  #pragma omp parallel for num_threads(cores)
   #endif    
     for(int i=0;i<nrw;++i){
       ff.row(i)=rank_max<rowvec,rowvec,ivec>(xx.row(i),descend);
     }
   }else if(method == "first"){
   #ifdef _OPENMP
-  #pragma omp parallel for
+  #pragma omp parallel for num_threads(cores)
   #endif    
     for(int i=0;i<nrw;++i){
       ff.row(i)=rank_first<rowvec,rowvec,ivec>(xx.row(i),descend,stable);
@@ -190,7 +194,7 @@ NumericMatrix row_ranks_p(NumericMatrix x,string method,const bool descend,const
   return f;
 }
 
-RcppExport SEXP Rfast_row_ranks_p(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP) {
+RcppExport SEXP Rfast_row_ranks_p(SEXP xSEXP,SEXP methodSEXP,SEXP descendSEXP,SEXP stableSEXP,SEXP coresSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
@@ -198,7 +202,8 @@ BEGIN_RCPP
     traits::input_parameter< string >::type method(methodSEXP);
     traits::input_parameter< const bool >::type descend(descendSEXP);
     traits::input_parameter< const bool >::type stable(stableSEXP);
-    __result = row_ranks_p(x,method,descend,stable);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = row_ranks_p(x,method,descend,stable,cores);
     return __result;
 END_RCPP
 }
@@ -206,13 +211,13 @@ END_RCPP
 ///////////////////////////////////////////////////////////////////////////////////
 
 
-SEXP col_sums_p(NumericMatrix x){
+SEXP col_sums_p(NumericMatrix x, const unsigned int cores){
   const int n=x.ncol();
   SEXP F=PROTECT(Rf_allocVector(REALSXP,n));
   double *FF=REAL(F);
   mat xx(x.begin(),x.nrow(),n,false);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
   #endif
   for(int i=0;i<n;i++){
     FF[i]=accu(xx.col(i));
@@ -221,23 +226,24 @@ SEXP col_sums_p(NumericMatrix x){
   return F;
 }
 
-RcppExport SEXP Rfast_col_sums_p(SEXP xSEXP){
+RcppExport SEXP Rfast_col_sums_p(SEXP xSEXP,SEXP coresSEXP){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = col_sums_p(x);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = col_sums_p(x,cores);
     return __result;
 END_RCPP
 }
 
-SEXP row_sums_p(NumericMatrix x){
+SEXP row_sums_p(NumericMatrix x, const unsigned int cores){
   const int n=x.nrow();
   SEXP F=PROTECT(Rf_allocVector(REALSXP,n));
   double *FF=REAL(F);
   mat xx(x.begin(),n,x.ncol(),false);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
   #endif
   for(int i=0;i<n;i++){
     FF[i]=accu(xx.row(i));
@@ -246,25 +252,26 @@ SEXP row_sums_p(NumericMatrix x){
   return F;
 }
 
-RcppExport SEXP Rfast_row_sums_p(SEXP xSEXP){
+RcppExport SEXP Rfast_row_sums_p(SEXP xSEXP,SEXP coresSEXP){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
-    __result = row_sums_p(x);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = row_sums_p(x,cores);
     return __result;
 END_RCPP
 }
 
 //////////////////////////////////////////////////////////////
 
-SEXP col_all_p(LogicalMatrix x){
+SEXP col_all_p(LogicalMatrix x, const unsigned int cores){
   const int n=x.ncol();
   SEXP f=PROTECT(Rf_allocVector(LGLSXP,n));
   imat xx(x.begin(),x.nrow(),n,false);
   int *ff=LOGICAL(x);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
     #endif
   for(int i=0;i<n;++i){
     ff[i]=all(xx.col(i));
@@ -273,23 +280,24 @@ SEXP col_all_p(LogicalMatrix x){
   return f;
 }
 
-RcppExport SEXP Rfast_col_all_p(SEXP xSEXP) {
+RcppExport SEXP Rfast_col_all_p(SEXP xSEXP,SEXP coresSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< LogicalMatrix >::type x(xSEXP);
-    __result = col_all_p(x);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = col_all_p(x,cores);
     return __result;
 END_RCPP
 }
 
-SEXP row_all_p(LogicalMatrix x){
+SEXP row_all_p(LogicalMatrix x, const unsigned int cores){
   const int n=x.nrow();
   SEXP f=PROTECT(Rf_allocVector(LGLSXP,n));
   imat xx(x.begin(),n,x.ncol(),false);
   int *ff=LOGICAL(x);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
     #endif
   for(int i=0;i<n;++i){
     ff[i]=all(xx.row(i));
@@ -298,12 +306,13 @@ SEXP row_all_p(LogicalMatrix x){
   return f;
 }
 
-RcppExport SEXP Rfast_row_all_p(SEXP xSEXP) {
+RcppExport SEXP Rfast_row_all_p(SEXP xSEXP,SEXP coresSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< LogicalMatrix >::type x(xSEXP);
-    __result = row_all_p(x);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = row_all_p(x,cores);
     return __result;
 END_RCPP
 }
@@ -311,14 +320,14 @@ END_RCPP
 //////////////////////////////////////////////////////////////////////
 
 
-IntegerVector col_count_values_p(NumericMatrix x,NumericVector values){
+IntegerVector col_count_values_p(NumericMatrix x,NumericVector values, const unsigned int cores){
   const int n=values.size(),p=x.nrow();
   IntegerVector f(n);
   mat xx(x.begin(),p,n,false);
   ivec ff(f.begin(),n,false);
   colvec vv(values.begin(),n,false);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
   #endif
   for(int i=0;i<n;++i){
     ff[i]=count_value_helper<colvec,double>(xx.col(i),vv[i]);
@@ -326,26 +335,27 @@ IntegerVector col_count_values_p(NumericMatrix x,NumericVector values){
   return f;
 }
 
-RcppExport SEXP Rfast_col_count_values_p(SEXP xSEXP,SEXP valuesSEXP){
+RcppExport SEXP Rfast_col_count_values_p(SEXP xSEXP,SEXP valuesSEXP,SEXP coresSEXP){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    __result = col_count_values_p(x,values);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = col_count_values_p(x,values,cores);
     return __result;
 END_RCPP
 }
 
 
-IntegerVector row_count_values_p(NumericMatrix x,NumericVector values){
+IntegerVector row_count_values_p(NumericMatrix x,NumericVector values, const unsigned int cores){
   const int n=values.size(),p=x.nrow();
   IntegerVector f(n);
   mat xx(x.begin(),p,n,false);
   ivec ff(f.begin(),n,false);
   colvec vv(values.begin(),n,false);
   #ifdef _OPENMP
-    #pragma omp parallel for
+    #pragma omp parallel for num_threads(cores)
   #endif
   for(int i=0;i<n;++i){
     ff[i]=count_value_helper<rowvec,double>(xx.row(i),vv[i]);
@@ -353,13 +363,14 @@ IntegerVector row_count_values_p(NumericMatrix x,NumericVector values){
   return f;
 }
 
-RcppExport SEXP Rfast_row_count_values_p(SEXP xSEXP,SEXP valuesSEXP){
+RcppExport SEXP Rfast_row_count_values_p(SEXP xSEXP,SEXP valuesSEXP,SEXP coresSEXP){
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< NumericMatrix >::type x(xSEXP);
     traits::input_parameter< NumericVector >::type values(valuesSEXP);
-    __result = row_count_values_p(x,values);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    __result = row_count_values_p(x,values,cores);
     return __result;
 END_RCPP
 }

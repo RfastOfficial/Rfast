@@ -11,8 +11,8 @@ Column and row-wise mean absolute deviations.
 
 
 \usage{
-colMads(x,method = "median",na.rm=FALSE,parallel = FALSE)
-rowMads(x,method = "median",na.rm=FALSE,parallel = FALSE)
+colMads(x,method = "median",na.rm=FALSE,parallel = FALSE, cores = 0)
+rowMads(x,method = "median",na.rm=FALSE,parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -27,6 +27,10 @@ A logical value TRUE/FALSE to remove NAs.
 }
 \item{parallel}{
 A boolean value for parallel version.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

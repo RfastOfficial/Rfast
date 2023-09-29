@@ -15,9 +15,9 @@ Column and row-wise means of a matrix.
 
 \usage{
 colmeans(x, parallel = FALSE)
-\method{colmeans}{matrix}(x, parallel = FALSE)
-\method{colmeans}{data.frame}(x, parallel = FALSE)
-rowmeans(x)
+\method{colmeans}{matrix}(x, parallel = FALSE, cores = 0)
+\method{colmeans}{data.frame}(x, parallel = FALSE, cores = 0)
+rowmeans(x, cores = 0)
 colhameans(x, parallel = FALSE)
 rowhameans(x)
 }
@@ -28,6 +28,10 @@ A numerical matrix or data.frame with data.
 }
 \item{parallel}{
 Do you want to do it in parallel in C++? TRUE or FALSE.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

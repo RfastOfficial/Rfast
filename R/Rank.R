@@ -4,15 +4,15 @@ Rank <- function(x,method = "average",descending = FALSE) {
 }
 
 #[export]
-rowRanks <- function(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE) {
+rowRanks <- function(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE,cores = 0) {
 	if(parallel){
-  		.Call(Rfast_row_ranks_p,x,method,descending,stable)
+  		.Call(Rfast_row_ranks_p,x,method,descending,stable,cores)
 	}else{
 		.Call(Rfast_row_ranks,x,method,descending,stable)
 	}
 }
 
 #[export]
-colRanks <- function(x,method = "average",descending = FALSE,stable = FALSE,parallel = FALSE) {
-	.Call(Rfast_col_ranks,x,method,descending,stable,parallel)
+colRanks <- function(x,method = "average",descending = FALSE,stable = FALSE,parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_ranks,x,method,descending,stable,parallel,cores)
 }
