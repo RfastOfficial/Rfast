@@ -231,13 +231,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i,false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i,false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i,false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -255,13 +255,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::stable_sort>(f, i, false,s, mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::stable_sort>(f, i, false,s, mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::stable_sort>(f, i, false,s, mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);
@@ -285,13 +285,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false,mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false,mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false,mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -342,13 +342,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i,false);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i,false);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i,false);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -396,13 +396,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i,false);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i,false);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i,false);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -420,13 +420,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::sort>(f, i++,false, s);
+							setResult<colvec, std::sort>(f, i++, false, s);
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::sort>(f, i++,false, s);
+							setResult<colvec, std::sort>(f, i++, false, s);
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::sort>(f, i++,false, s);
+							setResult<colvec, std::sort>(f, i++, false, s);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);
@@ -931,7 +931,7 @@ namespace Rfast
 	inline NumericVector colMedian(DataFrame &x, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector f(x.size());
-		colvec ff(f.begin(),f.size(),false);
+		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
 			colvec ff(f.begin(), f.size(), false);
@@ -953,7 +953,7 @@ namespace Rfast
 					setResultParallelSection<colvec, NumericVector, med_helper<colvec>>(ff, s, i, na_rm);
 					break;
 				case Type::Types::FACTOR:
-					//f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
+					// f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
 					break;
 				default:
 					break;
@@ -977,7 +977,7 @@ namespace Rfast
 					setResult<NumericVector, med_helper<colvec>>(ff, i, na_rm, s);
 					break;
 				case Type::Types::FACTOR:
-					//f[i] = FactorVector::sort<colvec>(s->get(), descend);
+					// f[i] = FactorVector::sort<colvec>(s->get(), descend);
 					break;
 				default:
 					break;
@@ -1019,59 +1019,26 @@ namespace Rfast
 		}
 		else
 		{
-			const int step = x.nrow(), middle = step / 2 - 1;
-			if (step % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
-					mat xx(x.begin(), step, p, false);
-					colvec ff(F.begin(), p, false), tmpp(step);
+				mat xx(x.begin(), x.nrow(), p, false);
+				colvec ff(F.begin(), p, false);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmpp = xx.col(i);
-						nth_element(tmpp.begin(), tmpp.begin() + middle, tmpp.end());
-						ff[i] = (tmpp[middle] + *(min_element(tmpp.begin() + middle + 1, tmpp.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					NumericVector tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.column(i);
-						nth_element(tmp.begin(), tmp.begin() + middle, tmp.end());
-						F[i] = (tmp[middle] + *(min_element(tmp.begin() + middle + 1, tmp.end()))) / 2.0;
-					}
+					colvec tmp = xx.col(i);
+					ff[i] = med_helper<colvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				NumericVector tmp(x.nrow());
+				for (int i = 0; i < p; ++i)
 				{
-					mat xx(x.begin(), step, p, false);
-					colvec ff(F.begin(), p, false);
-#ifdef _OPENMP
-#pragma omp parallel for num_threads(cores)
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmpp = xx.col(i);
-						nth_element(tmpp.begin(), tmpp.begin() + middle + 1, tmpp.end());
-						ff[i] = tmpp[middle + 1];
-					}
-				}
-				else
-				{
-					NumericVector tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.column(i);
-						nth_element(tmp.begin(), tmp.begin() + middle + 1, tmp.end());
-						F[i] = tmp[middle + 1];
-					}
+					tmp = x.column(i);
+					F[i] = med_helper<NumericVector>(tmp.begin(), tmp.end());
 				}
 			}
 		}
@@ -1107,55 +1074,24 @@ namespace Rfast
 		}
 		else
 		{
-			const int step = x.n_rows, middle = step / 2 - 1;
-			if (step % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle, tmp.end());
-						F[i] = (tmp[middle] + *(min_element(tmp.begin() + middle + 1, tmp.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					colvec tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle, tmp.end());
-						F[i] = (tmp[middle] + *(min_element(tmp.begin() + middle + 1, tmp.end()))) / 2.0;
-					}
+					colvec tmp = x.col(i);
+					F[i] = med_helper<colvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				colvec tmp(x.n_rows);
+				for (int i = 0; i < p; ++i)
 				{
-#ifdef _OPENMP
-#pragma omp parallel for num_threads(cores)
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle + 1, tmp.end());
-						F[i] = tmp[middle + 1];
-					}
-				}
-				else
-				{
-					colvec tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle + 1, tmp.end());
-						F[i] = tmp[middle + 1];
-					}
+					tmp = x.col(i);
+					F[i] = med_helper<colvec>(tmp.begin(), tmp.end());
 				}
 			}
 		}
@@ -1193,59 +1129,26 @@ namespace Rfast
 		}
 		else
 		{
-			const int sz = x.ncol(), middle = sz / 2 - 1;
-			if (sz % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
-					mat xx(x.begin(), p, sz, false);
-					colvec ff(F.begin(), p, false);
+				mat xx(x.begin(), x.nrow(), p, false);
+				colvec ff(F.begin(), p, false);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowii = xx.row(i);
-						nth_element(rowii.begin(), rowii.begin() + middle, rowii.end());
-						ff[i] = (rowii[middle] + *(min_element(rowii.begin() + middle + 1, rowii.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					NumericVector rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = (rowi[middle] + *(min_element(rowi.begin() + middle + 1, rowi.end()))) / 2.0;
-					}
+					rowvec tmp = xx.row(i);
+					ff[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				NumericVector tmp(x.ncol());
+				for (int i = 0; i < p; ++i)
 				{
-					mat xx(x.begin(), p, sz, false);
-					colvec ff(F.begin(), p, false);
-#ifdef _OPENMP
-#pragma omp parallel for num_threads(cores)
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowii = xx.row(i);
-						nth_element(rowii.begin(), rowii.begin() + middle, rowii.end());
-						ff[i] = rowii[middle + 1];
-					}
-				}
-				else
-				{
-					NumericVector rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = rowi[middle + 1];
-					}
+					tmp = x.row(i);
+					F[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 		}
@@ -1281,55 +1184,24 @@ namespace Rfast
 		}
 		else
 		{
-			const int sz = x.n_cols, middle = sz / 2 - 1;
-			if (sz % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = (rowi[middle] + *(min_element(rowi.begin() + middle + 1, rowi.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					rowvec rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = (rowi[middle] + *(min_element(rowi.begin() + middle + 1, rowi.end()))) / 2.0;
-					}
+					rowvec tmp = x.row(i);
+					F[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				rowvec tmp(x.n_cols);
+				for (int i = 0; i < p; ++i)
 				{
-#ifdef _OPENMP
-#pragma omp parallel for num_threads(cores)
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = rowi[middle + 1];
-					}
-				}
-				else
-				{
-					rowvec rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = rowi[middle + 1];
-					}
+					tmp = x.row(i);
+					F[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 		}
@@ -1364,7 +1236,7 @@ namespace Rfast
 	inline NumericVector colVars(DataFrame x, const bool std = false, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector f(x.size());
-		colvec ff(f.begin(),f.size(),false);
+		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
 #ifdef _OPENMP
@@ -1375,16 +1247,16 @@ namespace Rfast
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					ff[s-x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
 					break;
 				case Type::Types::INT:
-					ff[s-x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
 					break;
 				case Type::Types::CHAR:
-					ff[s-x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
 					break;
 				case Type::Types::FACTOR:
-					//f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
+					// f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
 					break;
 				default:
 					break;
@@ -1398,16 +1270,16 @@ namespace Rfast
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					ff[s-x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
 					break;
 				case Type::Types::INT:
-					ff[s-x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
 					break;
 				case Type::Types::CHAR:
-					ff[s-x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
 					break;
 				case Type::Types::FACTOR:
-					//f[i] = FactorVector::sort<colvec>(s->get(), descend);
+					// f[i] = FactorVector::sort<colvec>(s->get(), descend);
 					break;
 				default:
 					break;
@@ -1492,7 +1364,7 @@ namespace Rfast
 	inline NumericVector colMads(DataFrame x, const string method = "median", const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector f(x.size());
-		colvec ff(f.begin(),f.size(),false);
+		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
 #ifdef _OPENMP
@@ -1503,16 +1375,16 @@ namespace Rfast
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					ff[s-x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
 					break;
 				case Type::Types::INT:
-					ff[s-x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
 					break;
 				case Type::Types::CHAR:
-					ff[s-x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
 					break;
 				case Type::Types::FACTOR:
-					//f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
+					// f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
 					break;
 				default:
 					break;
@@ -1526,16 +1398,16 @@ namespace Rfast
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					ff[s-x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
 					break;
 				case Type::Types::INT:
-					ff[s-x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
 					break;
 				case Type::Types::CHAR:
-					ff[s-x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
 					break;
 				case Type::Types::FACTOR:
-					//f[i] = FactorVector::sort<colvec>(s->get(), descend);
+					// f[i] = FactorVector::sort<colvec>(s->get(), descend);
 					break;
 				default:
 					break;
@@ -1683,7 +1555,7 @@ namespace Rfast
 				setResult<NumericVector>(f, i, s, Rfast::shuffle<colvec>, engine);
 				break;
 			case Type::Types::FACTOR:
-				//f[i] = FactorVector::sort<colvec>(s->get(), descend);
+				// f[i] = FactorVector::sort<colvec>(s->get(), descend);
 				break;
 			default:
 				break;
