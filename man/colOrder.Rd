@@ -13,7 +13,7 @@ Column and row-wise Order - Sort Indices.
 \usage{
 colOrder(x,stable=FALSE,descending=FALSE, parallel = FALSE, cores = 0)
 rowOrder(x,stable=FALSE,descending=FALSE, parallel = FALSE, cores = 0)
-Order(x,stable=FALSE,descending=FALSE,partial = NULL)
+Order(x,stable=FALSE,descending=FALSE,partial = NULL,parallel = FALSE)
 }
 
 \arguments{
@@ -28,12 +28,13 @@ A boolean value (TRUE/FALSE) for sorting the vector in descending order. By defa
 }
 \item{parallel}{
 A boolean value for parallel version.
+For Order, this argument is supported on Windows and most of the unix.
 }
 \item{partial}{
 A boolean value for partial sorting.
 }
 \item{cores}{
-Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE column - major ordering. 
 Default value is 0 and it means the maximum supported cores.
 }
 }

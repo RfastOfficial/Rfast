@@ -129,14 +129,14 @@ SEXP Rfast_negative(SEXP, SEXP);
 SEXP Rfast_nth(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_nth_int(SEXP, SEXP);
 SEXP Rfast_Norm(SEXP, SEXP);
-SEXP Rfast_Order(SEXP, SEXP, SEXP);
+SEXP Rfast_Order(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_odds_helper(SEXP);
 SEXP Rfast_Outer(SEXP, SEXP, SEXP);
 SEXP Rfast_positive(SEXP, SEXP);
 SEXP Rfast_positive_negative(SEXP, SEXP);
 SEXP Rfast_poisson_only(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_partial_sort(SEXP, SEXP, SEXP);
-SEXP Rfast_partial_sort_index(SEXP, SEXP, SEXP);
+SEXP Rfast_partial_sort(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_partial_sort_index(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_prop_reg(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_prop_regs(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_pmin(SEXP, SEXP, SEXP);
@@ -194,11 +194,11 @@ SEXP Rfast_sum_lower_tri(SEXP, SEXP);
 SEXP Rfast_sum_upper_tri(SEXP, SEXP);
 SEXP Rfast_sort_unique_int(SEXP);
 SEXP Rfast_symmetric(SEXP);
-SEXP Rfast_Sort(SEXP, SEXP, SEXP na);
-SEXP Rfast_Sort_na_first(SEXP, SEXP);
-SEXP Rfast_sort_string(SEXP, SEXP);
+SEXP Rfast_Sort(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_Sort_na_first(SEXP, SEXP, SEXP);
+SEXP Rfast_sort_string(SEXP, SEXP, SEXP);
 SEXP Rfast_sort_int(SEXP);
-SEXP Rfast_stable_sort(SEXP, SEXP);
+SEXP Rfast_stable_sort(SEXP, SEXP, SEXP);
 SEXP Rfast_spat_med(SEXP, SEXP);
 SEXP Rfast_squareform_c(SEXP);
 SEXP Rfast_total_dists(SEXP, SEXP, SEXP, SEXP);
@@ -381,14 +381,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_nth", (DL_FUNC)&Rfast_nth, 6},
     {"Rfast_nth_int", (DL_FUNC)&Rfast_nth_int, 2},
     {"Rfast_Norm", (DL_FUNC)&Rfast_Norm, 2},
-    {"Rfast_Order", (DL_FUNC)&Rfast_Order, 3},
+    {"Rfast_Order", (DL_FUNC)&Rfast_Order, 4},
     {"Rfast_Outer", (DL_FUNC)&Rfast_Outer, 3},
     {"Rfast_odds_helper", (DL_FUNC)&Rfast_odds_helper, 1},
     {"Rfast_positive", (DL_FUNC)&Rfast_positive, 2},
     {"Rfast_positive_negative", (DL_FUNC)&Rfast_positive_negative, 2},
     {"Rfast_poisson_only", (DL_FUNC)&Rfast_poisson_only, 4},
-    {"Rfast_partial_sort", (DL_FUNC)&Rfast_partial_sort, 3},
-    {"Rfast_partial_sort_index", (DL_FUNC)&Rfast_partial_sort_index, 3},
+    {"Rfast_partial_sort", (DL_FUNC)&Rfast_partial_sort, 4},
+    {"Rfast_partial_sort_index", (DL_FUNC)&Rfast_partial_sort_index, 4},
     {"Rfast_prop_reg", (DL_FUNC)&Rfast_prop_reg, 4},
     {"Rfast_prop_regs", (DL_FUNC)&Rfast_prop_regs, 5},
     {"Rfast_pmin", (DL_FUNC)&Rfast_pmin, 3},
@@ -446,10 +446,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_sum_upper_tri", (DL_FUNC)&Rfast_sum_upper_tri, 2},
     {"Rfast_sort_unique_int", (DL_FUNC)&Rfast_sort_unique_int, 1},
     {"Rfast_symmetric", (DL_FUNC)&Rfast_symmetric, 1},
-    {"Rfast_Sort", (DL_FUNC)&Rfast_Sort, 3},
-    {"Rfast_Sort_na_first", (DL_FUNC)&Rfast_Sort_na_first, 2},
-    {"Rfast_sort_string", (DL_FUNC)&Rfast_sort_string, 2},
-    {"Rfast_stable_sort", (DL_FUNC)&Rfast_stable_sort, 2},
+    {"Rfast_Sort", (DL_FUNC)&Rfast_Sort, 4},
+    {"Rfast_Sort_na_first", (DL_FUNC)&Rfast_Sort_na_first, 3},
+    {"Rfast_sort_string", (DL_FUNC)&Rfast_sort_string, 3},
+    {"Rfast_stable_sort", (DL_FUNC)&Rfast_stable_sort, 3},
     {"Rfast_sort_int", (DL_FUNC)&Rfast_sort_int, 1},
     {"Rfast_spat_med", (DL_FUNC)&Rfast_spat_med, 2},
     {"Rfast_squareform_c", (DL_FUNC)&Rfast_squareform_c, 1},

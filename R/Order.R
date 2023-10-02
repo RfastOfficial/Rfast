@@ -1,12 +1,12 @@
 #[export]
-Order<-function(x,stable=FALSE,descending=FALSE,partial=NULL){
+Order<-function(x,stable=FALSE,descending=FALSE,partial=NULL,parallel=FALSE){
 	if(is.character(x)){
 		x <- as.numeric(x)
 	}
 	if(is.null(partial)){
-		.Call(Rfast_Order,x,stable,descending)
+		.Call(Rfast_Order,x,stable,descending,parallel)
 	}else{
-		.Call(Rfast_partial_sort_index,x,partial,descending)
+		.Call(Rfast_partial_sort_index,x,partial,descending,parallel)
 	}
 }
 

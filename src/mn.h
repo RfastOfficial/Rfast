@@ -71,7 +71,7 @@ IntegerVector combine(IntegerVector, IntegerVector);
 icolvec get_k_indices(rowvec, const int &);
 colvec get_k_values(rowvec, const int &);
 bool check_if_is_finite(double);
-IntegerVector Order(NumericVector, const bool, const bool);
+IntegerVector Order(NumericVector, const bool, const bool, const bool);
 NumericVector Rank(NumericVector, string, const bool, const bool);
 double calcDevRes(colvec, colvec, colvec);
 int proper_size(int, int);

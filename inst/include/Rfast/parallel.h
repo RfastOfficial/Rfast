@@ -51,6 +51,57 @@ namespace Rfast
         }
     }
 
+    template <class T, class Function>
+    void sort(T begin, T end, Function cmp, const bool parallel = false)
+    {
+        if (parallel)
+        {
+#ifdef _PARALLEL_
+            std::sort(std::execution::par, begin, end, cmp);
+#else
+            throw std::runtime_error("The C++ parallel library isn't supported by your system. Please, don't use the parallel argument.");
+#endif
+        }
+        else
+        {
+            std::sort(begin, end, cmp);
+        }
+    }
+
+    template <class T>
+    void stable_sort(T begin, T end, const bool parallel = false)
+    {
+        if (parallel)
+        {
+#ifdef _PARALLEL_
+            std::stable_sort(std::execution::par, begin, end);
+#else
+            throw std::runtime_error("The C++ parallel library isn't supported by your system. Please, don't use the parallel argument.");
+#endif
+        }
+        else
+        {
+            std::stable_sort(begin, end);
+        }
+    }
+
+    template <class T, class Function>
+    void stable_sort(T begin, T end, Function cmp, const bool parallel = false)
+    {
+        if (parallel)
+        {
+#ifdef _PARALLEL_
+            std::stable_sort(std::execution::par, begin, end, cmp);
+#else
+            throw std::runtime_error("The C++ parallel library isn't supported by your system. Please, don't use the parallel argument.");
+#endif
+        }
+        else
+        {
+            std::stable_sort(begin, end, cmp);
+        }
+    }
+
     template <class T>
     void nth_element(T begin, T middle, T end, const bool parallel = false)
     {

@@ -937,7 +937,7 @@ IntegerMatrix col_order(NumericMatrix x, const bool stable, const bool descendin
 	IntegerMatrix f(x.nrow(), ncl);
 	for (int i = 0; i < ncl; ++i)
 	{
-		f.column(i) = Order(x.column(i), stable, descending);
+		f.column(i) = Order(x.column(i), stable, descending,false);
 	}
 	return f;
 }
@@ -960,7 +960,7 @@ IntegerMatrix row_order(NumericMatrix x, const bool stable, const bool descendin
 	const int nrw = x.nrow();
 	IntegerMatrix f(nrw, x.ncol());
 	for (int i = 0; i < nrw; ++i)
-		f.row(i) = Order(x.row(i), stable, descending);
+		f.row(i) = Order(x.row(i), stable, descending,false);
 	return f;
 }
 
