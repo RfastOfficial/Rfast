@@ -19,6 +19,7 @@
 >  |  colMads				| Supports data.frame  |
 >  |  eachrow | Fix bug.  |
 >  |  colMedians | Fix bug about data.frame.  |
+>  |  rowMedians | Fix bug.  |
 >  |  colVars | Fix bug about data.frame.  |
 >  |  Dist(...,method = "minimum") | Bug fix.  |
 >  |  Dist(...,method = "bhattacharyya") | Bug fix .  |
