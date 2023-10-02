@@ -162,7 +162,7 @@ SEXP Rfast_row_min(SEXP);
 SEXP Rfast_row_len_sort_un_int(SEXP);
 SEXP Rfast_row_ranks(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_sums(SEXP, SEXP, SEXP);
-SEXP Rfast_rmdp(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_rmdp(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_tabulate(SEXP, SEXP);
 SEXP Rfast_rep_col(SEXP, SEXP);
 SEXP Rfast_rep_row(SEXP, SEXP);
@@ -415,7 +415,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_row_len_sort_un_int", (DL_FUNC)&Rfast_row_len_sort_un_int, 1},
     {"Rfast_row_ranks", (DL_FUNC)&Rfast_row_ranks, 4},
     {"Rfast_row_sums", (DL_FUNC)&Rfast_row_sums, 3},
-    {"Rfast_rmdp", (DL_FUNC)&Rfast_rmdp, 4},
+    {"Rfast_rmdp", (DL_FUNC)&Rfast_rmdp, 5},
     {"Rfast_row_tabulate", (DL_FUNC)&Rfast_row_tabulate, 2},
     {"Rfast_rep_col", (DL_FUNC)&Rfast_rep_col, 2},
     {"Rfast_rep_row", (DL_FUNC)&Rfast_rep_row, 2},

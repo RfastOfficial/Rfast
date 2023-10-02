@@ -1,5 +1,5 @@
 #[export]
-rmdp <- function(y, alpha = 0.05, itertime = 100) {
+rmdp <- function(y, alpha = 0.05, itertime = 100, parallel = FALSE) {
   ## y is the data
   ## alpha is the significance level
   ## itertime is the number of iterations for the first step of the algorithm
@@ -14,7 +14,7 @@ rmdp <- function(y, alpha = 0.05, itertime = 100) {
   #######################
   ####################### 
   id <- replicate( itertime, sample.int(n, 2) ) - 1
-  final_vec <- as.vector(.Call('Rfast_rmdp', PACKAGE = 'Rfast',y,h,id,itertime))
+  final_vec <- as.vector(.Call(Rfast_rmdp,y,h,id,itertime, parallel))
   #######################
   ####################### 
   submcd <- seq(1, n)[final_vec != 0]
