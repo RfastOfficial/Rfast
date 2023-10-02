@@ -21,7 +21,7 @@ vecdist(x)
 A matrix with data. The distances will be calculated between pairs of rows. 
 In the case of \bold{vecdist} this is a vector. 
 For the \bold{haversine} distance it must be a matrix with two columns, 
-the first column is the latitude and the second the longitude. 
+the first column is the latitude and the second the longitude (in radians). 
 }
 \item{method}{
 See details for the available methods.
