@@ -14,8 +14,8 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
->  |  cor.fsreg | Bug fix in the adjusted R-squared computation. 
->  |  ompr | Bug fix in the adjusted R-squared computation. 
+>  |  cor.fsreg | Bug fix in the adjusted R-squared computation. |
+>  |  ompr | Bug fix in the adjusted R-squared computation. |
 >  |  colMads				| Supports data.frame  |
 >  |  eachrow | Fix bug.  |
 >  |  colMedians | Fix bug about data.frame.  |
