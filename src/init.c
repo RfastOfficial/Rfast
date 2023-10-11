@@ -135,7 +135,7 @@ SEXP Rfast_Outer(SEXP, SEXP, SEXP);
 SEXP Rfast_positive(SEXP, SEXP);
 SEXP Rfast_positive_negative(SEXP, SEXP);
 SEXP Rfast_poisson_only(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_partial_sort(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_partial_sort(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_partial_sort_index(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_prop_reg(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_prop_regs(SEXP, SEXP, SEXP, SEXP, SEXP);
