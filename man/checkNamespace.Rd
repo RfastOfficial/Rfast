@@ -49,9 +49,11 @@ A boolean value (TRUE/FALSE) for printing the names of the files before running 
 For function "checkNamespace": reads from the NAMESPACE folder all the export R functions, reads from folder R all the R functions and check if all the functions are export.
 
 For function "checkAliases": reads from the man directory all the Rd files, then reads from each file the aliases and check if:
-1) All the R files has man file or an alias.
-2) All aliases belongs to functions.
-3) If there are dublicated aliases.
+\itemize{
+	\item All the R files has man file or an alias.
+	\item All aliases belongs to functions.
+	\item If there are dublicated aliases.
+}
 
 For function "checkExamples": reads from the man directory all the Rd files, then read from each file the examples and then run each of them. If you want to print the errors in any file then set "print.errors=file_name" or in the standard error "print.errors=stderr()" and then you will see all the errors for every file. For succeed run of your code you should first run "library(PACKAGE_NAME)". 
 The argument "print.names" it is very helpful because if any of you function crashes R during running you will never know which one was. 
@@ -69,67 +71,60 @@ For functions "checkTF", "checkUsage", "checkAliases" you can choose which files
 For function "checkNamespace": a vector with the names of missing R files. (Don't use it for now)
 
 For function "checkAliases": a list with 4 fields.
-\item{Missing Man files}{
-A vector with the names of the missing Rd files or nothing.
-}
-\item{Missing R files}{
-A vector with the names of the missing R files or nothing.
-}
-\item{Duplicate alias}{
-A vector with the names of the dublicate aliases or nothing.
-}
-\item{dont read}{
-A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
+\itemize{
+	\item \bold{Missing Man files}: A vector with the names of the missing Rd files or nothing.
+	\item \bold{Missing R files}: A vector with the names of the missing R files or nothing.
+	\item \bold{Duplicate alias}: A vector with the names of the dublicate aliases or nothing.
+	\item{\bold{dont read}:}{ A list with 2 fields
+		\itemize{
+			\item R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+			\item Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
+		}
+	}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 For function "checkExamples": a list with 3 fields 
-\item{Errors}{
-A character vector with the names of the Rd files that produced an error.
-}
-\item{Big Examples}{
-A character vector with the names of the Rd files that has big examples per line.
-}
-\item{dont read}{
-A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
+\itemize{
+	\item \bold{Errors}: A character vector with the names of the Rd files that produced an error.
+	\item \bold{Big Examples}: A character vector with the names of the Rd files that has big examples per line.
+	\item{\bold{dont read}:}{ A list with 2 fields
+		\itemize{
+			\item R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+			\item Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
+		}
+	}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 For function "checkTF": a list with 3 fields 
-\item{TRUE}{
-A character vector with the names of the Rd files that has "T" or nothing.
-}
-\item{FALSE}{
-A character vector with the names of the Rd files that has "F" or nothing.
-}
-\item{dont read}{
-A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
+\itemize{
+	\item \bold{TRUE}: A character vector with the names of the Rd files that has "T" or nothing.
+	\item \bold{FALSE}: A character vector with the names of the Rd files that has "F" or nothing.
+	\item{\bold{dont read}:}{ A list with 2 fields
+		\itemize{
+			\item R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+			\item Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
+		}
+	}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 For function "checkUsage": a list with 3 fields 
-\item{missing functions}{
-A character vector with the name of the file that is missing and the Rd file that is found or nothing.
-}
-\item{missmatch functions}{
-A character vector with the name of the file that has missmatch function and the Rd file that is found or nothing.
-}
-\item{dont read}{
-A list with 2 fields
-R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
-Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
-}
-\item{hidden functions}{
-A character vector with the name of the functions thath have been declared as hidden.
+\itemize{
+	\item \bold{missing functions}: A character vector with the name of the file that is missing and the Rd file that is found or nothing.
+	\item \bold{missmatch functions}: A character vector with the name of the file that has missmatch function and the Rd file that is found or nothing.
+	\item{\bold{dont read}:}{ A list with 2 fields
+		\itemize{
+			\item R: A character vector whith the names of the files that had attribute "#[dont read]" or nothing.
+			\item Rd: A character vector whith the names of the files that had attribute "\%[dont read]" or nothing.
+		}
+	}
+	\item \bold{hidden functions}: A character vector with the name of the functions thath have been declared as hidden.
+	\item \bold{usage lines wider than 90 characters}: A list with the Rd's that have usages that are wider than 90 characters.
 }
 }
 

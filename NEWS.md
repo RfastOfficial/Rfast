@@ -16,6 +16,7 @@
 >  | -------------------  | ------------------------------- |
 >  |  cor.fsreg | Bug fix in the adjusted R-squared computation. |
 >  |  ompr | Bug fix in the adjusted R-squared computation. |
+>  |  rmdp | Support parallel. |
 >  |  colMads				| Supports data.frame  |
 >  |  eachrow | Fix bug.  |
 >  |  colMedians | Fix bug about data.frame.  |
@@ -35,6 +36,7 @@
 >  |  Sort | Supports parallel. Available only in Windows and most unix.  |
 >  |  Order | Supports parallel. Available only in Windows and most unix.  |
 >  |  Rank | Supports parallel. Available only in Windows and most unix. Add extra option for stable algorithm.  |
+>  |  checkUsage | checking if usage lines are wider than 90 characters.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
