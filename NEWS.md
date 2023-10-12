@@ -34,6 +34,7 @@
 >  |  total.dista | All the methods from the Dist function are now supported.  |
 >  |  Sort | Supports parallel. Available only in Windows and most unix.  |
 >  |  Order | Supports parallel. Available only in Windows and most unix.  |
+>  |  Rank | Supports parallel. Available only in Windows and most unix. Add extra option for stable algorithm.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
