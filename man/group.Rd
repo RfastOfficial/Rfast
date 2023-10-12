@@ -1,7 +1,5 @@
 \name{Some summary statistics of a vector for each level of a grouping variable}
 \alias{group}
-\alias{group.sum}
-\alias{group.mean}
 \title{
 Some summary statistics of a vector for each level of a grouping variable. 
 }
@@ -13,8 +11,6 @@ Some summary statistics of a vector for each level of a grouping variable.
 \usage{
 group(x,ina,method="sum",ina.min=NULL,ina.max = NULL,
 	ina.length.unique=NULL,mad.method="median")
-group.sum(x, ina,ina.max = NULL,ina.min = NULL)
-group.mean(x, ina,ina.max = max(ina))
 }
 
 \arguments{

@@ -1,6 +1,7 @@
 \name{Column and rows-wise mean absolute deviations}
 \alias{colMads}
 \alias{rowMads}
+\alias{Mad}
 \title{
 Column and row-wise mean absolute deviations
 }
@@ -13,11 +14,12 @@ Column and row-wise mean absolute deviations.
 \usage{
 colMads(x,method = "median",na.rm=FALSE,parallel = FALSE, cores = 0)
 rowMads(x,method = "median",na.rm=FALSE,parallel = FALSE, cores = 0)
+Mad(x,method = "median",na.rm=FALSE)
 }
 
 \arguments{
 \item{x}{
-A matrix or data.frame with the data.
+A vector, matrix or data.frame with the data.
 }
 \item{method}{
 A character vector with values "median", for median absolute deviation or "mean", for mean absolute deviation. 
@@ -47,7 +49,7 @@ A vector with the column-wise mean absolute deviations.
 %}
 
 \author{
-Michail Tsagris
+Manos Papadakis
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }

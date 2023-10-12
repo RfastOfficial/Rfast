@@ -1,6 +1,7 @@
 \name{Column and row-wise ranks}
 \alias{colRanks}
 \alias{rowRanks}
+\alias{Rank}
 \title{
 Column and row-wise ranks
 }
