@@ -1,5 +1,5 @@
 #[export]
-colmeans <- function(x,parallel = FALSE) {
+colmeans <- function(x,parallel = FALSE,cores = 0) {
 	UseMethod("colmeans")
 }
 
@@ -14,6 +14,6 @@ colmeans.data.frame <- function(x,parallel = FALSE,cores = 0) {
 }
 
 #[export]
-rowmeans <- function(x,cores = 0) {
-  	as.vector(.Call(Rfast_row_means,x,cores))
+rowmeans <- function(x) {
+  	as.vector(.Call(Rfast_row_means,x))
 }

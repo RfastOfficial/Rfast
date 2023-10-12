@@ -11,8 +11,10 @@ Column and row-wise ranks.
 }
 
 \usage{
-colRanks(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE, cores = 0)
-rowRanks(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE, cores = 0)
+colRanks(x,method = "average",descending = FALSE,
+     stable = FALSE, parallel = FALSE, cores = 0)
+rowRanks(x,method = "average",descending = FALSE,
+     stable = FALSE, parallel = FALSE, cores = 0)
 Rank(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE)
 }
 

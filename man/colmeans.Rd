@@ -14,10 +14,10 @@ Column and row-wise means of a matrix.
 }
 
 \usage{
-colmeans(x, parallel = FALSE)
+colmeans(x, parallel = FALSE, cores = 0)
 \method{colmeans}{matrix}(x, parallel = FALSE, cores = 0)
 \method{colmeans}{data.frame}(x, parallel = FALSE, cores = 0)
-rowmeans(x, cores = 0)
+rowmeans(x)
 colhameans(x, parallel = FALSE)
 rowhameans(x)
 }
