@@ -459,7 +459,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -469,7 +469,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -484,7 +484,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -494,7 +494,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -512,7 +512,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -522,7 +522,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -537,7 +537,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -547,7 +547,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -572,7 +572,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -582,7 +582,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -597,7 +597,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -607,7 +607,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -625,7 +625,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -635,7 +635,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -650,7 +650,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -660,7 +660,7 @@ namespace Rfast
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -686,7 +686,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -696,7 +696,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -711,7 +711,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -721,7 +721,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -739,7 +739,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -749,7 +749,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -764,7 +764,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -774,7 +774,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -799,7 +799,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -809,7 +809,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -824,7 +824,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -834,7 +834,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -852,7 +852,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}
@@ -862,7 +862,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}
@@ -877,7 +877,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}
@@ -887,7 +887,7 @@ namespace Rfast
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}

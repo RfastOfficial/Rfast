@@ -666,40 +666,6 @@ RcppExport SEXP Rfast_max_freq_i(SEXP xSEXP, SEXP na_rmSEXP)
   END_RCPP
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
-IntegerVector Order(NumericVector x, const bool stable, const bool descend, const bool parallel = false)
-{
-  IntegerVector ind = seq(1, x.size());
-  if (descend)
-  {
-    auto descend_func = [&](int i, int j)
-    { return x[i - 1] > x[j - 1]; };
-    stable ? Rfast::stable_sort(ind.begin(), ind.end(), descend_func, parallel) : Rfast::sort(ind.begin(), ind.end(), descend_func, parallel);
-  }
-  else
-  {
-    auto func = [&](int i, int j)
-    { return x[i - 1] < x[j - 1]; };
-    stable ? Rfast::stable_sort(ind.begin(), ind.end(), func, parallel) : Rfast::sort(ind.begin(), ind.end(), func, parallel);
-  }
-  return ind;
-}
-
-RcppExport SEXP Rfast_Order(SEXP xSEXP, SEXP stableSEXP, SEXP descendSEXP, SEXP parallelSEXP)
-{
-  BEGIN_RCPP
-  RObject __result;
-  RNGScope __rngScope;
-  traits::input_parameter<NumericVector>::type x(xSEXP);
-  traits::input_parameter<const bool>::type stable(stableSEXP);
-  traits::input_parameter<const bool>::type descend(descendSEXP);
-  traits::input_parameter<const bool>::type parallel(parallelSEXP);
-  __result = Order(x, stable, descend, parallel);
-  return __result;
-  END_RCPP
-}
-
 ///////////////////////////////////////////////////////////////////////////////////
 
 SEXP Outer(SEXP x, SEXP y, const char oper = '*')

@@ -1,6 +1,6 @@
 #[export]
-Rank <- function(x,method = "average",descending = FALSE) {
-  .Call(Rfast_rank,x,method,descending)
+Rank <- function(x,method = "average",descending = FALSE,stable = FALSE, parallel = FALSE) {
+  .Call(Rfast_rank,x,method,descending,stable,parallel)
 }
 
 #[export]

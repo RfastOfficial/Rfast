@@ -1149,7 +1149,7 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 		for (auto c : x)
 		{
 			y = c;
-			f[i++] = Rank(y, method, descend, stable);
+			f[i++] = Rank(y, method, descend, stable,false);
 		}
 	}
 	f.names() = x.names();
@@ -1211,7 +1211,7 @@ NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, cons
 	{
 		for (int i = 0; i < ncl; ++i)
 		{
-			f.column(i) = Rank(x.column(i), method, descend, stable);
+			f.column(i) = Rank(x.column(i), method, descend, stable,false);
 		}
 	}
 	return f;
@@ -1240,7 +1240,7 @@ NumericMatrix row_ranks(NumericMatrix x, string method, const bool descend, cons
 	NumericMatrix f(n, x.ncol());
 	for (int i = 0; i < n; ++i)
 	{
-		f.row(i) = Rank(x.row(i), method, descend, stable);
+		f.row(i) = Rank(x.row(i), method, descend, stable,false);
 	}
 	return f;
 }

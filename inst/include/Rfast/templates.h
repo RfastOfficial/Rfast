@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <R.h>
 #include <Rinternals.h>
+#include "Rfast/parallel.h"
 
 
 //#include <Rinlinedfuns.h>
@@ -162,10 +163,10 @@ Ret Order(T x,const bool stable,const bool descend,const int init_v){
     iota(ind.begin(),ind.end(),init_v);
     if(descend){
         auto descend_func = [&](int i,int j){return x[i-init_v]>x[j-init_v];};
-        stable ? stable_sort(ind.begin(),ind.end(),descend_func) : sort(ind.begin(),ind.end(),descend_func);
+        stable ? std::stable_sort(ind.begin(),ind.end(),descend_func) : std::sort(ind.begin(),ind.end(),descend_func);
     }else{
         auto func = [&](int i,int j){return x[i-init_v]<x[j-init_v];};
-        stable ? stable_sort(ind.begin(),ind.end(),func) : sort(ind.begin(),ind.end(),func);
+        stable ? std::stable_sort(ind.begin(),ind.end(),func) : std::sort(ind.begin(),ind.end(),func);
     }
     return ind;
 }
@@ -227,15 +228,15 @@ void minimum(T *start,T *end,T &mn){
 * T: argument class
 */
 template<typename Ret,typename T>
-Ret Order_rank(T& x,const bool descend,const bool stable,const int n,const int k){
+Ret Order_rank(T& x,const bool descend,const bool stable,const int n,const int k, const bool parallel = false){
     Ret ind(x.size()-k);
     iota(ind.begin(),ind.end(),0);
     if(descend){
         auto descend_func = [&](int i,int j){return x[i]>x[j];};
-        stable ? stable_sort(ind.begin(),ind.end()-n,descend_func) : sort(ind.begin(),ind.end()-n,descend_func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end()-n,descend_func,parallel) : Rfast::sort(ind.begin(),ind.end()-n,descend_func,parallel);
     }else{
         auto func = [&](int i,int j){return x[i]<x[j];};
-        stable ? stable_sort(ind.begin(),ind.end()-n,func) : sort(ind.begin(),ind.end()-n,func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end()-n,func,parallel) : Rfast::sort(ind.begin(),ind.end()-n,func,parallel);
     }
     return ind;
 }

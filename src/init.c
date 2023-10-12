@@ -150,7 +150,7 @@ SEXP Rfast_permutation_prev(SEXP, SEXP);
 SEXP Rfast_perm_cor(SEXP, SEXP, SEXP);
 SEXP Rfast_qpois_reg(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_qpois_regs(SEXP, SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_rank(SEXP, SEXP, SEXP);
+SEXP Rfast_rank(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_remove_from_namespace(SEXP, SEXP);
 SEXP Rfast_rbing(SEXP, SEXP);
 SEXP Rfast_rows(SEXP, SEXP);
@@ -402,7 +402,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_perm_cor", (DL_FUNC)&Rfast_perm_cor, 3},
     {"Rfast_qpois_reg", (DL_FUNC)&Rfast_qpois_reg, 5},
     {"Rfast_qpois_regs", (DL_FUNC)&Rfast_qpois_regs, 5},
-    {"Rfast_rank", (DL_FUNC)&Rfast_rank, 3},
+    {"Rfast_rank", (DL_FUNC)&Rfast_rank, 5},
     {"Rfast_remove_from_namespace", (DL_FUNC)&Rfast_remove_from_namespace, 2},
     {"Rfast_rbing", (DL_FUNC)&Rfast_rbing, 2},
     {"Rfast_rows", (DL_FUNC)&Rfast_rows, 2},

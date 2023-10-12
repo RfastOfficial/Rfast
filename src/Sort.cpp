@@ -272,3 +272,146 @@ RcppExport SEXP Rfast_sort_int(SEXP xSEXP)
   return __result;
   END_RCPP
 }
+
+IntegerVector partial_sort_index(NumericVector x, const int n, const bool descend, const bool parallel = false)
+{
+  IntegerVector ind = seq(1, x.size());
+  if (descend)
+  {
+    auto descend_func = [&](int i, int j){ return x[i - 1] > x[j - 1]; };
+    Rfast::nth_element(ind.begin(), ind.begin() + n - 1, ind.end(), descend_func, parallel);
+    Rfast::sort(ind.begin(), ind.begin() + n, descend_func, parallel);
+  }
+  else
+  {
+    auto descend_func = [&](int i, int j){ return x[i - 1] < x[j - 1]; };
+    Rfast::nth_element(ind.begin(), ind.begin() + n - 1, ind.end(), descend_func, parallel);
+    Rfast::sort(ind.begin(), ind.begin() + n, descend_func, parallel);
+  }
+  return ind;
+}
+
+SEXP partial_sort(SEXP x, const int n, const bool descend, const bool parallel = false)
+{
+  SEXP f = PROTECT(Rf_duplicate(x));
+  int len = LENGTH(x);
+  switch (TYPEOF(x))
+  {
+  case INTSXP:
+  {
+    int *F = INTEGER(f);
+    if (descend)
+    {
+      Rfast::nth_element(F, F + n - 1, F + len, greater<int>(), parallel);
+      Rfast::sort(F, F + n, greater<int>(), parallel);
+    }
+    else
+    {
+      Rfast::nth_element(F, F + n - 1, F + len, parallel);
+      Rfast::sort(F, F + n, parallel);
+    }
+    break;
+  }
+  default:
+  {
+    double *F = REAL(f);
+    if (descend)
+    {
+      Rfast::nth_element(F, F + n - 1, F + len, greater<double>(), parallel);
+      Rfast::sort(F, F + n, greater<double>(), parallel);
+    }
+    else
+    {
+      Rfast::nth_element(F, F + n - 1, F + len, parallel);
+      Rfast::sort(F, F + n, parallel);
+    }
+    break;
+  }
+  }
+  UNPROTECT(1);
+  return f;
+}
+
+RcppExport SEXP Rfast_partial_sort(SEXP x, SEXP nSEXP, SEXP descendSEXP, SEXP parallelSEXP)
+{
+  BEGIN_RCPP
+  RObject __result;
+  RNGScope __rngScope;
+  traits::input_parameter<const int>::type n(nSEXP);
+  traits::input_parameter<const bool>::type descend(descendSEXP);
+  traits::input_parameter<const bool>::type parallel(parallelSEXP);
+  __result = partial_sort(x, n, descend, parallel);
+  return __result;
+  END_RCPP
+}
+
+RcppExport SEXP Rfast_partial_sort_index(SEXP xSEXP, SEXP nSEXP, SEXP descendSEXP, SEXP parallelSEXP)
+{
+  BEGIN_RCPP
+  RObject __result;
+  RNGScope __rngScope;
+  traits::input_parameter<NumericVector>::type x(xSEXP);
+  traits::input_parameter<const int>::type n(nSEXP);
+  traits::input_parameter<const bool>::type descend(descendSEXP);
+  traits::input_parameter<const bool>::type parallel(parallelSEXP);
+  __result = partial_sort_index(x, n, descend, parallel);
+  return __result;
+  END_RCPP
+}
+
+IntegerVector Order(NumericVector x, const bool stable, const bool descend, const bool parallel = false)
+{
+  IntegerVector ind = seq(1, x.size());
+  if (descend)
+  {
+    auto descend_func = [&](int i, int j)
+    { return x[i - 1] > x[j - 1]; };
+    stable ? Rfast::stable_sort(ind.begin(), ind.end(), descend_func, parallel) : Rfast::sort(ind.begin(), ind.end(), descend_func, parallel);
+  }
+  else
+  {
+    auto func = [&](int i, int j)
+    { return x[i - 1] < x[j - 1]; };
+    stable ? Rfast::stable_sort(ind.begin(), ind.end(), func, parallel) : Rfast::sort(ind.begin(), ind.end(), func, parallel);
+  }
+  return ind;
+}
+
+RcppExport SEXP Rfast_Order(SEXP xSEXP, SEXP stableSEXP, SEXP descendSEXP, SEXP parallelSEXP)
+{
+  BEGIN_RCPP
+  RObject __result;
+  RNGScope __rngScope;
+  traits::input_parameter<NumericVector>::type x(xSEXP);
+  traits::input_parameter<const bool>::type stable(stableSEXP);
+  traits::input_parameter<const bool>::type descend(descendSEXP);
+  traits::input_parameter<const bool>::type parallel(parallelSEXP);
+  __result = Order(x, stable, descend, parallel);
+  return __result;
+  END_RCPP
+}
+
+//[[Rcpp::export]]
+NumericMatrix sort_mat(NumericMatrix x,const bool descend,const bool by_row,const bool stable,const bool parallel, const unsigned int cores){
+	return by_row ? Rfast::rowSort(x,descend,stable,parallel,cores) : Rfast::colSort(x,descend,stable,parallel,cores);
+}
+
+
+// sort_mat
+RcppExport SEXP Rfast_sort_mat(SEXP xSEXP,SEXP descendSEXP,SEXP by_rowSEXP,SEXP stableSEXP,SEXP parallelSEXP,SEXP coresSEXP) {
+BEGIN_RCPP
+    RObject __result;
+    RNGScope __rngScope;
+    traits::input_parameter< const bool >::type descend(descendSEXP);
+    traits::input_parameter< const bool >::type by_row(by_rowSEXP);
+    traits::input_parameter< const bool >::type stable(stableSEXP);
+    traits::input_parameter< const bool >::type parallel(parallelSEXP);
+    traits::input_parameter< const unsigned int >::type cores(coresSEXP);
+    if(Rf_isMatrix(xSEXP)){
+        __result = sort_mat(NumericMatrix(xSEXP),descend,by_row,stable,parallel,cores);
+    }else if(Rf_isNewList(xSEXP)){
+        __result = Rfast::colSort(DataFrame(xSEXP),descend,stable,parallel,cores);
+    }
+    return __result;
+END_RCPP
+}
