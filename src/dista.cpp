@@ -220,7 +220,7 @@ namespace Dista
 		}
 		else
 		{
-			constexpr double p = 1.0 / std::sqrt(2.0);
+			const double p = 1.0 / std::sqrt(2.0);
 			if (k > 0)
 			{
 				for (unsigned int i = 0; i < disa.n_cols; ++i)
@@ -364,7 +364,7 @@ namespace Dista
 	void jensen_shannon(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
 	{
 		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-		constexpr double log2 = std::log(2);
+		const double log2 = std::log(2);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 		mat x_mod_log_xx = x % log_xx;
@@ -652,7 +652,7 @@ namespace DistaIndices
 		}
 		else
 		{
-			constexpr double p = 1.0 / std::sqrt(2.0);
+			const double p = 1.0 / std::sqrt(2.0);
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
 				disa.col(i) = get_k_indices(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)) * p, k);
@@ -737,7 +737,7 @@ namespace DistaIndices
 	void jensen_shannon(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 	{
 		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-		constexpr double log2 = std::log(2);
+		const double log2 = std::log(2);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 		mat x_mod_log_xx = x % log_xx;

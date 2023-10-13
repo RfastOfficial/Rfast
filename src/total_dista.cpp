@@ -2,7 +2,7 @@
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include "Rfast.h"
-#include "Rfast\types.hpp"
+#include "Rfast/types.hpp"
 
 using namespace Rcpp;
 using namespace arma;
@@ -238,7 +238,7 @@ namespace DistaTotal
         }
         else
         {
-            constexpr double p = 1.0 / std::sqrt(2.0);
+            const double p = 1.0 / std::sqrt(2.0);
             if (k > 0)
             {
                 for (unsigned int i = 0; i < xnew.n_cols; ++i)
@@ -398,7 +398,7 @@ namespace DistaTotal
     {
         double a = 0.0;
         mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-        constexpr double log2 = std::log(2);
+        const double log2 = std::log(2);
         fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
         fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
         mat x_mod_log_xx = x % log_xx;

@@ -2,6 +2,7 @@
 // Author: Manos Papadakis
 
 #include <RcppArmadillo.h>
+#include <math.h>
 
 using namespace Rcpp;
 using namespace arma;
@@ -106,9 +107,9 @@ template<class T>
 T rvonmises(unsigned int n, double m, double k, const bool rads)
 {
   colvec u(n, fill::none);
-  constexpr double pi = atan(1) * 4;
-  constexpr double pi_180 = pi / 180.0;
-  constexpr double pi_2 = 2.0 * pi;
+  const double pi = M_PI;
+  const double pi_180 = pi / 180.0;
+  const double pi_2 = 2.0 * pi;
   if (!rads)
   {
     // Rcout<<__LINE__<<endl;

@@ -429,7 +429,7 @@ namespace Dist
     mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
     colvec xv(nrw), log_xv(nrw);
     double a;
-    constexpr double log2 = std::log(2);
+    const double log2 = std::log(2);
     int i, j;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
@@ -981,7 +981,7 @@ namespace DistVector
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
-    constexpr double log2 = std::log(2);
+    const double log2 = std::log(2);
     int i, j, k = 0;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
     for (i = 0; i < ncl - 1; ++i)

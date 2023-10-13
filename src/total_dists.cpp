@@ -336,7 +336,7 @@ namespace DistTotal
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
     double a = 0.0;
-    constexpr double log2 = std::log(2);
+    const double log2 = std::log(2);
     int i, j;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 

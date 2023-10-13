@@ -1,6 +1,6 @@
 #include <RcppArmadillo.h>
 #include "Rfast.h"
-#include "Rfast\types.hpp"
+#include "Rfast/types.hpp"
 
 using Rfast::Type;
 
