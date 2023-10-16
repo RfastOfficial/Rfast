@@ -19,7 +19,7 @@ Note 3: In general, make sure you give the correct input, in order to get the co
 Package: \tab Rfast\cr
 Type: \tab Package\cr
 Version: \tab 2.0.9 \cr
-Date: \tab 2023-10-12\cr
+Date: \tab 2023-10-16\cr
 License: \tab GPL-2\cr
 }
 }
@@ -67,43 +67,13 @@ their invaluable help with this R package.
 \item Adam Muschielok from Rodenstock GmbH found a bug in the function vmf.mle and he is greatly acknowledged for that.
 \item Bret Presnell for detecting and correcting a bug in the function rvmf.
 \item Gabriel Hoffman for spotting a mistake in the fuction dirimultinom.mle.
-\item  Lutz von der Burchard for spotting a bug in the function bic.corfsreg.
-}
-From now on the Rfast can be used in C++ via LinkingTo mechanism.
-\itemize{
-\item The main namespace is "Rfast". Inside "Rfast" you will find two more namespaces, "vector" and "matrix".
-\item Namespace "vector" for calling functions using an Rcpp's or RcppArmadillo's vector.
-\item Namespace "matrix" for calling functions using an Rcpp's or RcppArmadillo's matrices.
-\item The signatures of the functions and the arguments are the same that are exported in R.
-}
-For namespace "vector" the functions that are available are:
-\enumerate{
-	\item median(x)
-	\item var(x, std = false, na_rm = false)
-	\item mad(x, method = "median", na_rm = false)  
-	\item shuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
-}
-For namespace "matrix" the functions that are available are:
-\enumerate{
-	\item transpose(x)
-	\item matrix_multiplication(x,y)
-	\item colSort(x, descend = false, stable = false, parallel = false)
-	\item rowSort(x, descend = false, stable = false, parallel = false)
-	\item is_symmetric(x)
-	\item colMedian(x, na_rm = false, parallel = false)
-	\item rowMedian(x, na_rm = false, parallel = false)
-	\item colVars(x, std = false, na_rm = false, parallel = false)
-	\item rowVars(x, std = false, na_rm = false, parallel = false)
-	\item colMads(x, method = "median", na_rm = false, parallel = false)
-	\item rowMads(x, method = "median", na_rm = false, parallel = false)
-	\item colShuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
-	\item rowShuffle(x,engine = Engine(time(0)) // Engine by default is default_random_engine. You can use anyone from C++.
-}
-
-How to use it:
-\enumerate{
-	\item Just add in "LinkingTo" in your NAMESPACE file the "Rfast" or in Rstudio "//[[Rcpp::depends(Rfast)]]".
-	\item Include in your cpp files the header "Rfast.h" and enjoy!
+\item Lutz von der Burchard for spotting a bug in the function bic.corfsreg.
 }
 }
 
+\keyword{ G^2 test }
+\keyword{ variances }
+\keyword{ t-tests }
+\keyword{ univariate regressions }
+\keyword{ distance }
+\keyword{ energy distance }

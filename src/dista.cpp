@@ -499,8 +499,9 @@ namespace Dista
 //[[Rcpp::export]]
 NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
-	const int n = X.ncol(), nu = Xnew.ncol();
-	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), n, false);
+	//if k is greater than 0 then rows are k size
+	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
+	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	NumericMatrix disaa(n, nu);
 	mat disa(disaa.begin(), n, nu, false);
 	if (method == "euclidean")
@@ -827,8 +828,9 @@ namespace DistaIndices
 
 IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
-	const int n = X.ncol(), nu = Xnew.ncol();
-	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), n, false);
+	//if k is greater than 0 then rows are k size
+	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
+	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	IntegerMatrix disaa(n, nu);
 	imat disa(disaa.begin(), n, nu, false);
 	if (method == "euclidean")
