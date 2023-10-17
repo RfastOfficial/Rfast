@@ -1,4 +1,4 @@
-# [export]
+#[export]
 dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRUE, square = FALSE, p = 0, parallel = FALSE) {
     if (type == "canberra1" || type == "canberra2") {
         .Deprecated("The replacement type is \"canberra\"", "Rfast")
