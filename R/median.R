@@ -1,8 +1,8 @@
 #[export]
-# med <- function(x,na.rm=FALSE) {
-# #	.Deprecated("Rfast::Median")
-#   .Call(Rfast_med,x,na.rm)
-# }med
+med <- function(x,na.rm=FALSE) {
+#	.Deprecated("Rfast::Median")
+  .Call(Rfast_med,x,na.rm)
+}
 
 #[export]
 Median <- function(x,na.rm=FALSE) {
