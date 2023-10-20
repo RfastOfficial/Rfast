@@ -2,6 +2,7 @@
 \alias{colMedians}
 \alias{rowMedians}
 \alias{Median}
+\alias{med}
 \title{
 Column and row-wise medians of a matrix or median of a vector.
 }
@@ -14,6 +15,7 @@ Column and row-wise medians of a matrix or median of a vector.
 colMedians(x,na.rm = FALSE, parallel = FALSE, cores = 0)
 rowMedians(x,na.rm = FALSE, parallel = FALSE, cores = 0)
 Median(x,na.rm=FALSE)
+med(x,na.rm=FALSE)
 }
 
 \arguments{

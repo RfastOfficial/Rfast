@@ -2,12 +2,20 @@ Package: Rfast
 Type: Package
 Title: A Collection of Efficient and Extremely Fast R Functions
 Version: 2.0.9
-Date: 2023-10-17
-Author: person("Manos Papadakis", role = c("aut", "cre", "cph")), person("Michail Tsagris", role = c("aut", "cre")), 
-        person("Marios Dimitriadis", role = c("ctb")), person("Stefanos Fafalios", role = c("aut")), 
-        person("Ioannis Tsamardinos", role = c("ctb")), person("Matteo Fasiolo", role = c("ctb")), 
-        person("Giorgos Borboudakis", role = c("ctb")), person("John Burkardt", role = c("ctb")), 
-        person("Changliang Zou", role = c("ctb")), person("Kleanthi Lakiotaki", role = c("ctb")) and person("Christina Chatzipantsiou.", role = c("ctb")).
+Date: 2023-10-19
+Authors@R: c(
+                person("Manos Papadakis", email = "rfastofficial@gmail.com", role = c("aut", "cre", "cph")), 
+                person("Michail Tsagris", role = c("aut")), 
+                person("Marios Dimitriadis", role = c("ctb")), 
+                person("Stefanos Fafalios", role = c("aut")), 
+                person("Ioannis Tsamardinos", role = c("ctb")), 
+                person("Matteo Fasiolo", role = c("ctb")), 
+                person("Giorgos Borboudakis", role = c("ctb")), 
+                person("John Burkardt", role = c("ctb")), 
+                person("Changliang Zou", role = c("ctb")), 
+                person("Kleanthi Lakiotaki", role = c("ctb")), 
+                person("Christina Chatzipantsiou.", role = c("ctb"))
+        )
 Maintainer: Manos Papadakis <rfastofficial@gmail.com>
 Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), RcppZiggurat, RcppParallel
 LinkingTo: Rcpp (>= 0.12.3), RcppArmadillo, RcppParallel
