@@ -9,10 +9,10 @@ colMads <- function(x,method = "median", na.rm = FALSE,parallel = FALSE, cores =
 }
 
 # #[export]
-# mad2 <- function(x,method = "median",na.rm = FALSE) {
-# 	#.Deprecated("Rfast::Mad")
-# 	.Call(Rfast_mad2,x,method,na.rm)
-# }
+mad2 <- function(x,method = "median",na.rm = FALSE) {
+	#.Deprecated("Rfast::Mad")
+	.Call(Rfast_mad2,x,method,na.rm)
+}
 
 
 #[export]
