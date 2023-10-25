@@ -2,7 +2,7 @@ Package: Rfast
 Type: Package
 Title: A Collection of Efficient and Extremely Fast R Functions
 Version: 2.0.9
-Date: 2023-10-19
+Date: 2023-10-23
 Authors@R: c(
                 person("Manos Papadakis", email = "rfastofficial@gmail.com", role = c("aut", "cre", "cph")), 
                 person("Michail Tsagris", role = c("aut")), 
@@ -14,7 +14,7 @@ Authors@R: c(
                 person("John Burkardt", role = c("ctb")), 
                 person("Changliang Zou", role = c("ctb")), 
                 person("Kleanthi Lakiotaki", role = c("ctb")), 
-                person("Christina Chatzipantsiou.", role = c("ctb"))
+                person("Christina Chatzipantsiou", role = c("ctb"))
         )
 Maintainer: Manos Papadakis <rfastofficial@gmail.com>
 Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), RcppZiggurat, RcppParallel
@@ -23,11 +23,6 @@ Suggests: philentropy
 SystemRequirements: C++17
 BugReports: https://github.com/RfastOfficial/Rfast/issues
 URL: https://github.com/RfastOfficial/Rfast
-Description: A collection of fast (utility) functions for data analysis. Column- and row- wise means, medians, variances, minimums, maximums, 
-            many t, F and G-square tests, many regressions (normal, logistic, Poisson), are some of the many fast functions. References: a) Tsagris M., Papadakis M. (2018). 
-            Taking R to its limits: 70+ tips. PeerJ Preprints 6:e26605v1 <doi:10.7287/peerj.preprints.26605v1>. b) Tsagris M. and Papadakis M. (2018). Forward regression in R: 
-            from the extreme slow to the extreme fast. Journal of Data Science, 16(4): 771--780. <doi:10.6339/JDS.201810_16(4).00006>. c) Chatzipantsiou C., Dimitriadis M., 
-			Papadakis M. and Tsagris M. (2020). Extremely Efficient Permutation and Bootstrap Hypothesis Tests Using RHypothesis Tests Using R. Journal of Modern Applied 
-			Statistical Methods, 18(2), eP2898. <doi:10.22237/jmasm/160418994>.
+Description: A collection of fast (utility) functions for data analysis. Column and row wise means, medians, variances, minimums, maximums, many t, F and G-square tests, many regressions (normal, logistic, Poisson), are some of the many fast functions. References: a) Tsagris M., Papadakis M. (2018). Taking R to its limits: 70+ tips. PeerJ Preprints 6:e26605v1 <doi:10.7287/peerj.preprints.26605v1>. b) Tsagris M. and Papadakis M. (2018). Forward regression in R: from the extreme slow to the extreme fast. Journal of Data Science, 16(4): 771--780. <doi:10.6339/JDS.201810_16(4).00006>. c) Chatzipantsiou C., Dimitriadis M., Papadakis M. and Tsagris M. (2020). Extremely Efficient Permutation and Bootstrap Hypothesis Tests Using RHypothesis Tests Using R. Journal of Modern Applied Statistical Methods, 18(2), eP2898. <doi:10.22237/jmasm/160418994>.
 License: GPL (>= 2.0)
 NeedsCompilation: yes
