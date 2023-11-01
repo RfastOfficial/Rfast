@@ -174,13 +174,14 @@ invgauss.reg <- function (y, x, tol = 1e-07, maxiters = 100) {
 
 
 #[export]
-lmfit <- function(x, y, w = NULL) {
-  if ( is.null(w) ) {
-    be <- solve( crossprod(x), crossprod(x, y) )
-  } else  be <- solve( crossprod(x, w * x), crossprod(x, w * y) )
-  e <- as.vector( y - x %*% be )
-  rownames(be) <- colnames(x)
-  list(be = be, residuals = e)
+lmfit <- function (x, y, w = NULL) {
+    if (is.null(w)) {
+        be <- solve( crossprod(x), Rfast::eachcol.apply(x, y) )
+    }
+    else be <- solve(crossprod(x, w * x), Rfast::eachcol.apply(x, w * y) )
+    e <- as.vector(y - x %*% be)
+    names(be) <- colnames(x)
+    list(be = be, residuals = e)
 }
 
 
@@ -244,7 +245,7 @@ multinom.reg <- function(y, x, tol = 1e-07, maxiters = 50) {
       k <- k + 1
       b1 <- b2
       m1 <- exp(X %*% b1) 
-      m <- m1 / (rowsums(m1) + 1)
+      m <- m1 / (Rfast::rowsums(m1) + 1)
       e <- Y - m
       for (i in 1:d) { 
       der[id[, i]] <- Rfast::colsums( e[, i] * X )
