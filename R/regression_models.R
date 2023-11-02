@@ -176,9 +176,9 @@ invgauss.reg <- function (y, x, tol = 1e-07, maxiters = 100) {
 #[export]
 lmfit <- function (x, y, w = NULL) {
     if (is.null(w)) {
-        be <- solve( crossprod(x), Rfast::eachcol.apply(x, y) )
+        be <- solve( crossprod(x), crossprod(x, y) )
     }
-    else be <- solve(crossprod(x, w * x), Rfast::eachcol.apply(x, w * y) )
+    else be <- solve(crossprod(x, w * x), crossprod(x, w * y) )
     e <- as.vector(y - x %*% be)
     names(be) <- colnames(x)
     list(be = be, residuals = e)
