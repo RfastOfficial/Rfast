@@ -1,7 +1,7 @@
 <h1 align="center">Rfast</h1>
 
 
-### **Version 2.0.9 - Hades**
+### **Version 2.1.0 - Hades**
 ***
 > <u> **New** </u>
 >
