@@ -9,7 +9,7 @@ High dimensional MCD based detection of outliers.
 }
 
 \usage{
-rmdp(y, alpha = 0.05, itertime = 100)
+rmdp(y, alpha = 0.05, itertime = 100, parallel = FALSE)
 }
 
 \arguments{
@@ -23,6 +23,9 @@ The default value is 0.05.
 \item{itertime}{
 The number of iterations the algorithm will be ran. The higher the sample size, the larger this number must be. 
 With 50 observations in \eqn{R^1000} maybe this has to be 1000 in order to produce stable results.  
+}
+\item{parallel}{
+A logical value for parallel version.
 }
 }
 

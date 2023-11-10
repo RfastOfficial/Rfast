@@ -260,7 +260,7 @@ RcppExport SEXP Rfast_col_len_sort_un_int(SEXP xSEXP)
 
 //////////////////////////////////////////////////////////
 
-RcppExport SEXP Rfast_col_mads(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_mads(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -268,12 +268,13 @@ RcppExport SEXP Rfast_col_mads(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP, SEXP
 	traits::input_parameter<const string>::type method(methodSEXP);
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = Rf_isMatrix(xSEXP) ? Rfast::colMads(NumericMatrix(xSEXP), method, na_rm, parallel) : Rfast::colMads(DataFrame(xSEXP), method, na_rm, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = Rf_isMatrix(xSEXP) ? Rfast::colMads(NumericMatrix(xSEXP), method, na_rm, parallel, cores) : Rfast::colMads(DataFrame(xSEXP), method, na_rm, parallel, cores);
 	return __result;
 	END_RCPP
 }
 
-RcppExport SEXP Rfast_row_mads(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_row_mads(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -282,7 +283,8 @@ RcppExport SEXP Rfast_row_mads(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP, SEXP
 	traits::input_parameter<const string>::type method(methodSEXP);
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = Rfast::rowMads(x, method, na_rm, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = Rfast::rowMads(x, method, na_rm, parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -301,7 +303,7 @@ SEXP col_max_indices(NumericMatrix x)
 	return F;
 }
 
-SEXP col_max(SEXP x, const bool parallel)
+SEXP col_max(SEXP x, const bool parallel, const unsigned int cores)
 {
 	int ncol = Rf_ncols(x), nrow = Rf_nrows(x);
 	if (parallel)
@@ -310,7 +312,7 @@ SEXP col_max(SEXP x, const bool parallel)
 		mat xx(X.begin(), nrow, ncol, false);
 		NumericVector f(ncol);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 		for (int i = 0; i < ncol; ++i)
 		{
@@ -358,19 +360,20 @@ RcppExport SEXP Rfast_col_max_indices(SEXP xSEXP)
 }
 
 // find the maximum value of its collumn
-RcppExport SEXP Rfast_col_max(SEXP x, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_max(SEXP x, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
 	if (Rf_isMatrix(x))
 	{
-		__result = col_max(x, parallel);
+		__result = col_max(x, parallel, cores);
 	}
 	else
 	{
-		__result = Rfast::colMaxs(DataFrame(x), parallel);
+		__result = Rfast::colMaxs(DataFrame(x), parallel, cores);
 	}
 	return __result;
 	END_RCPP
@@ -432,14 +435,14 @@ RcppExport SEXP Rfast_row_max(SEXP x)
 
 /////////////////////////////////////////////////////////////
 
-NumericVector col_means(DataFrame x, const bool parallel = false)
+NumericVector col_means(DataFrame x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 {
 	int i = 0;
 	NumericVector f(x.size());
 	if (parallel)
 	{
 		colvec ff(f.begin(), f.size(), false);
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 		for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 		{
 			colvec y;
@@ -468,7 +471,7 @@ NumericVector col_means(DataFrame x, const bool parallel = false)
 	return f;
 }
 
-NumericVector col_means(NumericMatrix x, const bool parallel = false)
+NumericVector col_means(NumericMatrix x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 {
 	mat xx;
 	const int n = x.ncol();
@@ -477,12 +480,11 @@ NumericVector col_means(NumericMatrix x, const bool parallel = false)
 	if (parallel)
 	{
 		xx = mat(x.begin(), x.nrow(), n, false);
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 		for (int i = 0; i < n; i++)
 		{
 			ff[i] = mean(xx.col(i));
 		}
-		UNPROTECT(1);
 	}
 	else
 	{
@@ -509,13 +511,14 @@ RcppExport SEXP Rfast_row_means(SEXP xSEXP)
 	END_RCPP
 }
 
-RcppExport SEXP Rfast_col_means(SEXP xSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_means(SEXP xSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = Rf_isMatrix(xSEXP) ? col_means(NumericMatrix(xSEXP), parallel) : col_means(DataFrame(xSEXP), parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = Rf_isMatrix(xSEXP) ? col_means(NumericMatrix(xSEXP), parallel, cores) : col_means(DataFrame(xSEXP), parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -523,29 +526,30 @@ RcppExport SEXP Rfast_col_means(SEXP xSEXP, SEXP parallelSEXP)
 ///////////////////////////////////////////////////////
 
 // colMedians
-RcppExport SEXP Rfast_col_meds(SEXP xSEXP, SEXP na_rmSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_meds(SEXP xSEXP, SEXP na_rmSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
 	if (Rf_isMatrix(xSEXP))
 	{
 		NumericMatrix x(xSEXP);
-		__result = Rfast::colMedian(x, na_rm, parallel);
+		__result = Rfast::colMedian(x, na_rm, parallel, cores);
 	}
 	else
 	{
 		DataFrame x(xSEXP);
-		__result = Rfast::colMedian(x, na_rm, parallel);
+		__result = Rfast::colMedian(x, na_rm, parallel, cores);
 	}
 	return __result;
 	END_RCPP
 }
 
 // rowMedians
-RcppExport SEXP Rfast_row_meds(SEXP xSEXP, SEXP na_rmSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_row_meds(SEXP xSEXP, SEXP na_rmSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -553,7 +557,8 @@ RcppExport SEXP Rfast_row_meds(SEXP xSEXP, SEXP na_rmSEXP, SEXP parallelSEXP)
 	traits::input_parameter<NumericMatrix>::type x(xSEXP);
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = Rfast::rowMedian(x, na_rm, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = Rfast::rowMedian(x, na_rm, parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -572,7 +577,7 @@ SEXP col_min_indices(NumericMatrix x)
 	return F;
 }
 
-SEXP col_min(SEXP x, const bool parallel)
+SEXP col_min(SEXP x, const bool parallel, const unsigned int cores)
 {
 	int ncol = Rf_ncols(x), nrow = Rf_nrows(x);
 	if (parallel)
@@ -581,7 +586,7 @@ SEXP col_min(SEXP x, const bool parallel)
 		mat xx(X.begin(), nrow, ncol, false);
 		NumericVector f(ncol);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 		for (int i = 0; i < ncol; ++i)
 		{
@@ -629,16 +634,17 @@ RcppExport SEXP Rfast_col_min_indices(SEXP xSEXP)
 }
 
 // find the minimum value of its collumn
-RcppExport SEXP Rfast_col_min(SEXP x, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_min(SEXP x, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
 	if (Rf_isMatrix(x))
-		__result = col_min(x, parallel);
+		__result = col_min(x, parallel, cores);
 	else
-		__result = Rfast::colMins(DataFrame(x), parallel);
+		__result = Rfast::colMins(DataFrame(x), parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -730,16 +736,17 @@ SEXP col_min_max(SEXP x)
 	return F;
 }
 
-RcppExport SEXP Rfast_col_min_max(SEXP x, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_min_max(SEXP x, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
 	if (Rf_isMatrix(x))
 		__result = col_min_max(x);
 	else
-		__result = Rfast::colMinsMaxs(DataFrame(x), parallel);
+		__result = Rfast::colMinsMaxs(DataFrame(x), parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -937,7 +944,7 @@ IntegerMatrix col_order(NumericMatrix x, const bool stable, const bool descendin
 	IntegerMatrix f(x.nrow(), ncl);
 	for (int i = 0; i < ncl; ++i)
 	{
-		f.column(i) = Order(x.column(i), stable, descending);
+		f.column(i) = Order(x.column(i), stable, descending, false);
 	}
 	return f;
 }
@@ -960,7 +967,7 @@ IntegerMatrix row_order(NumericMatrix x, const bool stable, const bool descendin
 	const int nrw = x.nrow();
 	IntegerMatrix f(nrw, x.ncol());
 	for (int i = 0; i < nrw; ++i)
-		f.row(i) = Order(x.row(i), stable, descending);
+		f.row(i) = Order(x.row(i), stable, descending, false);
 	return f;
 }
 
@@ -1042,7 +1049,7 @@ RcppExport SEXP Rfast_row_prods(SEXP xSEXP)
 
 using std::string;
 
-DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool stable, const bool parallel)
+DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool stable, const bool parallel, const unsigned int cores)
 {
 	List f(x.size());
 	if (parallel)
@@ -1050,7 +1057,7 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 		if (method == "average")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
@@ -1073,7 +1080,7 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 		else if (method == "min")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
@@ -1096,7 +1103,7 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 		else if (method == "max")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
@@ -1119,7 +1126,7 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 		else if (method == "first")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
@@ -1149,14 +1156,14 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 		for (auto c : x)
 		{
 			y = c;
-			f[i++] = Rank(y, method, descend, stable);
+			f[i++] = Rank(y, method, descend, stable, false);
 		}
 	}
 	f.names() = x.names();
 	return f;
 }
 
-NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, const bool stable, const bool parallel)
+NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, const bool stable, const bool parallel, const unsigned int cores)
 {
 	const int ncl = x.ncol(), nrw = x.nrow();
 	NumericMatrix f(nrw, ncl);
@@ -1167,7 +1174,7 @@ NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, cons
 		if (method == "average")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (int i = 0; i < ncl; ++i)
 			{
@@ -1177,7 +1184,7 @@ NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, cons
 		else if (method == "min")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (int i = 0; i < ncl; ++i)
 			{
@@ -1187,7 +1194,7 @@ NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, cons
 		else if (method == "max")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (int i = 0; i < ncl; ++i)
 			{
@@ -1197,7 +1204,7 @@ NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, cons
 		else if (method == "first")
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (int i = 0; i < ncl; ++i)
 			{
@@ -1211,13 +1218,13 @@ NumericMatrix col_ranks(NumericMatrix x, string method, const bool descend, cons
 	{
 		for (int i = 0; i < ncl; ++i)
 		{
-			f.column(i) = Rank(x.column(i), method, descend, stable);
+			f.column(i) = Rank(x.column(i), method, descend, stable, false);
 		}
 	}
 	return f;
 }
 
-RcppExport SEXP Rfast_col_ranks(SEXP xSEXP, SEXP methodSEXP, SEXP descendSEXP, SEXP stableSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_ranks(SEXP xSEXP, SEXP methodSEXP, SEXP descendSEXP, SEXP stableSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -1226,10 +1233,11 @@ RcppExport SEXP Rfast_col_ranks(SEXP xSEXP, SEXP methodSEXP, SEXP descendSEXP, S
 	traits::input_parameter<const bool>::type descend(descendSEXP);
 	traits::input_parameter<const bool>::type stable(stableSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	if(Rf_isMatrix(xSEXP))
-		__result = col_ranks(NumericMatrix(xSEXP), method, descend, stable, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	if (Rf_isMatrix(xSEXP))
+		__result = col_ranks(NumericMatrix(xSEXP), method, descend, stable, parallel, cores);
 	else
-		__result = col_ranks(DataFrame(xSEXP), method, descend, stable, parallel);
+		__result = col_ranks(DataFrame(xSEXP), method, descend, stable, parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -1240,7 +1248,7 @@ NumericMatrix row_ranks(NumericMatrix x, string method, const bool descend, cons
 	NumericMatrix f(n, x.ncol());
 	for (int i = 0; i < n; ++i)
 	{
-		f.row(i) = Rank(x.row(i), method, descend, stable);
+		f.row(i) = Rank(x.row(i), method, descend, stable, false);
 	}
 	return f;
 }
@@ -1278,8 +1286,10 @@ RcppExport SEXP Rfast_col_shuffle(SEXP xSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<NumericMatrix>::type x(xSEXP);
-	__result = Rf_isMatrix(xSEXP) ? Rfast::colShuffle(NumericMatrix(xSEXP))
-								  : Rfast::colShuffle(DataFrame(xSEXP));
+	if (Rf_isMatrix(xSEXP))
+		__result = Rfast::colShuffle(NumericMatrix(xSEXP));
+	else
+		__result = Rfast::colShuffle(DataFrame(xSEXP));
 	return __result;
 	END_RCPP
 }
@@ -1800,7 +1810,7 @@ RcppExport SEXP Rfast_rows(SEXP x, SEXP ind)
 	END_RCPP
 }
 
-RcppExport SEXP Rfast_col_vars(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_col_vars(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -1808,12 +1818,13 @@ RcppExport SEXP Rfast_col_vars(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP, SEXP pa
 	traits::input_parameter<const bool>::type std(stdSEXP);
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = Rf_isMatrix(xSEXP) ? Rfast::colVars(NumericMatrix(xSEXP), std, na_rm, parallel) : Rfast::colVars(DataFrame(xSEXP), std, na_rm, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = Rf_isMatrix(xSEXP) ? Rfast::colVars(NumericMatrix(xSEXP), std, na_rm, parallel, cores) : Rfast::colVars(DataFrame(xSEXP), std, na_rm, parallel, cores);
 	return __result;
 	END_RCPP
 }
 
-RcppExport SEXP Rfast_row_vars(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_row_vars(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -1822,7 +1833,8 @@ RcppExport SEXP Rfast_row_vars(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP, SEXP pa
 	traits::input_parameter<const bool>::type std(stdSEXP);
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = Rfast::rowVars(x, std, na_rm, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = Rfast::rowVars(x, std, na_rm, parallel, cores);
 	return __result;
 	END_RCPP
 }

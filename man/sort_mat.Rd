@@ -11,8 +11,8 @@ Fast sorting of the columns-rows of a matrix.
 }
 
 \usage{
-colSort(x, descending = FALSE, stable = FALSE,parallel=FALSE)
-rowSort(x, descending = FALSE, stable = FALSE,parallel=FALSE)
+colSort(x, descending = FALSE, stable = FALSE, parallel=FALSE, cores = 0)
+rowSort(x, descending = FALSE, stable = FALSE, parallel=FALSE, cores = 0)
 sort_mat(x,by.row=FALSE,descending=FALSE,stable=FALSE,parallel=FALSE)
 }
 
@@ -32,6 +32,10 @@ Do you want to do it in parallel in C++? TRUE or FALSE. Works with every other a
 }
 \item{by.row}{
 TRUE or FALSE for applying sort in rows or column.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

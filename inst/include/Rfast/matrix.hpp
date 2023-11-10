@@ -15,6 +15,7 @@
 #include "types.hpp"
 #include "helpers.hpp"
 #include "vector.hpp"
+#include "FactorVector.hpp"
 
 namespace Rfast
 {
@@ -23,7 +24,7 @@ namespace Rfast
 	using namespace std;
 	using namespace chrono;
 
-	inline NumericMatrix transpose(NumericMatrix x)
+	inline NumericMatrix transpose(NumericMatrix x, const unsigned int cores = get_num_of_threads())
 	{
 		const int p = x.ncol(), n = x.nrow();
 		NumericMatrix f = p == n ? clone(x) : NumericMatrix(p, n);
@@ -41,7 +42,7 @@ namespace Rfast
 		{
 			mat ff(f.begin(), p, n, false), xx(x.begin(), n, p, false);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (int i = 0; i < p; ++i)
 			{
@@ -51,7 +52,7 @@ namespace Rfast
 		return f;
 	}
 
-	inline mat transpose(mat x)
+	inline mat transpose(mat x, const unsigned int cores = get_num_of_threads())
 	{
 		const int p = x.n_cols, n = x.n_rows;
 		mat f;
@@ -70,7 +71,7 @@ namespace Rfast
 		{
 			f = mat(p, n);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (int i = 0; i < p; ++i)
 			{
@@ -80,7 +81,7 @@ namespace Rfast
 		return f;
 	}
 
-	inline NumericMatrix matrix_multiplication(NumericMatrix X, NumericMatrix Y, const bool tx = false, const bool ty = false)
+	inline NumericMatrix matrix_multiplication(NumericMatrix X, NumericMatrix Y, const bool tx = false, const bool ty = false, const unsigned int cores = get_num_of_threads())
 	{
 		int p, n;
 
@@ -105,7 +106,7 @@ namespace Rfast
 			{
 				yi = y.col(i);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int j = 0; j < n; ++j)
 				{
@@ -119,7 +120,7 @@ namespace Rfast
 			{
 				yi = y.col(i);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int j = 0; j < n; ++j)
 				{
@@ -135,7 +136,7 @@ namespace Rfast
 			{
 				yi = yy.col(i);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int j = 0; j < n; ++j)
 				{
@@ -146,7 +147,7 @@ namespace Rfast
 		return C;
 	}
 
-	inline mat matrix_multiplication(mat x, mat y, const bool tx = false, const bool ty = false)
+	inline mat matrix_multiplication(mat x, mat y, const bool tx = false, const bool ty = false, const unsigned int cores = get_num_of_threads())
 	{
 		int p = 0, n = 0;
 
@@ -170,7 +171,7 @@ namespace Rfast
 			{
 				yi = y.col(i);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int j = 0; j < n; ++j)
 				{
@@ -184,7 +185,7 @@ namespace Rfast
 			{
 				yi = y.col(i);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int j = 0; j < n; ++j)
 				{
@@ -200,7 +201,7 @@ namespace Rfast
 			{
 				yi = yy.col(i);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int j = 0; j < n; ++j)
 				{
@@ -211,7 +212,7 @@ namespace Rfast
 		return C;
 	}
 
-	inline NumericMatrix colSort(DataFrame x, const bool descend = false, const bool stable = false, const bool parallel = false)
+	inline NumericMatrix colSort(DataFrame x, const bool descend = false, const bool stable = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericMatrix F(x.nrows(), x.size());
 		mat f(F.begin(), F.nrow(), F.ncol(), false);
@@ -222,7 +223,7 @@ namespace Rfast
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
@@ -230,13 +231,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s->get(), i, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s->get(), i, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s->get(), i, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -254,13 +255,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::stable_sort>(f, i, s->get(), mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::stable_sort>(f, i, s->get(), mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::stable_sort>(f, i, s->get(), mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);
@@ -276,7 +277,7 @@ namespace Rfast
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
@@ -284,13 +285,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s->get(), i, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s->get(), i, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s->get(), i, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -308,13 +309,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::sort>(f, i, s->get(), mgreater<bool, double, double>);
+							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::sort>(f, i, s->get(), mgreater<bool, double, double>);
+							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::sort>(f, i, s->get(), mgreater<bool, double, double>);
+							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);
@@ -333,7 +334,7 @@ namespace Rfast
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
@@ -341,13 +342,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s->get(), i);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s->get(), i);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s->get(), i);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -365,13 +366,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::stable_sort>(f, i++, s->get());
+							setResult<colvec, std::stable_sort>(f, i++, false, s);
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::stable_sort>(f, i++, s->get());
+							setResult<colvec, std::stable_sort>(f, i++, false, s);
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::stable_sort>(f, i++, s->get());
+							setResult<colvec, std::stable_sort>(f, i++, false, s);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);
@@ -387,7 +388,7 @@ namespace Rfast
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
@@ -395,13 +396,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s->get(), i);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s->get(), i);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s->get(), i);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -419,13 +420,13 @@ namespace Rfast
 						switch (Type::type(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::sort>(f, i++, s->get());
+							setResult<colvec, std::sort>(f, i++, false, s);
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::sort>(f, i++, s->get());
+							setResult<colvec, std::sort>(f, i++, false, s);
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::sort>(f, i++, s->get());
+							setResult<colvec, std::sort>(f, i++, false, s);
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);
@@ -441,11 +442,11 @@ namespace Rfast
 		return F;
 	}
 
-inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const bool stable = false, const bool parallel = false)
+	inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const bool stable = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int n = X.nrow(), p = X.ncol();
 		NumericMatrix F(n, p);
-		mat f(F.begin(),n, p,false),x(X.begin(),n, p,false);
+		mat f(F.begin(), n, p, false), x(X.begin(), n, p, false);
 		if (descend)
 		{
 			if (stable)
@@ -453,12 +454,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -468,7 +469,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -478,12 +479,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -493,7 +494,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -506,12 +507,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -521,7 +522,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -531,12 +532,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -546,7 +547,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -555,8 +556,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return F;
 	}
 
-	
-	inline mat colSort(mat x, const bool descend = false, const bool stable = false, const bool parallel = false)
+	inline mat colSort(mat x, const bool descend = false, const bool stable = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int n = x.n_rows, p = x.n_cols;
 		mat f(n, p);
@@ -567,12 +567,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -582,7 +582,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end(), greater<double>());
+						std::stable_sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -592,12 +592,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -607,7 +607,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end(), greater<double>());
+						std::sort(coli.begin(), coli.end(), greater<double>());
 						f.col(i) = coli;
 					}
 				}
@@ -620,12 +620,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -635,7 +635,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						stable_sort(coli.begin(), coli.end());
+						std::stable_sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -645,12 +645,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < p; ++i)
 					{
 						colvec coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -660,7 +660,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < p; ++i)
 					{
 						coli = x.col(i);
-						sort(coli.begin(), coli.end());
+						std::sort(coli.begin(), coli.end());
 						f.col(i) = coli;
 					}
 				}
@@ -669,7 +669,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline NumericMatrix rowSort(NumericMatrix x, const bool descend = false, const bool stable = false, const bool parallel = false)
+	inline NumericMatrix rowSort(NumericMatrix x, const bool descend = false, const bool stable = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int n = x.nrow(), p = x.ncol();
 		NumericMatrix f(n, p);
@@ -681,12 +681,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -696,7 +696,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -706,12 +706,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -721,7 +721,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						ff.row(i) = rowi;
 					}
 				}
@@ -734,12 +734,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -749,7 +749,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -759,12 +759,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -774,7 +774,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = xx.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						ff.row(i) = rowi;
 					}
 				}
@@ -783,7 +783,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline mat rowSort(mat x, const bool descend = false, const bool stable = false, const bool parallel = false)
+	inline mat rowSort(mat x, const bool descend = false, const bool stable = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int n = x.n_rows, p = x.n_cols;
 		mat f(n, p);
@@ -794,12 +794,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -809,7 +809,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end(), greater<double>());
+						std::stable_sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -819,12 +819,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -834,7 +834,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						sort(rowi.begin(), rowi.end(), greater<double>());
+						std::sort(rowi.begin(), rowi.end(), greater<double>());
 						f.row(i) = rowi;
 					}
 				}
@@ -847,12 +847,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}
@@ -862,7 +862,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						stable_sort(rowi.begin(), rowi.end());
+						std::stable_sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}
@@ -872,12 +872,12 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				if (parallel)
 				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 					for (int i = 0; i < n; ++i)
 					{
 						rowvec rowi = x.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}
@@ -887,7 +887,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 					for (int i = 0; i < n; ++i)
 					{
 						rowi = x.row(i);
-						sort(rowi.begin(), rowi.end());
+						std::sort(rowi.begin(), rowi.end());
 						f.row(i) = rowi;
 					}
 				}
@@ -928,107 +928,59 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return true;
 	}
 
-	inline NumericVector colMedian(DataFrame &x, const bool na_rm = false, const bool parallel = false)
+	inline NumericVector colMedian(DataFrame &x, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector f(x.size());
-		if (na_rm)
+		colvec ff(f.begin(), f.size(), false);
+		if (parallel)
 		{
-			if (parallel)
+			colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
+			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				colvec ff(f.begin(), f.size(), false);
-#pragma omp parallel for
-				for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
+				int i = s - x.begin();
+				switch (Type::type(s->get()))
 				{
-					colvec y;
-					int i;
-#pragma omp critical
-					{
-						NumericVector yy;
-						yy = *s;
-						y = colvec(yy.begin(), yy.size());
-						i = s - x.begin();
-					}
-					ff[i] = med_helper<colvec>(y.begin(), y.begin() + (int)(std::remove_if(y.begin(), y.end(), R_IsNA) - y.begin()));
-				}
-			}
-			else
-			{
-				int i = 0;
-				NumericVector y(x.nrows());
-				for (auto c : x)
-				{
-					y = c;
-					f[i++] = med_helper<NumericVector>(y.begin(), y.begin() + (int)(std::remove_if(y.begin(), y.end(), R_IsNA) - y.begin()));
+				case Type::Types::REAL:
+					setResultParallelSection<colvec, NumericVector, med_helper<colvec>>(ff, s, i, na_rm);
+					break;
+				case Type::Types::INT:
+					setResultParallelSection<colvec, NumericVector, med_helper<colvec>>(ff, s, i, na_rm);
+					break;
+				case Type::Types::CHAR:
+					setResultParallelSection<colvec, NumericVector, med_helper<colvec>>(ff, s, i, na_rm);
+					break;
+				case Type::Types::FACTOR:
+					// f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
+					break;
+				default:
+					break;
 				}
 			}
 		}
 		else
 		{
-			const int step = x.nrow(), middle = step / 2 - 1;
-			if (step % 2 == 0)
+			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				if (parallel)
+				int i = s - x.begin();
+				switch (Type::type(s->get()))
 				{
-					colvec ff(f.begin(), f.size(), false);
-#pragma omp parallel for
-					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
-					{
-						colvec y;
-						int i;
-#pragma omp critical
-						{
-							NumericVector yy;
-							yy = *s;
-							y = colvec(yy.begin(), yy.size());
-							i = s - x.begin();
-						}
-						nth_element(y.begin(), y.begin() + middle, y.end());
-						ff[i] = (y[middle] + *(min_element(y.begin() + middle + 1, y.end()))) / 2.0;
-					}
-				}
-				else
-				{
-					int i = 0;
-					NumericVector y(x.nrows());
-					for (auto c : x)
-					{
-						y = c;
-						nth_element(y.begin(), y.begin() + middle, y.end());
-						f[i++] = (y[middle] + *(min_element(y.begin() + middle + 1, y.end()))) / 2.0;
-					}
-				}
-			}
-			else
-			{
-				if (parallel)
-				{
-					colvec ff(f.begin(), f.size(), false);
-#pragma omp parallel for
-					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
-					{
-						colvec y;
-						int i;
-#pragma omp critical
-						{
-							NumericVector yy;
-							yy = *s;
-							y = colvec(yy.begin(), yy.size());
-							i = s - x.begin();
-						}
-						nth_element(y.begin(), y.begin() + middle + 1, y.end());
-						ff[i] = y[middle + 1];
-					}
-				}
-				else
-				{
-					int i = 0;
-					NumericVector y(x.nrows());
-					for (auto c : x)
-					{
-						y = c;
-						nth_element(y.begin(), y.begin() + middle + 1, y.end());
-						f[i++] = NumericVector(y.begin(), y.end())[middle + 1];
-					}
+				case Type::Types::REAL:
+					setResult<NumericVector, med_helper<colvec>>(ff, i, na_rm, s);
+					break;
+				case Type::Types::INT:
+					setResult<NumericVector, med_helper<colvec>>(ff, i, na_rm, s);
+					break;
+				case Type::Types::CHAR:
+					setResult<NumericVector, med_helper<colvec>>(ff, i, na_rm, s);
+					break;
+				case Type::Types::FACTOR:
+					// f[i] = FactorVector::sort<colvec>(s->get(), descend);
+					break;
+				default:
+					break;
 				}
 			}
 		}
@@ -1036,7 +988,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline NumericVector colMedian(NumericMatrix &x, const bool na_rm = false, const bool parallel = false)
+	inline NumericVector colMedian(NumericMatrix &x, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int p = x.ncol();
 		NumericVector F(p);
@@ -1047,7 +999,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				mat xx(x.begin(), x.nrow(), p, false);
 				colvec ff(F.begin(), p, false);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int i = 0; i < p; ++i)
 				{
@@ -1067,66 +1019,33 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		}
 		else
 		{
-			const int step = x.nrow(), middle = step / 2 - 1;
-			if (step % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
-					mat xx(x.begin(), step, p, false);
-					colvec ff(F.begin(), p, false), tmpp(step);
+				mat xx(x.begin(), x.nrow(), p, false);
+				colvec ff(F.begin(), p, false);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmpp = xx.col(i);
-						nth_element(tmpp.begin(), tmpp.begin() + middle, tmpp.end());
-						ff[i] = (tmpp[middle] + *(min_element(tmpp.begin() + middle + 1, tmpp.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					NumericVector tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.column(i);
-						nth_element(tmp.begin(), tmp.begin() + middle, tmp.end());
-						F[i] = (tmp[middle] + *(min_element(tmp.begin() + middle + 1, tmp.end()))) / 2.0;
-					}
+					colvec tmp = xx.col(i);
+					ff[i] = med_helper<colvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				NumericVector tmp(x.nrow());
+				for (int i = 0; i < p; ++i)
 				{
-					mat xx(x.begin(), step, p, false);
-					colvec ff(F.begin(), p, false);
-#ifdef _OPENMP
-#pragma omp parallel for
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmpp = xx.col(i);
-						nth_element(tmpp.begin(), tmpp.begin() + middle + 1, tmpp.end());
-						ff[i] = tmpp[middle + 1];
-					}
-				}
-				else
-				{
-					NumericVector tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.column(i);
-						nth_element(tmp.begin(), tmp.begin() + middle + 1, tmp.end());
-						F[i] = tmp[middle + 1];
-					}
+					tmp = x.column(i);
+					F[i] = med_helper<NumericVector>(tmp.begin(), tmp.end());
 				}
 			}
 		}
 		return F;
 	}
 
-	inline rowvec colMedian(mat &x, const bool na_rm = false, const bool parallel = false)
+	inline rowvec colMedian(mat &x, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int p = x.n_cols;
 		rowvec F(p);
@@ -1135,7 +1054,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 			if (parallel)
 			{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int i = 0; i < p; ++i)
 				{
@@ -1155,62 +1074,31 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		}
 		else
 		{
-			const int step = x.n_rows, middle = step / 2 - 1;
-			if (step % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle, tmp.end());
-						F[i] = (tmp[middle] + *(min_element(tmp.begin() + middle + 1, tmp.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					colvec tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle, tmp.end());
-						F[i] = (tmp[middle] + *(min_element(tmp.begin() + middle + 1, tmp.end()))) / 2.0;
-					}
+					colvec tmp = x.col(i);
+					F[i] = med_helper<colvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				colvec tmp(x.n_rows);
+				for (int i = 0; i < p; ++i)
 				{
-#ifdef _OPENMP
-#pragma omp parallel for
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						colvec tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle + 1, tmp.end());
-						F[i] = tmp[middle + 1];
-					}
-				}
-				else
-				{
-					colvec tmp(step);
-					for (int i = 0; i < p; ++i)
-					{
-						tmp = x.col(i);
-						nth_element(tmp.begin(), tmp.begin() + middle + 1, tmp.end());
-						F[i] = tmp[middle + 1];
-					}
+					tmp = x.col(i);
+					F[i] = med_helper<colvec>(tmp.begin(), tmp.end());
 				}
 			}
 		}
 		return F;
 	}
 
-	inline NumericVector rowMedian(NumericMatrix x, const bool na_rm = false, const bool parallel = false)
+	inline NumericVector rowMedian(NumericMatrix x, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int p = x.nrow();
 		NumericVector F(p);
@@ -1221,7 +1109,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				mat xx(x.begin(), x.nrow(), p, false);
 				colvec ff(F.begin(), p, false);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int i = 0; i < p; ++i)
 				{
@@ -1241,66 +1129,33 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		}
 		else
 		{
-			const int sz = x.ncol(), middle = sz / 2 - 1;
-			if (sz % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
-					mat xx(x.begin(), p, sz, false);
-					colvec ff(F.begin(), p, false);
+				mat xx(x.begin(), x.nrow(), p, false);
+				colvec ff(F.begin(), p, false);
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowii = xx.row(i);
-						nth_element(rowii.begin(), rowii.begin() + middle, rowii.end());
-						ff[i] = (rowii[middle] + *(min_element(rowii.begin() + middle + 1, rowii.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					NumericVector rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = (rowi[middle] + *(min_element(rowi.begin() + middle + 1, rowi.end()))) / 2.0;
-					}
+					rowvec tmp = xx.row(i);
+					ff[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				NumericVector tmp(x.ncol());
+				for (int i = 0; i < p; ++i)
 				{
-					mat xx(x.begin(), p, sz, false);
-					colvec ff(F.begin(), p, false);
-#ifdef _OPENMP
-#pragma omp parallel for
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowii = xx.row(i);
-						nth_element(rowii.begin(), rowii.begin() + middle, rowii.end());
-						ff[i] = rowii[middle + 1];
-					}
-				}
-				else
-				{
-					NumericVector rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = rowi[middle + 1];
-					}
+					tmp = x.row(i);
+					F[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 		}
 		return F;
 	}
 
-	inline colvec rowMedian(mat &x, const bool na_rm = false, const bool parallel = false)
+	inline colvec rowMedian(mat &x, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const int p = x.n_rows;
 		colvec F(p);
@@ -1309,7 +1164,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 			if (parallel)
 			{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 				for (int i = 0; i < p; ++i)
 				{
@@ -1329,69 +1184,40 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		}
 		else
 		{
-			const int sz = x.n_cols, middle = sz / 2 - 1;
-			if (sz % 2 == 0)
+			if (parallel)
 			{
-				if (parallel)
-				{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = (rowi[middle] + *(min_element(rowi.begin() + middle + 1, rowi.end()))) / 2.0;
-					}
-				}
-				else
+				for (int i = 0; i < p; ++i)
 				{
-					rowvec rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = (rowi[middle] + *(min_element(rowi.begin() + middle + 1, rowi.end()))) / 2.0;
-					}
+					rowvec tmp = x.row(i);
+					F[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 			else
 			{
-				if (parallel)
+				rowvec tmp(x.n_cols);
+				for (int i = 0; i < p; ++i)
 				{
-#ifdef _OPENMP
-#pragma omp parallel for
-#endif
-					for (int i = 0; i < p; ++i)
-					{
-						rowvec rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = rowi[middle + 1];
-					}
-				}
-				else
-				{
-					rowvec rowi(sz);
-					for (int i = 0; i < p; ++i)
-					{
-						rowi = x.row(i);
-						nth_element(rowi.begin(), rowi.begin() + middle, rowi.end());
-						F[i] = rowi[middle + 1];
-					}
+					tmp = x.row(i);
+					F[i] = med_helper<rowvec>(tmp.begin(), tmp.end());
 				}
 			}
 		}
 		return F;
 	}
 
-	inline NumericVector colVars(NumericMatrix x, const bool std = false, const bool na_rm = false, const bool parallel = false)
+	inline NumericVector colVars(NumericMatrix x, const bool std = false, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		mat xx(x.begin(), x.nrow(), x.ncol(), false);
 		NumericVector f(xx.n_cols);
 		rowvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (unsigned int i = 0; i < xx.n_cols; ++i)
 			{
 				ff[i] = Rfast::var<colvec>(xx.col(i), std, na_rm);
@@ -1407,42 +1233,64 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline NumericVector colVars(DataFrame x, const bool std = false, const bool na_rm = false, const bool parallel = false)
+	inline NumericVector colVars(DataFrame x, const bool std = false, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector f(x.size());
+		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
-			colvec ff(f.begin(), f.size(), false);
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				colvec y;
-				int i;
-#pragma omp critical
+				switch (Type::type(s->get()))
 				{
-					NumericVector yy;
-					yy = *s;
-					y = colvec(yy.begin(), yy.size(), false);
-					i = s - x.begin();
+				case Type::Types::REAL:
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					break;
+				case Type::Types::INT:
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					break;
+				case Type::Types::CHAR:
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					break;
+				case Type::Types::FACTOR:
+					// f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
+					break;
+				default:
+					break;
 				}
-				ff[i] = Rfast::var<colvec>(y, std, na_rm);
 			}
 		}
 		else
 		{
-			int i = 0;
-			NumericVector y(x.nrows());
-			for (auto c : x)
+			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				y = c;
-				f[i++] = Rfast::var<colvec>(y, std, na_rm);
+				switch (Type::type(s->get()))
+				{
+				case Type::Types::REAL:
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					break;
+				case Type::Types::INT:
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					break;
+				case Type::Types::CHAR:
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
+					break;
+				case Type::Types::FACTOR:
+					// f[i] = FactorVector::sort<colvec>(s->get(), descend);
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		f.names() = static_cast<CharacterVector>(x.names());
 		return f;
 	}
 
-	inline NumericVector rowVars(NumericMatrix x, const bool std = false, const bool na_rm = false, const bool parallel = false)
+	inline NumericVector rowVars(NumericMatrix x, const bool std = false, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		mat xx(x.begin(), x.nrow(), x.ncol(), false);
 		NumericVector f(xx.n_rows);
@@ -1450,7 +1298,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		if (parallel)
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (unsigned int i = 0; i < xx.n_rows; ++i)
 			{
@@ -1467,13 +1315,13 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline rowvec colVars(mat x, const bool std = false, const bool na_rm = false, const bool parallel = false)
+	inline rowvec colVars(mat x, const bool std = false, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		rowvec f(x.n_cols);
 		if (parallel)
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (unsigned int i = 0; i < x.n_cols; ++i)
 			{
@@ -1490,12 +1338,14 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline colvec rowVars(mat x, const bool std = false, const bool na_rm = false, const bool parallel = false)
+	inline colvec rowVars(mat x, const bool std = false, const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		colvec f(x.n_rows);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (unsigned int i = 0; i < x.n_rows; ++i)
 			{
 				f[i] = Rfast::var<rowvec>(x.row(i), std, na_rm);
@@ -1511,49 +1361,73 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline NumericVector colMads(DataFrame x, const string method = "median", const bool na_rm = false, const bool parallel = false)
+	inline NumericVector colMads(DataFrame x, const string method = "median", const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector f(x.size());
+		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
-			colvec ff(f.begin(), f.size(), false);
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				colvec y;
-				int i;
-#pragma omp critical
+				switch (Type::type(s->get()))
 				{
-					NumericVector yy;
-					yy = *s;
-					y = colvec(yy.begin(), yy.size(), false);
-					i = s - x.begin();
+				case Type::Types::REAL:
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					break;
+				case Type::Types::INT:
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					break;
+				case Type::Types::CHAR:
+					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					break;
+				case Type::Types::FACTOR:
+					// f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
+					break;
+				default:
+					break;
 				}
-				ff[i] = Rfast::mad<colvec>(y, method, na_rm);
 			}
 		}
 		else
 		{
-			int i = 0;
-			NumericVector y(x.nrows());
-			for (auto c : x)
+			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				y = c;
-				f[i++] = Rfast::mad<colvec>(y, method, na_rm);
+				switch (Type::type(s->get()))
+				{
+				case Type::Types::REAL:
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					break;
+				case Type::Types::INT:
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					break;
+				case Type::Types::CHAR:
+					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
+					break;
+				case Type::Types::FACTOR:
+					// f[i] = FactorVector::sort<colvec>(s->get(), descend);
+					break;
+				default:
+					break;
+				}
 			}
 		}
 		f.names() = static_cast<CharacterVector>(x.names());
 		return f;
 	}
 
-	inline NumericVector colMads(NumericMatrix x, const string method = "median", const bool na_rm = false, const bool parallel = false)
+	inline NumericVector colMads(NumericMatrix x, const string method = "median", const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		mat xx(x.begin(), x.nrow(), x.ncol(), false);
 		NumericVector f(xx.n_cols);
 		rowvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (unsigned int i = 0; i < xx.n_cols; ++i)
 			{
 				ff[i] = Rfast::mad<colvec>(xx.col(i), method, na_rm);
@@ -1569,14 +1443,16 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline NumericVector rowMads(NumericMatrix x, const string method = "median", const bool na_rm = false, const bool parallel = false)
+	inline NumericVector rowMads(NumericMatrix x, const string method = "median", const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		mat xx(x.begin(), x.nrow(), x.ncol(), false);
 		NumericVector f(xx.n_rows);
 		colvec ff(f.begin(), f.size(), false);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (unsigned int i = 0; i < xx.n_rows; ++i)
 			{
 				ff[i] = Rfast::mad<rowvec>(xx.row(i), method, na_rm);
@@ -1592,12 +1468,14 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline rowvec colMads(mat x, const string method = "median", const bool na_rm = false, const bool parallel = false)
+	inline rowvec colMads(mat x, const string method = "median", const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		rowvec f(x.n_cols);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (unsigned int i = 0; i < x.n_cols; ++i)
 			{
 				f[i] = Rfast::mad<colvec>(x.col(i), method, na_rm);
@@ -1613,12 +1491,14 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return f;
 	}
 
-	inline colvec rowMads(mat x, const string method = "median", const bool na_rm = false, const bool parallel = false)
+	inline colvec rowMads(mat x, const string method = "median", const bool na_rm = false, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		colvec f(x.n_rows);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+#pragma omp parallel for num_threads(cores)
+#endif
 			for (unsigned int i = 0; i < x.n_rows; ++i)
 			{
 				f[i] = Rfast::mad<rowvec>(x.row(i), method, na_rm);
@@ -1644,7 +1524,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		List f(n);
 		// if(parallel){
 		// 	colvec ff(f.begin(),f.size(),false);
-		// 	#pragma omp parallel for
+		// 	#pragma omp parallel for num_threads(cores)
 		// 	for(DataFrame::iterator s = x.begin(); s < x.end(); ++s){
 		// 		colvec y;
 		// 		int i;
@@ -1660,14 +1540,27 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		// 	}
 		// }else{
 		int i = 0;
-		NumericVector y(x.nrows());
-		for (auto c : x)
+		for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 		{
-			y = c;
 			engine.seed(seeds[i]);
-			f[i++] = Rfast::shuffle<NumericVector>(y, engine);
+			switch (Type::type(s->get()))
+			{
+			case Type::Types::REAL:
+				setResult<NumericVector>(f, i, s, Rfast::shuffle<colvec>, engine);
+				break;
+			case Type::Types::INT:
+				setResult<NumericVector>(f, i, s, Rfast::shuffle<colvec>, engine);
+				break;
+			case Type::Types::CHAR:
+				setResult<NumericVector>(f, i, s, Rfast::shuffle<colvec>, engine);
+				break;
+			case Type::Types::FACTOR:
+				// f[i] = FactorVector::sort<colvec>(s->get(), descend);
+				break;
+			default:
+				break;
+			}
 		}
-		// }
 		f.names() = static_cast<CharacterVector>(x.names());
 		return f;
 	}
@@ -1695,7 +1588,7 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		seed_seq seq{get_current_nanoseconds()};
 		std::vector<long long unsigned int> seeds(n);
 		seq.generate(seeds.begin(), seeds.end());
-		NumericMatrix y(x.nrow(),n);
+		NumericMatrix y(x.nrow(), n);
 		for (int i = 0; i < n; ++i)
 		{
 			engine.seed(seeds[i]);
@@ -1736,30 +1629,32 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return y;
 	}
 
-	inline NumericVector colMaxs(DataFrame x, const bool parallel = false)
+	inline NumericVector colMaxs(DataFrame x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector F(x.size());
 		colvec f(F.begin(), F.size(), false);
 		if (parallel)
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s->get());
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
 					break;
 				case Type::Types::INT:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s->get());
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s->get());
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f[s - x.begin()] = FactorVector(s->get()).maxIndex();
 				}
@@ -1777,13 +1672,13 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s->get());
+					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
 					break;
 				case Type::Types::INT:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s->get());
+					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s->get());
+					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f[i++] = FactorVector(s->get()).maxIndex();
@@ -1797,30 +1692,32 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return F;
 	}
 
-	inline NumericVector colMins(DataFrame x, const bool parallel = false)
+	inline NumericVector colMins(DataFrame x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericVector F(x.size());
 		colvec f(F.begin(), F.size(), false);
 		if (parallel)
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s->get());
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
 					break;
 				case Type::Types::INT:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s->get());
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s->get());
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f[s - x.begin()] = FactorVector(s->get()).maxIndex();
 				}
@@ -1838,13 +1735,13 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s->get());
+					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
 					break;
 				case Type::Types::INT:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s->get());
+					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s->get());
+					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f[i++] = FactorVector(s->get()).maxIndex();
@@ -1858,30 +1755,32 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 		return F;
 	}
 
-	inline NumericMatrix colMinsMaxs(DataFrame x, const bool parallel = false)
+	inline NumericMatrix colMinsMaxs(DataFrame x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		NumericMatrix F(2, x.size());
 		mat f(F.begin(), 2, F.size(), false);
 		if (parallel)
 		{
 #ifdef _OPENMP
-#pragma omp parallel for
+#pragma omp parallel for num_threads(cores)
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s->get());
+					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);
 					break;
 				case Type::Types::INT:
-					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s->get());
+					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s->get());
+					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::FACTOR:
+#ifdef _OPENMP
 #pragma omp critical
+#endif
 				{
 					f.col(s - x.begin()) = FactorVector(s->get()).minmaxIndex<colvec>();
 				}
@@ -1899,13 +1798,13 @@ inline NumericMatrix colSort(NumericMatrix X, const bool descend = false, const 
 				switch (Type::type(s->get()))
 				{
 				case Type::Types::REAL:
-					f.col(i++) = singleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s->get());
+					f.col(i++) = singleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);
 					break;
 				case Type::Types::INT:
-					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s->get());
+					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s->get());
+					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f.col(i++) = FactorVector(s->get()).minmaxIndex<colvec>();

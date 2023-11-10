@@ -72,6 +72,13 @@
         "xstddef": "cpp",
         "xtr1common": "cpp",
         "functional": "cpp",
-        "queue": "cpp"
-    }
+        "queue": "cpp",
+        "*.rmd": "markdown",
+        "unordered_set": "cpp",
+        "execution": "cpp",
+        "numeric": "cpp",
+        "*.f7": "html",
+        "future": "cpp"
+    },
+    "r.lsp.promptToInstall": false
 }

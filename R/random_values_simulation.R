@@ -1,37 +1,37 @@
-#[export]
+# [export]
 matrnorm <- function(n, p, seed = NULL) {
-  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
-  matrix(  RcppZiggurat::zrnorm(n * p), ncol = p)
+  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+  matrix(RcppZiggurat::zrnorm(n * p), ncol = p)
 }
 
 
-#[export]
+# [export]
 racg <- function(n, sigma, seed = NULL) {
   ## n is the sample size,
   ## mu is the mean vector and
   ## sigma is the covariance matrix
   ## sigma does not have to be of full rank
   p <- dim(sigma)[1]
-  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)  
+  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
   x <- Rfast::matrnorm(n, p)
   x <- x %*% chol(sigma)
-  x / sqrt( Rfast::rowsums(x^2) )
+  x / sqrt(Rfast::rowsums(x^2))
 }
 
 
-#[export]
+# [export]
 rbing <- function(n, lam) {
-	.Call(Rfast_rbing, n, lam)
+  .Call(Rfast_rbing, n, lam)
 }
 
 
 ######### Simulation using any symmetric A matrix
-#[export]
+# [export]
 rbingham <- function(n, A) {
-  p <- dim(A)[2]  ## dimensionality of A
+  p <- dim(A)[2] ## dimensionality of A
   eig <- eigen(A)
-  lam <- eig$values  ## eigenvalues
-  V <- eig$vectors  ## eigenvectors
+  lam <- eig$values ## eigenvalues
+  V <- eig$vectors ## eigenvectors
   lam <- lam - lam[p]
   lam <- lam[-p]
   x <- Rfast::rbing(n, lam)
@@ -40,35 +40,35 @@ rbingham <- function(n, A) {
 }
 
 
-#[export]
+# [export]
 rmvlaplace <- function(n, lam, mu, G, seed = NULL) {
   ## n is the sample size
   ## lam is the parameter of the exponential distribution
   ## m is the mean vector
   ## G is a d x d covariance matrix with determinant 1
-  if ( summary( det(G) )[1] == 1 ) {
+  if (summary(det(G))[1] == 1) {
     y <- paste("The determinant of the covariance matrix is not 1.")
   } else {
-  	d <- length(mu)  ## dimensionality of the data
-  	z <- rexp(n, lam)
-    if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)  
-  	x <- Rfast::matrnorm(n, d)
-  	y <- sqrt(z) * x %*% chol(G) + rep(mu, rep(n, d) )## the simulated sample
+    d <- length(mu) ## dimensionality of the data
+    z <- rexp(n, lam)
+    if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+    x <- Rfast::matrnorm(n, d)
+    y <- sqrt(z) * x %*% chol(G) + rep(mu, rep(n, d)) ## the simulated sample
   }
   y
 }
 
 
-#[export]
+# [export]
 rmvnorm <- function(n, mu, sigma, seed = NULL) {
-   p <- length(mu)
-   if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
-   x <- Rfast::matrnorm(n, p)
-   x %*% chol(sigma) + rep(mu, rep(n, p) )
+  p <- length(mu)
+  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+  x <- Rfast::matrnorm(n, p)
+  x %*% chol(sigma) + rep(mu, rep(n, p))
 }
 
 
-#[export]
+# [export]
 rmvt <- function(n, mu, sigma, v, seed = NULL) {
   ## n is the sample size
   ## mu is the mean vector
@@ -76,68 +76,71 @@ rmvt <- function(n, mu, sigma, v, seed = NULL) {
   ## sigma does not have to be of full rank
   ## v is the degrees of freedom
   p <- length(mu)
-  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
+  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
   x <- Rfast::matrnorm(n, p)
-  w <- sqrt( v / rchisq(n, v) )
-  w * x %*% chol(sigma) + rep(mu, rep(n, p) )
+  w <- sqrt(v / rchisq(n, v))
+  w * x %*% chol(sigma) + rep(mu, rep(n, p))
 }
 
 
-#[export]
+# [export]
 Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
-  if ( !is.null(seed) )  RcppZiggurat::zsetseed(seed)
+  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
   if (m == 0 & s == 1) {
     x <- RcppZiggurat::zrnorm(n)
   } else if (m == 0 & s != 1) {
     x <- RcppZiggurat::zrnorm(n) * s
-  } else if (m != 0  & s == 1) {
+  } else if (m != 0 & s == 1) {
     x <- RcppZiggurat::zrnorm(n) + m
-  } else x <- RcppZiggurat::zrnorm(n) * s + m
+  } else {
+    x <- RcppZiggurat::zrnorm(n) * s + m
+  }
   x
 }
 
 
-#[export]
-rvmf <- function (n, mu, k) {
-    rotation <- function(a, b) {
-        p <- length(a)
-        ab <- sum(a * b)
-        ca <- a - b * ab
-        ca <- ca/sqrt(sum(ca^2))
-        A <- b %*% t(ca)
-        A <- A - t(A)
-        theta <- acos(ab)
-        diag(p) + sin(theta) * A + (cos(theta) - 1) * (b %*% 
-            t(b) + ca %*% t(ca))
-    }
-    d <- length(mu)
-    if (k > 0) {
-        mu <- mu/sqrt(sum(mu^2))
-        ini <- c(numeric(d - 1), 1)
-        d1 <- d - 1
-        v1 <- Rfast::matrnorm(n, d1)  ##  matrix( RcppZiggurat::zrnorm(n * d1), ncol = d1 )
-        v <- v1 / sqrt( Rfast::rowsums(v1^2) )
-        b <- (-2 * k + sqrt(4 * k^2 + d1^2))/d1
-        x0 <- (1 - b)/(1 + b)
-        m <- 0.5 * d1
-        ca <- k * x0 + (d - 1) * log(1 - x0^2)
-        w <- .Call("Rfast_rvmf_h", PACKAGE = "Rfast", n, ca, 
-            d1, x0, m, k, b)
-        S <- cbind(sqrt(1 - w^2) * v, w)
-        if (isTRUE(all.equal(ini, mu, check.attributes = FALSE))) {
-            x <- S
-        } else if (isTRUE(all.equal(-ini, mu, check.attributes = FALSE))) {
-            x <- -S
-        } else {
-            A <- rotation(ini, mu)
-            x <- tcrossprod(S, A)
-        }
-    } else {
-        x1 <- Rfast::matrnorm(n, d)  ## matrix( RcppZiggurat::zrnorm(n * d), ncol = d )
-        x <- x1/sqrt(Rfast::rowsums(x1^2))
-    }
-    colnames(x) <- names(mu)
-    x
+# [export]
+rvmf <- function(n, mu, k) {
+  # rotation <- function(a, b) {
+    # p <- length(a)
+    # ab <- sum(a * b)
+    # ca <- a - b * ab
+    # ca <- ca / sqrt(sum(ca^2))
+    # A <- b %*% t(ca)
+    # A <- A - t(A)
+    # theta <- acos(ab)
+    # diag(p) + sin(theta) * A + (cos(theta) - 1) * (b %*%
+      # t(b) + ca %*% t(ca))
+  # }
+  # d <- length(mu)
+  # if (k > 0) {
+    # mu <- mu / sqrt(sum(mu^2))
+    # ini <- c(numeric(d - 1), 1)
+    # d1 <- d - 1
+    # v1 <- Rfast::matrnorm(n, d1) ##  matrix( RcppZiggurat::zrnorm(n * d1), ncol = d1 )
+    # v <- v1 / sqrt(Rfast::rowsums(v1^2))
+    # b <- (-2 * k + sqrt(4 * k^2 + d1^2)) / d1
+    # x0 <- (1 - b) / (1 + b)
+    # m <- 0.5 * d1
+    # ca <- k * x0 + (d - 1) * log(1 - x0^2)
+    # w <- as.vector(rvmf_h(n, ca, d1, x0, m, k, b))
+    # S <- cbind(sqrt(1 - w^2) * v, w)
+    # if (isTRUE(all.equal(ini, mu, check.attributes = FALSE))) {
+      # x <- S
+    # } else if (isTRUE(all.equal(-ini, mu, check.attributes = FALSE))) {
+      # x <- -S
+    # } else {
+      # A <- rotation_R(ini, mu)
+      # x <- tcrossprod(S, A)
+    # }
+  # } else {
+    # x1 <- Rfast::matrnorm(n, d) ## matrix( RcppZiggurat::zrnorm(n * d), ncol = d )
+    # x <- x1 / sqrt(Rfast::rowsums(x1^2))
+  # }
+
+  x <- .Call(Rfast_rvmf,n,mu,k)
+  colnames(x) <- names(mu)
+  x
 }
 
 
@@ -182,17 +185,16 @@ rvmf <- function (n, mu, k) {
 # }
 
 
-#[export]
+# [export]
 rvonmises <- function(n, m, k, rads = TRUE) {
-  if ( !rads )  m <- m / 180 * pi  ## turn the degrees into radians
-  mu <- c( cos(m), sin(m) )
-  if (k > 0) {  ## draw from a von Mises distribution
-    x <- Rfast::rvmf(n, mu, k)  ## sample from the von Mises distribution
-    u <- ( atan(x[, 2] / x[, 1] ) + pi * I( x[, 1] < 0) ) %% (2 * pi)  ## u is in radians
-  } else u <- runif(n, 0, 2 * pi)  ## draw from a von Mises distribution
-  if ( !rads )   u <- u * pi/180  ## should the data be in degrees?
+  if (!rads) m <- m / 180 * pi ## turn the degrees into radians
+  mu <- c(cos(m), sin(m))
+  if (k > 0) { ## draw from a von Mises distribution
+    x <- Rfast::rvmf(n, mu, k) ## sample from the von Mises distribution
+    u <- (atan(x[, 2] / x[, 1]) + pi * I(x[, 1] < 0)) %% (2 * pi) ## u is in radians
+  } else {
+    u <- runif(n, 0, 2 * pi)
+  } ## draw from a von Mises distribution
+  if (!rads) u <- u * pi / 180 ## should the data be in degrees?
   u
 }
-
-
-

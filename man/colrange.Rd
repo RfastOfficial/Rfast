@@ -10,7 +10,7 @@ Column and row-wise range of values of a matrix.
 }
 
 \usage{
-colrange(x, cont = TRUE, parallel = FALSE)
+colrange(x, cont = TRUE, parallel = FALSE,cores = 0)
 rowrange(x, cont = TRUE)
 }
 
@@ -24,6 +24,10 @@ Execute algorithm in parallel for data.frame.
 \item{cont}{
 If the data are continuous, leave this TRUE and it will return the range of values for each variable (column). If the data are integers, categorical, or if you want 
 to find out the number of unique numbers in each column set this to FALSE.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

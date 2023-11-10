@@ -18,7 +18,15 @@ namespace Rfast {
             CHAR,
             FACTOR,
             LIST,
-            DATAFRAME
+            DATAFRAME,
+            LOGICAL
+        };
+
+        struct R {
+            inline static const int Real = REALSXP;
+            inline static const int Int = INTSXP;
+            inline static const int Char = CHARSXP;
+            inline static const int Lgl = LGLSXP;
         };
 
         template<class T>
@@ -30,6 +38,7 @@ namespace Rfast {
                 case INTSXP: return Types::INT;
                 case CHARSXP: return Types::CHAR;
                 case LISTSXP: return Types::LIST;
+                case LGLSXP: return Types::LOGICAL;
                 default:
                 stop("Error: unsupported type.\n");
             }
@@ -54,7 +63,7 @@ namespace Rfast {
 	    template<>
 	    struct NA_helper<bool> : std::true_type {
 	    	using type = int;
-	    	inline static type val= NA_REAL;;
+	    	inline static type val= NA_REAL;
 	    };
 	    template<>
 	    struct NA_helper<string> : std::true_type {

@@ -197,8 +197,9 @@ List check_usage(string path_man, string path_rf)
 	File file_rd, file_r;
 	vector<string> all_rd_files = read_directory(path_man), dontread_rd, dontread_r;
 	std::vector<string> exported_functions_names, not_exported_functions_names;
-	vector<string> missing_functions, aliases, functions_usage, missmatch_functions, name_of_functions_in_usage;
+	vector<string> missing_functions, aliases, functions_usage, missmatch_functions, name_of_functions_in_usage,aliases_with_lines_more_than_90;
 	string r_file, function_signature;
+	List aliases_per_rd_with_lines_more_than_90;
 
 	List functions = read_functions_and_signatures(path_rf), functions_signatures = functions["signatures"];
 
@@ -219,7 +220,12 @@ List check_usage(string path_man, string path_rf)
 		{
 
 			aliases = read_aliases(file_rd);
-			functions_usage = read_usage(file_rd);
+			functions_usage = read_usage(file_rd,aliases_with_lines_more_than_90);
+
+			if(!aliases_with_lines_more_than_90.empty()){
+				aliases_per_rd_with_lines_more_than_90[file_rd.name] = aliases_with_lines_more_than_90;
+				aliases_with_lines_more_than_90.clear();
+			}
 
 			string curr_func, func_from_r_file;
 			for (auto &al : aliases)
@@ -272,6 +278,8 @@ List check_usage(string path_man, string path_rf)
 		r_rd["Rd"] = dontread_rd;
 	if (r_rd.size() != 0)
 		L["dont read"] = r_rd;
+	if (aliases_per_rd_with_lines_more_than_90.size() != 0)
+		L["usage lines wider than 90 characters"] = aliases_per_rd_with_lines_more_than_90;
 	if (functions.containsElementNamed("hidden functions"))
 		L["hidden functions"] = functions["hidden functions"];
 	DEBUG("END");

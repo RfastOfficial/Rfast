@@ -162,7 +162,7 @@ int len_sort_unique_int(IntegerVector x){
     bool has_neg=false,has_pos=false;
     max_neg_pos<int>(&x[0],&x[x.size()-1]+1,mx,mn,has_pos,has_neg);
     vector<int> pos,f,neg;
-    vector<int>::iterator pp,nn,F;
+    vector<int>::iterator pp,nn;
     IntegerVector::iterator a=x.begin();
     if(has_pos)
         pos.resize(mx+1,INT_MAX);

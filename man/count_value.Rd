@@ -12,8 +12,8 @@ Row - Wise matrix/vector count the frequency of a value.
 
 \usage{
 count_value(x, value)
-colCountValues(x, values, parallel = FALSE)
-rowCountValues(x, values, parallel = FALSE)
+colCountValues(x, values, parallel = FALSE,cores = 0)
+rowCountValues(x, values, parallel = FALSE,cores = 0)
 }
 
 \arguments{
@@ -28,6 +28,10 @@ a vector with the values to check its frequency in the matrix "x" by row or colu
 }
 \item{parallel}{
 Do you want to do it in parallel in C++? TRUE or FALSE. Works with every other argument.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

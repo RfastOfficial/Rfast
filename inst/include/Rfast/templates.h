@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <R.h>
 #include <Rinternals.h>
+#include "Rfast/parallel.h"
 
 
 //#include <Rinlinedfuns.h>
@@ -162,10 +163,10 @@ Ret Order(T x,const bool stable,const bool descend,const int init_v){
     iota(ind.begin(),ind.end(),init_v);
     if(descend){
         auto descend_func = [&](int i,int j){return x[i-init_v]>x[j-init_v];};
-        stable ? stable_sort(ind.begin(),ind.end(),descend_func) : sort(ind.begin(),ind.end(),descend_func);
+        stable ? std::stable_sort(ind.begin(),ind.end(),descend_func) : std::sort(ind.begin(),ind.end(),descend_func);
     }else{
         auto func = [&](int i,int j){return x[i-init_v]<x[j-init_v];};
-        stable ? stable_sort(ind.begin(),ind.end(),func) : sort(ind.begin(),ind.end(),func);
+        stable ? std::stable_sort(ind.begin(),ind.end(),func) : std::sort(ind.begin(),ind.end(),func);
     }
     return ind;
 }
@@ -227,15 +228,15 @@ void minimum(T *start,T *end,T &mn){
 * T: argument class
 */
 template<typename Ret,typename T>
-Ret Order_rank(T& x,const bool descend,const bool stable,const int n,const int k){
+Ret Order_rank(T& x,const bool descend,const bool stable,const int n,const int k, const bool parallel = false){
     Ret ind(x.size()-k);
     iota(ind.begin(),ind.end(),0);
     if(descend){
         auto descend_func = [&](int i,int j){return x[i]>x[j];};
-        stable ? stable_sort(ind.begin(),ind.end()-n,descend_func) : sort(ind.begin(),ind.end()-n,descend_func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end()-n,descend_func,parallel) : Rfast::sort(ind.begin(),ind.end()-n,descend_func,parallel);
     }else{
         auto func = [&](int i,int j){return x[i]<x[j];};
-        stable ? stable_sort(ind.begin(),ind.end()-n,func) : sort(ind.begin(),ind.end()-n,func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end()-n,func,parallel) : Rfast::sort(ind.begin(),ind.end()-n,func,parallel);
     }
     return ind;
 }
@@ -243,8 +244,6 @@ Ret Order_rank(T& x,const bool descend,const bool stable,const int n,const int k
 /*
 * F: unary function
 * T1,T2: arguent class
-*
-* fill memory that starts from "startf" applying function F from "start" to "end"
 */
 template<class T,ConditionFunction<T> COND,class F>
 T sum_with_condition(F x){
@@ -255,6 +254,19 @@ T sum_with_condition(F x){
         }
     }
     return a;
+}
+
+/*
+* F: unary function
+* T1,T2: arguent class
+*/
+template<class Ret, ConditionFunction<double> COND>
+Ret colsum_with_condition(mat &x){
+    Ret r(x.n_cols);
+    for(unsigned int i=0;i<x.n_cols;++i){
+        r[i] = sum_with_condition<double,COND>(x.col(i));
+    }
+    return r;
 }
 
 /*
@@ -1034,25 +1046,42 @@ Ret rank_first(T x,const bool descend,const bool stable){
     return f;
 }
 
-template<Binary_Function oper,Binary_Function func>
-NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind){
+template<class T,Mfunction<T,T,T> oper,Mfunction<T,T,T> func>
+NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = R_NilValue, const bool parallel=false){
     const bool is_ind_null = Rf_isNull(ind);
     const int n = is_ind_null ? x.ncol() : LENGTH(ind);
     NumericVector f(n);
+    mat xx(x.begin(),x.nrow(),x.ncol(),false);
+    colvec yy(y.begin(),y.size(),false),ff(f.begin(),f.size(),false);
     if(is_ind_null){
-        for(int i=0;i<n;++i){
-            f[i]=Apply<Rcpp::Matrix<14>::Column,NumericVector,oper,func >(x.column(i),y);
+        if(parallel){
+            #pragma omp parallel for
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
+            }
+        }else{
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
+            }
         }
     }else{
         IntegerVector indd(ind);
-        for(int i=0;i<n;++i){
-            f[i]=Apply<Rcpp::Matrix<14>::Column,NumericVector,oper,func >(x.column(indd[i]-1),y);
+        icolvec iind(indd.begin(),indd.size(),false);
+        if(parallel){
+            #pragma omp parallel for
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
+            }
+        }else{
+            for(int i=0;i<n;++i){
+                f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
+            }
         }
     }
     return f;
 }
 
-template<Binary_Function oper,Binary_Function func>
+template<class T,Mfunction<T,T,T> oper,Mfunction<T,T,T> func>
 double apply_eachrow_helper(SEXP x,SEXP y){
     int ncol=Rf_ncols(x),nrow=Rf_nrows(x);
     SEXP mat=Rf_duplicate(x);
@@ -1066,7 +1095,7 @@ double apply_eachrow_helper(SEXP x,SEXP y){
     return s;
 }
 
-template<Binary_Function oper,class T,class RETURN_TYPE,int type>
+template<class RETURN_TYPE,class T,Mfunction<T,T,T> oper,int type>
 SEXP eachrow_helper(SEXP x,SEXP y){
     int ncol=Rf_ncols(x),nrow=Rf_nrows(x);
     SEXP mat=PROTECT(Rf_allocMatrix(type,nrow,ncol));

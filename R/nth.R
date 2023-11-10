@@ -1,16 +1,16 @@
 #[export]
-rownth <- function(x,elems,num.of.nths=1,descending=FALSE,na.rm = FALSE,index.return = FALSE,parallel = FALSE) {
+rownth <- function(x,elems,num.of.nths=1,descending=FALSE,na.rm = FALSE,index.return = FALSE,parallel = FALSE,cores = 0) {
 	if(parallel){
-		.Call(Rfast_row_nth_p,x,elems,descending,na.rm,index.return)
+		.Call(Rfast_row_nth_p,x,elems,descending,na.rm,index.return,cores)
 	}else{
   		.Call(Rfast_row_nth,x,elems,num.of.nths,descending,na.rm,index.return)
 	}
 }
 
 #[export]
-colnth <- function(x,elems,num.of.nths=1,descending=FALSE,na.rm = FALSE,index.return = FALSE,parallel = FALSE) {
+colnth <- function(x,elems,num.of.nths=1,descending=FALSE,na.rm = FALSE,index.return = FALSE,parallel = FALSE,cores = 0) {
 	if(parallel){
-  		.Call(Rfast_col_nth_p,x,elems,descending,na.rm,index.return)
+  		.Call(Rfast_col_nth_p,x,elems,descending,na.rm,index.return,cores)
 	}else{
 		.Call(Rfast_col_nth,x,elems,num.of.nths,descending,na.rm,index.return)
 	}

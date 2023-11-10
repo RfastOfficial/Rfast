@@ -12,10 +12,10 @@ Column and row-wise variances and standard deviations of a matrix
 }
 
 \usage{
-\method{colVars}{matrix}(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
-\method{colVars}{data.frame}(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
-colVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
-rowVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE)
+\method{colVars}{matrix}(x, std = FALSE, na.rm = FALSE, parallel = FALSE, cores = 0)
+\method{colVars}{data.frame}(x, std = FALSE, na.rm = FALSE, parallel = FALSE, cores = 0)
+colVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE, cores = 0)
+rowVars(x, std = FALSE, na.rm = FALSE, parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -31,6 +31,10 @@ TRUE or FAlSE for remove NAs if exists.
 }
 \item{parallel}{
 Should parallel implentations take place in C++? The default value is FALSE.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

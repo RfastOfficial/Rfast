@@ -1,16 +1,16 @@
 #[export]
-colmeans <- function(x,parallel = FALSE) {
+colmeans <- function(x,parallel = FALSE,cores = 0) {
 	UseMethod("colmeans")
 }
 
 #[export s3]
-colmeans.matrix <- function(x,parallel = FALSE) {
-	.Call(Rfast_col_means,x,parallel)
+colmeans.matrix <- function(x,parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_means,x,parallel,cores)
 }
 
 #[export s3]
-colmeans.data.frame <- function(x,parallel = FALSE) {
-	.Call(Rfast_col_means,x,parallel)
+colmeans.data.frame <- function(x,parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_means,x,parallel,cores)
 }
 
 #[export]

@@ -783,7 +783,7 @@ NumericVector qs_poisson_only(NumericMatrix& X, NumericVector& Y, const double y
 
 NumericVector glm_qs_binom(NumericMatrix& X,NumericVector& Y,const double my){
   const unsigned int n=X.nrow(),pcols=X.ncol(),d=pcols+1;
-  unsigned int j,itters=0;
+  unsigned int j;
   colvec b_old(d,fill::zeros),b_new(d),L1(d),yhat(n),expyhat,y(Y.begin(),n,false),W(n,fill::zeros);
   mat L2,x(X.begin(),n,pcols,false),x_tr(n,pcols+1);
   vec p(n);
@@ -791,7 +791,7 @@ NumericVector glm_qs_binom(NumericMatrix& X,NumericVector& Y,const double my){
   x.insert_cols(0,ones(n));
   x_tr=x.t();
   b_old(0)=log(my)-log(1-my);
-  for(dif=1.0;dif>0.000000001;++itters){
+  for(dif=1.0;dif>0.000000001;){
     yhat = x*b_old;
     expyhat=exp(yhat);
     p = expyhat / ( 1 + expyhat );

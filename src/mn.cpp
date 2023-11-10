@@ -11,7 +11,55 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
+int proper_size(int nrw, int ncl)
+{
+  return ncl * (ncl - 1) * 0.5;
+}
 
+double sum_max_elems(colvec x, colvec y)
+{
+  double maxs = 0.0;
+  for (unsigned int i = 0; i < x.n_elem; ++i)
+  {
+    maxs += max(x[i], y[i]);
+  }
+  return maxs;
+}
+
+double sum_min_elems(colvec x, colvec y)
+{
+  double mins = 0.0;
+  for (unsigned int i = 0; i < x.n_elem; ++i)
+  {
+    mins += min(x[i], y[i]);
+  }
+  return mins;
+}
+
+colvec max_elems(colvec x, colvec y)
+{
+  colvec maxs(x.n_elem,fill::none);
+  for (unsigned int i = 0; i < x.n_elem; ++i)
+  {
+    maxs[i] = max(x[i], y[i]);
+  }
+  return maxs;
+}
+
+mat colMaxElems(mat x, colvec y)
+{
+  mat maxs(x.n_rows,x.n_cols,fill::none);
+  for (unsigned int i = 0; i < x.n_cols; ++i)
+  {
+    maxs.col(i) = max_elems(x.col(i),y);
+  }
+  return maxs;
+}
+
+colvec euclidean_norm(mat &x)
+{
+	return sqrt(sum(square(x), 0).t());
+}
 
 bool my_compare_order_second(const pr<double,int>& a,const pr<double,int>& b){
   return a.second<b.second;
@@ -136,25 +184,6 @@ void i4mat_floyd_with_paths( const int n, NumericVector &a,NumericVector &p ){
   }
 }
 
-//spat_med
-rowvec colMedians(mat x){
-  int i,p=x.n_cols,sz=x.n_rows,middle=sz/2-1,step=sz;
-  mat::iterator first=x.begin(),last=first+step;
-  rowvec F(p);
-  rowvec::iterator FF=F.begin();
-  if(sz%2==0){
-    for(i=0;i<p;++i,++FF,first=last,last+=step){
-      nth_element(first,first+middle,last);
-      *FF=(x(middle,i)+*(min_element(first+middle+1,last)))/2.0;
-    }
-  }else{
-    for(i=0;i<p;++i,++FF,first=last,last+=step){
-      nth_element(first,first+middle+1,last);
-      *FF=x(middle+1,i);
-    }
-  }
-  return F;
-}
 
 //comb_n
 void combn(arma::vec& vals, const int n, const unsigned int start_idx, 
@@ -342,6 +371,17 @@ icolvec get_k_indices(rowvec x,const int& k){
   icolvec ind=linspace<icolvec>(1,x.size(),x.size());
   std::sort(ind.begin(),ind.end(),[&](int i,int j){return x[i-1]<x[j-1];});
   return ind(span(0,k-1));
+}
+
+colvec get_k_values(rowvec x, const int &k)
+{
+	sort(x.begin(), x.end());
+	return conv_to<colvec>::from(x.subvec(0, k - 1));
+}
+
+bool check_if_is_finite(double x)
+{
+	return x > 0 and !R_IsNA(x);
 }
 
 double calcDevRes(colvec p,colvec y,colvec expyhat){

@@ -11,7 +11,7 @@ Fast sorting a vector.
 }
 
 \usage{
-Sort(x,descending=FALSE,partial=NULL,stable=FALSE,na.last=NULL)
+Sort(x,descending=FALSE,partial=NULL,stable=FALSE,na.last=NULL,parallel = FALSE)
 Sort.int(x)
 sort_cor_vectors(x, base, stable = FALSE, descending = FALSE)
 }
@@ -42,6 +42,9 @@ TRUE/FALSE: for put NAs last or first.
 NA:  for remove NAs completely from vector.
 
 NULL: by default. Leave it like that if there is no NA values.
+}
+\item{parallel}{
+Do you want to do it in parallel, in C++? TRUE or FALSE. (Supported on Windows and most of the unix)
 }
 }
 

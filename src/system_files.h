@@ -97,7 +97,7 @@ int get_example(ifstream&,string&);
 vector<string> read_directory(string);
 string read_example(ifstream &,int&);
 bool binary_help(vector<string>::iterator,vector<string>::iterator,string&,vector<string>::iterator&);
-vector<string> read_usage(ifstream &);
+vector<string> read_usage(ifstream &, vector<string> &);
 string read_function_from_r_file(ifstream &);
 void remove_spaces(string&);
 void remove_spaces_from_begin_end(string&);

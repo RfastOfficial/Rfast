@@ -14,8 +14,8 @@ Column and row-wise Any/All of a matrix.
 \usage{
 colAny(x)
 rowAny(x)
-colAll(x, parallel = FALSE)
-rowAll(x, parallel = FALSE)
+colAll(x, parallel = FALSE, cores = 0)
+rowAll(x, parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -24,6 +24,10 @@ A logical matrix with the data.
 }
 \item{parallel}{
 Do you want the computations to take place in parallel? The default value is FALSE.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

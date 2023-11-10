@@ -2,7 +2,10 @@
 
 #[export]
 Dist <- function(x,method = "euclidean", square = FALSE,p=0,vector = FALSE) {
-	if(method != "harvesine")
+	if (method == "canberra1" || method == "canberra2") {
+        .Deprecated("The replacement type is \"canberra\"", "Rfast")
+    }
+	if(method != "haversine")
   		x <- t(x)
 	if(method == "hellinger"){
 		x <- sqrt(x)
@@ -36,18 +39,15 @@ edist <- function(x, y = NULL){
 	  }
 	  dis
 	}else{
-    	.Call("Rfast_edist", PACKAGE = "Rfast", t(x), t(y))
+    	.Call(Rfast_edist, t(x), t(y))
     }
 }
- 
-#[export]
-total.dista <- function(x,y,square = FALSE) {
-    .Call(Rfast_total_dista,t(x),t(y),square)
-}
-
 
 #[export]
 total.dist <- function(x,method = "euclidean", square = FALSE,p=0) {
+  if (method == "canberra1" || method == "canberra2") {
+        .Deprecated("The replacement method is \"canberra\"", "Rfast")
+    }
   if(method != "haversine")
 	x <- t(x)
   if(method == "hellinger"){
@@ -59,4 +59,13 @@ total.dist <- function(x,method = "euclidean", square = FALSE,p=0) {
 #[export]
 vecdist <- function(x) {
   	.Call(Rfast_vecdist,x)
+}
+
+#[export]
+coeff <- function(x,method,vector = FALSE) {
+	if(vector){
+		.Call(Rfast_coeff_vec,t(x),method)
+	}else{
+		.Call(Rfast_coeff,t(x),method)
+	}
 }

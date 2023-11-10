@@ -401,7 +401,7 @@ string convert_method_to_function(string s)
     return is_R_operator(function_name) or position_of_assign >= 0 ? "\"" + function_name + "." + class_name + "\"" + s : function_name + "." + class_name + s;
 }
 
-vector<string> read_usage(ifstream &file)
+vector<string> read_usage(ifstream &file, vector<string> &aliases_with_lines_more_than_90)
 {
     DEBUG("START read_usage");
     vector<string> usg;
@@ -413,6 +413,12 @@ vector<string> read_usage(ifstream &file)
     do
     {
         getline(file, s);
+
+        if (s.size() > 90)
+        {
+            aliases_with_lines_more_than_90.push_back(s);
+        }
+
         remove_spaces(s);
         if (s != "" and sinexeia_apo_kato_grammi)
         {

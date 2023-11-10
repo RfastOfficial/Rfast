@@ -1,5 +1,55 @@
 <h1 align="center">Rfast</h1>
 
+
+### **Version 2.1.0 - Hades**
+***
+> <u> **New** </u>
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  coeff				| Coefficient matrix.  |
+>
+>
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  cor.fsreg | Bug fix in the adjusted R-squared computation. |
+>  |  ompr | Bug fix in the adjusted R-squared computation. |
+>  |  rmdp | Support parallel. |
+>  |  colMads				| Supports data.frame  |
+>  |  eachrow | Fix bug.  |
+>  |  colMedians | Fix bug about data.frame.  |
+>  |  rowMedians | Fix bug.  |
+>  |  colVars | Fix bug about data.frame.  |
+>  |  Dist(...,method = "minimum") | Bug fix.  |
+>  |  Dist(...,method = "bhattacharyya") | Bug fix .  |
+>  |  Dist(...,method = "itakura_saito") | Bug fix. Supports parallel.  |
+>  |  Dist(...,method = "canberra1") | Depricated.  |
+>  |  Dist(...,method = "canberra2") | Depricated.  |
+>  |  Dist(...,method = "jensen_shannon") | Supports parallel.  |
+>  |  Dist(...,method = "kullback_leibler") | Supports parallel.  |
+>  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean","jeffries_matusita","gower","kulczynski")  |
+>  |  dista | All the methods from the Dist function are now supported.  |
+>  |  total.dist  | All the methods from the Dist function are now supported.  |
+>  |  total.dista | All the methods from the Dist function are now supported.  |
+>  |  Sort | Supports parallel. Available only in Windows and most unix.  |
+>  |  Order | Supports parallel. Available only in Windows and most unix.  |
+>  |  Rank | Supports parallel. Available only in Windows and most unix. Add extra option for stable algorithm.  |
+>  |  checkUsage | checking if usage lines are wider than 90 characters.  |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  colMads				| Supports data.frame  |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.0.8 - Poseidon**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
@@ -16,6 +66,7 @@
 >  |  colMinsMaxs				| Supports data.frame and add extra option for parallelism.  |
 >  |  colrange				| Supports data.frame and add extra option for parallelism.  |
 >  |  checkExamples				| Add extra option for running examples inside environment. Treat special functions with new export attribute. |
+>  |  sort_mat              | Depricated. |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 

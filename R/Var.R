@@ -1,21 +1,21 @@
 #[export]
-rowVars <- function(x, std = FALSE, na.rm = FALSE,parallel = FALSE) {
-	.Call(Rfast_row_vars,x,std,na.rm,parallel)
+rowVars <- function(x, std = FALSE, na.rm = FALSE,parallel = FALSE,cores = 0) {
+	.Call(Rfast_row_vars,x,std,na.rm,parallel,cores)
 }
 
 #[export]
-colVars <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE) {
+colVars <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE,cores = 0) {
 	UseMethod("colVars")
 }
 
 #[export s3]
-colVars.matrix <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE) {
-	.Call(Rfast_col_vars,x,std,na.rm,parallel)
+colVars.matrix <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_vars,x,std,na.rm,parallel,cores)
 }
 
 #[export s3]
-colVars.data.frame <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE) {
-	.Call(Rfast_col_vars,x,std,na.rm,parallel)
+colVars.data.frame <- function(x, std = FALSE, na.rm = FALSE, parallel = FALSE,cores = 0) {
+	.Call(Rfast_col_vars,x,std,na.rm,parallel,cores)
 }
 
 #[export]
