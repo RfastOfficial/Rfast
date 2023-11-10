@@ -1,4 +1,4 @@
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Rfast)](https://cran.r-project.org/package=Rfast) [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/Rfast)](https://cran.r-project.org/package=Rfast) [![metacran downloads](https://cranlogs.r-pkg.org/badges/Rfast)](https://cran.r-project.org/package=Rfast) [![CRAN_latest_release_date](https://www.r-pkg.org/badges/last-release/Rfast)](https://cran.r-project.org/package=Rfast) [![Stack Overflow](https://img.shields.io/badge/stackoverflow-Rfast-blue.svg)](https://stackoverflow.com/questions/tagged/rfast)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/Rfast)](https://cran.r-project.org/package=Rfast) [![metacran downloads](https://cranlogs.r-pkg.org/badges/grand-total/Rfast)](https://cran.r-project.org/package=Rfast) [![metacran downloads](https://cranlogs.r-pkg.org/badges/Rfast)](https://cran.r-project.org/package=Rfast) [![CRAN_latest_release_date](https://www.r-pkg.org/badges/last-release/Rfast)](https://cran.r-project.org/package=Rfast) [![Stack Overflow](https://img.shields.io/badge/stackoverflow-Rfast-blue.svg)](https://stackoverflow.com/search?q=Rfast)
 
 
 # Rfast
