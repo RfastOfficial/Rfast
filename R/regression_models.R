@@ -103,7 +103,7 @@ glm_logistic <- function (x, y, full = FALSE, tol = 1e-09,maxiters = 100) {
     res <- list(be = mod$be, devi = mod$deviance)
     if (full) {
         be <- mod$be
-        se <- chol2inv(chol(mod$der2))
+        se <- solve(mod$der2)
         se <- sqrt(diag(se))
         wald <- be/se
         pval <- 2 * pnorm(abs(wald), lower.tail = FALSE)

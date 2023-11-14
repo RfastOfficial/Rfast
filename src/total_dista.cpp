@@ -484,7 +484,7 @@ namespace DistaTotal
 #pragma omp parallel for reduction(+ : a) if (parallel)
             for (unsigned int i = 0; i < xnew.n_cols; ++i)
             {
-                mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+                mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
                 double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
                 a += tmp;
             }

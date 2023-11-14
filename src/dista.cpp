@@ -343,11 +343,11 @@ namespace Dista
 
 		if (k > 0)
 		{
-#pragma omp parallel for if (parallel)
+			// #pragma omp parallel for if (parallel)
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
 				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
 			}
 		}
 		else
@@ -377,7 +377,7 @@ namespace Dista
 				mat xcolj = x.each_col() + xnew.col(i);
 				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
 				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+				disa.col(i) = get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
 			}
 		}
 		else
@@ -442,8 +442,8 @@ namespace Dista
 #pragma omp parallel for if (parallel)
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k);
+				mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
+				disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
 			}
 		}
 		else
@@ -451,7 +451,7 @@ namespace Dista
 #pragma omp parallel for if (parallel)
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+				mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
 				disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m).t();
 			}
 		}
@@ -499,7 +499,7 @@ namespace Dista
 //[[Rcpp::export]]
 NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
-	//if k is greater than 0 then rows are k size
+	// if k is greater than 0 then rows are k size
 	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
 	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	NumericMatrix disaa(n, nu);
@@ -811,7 +811,7 @@ namespace DistaIndices
 #pragma omp parallel for if (parallel)
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+			mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
 			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
 		}
 	}
@@ -828,7 +828,7 @@ namespace DistaIndices
 
 IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
-	//if k is greater than 0 then rows are k size
+	// if k is greater than 0 then rows are k size
 	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
 	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	IntegerMatrix disaa(n, nu);

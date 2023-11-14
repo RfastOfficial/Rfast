@@ -305,7 +305,7 @@ namespace DistTotal
       log_xv = log_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += sum((xv / xx.col(j) - (log_xv - log_xx.col(j))) - 1);
+        a += sum(xv / xx.col(j) - (log_xv - log_xx.col(j)) - 1);
       }
     }
     return a;
