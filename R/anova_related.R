@@ -523,7 +523,8 @@ ftests <- function(x, ina, logged = FALSE) {
   hi <- ( 1 - w/W )^2 / (ni - 1)
   H <- Rfast::colsums(hi)
   f <- (k^2 - 1 ) / 3 / H 
-  stat <- Rfast::rowsums( (t(w) * (t(m) - mesi)^2) / ( 1 + 2 * (k - 2)/(k^2 - 1) * H ) ) / (k - 1)
+  #stat <- Rfast::rowsums( (t(w) * (t(m) - mesi)^2) / ( 1 + 2 * (k - 2)/(k^2 - 1) * H ) ) / (k - 1)
+  stat <- Rfast::rowsums((t(w) * (t(m) - mesi)^2) ) /(k - 1)/(1 + 2 * (k - 2)/(k^2 - 1) * H)
   pval <- pf(stat, k - 1, f, lower.tail = FALSE, log.p = logged)
   cbind(stat, pval)
 } 
