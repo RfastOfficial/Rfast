@@ -39,7 +39,7 @@ T colSumMins(mat &x, colvec y)
 	return res;
 }
 
-colvec euclidean_norm(mat &);
+rowvec euclidean_norm(mat &);
 rowvec operator/(colvec x, double s);
 bool my_compare_order_second(const pr<double, int> &, const pr<double, int> &);
 NumericMatrix design_matrix_regr(CharacterVector x);

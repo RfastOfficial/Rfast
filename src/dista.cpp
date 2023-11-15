@@ -109,20 +109,21 @@ namespace Dista
 
 	void cosine(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-		colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
+		colvec norm_xnew = euclidean_norm(xnew).t();
+		rowvec norm_x = euclidean_norm(x);
 		if (k > 0)
 		{
 
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k);
+				disa.col(i) = get_k_values(sum(x.each_col() % xnew.col(i), 0) / (norm_x * norm_xnew[i]), k);
 			}
 		}
 		else
 		{
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]);
+				disa.col(i) = (sum(x.each_col() % xnew.col(i), 0) / (norm_x * norm_xnew[i])).t();
 			}
 		}
 	}
@@ -442,8 +443,6 @@ namespace Dista
 #pragma omp parallel for if (parallel)
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
-				disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
 			}
 		}
 		else
@@ -451,8 +450,6 @@ namespace Dista
 #pragma omp parallel for if (parallel)
 			for (unsigned int i = 0; i < disa.n_cols; ++i)
 			{
-				mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
-				disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m).t();
 			}
 		}
 	}
@@ -763,10 +760,11 @@ namespace DistaIndices
 
 	void cosine(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
-		colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
+		colvec norm_xnew = euclidean_norm(xnew).t();
+		rowvec norm_x = euclidean_norm(x);
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = get_k_indices(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k);
+			disa.col(i) = get_k_indices(sum(x.each_col() % xnew.col(i), 0) / (norm_x * norm_xnew[i]), k);
 		}
 	}
 
@@ -811,7 +809,7 @@ namespace DistaIndices
 #pragma omp parallel for if (parallel)
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
-			mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
+			mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
 			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
 		}
 	}

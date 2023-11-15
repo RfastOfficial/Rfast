@@ -355,7 +355,7 @@ namespace DistTotal
   {
     const int ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
-    colvec xv(nrw), norm_x = euclidean_norm(xx);
+    colvec xv(nrw), norm_x = euclidean_norm<colvec>(xx);
     int i, j, k = 0;
     double a = 0.0;
 

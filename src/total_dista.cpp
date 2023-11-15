@@ -117,20 +117,21 @@ namespace DistaTotal
     double cosine(mat &xnew, mat &x, const unsigned int k)
     {
         double a = 0.0;
-        colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
+        colvec norm_xnew = euclidean_norm(xnew).t();
+        rowvec norm_x = euclidean_norm(x);
         if (k > 0)
         {
 
             for (unsigned int i = 0; i < xnew.n_cols; ++i)
             {
-                a += accu(get_k_values(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k));
+                a += accu(get_k_values(sum(x.each_col() % xnew.col(i), 0) / (norm_x * norm_xnew[i]), k));
             }
         }
         else
         {
             for (unsigned int i = 0; i < xnew.n_cols; ++i)
             {
-                a += accu(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]));
+                a += accu(sum(x.each_col() % xnew.col(i), 0) / (norm_x * norm_xnew[i]));
             }
         }
         return a;
