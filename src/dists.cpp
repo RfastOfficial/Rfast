@@ -377,7 +377,7 @@ namespace Dist
     const int ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
-    colvec xv(nrw), norm_x = euclidean_norm(xx);
+    colvec xv(nrw), norm_x = euclidean_norm(xx).t();
     double a;
     int i, j;
 
@@ -1001,7 +1001,7 @@ namespace DistVector
     const int ncl = x.ncol(), nrw = x.nrow();
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false);
-    colvec xv(nrw), norm_x = euclidean_norm(xx);
+    colvec xv(nrw), norm_x = euclidean_norm(xx).t();
     int i, j, k = 0;
 
     for (i = 0; i < ncl - 1; ++i)
