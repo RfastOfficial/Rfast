@@ -728,7 +728,7 @@ namespace DistaIndices
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
 			mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
 		}
 	}
 
@@ -746,7 +746,7 @@ namespace DistaIndices
 			mat xcolj = x.each_col() + xnew.col(i);
 			mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
 			mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, check_if_is_finite>(m), k);
+			disa.col(i) = get_k_indices(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
 		}
 	}
 
@@ -810,7 +810,7 @@ namespace DistaIndices
 		for (unsigned int i = 0; i < disa.n_cols; ++i)
 		{
 			mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
-			disa.col(i) = get_k_indices(colsum_with_condition<colvec, std::isfinite>(m), k);
+			disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
 		}
 	}
 
