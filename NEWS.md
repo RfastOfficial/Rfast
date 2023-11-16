@@ -1,6 +1,36 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.1 - Hephaestus**
+***
+> <u> **New** </u>
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  coeff				| Coefficient matrix.  |
+>
+>
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  Dist | Fix bug. |
+>  |  total.dists | Fix bug. |
+>  |  total.dista | Fix bug about option index and k. |
+>  |  dista | Fix bug about option index and k. |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  colMads				| Supports data.frame  |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.1.0 - Hades**
 ***
 > <u> **New** </u>
