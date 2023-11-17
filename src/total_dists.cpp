@@ -356,14 +356,14 @@ namespace DistTotal
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), norm_x = euclidean_norm<colvec>(xx);
-    size_t i, j, k = 0;
+    size_t i, j;
     double a = 0.0;
 
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
       double normx = norm_x[i];
-      for (j = i + 1; j < ncl; ++j, ++k)
+      for (j = i + 1; j < ncl; ++j)
       {
         a += dot(xv, xx.col(j)) / (normx * norm_x[j]);
       }
@@ -431,11 +431,11 @@ namespace DistTotal
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    size_t i, j, k = 0;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
-      for (j = i + 1; j < ncl; ++j, ++k)
+      for (j = i + 1; j < ncl; ++j)
       {
         a += sum(abs(xv - xx.col(j))) / sum_max_elems(xv, xx.col(j));
       }
@@ -449,11 +449,11 @@ namespace DistTotal
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    size_t i, j, k = 0;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
-      for (j = i + 1; j < ncl; ++j, ++k)
+      for (j = i + 1; j < ncl; ++j)
       {
         a += sum(square(xv - xx.col(j)) / (xv + xx.col(j)));
       }
@@ -467,12 +467,12 @@ namespace DistTotal
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    size_t i, j, k = 0;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
-      for (j = i + 1; j < ncl; ++j, ++k)
+      for (j = i + 1; j < ncl; ++j)
       {
         a += sum(abs(xv - xx.col(j)) / (xv + xx.col(j)));
       }
