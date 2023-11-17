@@ -17,12 +17,12 @@ namespace Dist
 
   NumericMatrix euclidean(NumericMatrix x, const bool sqr)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     if (sqr)
     {
       for (i = 0; i < ncl - 1; ++i)
@@ -54,12 +54,12 @@ namespace Dist
 
   NumericMatrix manhattan(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -75,12 +75,12 @@ namespace Dist
 
   NumericMatrix chi_square(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -96,12 +96,12 @@ namespace Dist
 
   NumericMatrix soergel(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -117,12 +117,12 @@ namespace Dist
 
   NumericMatrix kulczynski(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -138,12 +138,12 @@ namespace Dist
 
   NumericMatrix wave_hedges(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -159,12 +159,12 @@ namespace Dist
 
   NumericMatrix motyka(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -180,12 +180,12 @@ namespace Dist
 
   NumericMatrix harmonic_mean(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -201,13 +201,13 @@ namespace Dist
 
   NumericMatrix hellinger(NumericMatrix x, const bool sqr)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p = 1.0 / std::sqrt(2.0);
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     if (sqr)
     {
       for (i = 0; i < ncl - 1; ++i)
@@ -239,12 +239,12 @@ namespace Dist
 
   NumericMatrix max(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw), tmp(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -261,12 +261,12 @@ namespace Dist
 
   NumericMatrix min(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw), tmp(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -283,13 +283,13 @@ namespace Dist
 
   NumericMatrix minkowski(NumericMatrix x, const double p)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p_1 = 1.0 / p;
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -306,13 +306,13 @@ namespace Dist
 
   NumericMatrix canberra(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw), absx(nrw);
     mat x_abs = abs(x);
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -330,12 +330,12 @@ namespace Dist
 
   NumericMatrix total_variation(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -352,12 +352,12 @@ namespace Dist
 
   NumericMatrix sorensen(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -374,12 +374,12 @@ namespace Dist
 
   NumericMatrix cosine(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw), norm_x = euclidean_norm(xx).t();
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -398,12 +398,12 @@ namespace Dist
   //[[Rcpp::export]]
   NumericMatrix kullback_leibler(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
     mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
     colvec xv(nrw), log_xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
 
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
@@ -424,13 +424,13 @@ namespace Dist
   //[[Rcpp::export]]
   NumericMatrix jensen_shannon(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
     mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
     colvec xv(nrw), log_xv(nrw);
     double a;
     const double log2 = std::log(2);
-    int i, j;
+    size_t i, j;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
     for (i = 0; i < ncl - 1; ++i)
@@ -450,12 +450,12 @@ namespace Dist
   //[[Rcpp::export]]
   NumericMatrix bhattacharyya(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -473,12 +473,12 @@ namespace Dist
   //[[Rcpp::export]]
   NumericMatrix jeffries_matusita(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -496,12 +496,12 @@ namespace Dist
   //[[Rcpp::export]]
   NumericMatrix itakura_saito(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
     mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
     colvec xv(nrw), log_xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
     for (i = 0; i < ncl - 1; ++i)
@@ -521,13 +521,13 @@ namespace Dist
   //[[Rcpp::export]]
   NumericMatrix gower(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p = 1.0 / nrw;
     NumericMatrix f(ncl, ncl);
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -687,11 +687,11 @@ namespace DistVector
 
   NumericVector euclidean(NumericMatrix x, const bool sqr)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     if (sqr)
       for (i = 0; i < ncl - 1; ++i)
       {
@@ -715,11 +715,11 @@ namespace DistVector
 
   NumericVector manhattan(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -733,12 +733,12 @@ namespace DistVector
 
   NumericVector hellinger(NumericMatrix x, const bool sqr)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p = 1.0 / std::sqrt(2.0);
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     if (sqr)
       for (i = 0; i < ncl - 1; ++i)
       {
@@ -762,11 +762,11 @@ namespace DistVector
 
   NumericVector max(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw), tmp(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -781,11 +781,11 @@ namespace DistVector
 
   NumericVector min(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw), tmp(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -800,12 +800,12 @@ namespace DistVector
 
   NumericVector minkowski(NumericMatrix x, const double p)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p_1 = 1.0 / p;
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -819,12 +819,12 @@ namespace DistVector
 
   NumericVector canberra(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw), absx(nrw);
     mat x_abs = abs(x);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -839,11 +839,11 @@ namespace DistVector
 
   NumericVector total_variation(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -858,11 +858,11 @@ namespace DistVector
   //[[Rcpp::export]]
   NumericVector kullback_leibler(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -879,11 +879,11 @@ namespace DistVector
   //[[Rcpp::export]]
   NumericVector bhattacharyya(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -898,11 +898,11 @@ namespace DistVector
   //[[Rcpp::export]]
   NumericVector jeffries_matusita(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -917,11 +917,11 @@ namespace DistVector
   //[[Rcpp::export]]
   NumericVector itakura_saito(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -938,12 +938,12 @@ namespace DistVector
   //[[Rcpp::export]]
   NumericVector gower(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p = 1.0 / nrw;
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -958,11 +958,11 @@ namespace DistVector
 
   NumericVector kulczynski(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -977,12 +977,12 @@ namespace DistVector
   //[[Rcpp::export]]
   NumericVector jensen_shannon(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
     const double log2 = std::log(2);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -998,11 +998,11 @@ namespace DistVector
 
   NumericVector cosine(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), norm_x = euclidean_norm(xx).t();
-    int i, j, k = 0;
+    size_t i, j, k = 0;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -1018,11 +1018,11 @@ namespace DistVector
 
   NumericVector soergel(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -1036,11 +1036,11 @@ namespace DistVector
 
   NumericVector chi_square(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -1054,11 +1054,11 @@ namespace DistVector
 
   NumericVector sorensen(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -1073,11 +1073,11 @@ namespace DistVector
 
   NumericVector harmonic_mean(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -1091,11 +1091,11 @@ namespace DistVector
 
   NumericVector wave_hedges(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -1109,11 +1109,11 @@ namespace DistVector
 
   NumericVector motyka(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
     colvec xv(nrw);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);

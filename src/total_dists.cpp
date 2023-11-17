@@ -15,11 +15,11 @@ namespace DistTotal
 
   double euclidean(NumericMatrix x, const bool sqr)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     if (sqr)
     {
       for (i = 0; i < ncl - 1; ++i)
@@ -47,11 +47,11 @@ namespace DistTotal
 
   double manhattan(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -65,12 +65,12 @@ namespace DistTotal
 
   double hellinger(NumericMatrix x, const bool sqr)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p = 1.0 / std::sqrt(2.0);
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     if (sqr)
     {
       for (i = 0; i < ncl - 1; ++i)
@@ -100,11 +100,11 @@ namespace DistTotal
 
   double max(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), tmp(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -119,11 +119,11 @@ namespace DistTotal
 
   double min(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), tmp(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -138,12 +138,12 @@ namespace DistTotal
 
   double minkowski(NumericMatrix x, const double p)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p_1 = 1.0 / p;
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -157,12 +157,12 @@ namespace DistTotal
 
   double canberra(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), absx(nrw);
     mat x_abs = abs(x);
     double a = 0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -178,13 +178,13 @@ namespace DistTotal
   //[[Rcpp::export]]
   double gower(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     const double p = 1.0/nrw;
     NumericMatrix f(ncl, ncl);
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), log_xv(nrw);
     double a=0.0;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -199,11 +199,11 @@ namespace DistTotal
 
   double kulczynski(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a=0.0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -217,11 +217,11 @@ namespace DistTotal
 
   double total_variation(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -235,11 +235,11 @@ namespace DistTotal
 
   double kullback_leibler(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -255,11 +255,11 @@ namespace DistTotal
 
   double bhattacharyya(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -274,11 +274,11 @@ namespace DistTotal
   //[[Rcpp::export]]
   double jeffries_matusita(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    int i, j;
+    size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -293,11 +293,11 @@ namespace DistTotal
 
   double itakura_saito(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
     double a = 0;
-    int i, j;
+    size_t i, j;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -332,12 +332,12 @@ namespace DistTotal
 
   double jensen_shannon(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
     colvec xv(nrw), log_xv(nrw);
     double a = 0.0;
     const double log2 = std::log(2);
-    int i, j;
+    size_t i, j;
     fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
     for (i = 0; i < ncl - 1; ++i)
@@ -353,10 +353,10 @@ namespace DistTotal
   }
   double cosine(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), norm_x = euclidean_norm<colvec>(xx);
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     double a = 0.0;
 
     for (i = 0; i < ncl - 1; ++i)
@@ -373,11 +373,11 @@ namespace DistTotal
 
   double wave_hedges(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -391,11 +391,11 @@ namespace DistTotal
 
   double motyka(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -409,11 +409,11 @@ namespace DistTotal
 
   double harmonic_mean(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    int i, j;
+    size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -427,11 +427,11 @@ namespace DistTotal
 
   double soergel(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -445,11 +445,11 @@ namespace DistTotal
 
   double chi_square(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    int i, j, k = 0;
+    size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
@@ -463,11 +463,11 @@ namespace DistTotal
 
   double sorensen(NumericMatrix x)
   {
-    const int ncl = x.ncol(), nrw = x.nrow();
+    const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
     double a = 0.0;
-    int i, j, k = 0;
+    size_t i, j, k = 0;
 
     for (i = 0; i < ncl - 1; ++i)
     {
