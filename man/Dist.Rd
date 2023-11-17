@@ -50,11 +50,11 @@ The "kullback_leibler" refers to the symmetric Kullback-Leibler divergence.
 \item minkowski : \eqn{  ( \sum | P_i - Q_i |^p)^(1/p)}
 \item bhattacharyya : \eqn{  - ln \sum \sqrt(P_i * Q_i)}
 \item hellinger : \eqn{  2 * \sqrt( 1 - \sum \sqrt(P_i * Q_i))}
-\item kullback_leibler : \eqn{  \sum P_i * log(P_i / Q_i)}
-\item jensen_shannon : \eqn{  0.5 * ( \sum P_i * log(2 * P_i / P_i + Q_i) + \sum Q_i * log(2 * Q_i / P_i + Q_i))}
+\item kullback_leibler : \eqn{  \sum P_i * log(\frac{P_i}{Q_i}) + \sum P_i * log(\frac{Q_i}{P_i})}
+\item jensen_shannon : \eqn{  0.5 * ( \sum P_i * log(\frac{2 * P_i}{P_i + Q_i}) + \sum Q_i * log(\frac{2 * Q_i}{P_i + Q_i})) }
 \item haversine : \eqn{ 2 * R * \arcsin(\sqrt(\sin((lat_2 - lat_1)/2)^2 + \cos(lat_1) * \cos(lat_2) * \sin((lon_2 - lon_1)/2)^2)) }
 \item canberra : \eqn{  \sum | P_i - Q_i | / (P_i + Q_i)}
-\item chi_square \eqn{X}^2 : \eqn{  \sum ( (P_i - Q_i )^2 / (P_i + Q_i) )}
+\item chi_square \eqn{X}^2 : \eqn{  \sum\frac{(P_i - Q_i )^2}{P_i + Q_i}}
 \item soergel : \eqn{  \sum | P_i - Q_i | / \sum \max(P_i , Q_i)}
 \item sorensen : \eqn{  \sum | P_i - Q_i | / \sum (P_i + Q_i)}
 \item cosine : \eqn{ \sum (P_i * Q_i) / \sqrt(\sum P_i^2) * \sqrt(\sum Q_i^2)}
