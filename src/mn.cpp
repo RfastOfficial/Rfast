@@ -56,9 +56,9 @@ mat colMaxElems(mat x, colvec y)
   return maxs;
 }
 
-colvec euclidean_norm(mat &x)
+rowvec euclidean_norm(mat &x)
 {
-	return sqrt(sum(square(x), 0).t());
+	return sqrt(sum(square(x), 0));
 }
 
 bool my_compare_order_second(const pr<double,int>& a,const pr<double,int>& b){

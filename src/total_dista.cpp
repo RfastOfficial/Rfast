@@ -18,14 +18,14 @@ namespace DistaTotal
             if (k > 0)
             {
 
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += accu(get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k));
                 }
             }
             else
             {
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += sum_with<square2<double>, mat>(x.each_col() - xnew.col(i));
                 }
@@ -36,14 +36,14 @@ namespace DistaTotal
             if (k > 0)
             {
 
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += accu(get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k));
                 }
             }
             else
             {
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += sum_with<std::sqrt, mat>(sum(square(x.each_col() - xnew.col(i)), 0));
                 }
@@ -58,14 +58,14 @@ namespace DistaTotal
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += sum_with<std::abs, mat>(x.each_col() - xnew.col(i));
             }
@@ -78,14 +78,14 @@ namespace DistaTotal
         double a = 0.0;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(abs(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)));
             }
@@ -99,14 +99,14 @@ namespace DistaTotal
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(sum(square(x.each_col() - xnew.col(i)) / (x.each_col() + xnew.col(i)), 0));
             }
@@ -117,20 +117,21 @@ namespace DistaTotal
     double cosine(mat &xnew, mat &x, const unsigned int k)
     {
         double a = 0.0;
-        colvec norm_xnew = euclidean_norm(xnew), norm_x = euclidean_norm(x);
+        colvec norm_xnew = euclidean_norm(xnew).t();
+        rowvec norm_x = euclidean_norm(x);
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                a += accu(get_k_values(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]), k));
+                a += accu(get_k_values(sum(x.each_col() % xnew.col(i), 0) / (norm_x * norm_xnew[i]), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                a += accu(sum(x.each_col() % xnew.col(i), 0).t() / (norm_x * norm_xnew[i]));
+                a += accu(sum(x.each_col() % xnew.col(i), 0) / (norm_x * norm_xnew[i]));
             }
         }
         return a;
@@ -141,14 +142,14 @@ namespace DistaTotal
         double a = 0.0;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMaxs<rowvec>(x, xnew.col(i)), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(sum(abs(x.each_col() - xnew.col(i)), 0).t() / colSumMaxs<colvec>(x, xnew.col(i)));
             }
@@ -161,14 +162,14 @@ namespace DistaTotal
         double a = 0.0;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0) / colSumMins<rowvec>(x, xnew.col(i)), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(sum(abs(x.each_col() - xnew.col(i)), 0).t() / colSumMins<colvec>(x, xnew.col(i)));
             }
@@ -181,14 +182,14 @@ namespace DistaTotal
         double a = 0.0;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(1.0 - colSumMins<rowvec>(x, xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(1.0 - colSumMins<colvec>(x, xnew.col(i)) / sum(abs(x.each_col() + xnew.col(i)), 0));
             }
@@ -201,14 +202,14 @@ namespace DistaTotal
         double a = 0.0;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(x.each_col() % xnew.col(i), 0) / sum(x.each_col() + xnew.col(i), 0), k)) * 2.0;
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(sum(x.each_col() % xnew.col(i), 0) / sum(x.each_col() + xnew.col(i), 0)) * 2.0;
             }
@@ -223,14 +224,14 @@ namespace DistaTotal
         {
             if (k > 0)
             {
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += accu(get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k)) * 0.5;
                 }
             }
             else
             {
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += sum_with<square2<double>, mat>(x.each_col() - xnew.col(i)) * 0.5;
                 }
@@ -241,14 +242,14 @@ namespace DistaTotal
             const double p = 1.0 / std::sqrt(2.0);
             if (k > 0)
             {
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += accu(get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k)) * p;
                 }
             }
             else
             {
-                for (unsigned int i = 0; i < xnew.n_cols; ++i)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     a += sum_with<std::sqrt, mat>(sum(square(x.each_col() - xnew.col(i)), 0)) * p;
                 }
@@ -262,14 +263,14 @@ namespace DistaTotal
         double a = 0.0;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(max(abs(x.each_col() - xnew.col(i)), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(max(abs(x.each_col() - xnew.col(i)), 0));
             }
@@ -283,14 +284,14 @@ namespace DistaTotal
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(min(abs(x.each_col() - xnew.col(i)), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(min(abs(x.each_col() - xnew.col(i)), 0));
             }
@@ -305,14 +306,14 @@ namespace DistaTotal
 
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(pow(sum(pow(abs(x.each_col() - xnew.col(i)), p), 0), p_1));
             }
@@ -328,14 +329,14 @@ namespace DistaTotal
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(abs(x.each_col() - xnew.col(i)) / (x_abs.each_col() + abs(xnew.col(i))));
             }
@@ -349,14 +350,14 @@ namespace DistaTotal
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0), k)) * 0.5;
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += sum_with<std::abs, mat>(x.each_col() - xnew.col(i)) * 0.5;
             }
@@ -374,7 +375,7 @@ namespace DistaTotal
         if (k > 0)
         {
 #pragma omp parallel for reduction(+ : a) if (parallel)
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
                 double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
@@ -384,7 +385,7 @@ namespace DistaTotal
         else
         {
 #pragma omp parallel for reduction(+ : a) if (parallel)
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
                 double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
@@ -406,7 +407,7 @@ namespace DistaTotal
         if (k > 0)
         {
 #pragma omp parallel for reduction(+ : a) if (parallel)
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 mat xcolj = x.each_col() + xnew.col(i);
                 mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
@@ -418,7 +419,7 @@ namespace DistaTotal
         else
         {
 #pragma omp parallel for reduction(+ : a) if (parallel)
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 mat xcolj = x.each_col() + xnew.col(i);
                 mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
@@ -436,14 +437,14 @@ namespace DistaTotal
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += -sum_with<std::log, mat>(sum(sqrt(x.each_col() % xnew.col(i)), 0));
             }
@@ -457,14 +458,14 @@ namespace DistaTotal
         if (k > 0)
         {
 
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0)), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += sum_with<std::sqrt, mat>(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0));
             }
@@ -482,7 +483,7 @@ namespace DistaTotal
         if (k > 0)
         {
 #pragma omp parallel for reduction(+ : a) if (parallel)
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
                 double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
@@ -492,7 +493,7 @@ namespace DistaTotal
         else
         {
 #pragma omp parallel for reduction(+ : a) if (parallel)
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
                 double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
@@ -507,14 +508,14 @@ namespace DistaTotal
         double a = 0.0;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)) / colMaxElems(x, xnew.col(i)), 0), k));
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(abs(x.each_col() - xnew.col(i)) / colMaxElems(x, xnew.col(i)));
             }
@@ -528,14 +529,14 @@ namespace DistaTotal
         const double p = 1.0 / x.n_rows;
         if (k > 0)
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(get_k_values(sum(abs(x.each_col() - xnew.col(i)), 0), k)) * p;
             }
         }
         else
         {
-            for (unsigned int i = 0; i < xnew.n_cols; ++i)
+            for (size_t i = 0; i < xnew.n_cols; ++i)
             {
                 a += accu(abs(x.each_col() - xnew.col(i))) * p;
             }
