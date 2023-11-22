@@ -372,24 +372,48 @@ namespace DistaTotal
         fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
         fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-        if (k > 0)
+        if (parallel)
         {
-#pragma omp parallel for reduction(+ : a) if (parallel)
-            for (size_t i = 0; i < xnew.n_cols; ++i)
+            if (k > 0)
             {
-                mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-                double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
-                a += tmp;
+#pragma omp parallel for reduction(+ : a)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+                    double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
+                    a += tmp;
+                }
+            }
+            else
+            {
+#pragma omp parallel for reduction(+ : a)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+                    double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
+                    a += tmp;
+                }
             }
         }
         else
         {
-#pragma omp parallel for reduction(+ : a) if (parallel)
-            for (size_t i = 0; i < xnew.n_cols; ++i)
+            if (k > 0)
             {
-                mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-                double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
-                a += tmp;
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+                    double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
+                    a += tmp;
+                }
+            }
+            else
+            {
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+                    double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
+                    a += tmp;
+                }
             }
         }
         return a;
@@ -401,26 +425,52 @@ namespace DistaTotal
         const double log0_5 = std::log(0.5);
         double a = 0.0;
 
-        if (k > 0)
+        if (parallel)
         {
-#pragma omp parallel for reduction(+ : a) if (parallel)
-            for (size_t i = 0; i < xnew.n_cols; ++i)
+            if (k > 0)
             {
-                mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
-                mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x + xnew.col(i));
-                double tmp = accu(get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k));
-                a += tmp;
+#pragma omp parallel for reduction(+ : a)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat v = x.each_col() + xnew.col(i);
+                    mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % v;
+                    double tmp = accu(get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k));
+                    a += tmp;
+                }
+            }
+            else
+            {
+#pragma omp parallel for reduction(+ : a)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat v = x.each_col() + xnew.col(i);
+                    mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % v;
+                    double tmp = sum_with_condition<double, check_if_is_finite>(m);
+                    a += tmp;
+                }
             }
         }
         else
         {
-#pragma omp parallel for reduction(+ : a) if (parallel)
-            for (size_t i = 0; i < xnew.n_cols; ++i)
+            if (k > 0)
             {
-                mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
-                mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x.each_col() + xnew.col(i));
-                double tmp = sum_with_condition<double, check_if_is_finite>(m);
-                a += tmp;
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat v = x.each_col() + xnew.col(i);
+                    mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % v;
+                    double tmp = accu(get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k));
+                    a += tmp;
+                }
+            }
+            else
+            {
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat v = x.each_col() + xnew.col(i);
+                    mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % v;
+                    double tmp = sum_with_condition<double, check_if_is_finite>(m);
+                    a += tmp;
+                }
             }
         }
         return a;
@@ -475,24 +525,48 @@ namespace DistaTotal
         fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
         fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-        if (k > 0)
+        if (parallel)
         {
-#pragma omp parallel for reduction(+ : a) if (parallel)
-            for (size_t i = 0; i < xnew.n_cols; ++i)
+            if (k > 0)
             {
-                mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
-                double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
-                a += tmp;
+#pragma omp parallel for reduction(+ : a)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
+                    double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
+                    a += tmp;
+                }
+            }
+            else
+            {
+#pragma omp parallel for reduction(+ : a)
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+                    double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
+                    a += tmp;
+                }
             }
         }
         else
         {
-#pragma omp parallel for reduction(+ : a) if (parallel)
-            for (size_t i = 0; i < xnew.n_cols; ++i)
+            if (k > 0)
             {
-                mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
-                double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
-                a += tmp;
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
+                    double tmp = accu(get_k_values(colsum_with_condition<colvec, std::isfinite>(m), k));
+                    a += tmp;
+                }
+            }
+            else
+            {
+                for (size_t i = 0; i < xnew.n_cols; ++i)
+                {
+                    mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));
+                    double tmp = sum_with_condition<double, std::isfinite>(m.begin(), m.end());
+                    a += tmp;
+                }
             }
         }
         return a;

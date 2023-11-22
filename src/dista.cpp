@@ -342,22 +342,44 @@ namespace Dista
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-		if (k > 0)
+		if (parallel)
 		{
-			// #pragma omp parallel for if (parallel)
-			for (size_t i = 0; i < disa.n_cols; ++i)
+			if (k > 0)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-				disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
+#pragma omp parallel for
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
+				}
+			}
+			else
+			{
+#pragma omp parallel for
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				}
 			}
 		}
 		else
 		{
-#pragma omp parallel for if (parallel)
-			for (size_t i = 0; i < disa.n_cols; ++i)
+			if (k > 0)
 			{
-				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-				disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
+				}
+			}
+			else
+			{
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				}
 			}
 		}
 	}
@@ -367,24 +389,48 @@ namespace Dista
 		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
 		const double log0_5 = std::log(0.5);
 
-		if (k > 0)
+		if (parallel)
 		{
-#pragma omp parallel for
-			for (size_t i = 0; i < disa.n_cols; ++i)
+			if (k > 0)
 			{
-				mat v = x.each_col() + xnew.col(i);
-				mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
-				disa.col(i) = get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
+#pragma omp parallel for
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat v = x.each_col() + xnew.col(i);
+					mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
+					disa.col(i) = get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
+				}
+			}
+			else
+			{
+#pragma omp parallel for
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat v = x.each_col() + xnew.col(i);
+					mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
+					disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
+				}
 			}
 		}
 		else
 		{
-#pragma omp parallel for
-			for (size_t i = 0; i < disa.n_cols; ++i)
+			if (k > 0)
 			{
-				mat v = x.each_col() + xnew.col(i);
-				mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
-				disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat v = x.each_col() + xnew.col(i);
+					mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
+					disa.col(i) = get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
+				}
+			}
+			else
+			{
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat v = x.each_col() + xnew.col(i);
+					mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
+					disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
+				}
 			}
 		}
 	}
@@ -433,18 +479,44 @@ namespace Dista
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
 		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-		if (k > 0)
+		if (parallel)
 		{
-#pragma omp parallel for if (parallel)
-			for (size_t i = 0; i < disa.n_cols; ++i)
+			if (k > 0)
 			{
+#pragma omp parallel for
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
+					disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
+				}
+			}
+			else
+			{
+#pragma omp parallel for
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				}
 			}
 		}
 		else
 		{
-#pragma omp parallel for if (parallel)
-			for (size_t i = 0; i < disa.n_cols; ++i)
+			if (k > 0)
 			{
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
+					disa.col(i) = get_k_values(colsum_with_condition<rowvec, std::isfinite>(m), k);
+				}
+			}
+			else
+			{
+				for (size_t i = 0; i < disa.n_cols; ++i)
+				{
+					mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
+					disa.col(i) = colsum_with_condition<colvec, std::isfinite>(m);
+				}
 			}
 		}
 	}
@@ -719,11 +791,22 @@ namespace DistaIndices
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 
-#pragma omp parallel for if (parallel)
-		for (size_t i = 0; i < disa.n_cols; ++i)
+		if (parallel)
 		{
-			mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
+#pragma omp parallel for
+			for (size_t i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
+			}
+		}
+		else
+		{
+			for (size_t i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
+			}
 		}
 	}
 
@@ -731,13 +814,24 @@ namespace DistaIndices
 	{
 		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
 		const double log0_5 = std::log(0.5);
-
-#pragma omp parallel for if (parallel)
-		for (size_t i = 0; i < disa.n_cols; ++i)
+		if (parallel)
 		{
-			mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
-			mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x + xnew.col(i));
-			disa.col(i) = get_k_indices(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
+#pragma omp parallel for
+			for (size_t i = 0; i < disa.n_cols; ++i)
+			{
+				mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
+				mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x + xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
+			}
+		}
+		else
+		{
+			for (size_t i = 0; i < disa.n_cols; ++i)
+			{
+				mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
+				mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x + xnew.col(i));
+				disa.col(i) = get_k_indices(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
+			}
 		}
 	}
 
@@ -796,12 +890,22 @@ namespace DistaIndices
 		mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
 		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-
-#pragma omp parallel for if (parallel)
-		for (size_t i = 0; i < disa.n_cols; ++i)
+		if (parallel)
 		{
-			mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
-			disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
+#pragma omp parallel for
+			for (size_t i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
+				disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
+			}
+		}
+		else
+		{
+			for (size_t i = 0; i < disa.n_cols; ++i)
+			{
+				mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
+				disa.col(i) = get_k_indices(colsum_with_condition<rowvec, std::isfinite>(m), k);
+			}
 		}
 	}
 
