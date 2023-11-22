@@ -243,9 +243,9 @@ RcppExport SEXP Rfast_row_ranks_p(SEXP xSEXP, SEXP methodSEXP, SEXP descendSEXP,
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-SEXP col_sums_p(NumericMatrix x, const unsigned int cores)
+SEXP col_sums_p(SEXP x, const unsigned int cores)
 {
-  const int n = x.ncol();
+  const int n = Rf_ncols(x);
   SEXP F;
   switch (Rfast::Type::type(x))
   {
@@ -253,7 +253,7 @@ SEXP col_sums_p(NumericMatrix x, const unsigned int cores)
     {
       F = PROTECT(Rf_allocVector(REALSXP, n));
       double *FF = REAL(F);
-      mat xx(x.begin(), x.nrow(), n, false);
+      mat xx(REAL(x), Rf_nrows(x), n, false);
       #ifdef _OPENMP
       #pragma omp parallel for num_threads(cores)
       #endif
@@ -266,8 +266,8 @@ SEXP col_sums_p(NumericMatrix x, const unsigned int cores)
     default:
     {
       F = PROTECT(Rf_allocVector(INTSXP, n));
-      int *FF = REAL(F);
-      imat xx(x.begin(), x.nrow(), n, false);
+      int *FF = INTEGER(F);
+      imat xx(INTEGER(x), Rf_nrows(x), n, false);
       #ifdef _OPENMP
       #pragma omp parallel for num_threads(cores)
       #endif
@@ -287,16 +287,15 @@ RcppExport SEXP Rfast_col_sums_p(SEXP xSEXP, SEXP coresSEXP)
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
-  traits::input_parameter<NumericMatrix>::type x(xSEXP);
   traits::input_parameter<const unsigned int>::type cores(coresSEXP);
-  __result = col_sums_p(x, cores);
+  __result = col_sums_p(xSEXP, cores);
   return __result;
   END_RCPP
 }
 
-SEXP row_sums_p(NumericMatrix x, const unsigned int cores)
+SEXP row_sums_p(SEXP x, const unsigned int cores)
 {
-  const int n = x.nrow();
+  const int n = Rf_nrows(x);
   SEXP F;
   switch (Rfast::Type::type(x))
   {
@@ -304,7 +303,7 @@ SEXP row_sums_p(NumericMatrix x, const unsigned int cores)
     {
       F = PROTECT(Rf_allocVector(REALSXP, n));
       double *FF = REAL(F);
-      mat xx(x.begin(), x.nrow(), n, false);
+      mat xx(REAL(x), n, Rf_ncols(x), false);
       #ifdef _OPENMP
       #pragma omp parallel for num_threads(cores)
       #endif
@@ -317,8 +316,8 @@ SEXP row_sums_p(NumericMatrix x, const unsigned int cores)
     default:
     {
       F = PROTECT(Rf_allocVector(INTSXP, n));
-      int *FF = REAL(F);
-      imat xx(x.begin(), x.nrow(), n, false);
+      int *FF = INTEGER(F);
+      imat xx(INTEGER(x), n, Rf_ncols(x), false);
       #ifdef _OPENMP
       #pragma omp parallel for num_threads(cores)
       #endif
@@ -338,9 +337,8 @@ RcppExport SEXP Rfast_row_sums_p(SEXP xSEXP, SEXP coresSEXP)
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
-  traits::input_parameter<NumericMatrix>::type x(xSEXP);
   traits::input_parameter<const unsigned int>::type cores(coresSEXP);
-  __result = row_sums_p(x, cores);
+  __result = row_sums_p(xSEXP, cores);
   return __result;
   END_RCPP
 }
