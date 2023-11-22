@@ -397,22 +397,18 @@ namespace DistaTotal
 
     double jensen_shannon(mat &xnew, mat &x, const unsigned int k, const bool parallel = false)
     {
+        mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
+        const double log0_5 = std::log(0.5);
         double a = 0.0;
-        mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-        const double log2 = std::log(2);
-        fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-        fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-        mat x_mod_log_xx = x % log_xx;
 
         if (k > 0)
         {
 #pragma omp parallel for reduction(+ : a) if (parallel)
             for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                mat xcolj = x.each_col() + xnew.col(i);
-                mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-                mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-                double tmp = accu(get_k_values(colsum_with_condition<colvec, check_if_is_finite>(m), k));
+                mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
+                mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x + xnew.col(i));
+                double tmp = accu(get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k));
                 a += tmp;
             }
         }
@@ -421,10 +417,9 @@ namespace DistaTotal
 #pragma omp parallel for reduction(+ : a) if (parallel)
             for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                mat xcolj = x.each_col() + xnew.col(i);
-                mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-                mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
-                double tmp = sum_with_condition<double, check_if_is_finite>(m.begin(), m.end());
+                mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
+                mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x.each_col() + xnew.col(i));
+                double tmp = sum_with_condition<double, check_if_is_finite>(m);
                 a += tmp;
             }
         }

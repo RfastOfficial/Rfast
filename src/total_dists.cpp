@@ -81,7 +81,7 @@ namespace DistTotal
           a += sum(square(xv - xx.col(j)));
         }
       }
-      a*=0.5;
+      a *= 0.5;
     }
     else
     {
@@ -93,7 +93,7 @@ namespace DistTotal
           a += std::sqrt(sum(square(xv - xx.col(j))));
         }
       }
-      a*=p;
+      a *= p;
     }
     return a;
   }
@@ -179,11 +179,11 @@ namespace DistTotal
   double gower(NumericMatrix x)
   {
     const size_t ncl = x.ncol(), nrw = x.nrow();
-    const double p = 1.0/nrw;
+    const double p = 1.0 / nrw;
     NumericMatrix f(ncl, ncl);
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw), log_xv(nrw);
-    double a=0.0;
+    double a = 0.0;
     size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
@@ -202,7 +202,7 @@ namespace DistTotal
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     colvec xv(nrw);
-    double a=0.0;
+    double a = 0.0;
     size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
@@ -305,7 +305,7 @@ namespace DistTotal
       log_xv = log_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += sum(xv / xx.col(j) - (log_xv - log_xx.col(j)) - 1);
+        a += sum_with_condition<double,std::isfinite, colvec>(xv / xx.col(j) - (log_xv - log_xx.col(j)) - 1);
       }
     }
     return a;
@@ -333,29 +333,32 @@ namespace DistTotal
   double jensen_shannon(NumericMatrix x)
   {
     const size_t ncl = x.ncol(), nrw = x.nrow();
-    mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
-    colvec xv(nrw), log_xv(nrw);
+    NumericMatrix f(ncl, ncl);
+    mat xx(x.begin(), nrw, ncl, false);
+    colvec xv(nrw), xlogx_xv(nrw);
+    mat xlogx = xx % arma::log(xx);
     double a = 0.0;
-    const double log2 = std::log(2);
+    const double log0_5 = std::log(0.5);
     size_t i, j;
-    fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
-      log_xv = log_xx.col(i);
+      xlogx_xv = xlogx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += sum_with_condition<double, check_if_is_finite, colvec>((xv + xx.col(j)) % (log2 - arma::log(xv + xx.col(j))) + xv % log_xv + xx.col(j) % log_xx.col(j));
+
+        a += sum_with_condition<double, check_if_is_finite, colvec>(xlogx_xv + xlogx_xv.col(j) - (arma::log(xv + xx.col(j)) + log0_5) % (xv + xx.col(j)));
       }
     }
     return a;
   }
+
   double cosine(NumericMatrix x)
   {
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
-    colvec xv(nrw), norm_x = euclidean_norm<colvec>(xx);
+    colvec xv(nrw), norm_x = euclidean_norm(xx);
     size_t i, j;
     double a = 0.0;
 

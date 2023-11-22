@@ -425,21 +425,22 @@ namespace Dist
   NumericMatrix jensen_shannon(NumericMatrix x)
   {
     const size_t ncl = x.ncol(), nrw = x.nrow();
-    NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
-    mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
-    colvec xv(nrw), log_xv(nrw);
+    NumericMatrix f(ncl, ncl);
+    mat xx(x.begin(), nrw, ncl, false);
+    colvec xv(nrw), xlogx_xv(nrw);
+		mat xlogx = xx % arma::log(xx);
     double a;
-    const double log2 = std::log(2);
+    const double log0_5 = std::log(0.5);
     size_t i, j;
-    fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
-      log_xv = log_xx.col(i);
+      xlogx_xv = xlogx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sum_with_condition<double, check_if_is_finite, colvec>((xv + xx.col(j)) % (log2 - arma::log(xv + xx.col(j))) + xv % log_xv + xx.col(j) % log_xx.col(j));
+        
+        a = sum_with_condition<double, check_if_is_finite, colvec>(xlogx_xv + xlogx_xv.col(j) - (arma::log(xv + xx.col(j)) + log0_5) % (xv + xx.col(j)));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -510,7 +511,7 @@ namespace Dist
       log_xv = log_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sum_with<std::isfinite, colvec>(xv / xx.col(j) - (log_xv - log_xx.col(j)) - 1);
+        a = sum_with_condition<double,std::isfinite, colvec>(xv / xx.col(j) - (log_xv - log_xx.col(j)) - 1);
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -980,17 +981,17 @@ namespace DistVector
     const size_t ncl = x.ncol(), nrw = x.nrow();
     NumericVector f(proper_size(nrw, ncl));
     mat xx(x.begin(), nrw, ncl, false), log_xx(nrw, ncl, fill::none);
-    colvec xv(nrw), log_xv(nrw);
-    const double log2 = std::log(2);
+		mat xlogx = xx % arma::log(xx);
+    colvec xv(nrw), xlogx_xv(nrw);
+    const double log0_5 = std::log(0.5);
     size_t i, j, k = 0;
-    fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
     for (i = 0; i < ncl - 1; ++i)
     {
       xv = xx.col(i);
-      log_xv = log_xx.col(i);
+      xlogx_xv = xlogx.col(i);
       for (j = i + 1; j < ncl; ++j, ++k)
       {
-        f[k] = sum_with_condition<double, check_if_is_finite, colvec>((xv + xx.col(j)) % (log2 - arma::log(xv + xx.col(j))) + xv % log_xv + xx.col(j) % log_xx.col(j));
+        f[k] = sum_with_condition<double, check_if_is_finite, colvec>(xlogx_xv + xlogx_xv.col(j) - (arma::log(xv + xx.col(j)) + log0_5) % (xv + xx.col(j)));
       }
     }
     return f;

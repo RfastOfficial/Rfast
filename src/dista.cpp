@@ -364,31 +364,26 @@ namespace Dista
 
 	void jensen_shannon(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
 	{
-		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-		const double log2 = std::log(2);
-		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-		mat x_mod_log_xx = x % log_xx;
+		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
+		const double log0_5 = std::log(0.5);
 
 		if (k > 0)
 		{
-#pragma omp parallel for if (parallel)
+#pragma omp parallel for
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
-				mat xcolj = x.each_col() + xnew.col(i);
-				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+				mat v = x.each_col() + xnew.col(i);
+				mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
 				disa.col(i) = get_k_values(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
 			}
 		}
 		else
 		{
-#pragma omp parallel for if (parallel)
+#pragma omp parallel for
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
-				mat xcolj = x.each_col() + xnew.col(i);
-				mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-				mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+				mat v = x.each_col() + xnew.col(i);
+				mat m = xlogx.each_col() + xnewlogxnew.col(i) - (arma::log(v) + log0_5) % (v);
 				disa.col(i) = colsum_with_condition<colvec, check_if_is_finite>(m);
 			}
 		}
@@ -734,18 +729,14 @@ namespace DistaIndices
 
 	void jensen_shannon(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
 	{
-		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-		const double log2 = std::log(2);
-		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
-		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
-		mat x_mod_log_xx = x % log_xx;
+		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
+		const double log0_5 = std::log(0.5);
 
 #pragma omp parallel for if (parallel)
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
-			mat xcolj = x.each_col() + xnew.col(i);
-			mat xcolj_log_xcolj = xcolj % (log2 - arma::log(xcolj));
-			mat m = x_mod_log_xx + (xcolj_log_xcolj.each_col() + xnew.col(i) % log_xnew.col(i));
+			mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
+			mat m = xlogx.each_col() + xnewlogxnew.col(i) - log_ma % (x + xnew.col(i));
 			disa.col(i) = get_k_indices(colsum_with_condition<rowvec, check_if_is_finite>(m), k);
 		}
 	}
