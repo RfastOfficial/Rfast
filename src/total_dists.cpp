@@ -257,15 +257,17 @@ namespace DistTotal
   {
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
     colvec xv(nrw);
     double a = 0;
     size_t i, j;
     for (i = 0; i < ncl - 1; ++i)
     {
-      xv = xx.col(i);
+      xv = sqrt_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += -log(Coeff::bhattacharyya(xv, xx.col(j)));
+        a += -log(Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j)));
       }
     }
     return -a;
@@ -276,16 +278,18 @@ namespace DistTotal
   {
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
     colvec xv(nrw);
     double a = 0.0;
     size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
-      xv = xx.col(i);
+      xv = sqrt_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a += sqrt(2.0 - 2.0 * Coeff::bhattacharyya(xv, xx.col(j)));
+        a += sqrt(2.0 - 2.0 * Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j)));
       }
     }
     return a;

@@ -202,6 +202,9 @@ namespace Dista
 
 	void hellinger(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
 	{
+		mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+		fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
 		if (sqr)
 		{
 			if (k > 0)
@@ -437,38 +440,43 @@ namespace Dista
 
 	void bhattacharyya(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
+		mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+		fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
 		if (k > 0)
 		{
-
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
+				disa.col(i) = get_k_values(-log(sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0)), k);
 			}
 		}
 		else
 		{
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = -log(sum(sqrt(x.each_col() % xnew.col(i)), 0)).t();
+				disa.col(i) = -log(sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0)).t();
 			}
 		}
 	}
 
 	void jeffries_matusita(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
+        mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+        fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+        fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
 		if (k > 0)
 		{
 
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = get_k_values(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
+				disa.col(i) = get_k_values(sqrt(2.0 - 2.0 * sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0)), k);
 			}
 		}
 		else
 		{
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
-				disa.col(i) = sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0)).t();
+				disa.col(i) = sqrt(2.0 - 2.0 * sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0)).t();
 			}
 		}
 	}
@@ -837,9 +845,12 @@ namespace DistaIndices
 
 	void bhattacharyya(mat &xnew, mat &x, imat &disa, const unsigned int k)
 	{
+		mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+		fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
-			disa.col(i) = get_k_indices(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k);
+			disa.col(i) = get_k_indices(-log(sum(x.each_col() % xnew.col(i), 0)), k);
 		}
 	}
 

@@ -219,6 +219,9 @@ namespace DistaTotal
 
     double hellinger(mat &xnew, mat &x, const bool sqr, const unsigned int k)
     {
+		mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+		fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
         double a = 0.0;
         if (sqr)
         {
@@ -226,14 +229,14 @@ namespace DistaTotal
             {
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
-                    a += accu(get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k)) * 0.5;
+                    a += accu(get_k_values(sum(square(sqrt_x.each_col() - sqrt_xnew.col(i)), 0), k)) * 0.5;
                 }
             }
             else
             {
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
-                    a += sum_with<square2<double>, mat>(x.each_col() - xnew.col(i)) * 0.5;
+                    a += sum_with<square2<double>, mat>(sqrt_x.each_col() - sqrt_xnew.col(i)) * 0.5;
                 }
             }
         }
@@ -244,14 +247,14 @@ namespace DistaTotal
             {
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
-                    a += accu(get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k)) * p;
+                    a += accu(get_k_values(foreach<std::sqrt, rowvec>(sum(square(sqrt_x.each_col() - sqrt_xnew.col(i)), 0)), k)) * p;
                 }
             }
             else
             {
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
-                    a += sum_with<std::sqrt, mat>(sum(square(x.each_col() - xnew.col(i)), 0)) * p;
+                    a += sum_with<std::sqrt, mat>(sum(square(sqrt_x.each_col() - sqrt_xnew.col(i)), 0)) * p;
                 }
             }
         }
@@ -478,20 +481,23 @@ namespace DistaTotal
 
     double bhattacharyya(mat &xnew, mat &x, const unsigned int k)
     {
+        mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+        fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+        fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
         double a = 0.0;
         if (k > 0)
         {
 
             for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                a += accu(get_k_values(-log(sum(sqrt(x.each_col() % xnew.col(i)), 0)), k));
+                a += accu(get_k_values(-log(sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0)), k));
             }
         }
         else
         {
             for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                a += -sum_with<std::log, mat>(sum(sqrt(x.each_col() % xnew.col(i)), 0));
+                a += -sum_with<std::log, mat>(sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0));
             }
         }
         return a;
@@ -499,20 +505,23 @@ namespace DistaTotal
 
     double jeffries_matusita(mat &xnew, mat &x, const unsigned int k)
     {
+        mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+        fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+        fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
         double a = 0.0;
         if (k > 0)
         {
 
             for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                a += accu(get_k_values(sqrt(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0)), k));
+                a += accu(get_k_values(sqrt(2.0 - 2.0 * sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0)), k));
             }
         }
         else
         {
             for (size_t i = 0; i < xnew.n_cols; ++i)
             {
-                a += sum_with<std::sqrt, mat>(2.0 - 2.0 * sum(sqrt(x.each_col() % xnew.col(i)), 0));
+                a += sum_with<std::sqrt, mat>(2.0 - 2.0 * sum(sqrt_x.each_col() % sqrt_xnew.col(i), 0));
             }
         }
         return a;

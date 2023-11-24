@@ -454,16 +454,18 @@ namespace Dist
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
     colvec xv(nrw);
     double a;
     size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
-      xv = xx.col(i);
+      xv = sqrt_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = -log(Coeff::bhattacharyya(xv, xx.col(j)));
+        a = -log(Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j)));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -477,16 +479,18 @@ namespace Dist
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
     colvec xv(nrw);
     double a;
     size_t i, j;
 
     for (i = 0; i < ncl - 1; ++i)
     {
-      xv = xx.col(i);
+      xv = sqrt_xx.col(i);
       for (j = i + 1; j < ncl; ++j)
       {
-        a = sqrt(2.0 - 2.0 * Coeff::bhattacharyya(xv, xx.col(j)));
+        a = sqrt(2.0 - 2.0 * Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j)));
         f(i, j) = a;
         f(j, i) = a;
       }
@@ -883,14 +887,16 @@ namespace DistVector
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
     colvec xv(nrw);
     size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
-      xv = xx.col(i);
+      xv = sqrt_xx.col(i);
       for (j = i + 1; j < ncl; ++j, ++k)
       {
-        f[k] = -log(Coeff::bhattacharyya(xv, xx.col(j)));
+        f[k] = -log(Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j)));
       }
     }
     return f;
@@ -902,14 +908,16 @@ namespace DistVector
     const size_t ncl = x.ncol(), nrw = x.nrow();
     mat xx(x.begin(), nrw, ncl, false);
     NumericVector f(proper_size(nrw, ncl));
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
     colvec xv(nrw);
     size_t i, j, k = 0;
     for (i = 0; i < ncl - 1; ++i)
     {
-      xv = xx.col(i);
+      xv = sqrt_xx.col(i);
       for (j = i + 1; j < ncl; ++j, ++k)
       {
-        f[k] = sqrt(2.0 - 2.0 * Coeff::bhattacharyya(xv, xx.col(j)));
+        f[k] = sqrt(2.0 - 2.0 * Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j)));
       }
     }
     return f;

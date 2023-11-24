@@ -15,16 +15,18 @@ namespace Coeff
         const int ncl = x.ncol(), nrw = x.nrow();
         mat xx(x.begin(), nrw, ncl, false);
         NumericMatrix f(ncl, ncl);
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
         colvec xv(nrw);
         double a;
         int i, j;
 
         for (i = 0; i < ncl - 1; ++i)
         {
-            xv = xx.col(i);
+            xv = sqrt_xx.col(i);
             for (j = i + 1; j < ncl; ++j)
             {
-                a = Coeff::bhattacharyya(xv, xx.col(j));
+                a = Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j));
                 f(i, j) = a;
                 f(j, i) = a;
             }
@@ -63,14 +65,16 @@ namespace CoeffVector
         const int ncl = x.ncol(), nrw = x.nrow();
         mat xx(x.begin(), nrw, ncl, false);
         NumericVector f(proper_size(nrw, ncl));
+		mat sqrt_xx(nrw, ncl, fill::none);
+		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
         colvec xv(nrw);
         int i, j, k = 0;
         for (i = 0; i < ncl - 1; ++i)
         {
-            xv = xx.col(i);
+            xv = sqrt_xx.col(i);
             for (j = i + 1; j < ncl; ++j, ++k)
             {
-                f[k] = Coeff::bhattacharyya(xv, xx.col(j));
+                f[k] = Coeff::bhattacharyya<false>(xv, sqrt_xx.col(j));
             }
         }
         return f;

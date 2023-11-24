@@ -7,9 +7,6 @@ Dist <- function(x,method = "euclidean", square = FALSE,p=0,vector = FALSE) {
     }
 	if(method != "haversine")
   		x <- t(x)
-	if(method == "hellinger"){
-		x <- sqrt(x)
-	}
 	if(vector){
 		.Call(Rfast_dist_vec,x,method,square,p)
 	}else{
@@ -50,9 +47,6 @@ total.dist <- function(x,method = "euclidean", square = FALSE,p=0) {
     }
   if(method != "haversine")
 	x <- t(x)
-  if(method == "hellinger"){
-	x <- sqrt(x)
-  }
   .Call(Rfast_total_dists,x,method,square,p)
 }
 
