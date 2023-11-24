@@ -7,24 +7,23 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
->  |  coeff				| Coefficient matrix.  |
+>  |  coeff				| optimize bhattacharyya.  |
 >
 >
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
 >
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
->  |  Dist | Fix bug. |
->  |  total.dists | Fix bug. |
->  |  total.dista | Fix bug about option index and k. |
->  |  dista | Fix bug about option index and k. |
+>  |  Dist | Fix bug and optimize bhattacharyya, jeffries_matusita. |
+>  |  total.dists | Fix bug optimize bhattacharyya, jeffries_matusita. |
+>  |  total.dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
+>  |  dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
 >
 >  |	    Function/Structure	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
->  |  colMads				| Supports data.frame  |
 >
 
 
