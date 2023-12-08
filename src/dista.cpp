@@ -11,41 +11,85 @@ using std::string;
 namespace Dista
 {
 
-	void euclidean(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k)
+	void euclidean(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k, const bool parallel)
 	{
-		if (sqr)
+		if (parallel)
 		{
-			if (k > 0)
+			if (sqr)
 			{
-
-				for (size_t i = 0; i < disa.n_cols; ++i)
+				if (k > 0)
 				{
-					disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k);
+#pragma omp parallel for
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k);
+					}
+				}
+				else
+				{
+#pragma omp parallel for
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
+					}
 				}
 			}
 			else
 			{
-				for (size_t i = 0; i < disa.n_cols; ++i)
+				if (k > 0)
 				{
-					disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
+#pragma omp parallel for
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
+					}
+				}
+				else
+				{
+#pragma omp parallel for
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t();
+					}
 				}
 			}
 		}
 		else
 		{
-			if (k > 0)
+			if (sqr)
 			{
-
-				for (size_t i = 0; i < disa.n_cols; ++i)
+				if (k > 0)
 				{
-					disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
+
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k);
+					}
+				}
+				else
+				{
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
+					}
 				}
 			}
 			else
 			{
-				for (size_t i = 0; i < disa.n_cols; ++i)
+				if (k > 0)
 				{
-					disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t();
+
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
+					}
+				}
+				else
+				{
+					for (size_t i = 0; i < disa.n_cols; ++i)
+					{
+						disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t();
+					}
 				}
 			}
 		}
@@ -461,9 +505,9 @@ namespace Dista
 
 	void jeffries_matusita(mat &xnew, mat &x, mat &disa, const unsigned int k)
 	{
-        mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
-        fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
-        fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
+		mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
+		fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
+		fill_with<std::sqrt, double *, double *>(xnew.begin(), xnew.end(), sqrt_xnew.begin());
 		if (k > 0)
 		{
 
@@ -565,7 +609,6 @@ namespace Dista
 			}
 		}
 	}
-
 }
 
 //[[Rcpp::export]]
@@ -578,7 +621,7 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	mat disa(disaa.begin(), n, nu, false);
 	if (method == "euclidean")
 	{
-		Dista::euclidean(xnew, x, disa, sqr, k);
+		Dista::euclidean(xnew, x, disa, sqr, k, parallel);
 	}
 	else if (method == "manhattan")
 	{
