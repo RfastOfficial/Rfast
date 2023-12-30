@@ -62,7 +62,7 @@ ttest1 <- function(x, m, alternative = "unequal", logged = FALSE, conf = NULL) {
 
 
 #[export]
-ttest2 <- function(x, y, paired = FALSE, logged = FALSE) {
+ttest2 <- function(x, y, alternative = "unequal", paired = FALSE, logged = FALSE) {
 
   if ( !paired ) {
     n1 <- length(x)
@@ -74,9 +74,19 @@ ttest2 <- function(x, y, paired = FALSE, logged = FALSE) {
     fac <- f1 + f2
     dof <- fac^2 / ( f1^2 / (n1 - 1) + f2^2 / (n2 - 1) )
     stat <- ( m1 - m2 ) / sqrt(fac)
-    if ( logged ) {
-      pvalue <- log(2) + pt( abs(stat), dof, lower.tail = FALSE, log.p = TRUE )
-    } else  pvalue <- 2 * pt( abs(stat), dof, lower.tail = FALSE )  
+	
+	if ( alternative == "unequal" ) {
+      if ( logged ) {
+        pvalue <- log(2) + pt( abs(stat), dof, lower.tail = FALSE, log.p = TRUE ) 
+	  } else  pvalue <- 2 * pt( abs(stat), dof, lower.tail = FALSE) 
+    } else if ( alternative == "greater" ) {
+      pvalue <- pt( stat, lower.tail = FALSE, dof, log.p = logged )	
+    } else if ( alternative == "less" ) {
+      pvalue <- pt( stat, dof, log.p = logged )
+    }
+	#if ( logged ) {
+    #  pvalue <- log(2) + pt( abs(stat), dof, lower.tail = FALSE, log.p = TRUE )
+    #} else  pvalue <- 2 * pt( abs(stat), dof, lower.tail = FALSE )  
     result <- c(stat, pvalue, dof)
     names(result) <- c("stat", "p-value", "dof")
 
