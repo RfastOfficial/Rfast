@@ -18,6 +18,8 @@
 >  |  total.dists | Fix bug optimize bhattacharyya, jeffries_matusita. |
 >  |  total.dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
 >  |  dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
+>  |  ttest2 | Added an option to select the alternative hypothesis. |
+>  |  ttests | Added an option to select the alternative hypothesis. |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
