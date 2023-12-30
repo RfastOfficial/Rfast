@@ -84,9 +84,6 @@ ttest2 <- function(x, y, alternative = "unequal", paired = FALSE, logged = FALSE
     } else if ( alternative == "less" ) {
       pvalue <- pt( stat, dof, log.p = logged )
     }
-	#if ( logged ) {
-    #  pvalue <- log(2) + pt( abs(stat), dof, lower.tail = FALSE, log.p = TRUE )
-    #} else  pvalue <- 2 * pt( abs(stat), dof, lower.tail = FALSE )  
     result <- c(stat, pvalue, dof)
     names(result) <- c("stat", "p-value", "dof")
 
@@ -108,7 +105,7 @@ ttest2 <- function(x, y, alternative = "unequal", paired = FALSE, logged = FALSE
 
 
 #[export]
-ttests <- function(x, y = NULL, ina, paired = FALSE, logged = FALSE, parallel = FALSE) {
+ttests <- function(x, y = NULL, ina, alternative = "unequal", paired = FALSE, logged = FALSE, parallel = FALSE) {
 
   if ( !paired ) {
 
@@ -129,9 +126,20 @@ ttests <- function(x, y = NULL, ina, paired = FALSE, logged = FALSE, parallel = 
     fac <- f1 + f2
     dof <- fac^2 / ( f1^2 / (n1 - 1) + f2^2 / (n2 - 1) )
     stat <- ( m1 - m2 ) / sqrt(fac)
-    if ( logged ) {
-      pvalue <- log(2) + pt( abs(stat), dof, lower.tail = FALSE, log.p = TRUE )
-    } else  pvalue <- 2 * pt( abs(stat), dof, lower.tail = FALSE )  
+	
+	if ( alternative == "unequal" ) {
+      if ( logged ) {
+        pvalue <- log(2) + pt( abs(stat), dof, lower.tail = FALSE, log.p = TRUE ) 
+	  } else  pvalue <- 2 * pt( abs(stat), dof, lower.tail = FALSE) 
+    } else if ( alternative == "greater" ) {
+      pvalue <- pt( stat, lower.tail = FALSE, dof, log.p = logged )	
+    } else if ( alternative == "less" ) {
+      pvalue <- pt( stat, dof, log.p = logged )
+    }
+	
+    #if ( logged ) {
+    #  pvalue <- log(2) + pt( abs(stat), dof, lower.tail = FALSE, log.p = TRUE )
+    #} else  pvalue <- 2 * pt( abs(stat), dof, lower.tail = FALSE )  
     result <- cbind(stat, pvalue, dof)
 
   } else {
