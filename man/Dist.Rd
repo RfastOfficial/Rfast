@@ -44,22 +44,22 @@ The "kullback_leibler" refers to the symmetric Kullback-Leibler divergence.
 
 \itemize{
 \item euclidean : \eqn{ \sum \sqrt( \sum | P_i - Q_i |^2)}
-\item manhattan : \eqn{ \sum \sum | P_i - Q_i |}
+\item manhattan : \eqn{ \sum | P_i - Q_i |}
 \item minimum : \eqn{ \sum \min | P_i - Q_i |}
 \item maximum : \eqn{ \sum \max | P_i - Q_i |}
-\item minkowski : \eqn{ \sum ( \sum | P_i - Q_i |^p)^\frac{1}{p}}
-\item bhattacharyya : \eqn{ \sum - ln \sum \sqrt(P_i * Q_i)}
-\item hellinger : \eqn{ \sum 2 * \sqrt( 1 - \sum \sqrt(P_i * Q_i))}
-\item kullback_leibler : \eqn{ \sum \sum P_i * log(\frac{P_i}{Q_i})}
-\item jensen_shannon : \eqn{ \sum 0.5 * ( \sum P_i * log(2 * \frac{P_i}{Q_i} + Q_i) + \sum Q_i * log(2 * \frac{Q_i}{P_i} + Q_i))}
-\item canberra : \eqn{ \sum \sum \frac{| P_i - Q_i |}{P_i + Q_i}}
-\item chi_square \eqn{X}^2 : \eqn{ \sum \sum (\frac{(P_i - Q_i )^2}{P_i + Q_i})}
-\item soergel : \eqn{ \sum \frac{\sum | P_i - Q_i |}{\sum \max(P_i , Q_i)}}
-\item sorensen : \eqn{ \sum \frac{\sum | P_i - Q_i |}{\sum (P_i + Q_i)}}
+\item minkowski : \eqn{ ( \sum | P_i - Q_i |^p)^{\frac{1}{p}}}
+\item bhattacharyya : \eqn{ - ln (\sum \sqrt(P_i * Q_i))}
+\item hellinger : \eqn{ 2 * \sqrt( 1 - \sum \sqrt(P_i * Q_i))}
+\item kullback_leibler : \eqn{ \sum P_i * log(\frac{P_i}{Q_i})}
+\item jensen_shannon : \eqn{ 0.5 * ( \sum P_i * log(2 * \frac{P_i}{Q_i + Q_i}) + \sum Q_i * log(2 * \frac{Q_i}{P_i + Q_i}))}
+\item canberra : \eqn{ \sum \frac{| P_i - Q_i |}{P_i + Q_i}}
+\item chi_square \eqn{X}^2 : \eqn{ \sum (\frac{(P_i - Q_i )^2}{P_i + Q_i})}
+\item soergel : \eqn{ \frac{\sum | P_i - Q_i |}{\sum \max(P_i , Q_i)}}
+\item sorensen : \eqn{ \frac{\sum | P_i - Q_i |}{\sum (P_i + Q_i)}}
 \item cosine : \eqn{ \sum \frac{\sum (P_i * Q_i)}{\sqrt(\sum P_i^2) * \sqrt(\sum Q_i^2)}}
 \item wave_hedges : \eqn{ \sum \frac{\sum | P_i - Q_i |}{\max(P_i , Q_i)}}
-\item motyka : \eqn{ \sum \sum \frac{\min(P_i , Q_i)}{(P_i + Q_i)}}
-\item harmonic_mean : \eqn{ \sum 2 * \frac{\sum P_i * Q_i}{P_i + Q_i}}
+\item motyka : \eqn{ \sum \frac{\min(P_i, Q_i)}{(P_i + Q_i)}}
+\item harmonic_mean : \eqn{ 2 * \frac{\sum P_i * Q_i}{P_i + Q_i}}
 \item jeffries_matusita : \eqn{ \sum \sqrt( 2 - 2 * \sum \sqrt(P_i * Q_i))}
 \item gower : \eqn{ \sum \frac{1}{d} * \sum | P_i - Q_i |}
 \item kulczynski : \eqn{ \sum \frac{\sum | P_i - Q_i |}{\sum \min(P_i , Q_i)}}
