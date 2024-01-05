@@ -350,7 +350,7 @@ SEXP col_all_p(LogicalMatrix x, const unsigned int cores)
   const int n = x.ncol();
   SEXP f = PROTECT(Rf_allocVector(LGLSXP, n));
   imat xx(x.begin(), x.nrow(), n, false);
-  int *ff = LOGICAL(x);
+  int *ff = LOGICAL(f);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
@@ -379,7 +379,7 @@ SEXP row_all_p(LogicalMatrix x, const unsigned int cores)
   const int n = x.nrow();
   SEXP f = PROTECT(Rf_allocVector(LGLSXP, n));
   imat xx(x.begin(), n, x.ncol(), false);
-  int *ff = LOGICAL(x);
+  int *ff = LOGICAL(f);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
