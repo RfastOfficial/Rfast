@@ -198,16 +198,15 @@ END_RCPP
 
 NumericVector group_med(NumericVector x,IntegerVector group,const int length_unique,SEXP group_maxSEXP){
   int group_max;
-  if(Rf_isNull(group_maxSEXP))
-    maximum<int>(group.begin(),group.end(),group_max);
-  else
-    group_max=Rf_asInteger(group_maxSEXP);
+  group_max=Rf_asInteger(group_maxSEXP);
   const int n=x.size();
   NumericVector f(length_unique);
   int i=0;
   vector<vector<double>> groups(group_max,vector<double>());
   for(i=0;i<n;++i)
     groups[group[i]-1].push_back(x[i]);
+  
+  i=0;
   for(auto& gr :  groups){
     if(gr.size()>0)
       f[i++]=med_helper<vector<double>>(gr.begin(),gr.end());
