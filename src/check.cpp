@@ -20,7 +20,7 @@ using std::vector;
 vector<string> check_namespace(const string dir_to_export, const string dir_to_file)
 {
 	int which_string_has_export = 0, len_which_not_exp = 1;
-	vector<string> allfiles = readDirectory(dir_to_file, 2), which_undefined_function, all_exported_files;
+	vector<string> allfiles = readDirectory(dir_to_file, false), which_undefined_function, all_exported_files;
 	if (allfiles.empty())
 	{
 		stop("Warning: empty folder.\n");
@@ -118,12 +118,13 @@ List check_aliases(const string path_man, const string path_rf)
 	List data = read_functions_and_signatures(path_rf);
 	List all_functions = data["export"];
 	vector<string> aliases, all_r_functions = all_functions["functions"],
-							all_s3method = all_functions["s3"], all_rd_files = readDirectory(path_man, 3), tmp, dontread_rd;
+							all_s3method = all_functions["s3"], all_rd_files = readDirectory(path_man), tmp, dontread_rd;
 	all_r_functions.reserve(all_r_functions.size() + all_s3method.size());
 	all_r_functions.insert(all_r_functions.end(), all_s3method.begin(), all_s3method.end());
 	for (auto &rd_file : all_rd_files)
 	{
-		file.open(path_man + rd_file + ".Rd");
+		file.open(rd_file);
+		Rcout<<(rd_file)<<endl;
 		if (!file.is_open())
 		{
 			Rcout << "Can't open file " << rd_file << ".\n";
@@ -177,10 +178,11 @@ RcppExport SEXP Rfast_check_aliases(SEXP dir_to_manSEXP, SEXP dir_to_fileSEXP)
 struct File : public ifstream
 {
 	string name;
-	void fopen(string path, string name)
+	void fopen(string path_with_name)
 	{
-		this->name = name;
-		this->open(path + name);
+		fs::path p{path_with_name};
+		this->name = p.stem().filename().generic_string();
+		this->open(path_with_name);
 	}
 	void fclose()
 	{
@@ -195,7 +197,7 @@ List check_usage(string path_man, string path_rf)
 {
 	DEBUG("START");
 	File file_rd, file_r;
-	vector<string> all_rd_files = read_directory(path_man), dontread_rd, dontread_r;
+	vector<string> all_rd_files = readDirectory(path_man), dontread_rd, dontread_r;
 	std::vector<string> exported_functions_names, not_exported_functions_names;
 	vector<string> missing_functions, aliases, functions_usage, missmatch_functions, name_of_functions_in_usage,aliases_with_lines_more_than_90;
 	string r_file, function_signature;
@@ -205,10 +207,10 @@ List check_usage(string path_man, string path_rf)
 
 	for (unsigned int i = 0; i < all_rd_files.size(); ++i)
 	{
-		file_rd.fopen(path_man, all_rd_files[i]);
+		file_rd.fopen(all_rd_files[i]);
 		if (!file_rd.is_open())
 		{
-			Rcout << "Can't open file " << all_rd_files[i] << ".\n";
+			Rcout << "Can't open file " << file_rd.name << ".\n";
 			continue;
 		}
 		if (!check_read_file(file_rd, '%'))

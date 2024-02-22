@@ -12,6 +12,8 @@
 #include <algorithm>
 #include <iterator>
 #include <Rcpp.h>
+#include <filesystem>
+namespace fs = std::filesystem;
 
 using Rcpp::List;
 using std::vector;
@@ -86,7 +88,7 @@ array<string,2> split_words_in_half(string,const char);
 void writeFile(vector<string>,string);
 vector<string> readNamespaceFile(string,int&);
 bool is_namespace_export(string);
-vector<string> readDirectory(const string,const int);
+vector<string> readDirectory(const fs::path, const bool extension = true);
 bool is_alias(const char *s,int);
 bool next_alias(ifstream &,string &);
 vector<string> read_aliases(ifstream &);
@@ -94,7 +96,6 @@ vector<string> find_which(vector<string>,vector<string>);
 vector<string> find_duplis(vector<string>);
 bool is_example(const char *,int);
 int get_example(ifstream&,string&);
-vector<string> read_directory(string);
 string read_example(ifstream &,int&);
 bool binary_help(vector<string>::iterator,vector<string>::iterator,string&,vector<string>::iterator&);
 vector<string> read_usage(ifstream &, vector<string> &);

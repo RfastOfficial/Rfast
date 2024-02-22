@@ -89,51 +89,25 @@ bool is_namespace_export(string x)
     return x.size() > sizeof("export") and x[0] == 'e' and x[1] == 'x' and x[2] == 'p' and x[3] == 'o' and x[4] == 'r' and x[5] == 't';
 }
 
-vector<string> read_directory(string path)
+vector<string> readDirectory(const fs::path path, const bool extension)
 {
-    DIR *dir = NULL;
-    struct dirent *ent;
     vector<string> files;
     string textf;
-    if ((dir = opendir(path.c_str())) != NULL)
+    if (fs::exists(path))
     {
-        readdir(dir);
-        readdir(dir);
-        while ((ent = readdir(dir)) != NULL)
-        {
-            textf = ent->d_name;
-            files.push_back(textf);
+        for (const auto& entry : fs::recursive_directory_iterator(path)) { // automatically skips special directories . and ..
+            if (fs::is_regular_file(entry)) {
+                if(extension)
+                    textf = entry.path().generic_string();
+                else
+                    textf = entry.path().stem().generic_string();
+                files.push_back(textf);
+            }
         }
-        closedir(dir);
     }
     else
     {
-        stop("Error: Could not open directory with path \"" + path + "\"");
-    }
-    return files;
-}
-
-vector<string> readDirectory(const string path, const int n)
-{
-    DIR *dir = NULL;
-    struct dirent *ent;
-    vector<string> files;
-    string textf;
-    if ((dir = opendir(path.c_str())) != NULL)
-    {
-        readdir(dir); // read . file
-        readdir(dir); // read .. file
-        while ((ent = readdir(dir)) != NULL)
-        {
-            textf = ent->d_name;
-            textf.erase(textf.end() - n, textf.end());
-            files.push_back(textf);
-        }
-        closedir(dir);
-    }
-    else
-    {
-        Rcpp::stop("Error: Could not open directory with path \"" + path + "\"");
+        Rcpp::stop("Error: Could not open directory with path \"" + path.generic_string() + "\"");
     }
     return files;
 }
@@ -803,7 +777,7 @@ void read_functions_from_r_file(
 List read_functions_and_signatures(string path)
 {
     vector<string> exported_functions_names, exported_functions_s3, hidden_functions_names,
-        not_exported_functions_names, files = read_directory(path), dont_read, exported_special_functions;
+        not_exported_functions_names, files = readDirectory(path), dont_read, exported_special_functions;
 
     exported_functions_names.reserve(500);
     exported_functions_s3.reserve(50);
@@ -813,7 +787,7 @@ List read_functions_and_signatures(string path)
     for (auto &file : files)
     {
         read_functions_from_r_file(
-            path + file,
+            file,
             exported_functions_names,
             exported_functions_s3,
             not_exported_functions_names,
@@ -846,5 +820,7 @@ List read_functions_and_signatures(string path)
         exp["s3"] = std::vector<string>();
     if (exp.size() != 0)
         l["export"] = exp;
+
+    l["files"] = files;
     return l;
 }

@@ -17,8 +17,9 @@ RcppExport SEXP Rfast_read_directory(SEXP pathSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
-    traits::input_parameter< const string >::type path(pathSEXP);
-    __result = read_directory(path);
+    // traits::input_parameter< const string >::type path(pathSEXP);
+    // __result = read_directory(path);
+    __result = readDirectory(fs::path{as<string>(pathSEXP)});
     return __result;
 END_RCPP
 }
@@ -39,12 +40,11 @@ using std::string;
 
 List read_examples(string path_man){
   ifstream file;
-  vector<string> examples,all_rd_files=read_directory(path_man),files_long_lines,dontread_rd;
+  vector<string> examples,all_rd_files=readDirectory(path_man),files_long_lines,dontread_rd;
   string tmp;
   int longlines=0;
   for(unsigned int i=0;i<all_rd_files.size();++i){
-  	string filename = path_man+all_rd_files[i];
-  	if(is_regular_file(filename.c_str())){
+  	string filename = all_rd_files[i];
 	    file.open(filename);
 	    if(!file.is_open()){
 	      stop("Can't open file \"%s\".",all_rd_files[i]);
@@ -64,7 +64,6 @@ List read_examples(string path_man){
 	      --i;
 	    }
 	    file.close();
-	}
   }
   List l;
   if(!examples.empty())
