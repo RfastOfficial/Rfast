@@ -1,6 +1,40 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.2 - TODO**
+***
+> <u> **New** </u>
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  coeff				| optimize bhattacharyya.  |
+>
+>
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  group | Fix bug. |
+>  |  read.directory | Removed. |
+>  |  AddToNamespace | New option for using full path names. |
+>  |  checkNamespace | New option for using full path names. |
+>  |  checkAliases | New option for using full path names. |
+>  |  checkUsage | New option for using full path names. |
+>  |  checkTF | New option for using full path names. |
+>  |  read.examples | New option for using full path names. |
+>  |  checkExamples | New option for using full path names. |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.1.1 - Hephaestus**
 ***
 > <u> **New** </u>
