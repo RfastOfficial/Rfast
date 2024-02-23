@@ -12,31 +12,32 @@ using std::ifstream;
 using std::vector;
 using std::string;
 
-List read_examples(string path_man){
+List read_examples(string path_man, const bool full_paths = false){
   ifstream file;
-  vector<string> examples,all_rd_files=readDirectory(path_man),files_long_lines,dontread_rd;
+  vector<string> examples,files_long_lines,dontread_rd;
+  Files all_rd_files=readDirectory(path_man);
   string tmp;
-  int longlines=0;
-  for(unsigned int i=0;i<all_rd_files.size();++i){
-  	string filename = all_rd_files[i];
-	    file.open(filename);
+  int longlines=0,i=0;
+  for(auto &rd_file : all_rd_files){
+	    file.open(rd_file.filename(true));
 	    if(!file.is_open()){
-	      stop("Can't open file \"%s\".",all_rd_files[i]);
+	      stop("Can't open file \"%s\".",rd_file.filename(full_paths));
 	    }
 	    if(check_read_file(file,'%')){
 	      longlines=0;
 	      tmp=read_example(file,longlines);
 	      if(longlines){
-	      	files_long_lines.push_back(all_rd_files[i]);
+	      	files_long_lines.push_back(rd_file.filename(full_paths));
 	      }
 	      if(!tmp.empty())
 	        examples.push_back(tmp);
 	    }else{
-	      DEBUG("Find attribute dont read file with name: "+all_rd_files[i]);
-	      dontread_rd.push_back(all_rd_files[i]);
+	      DEBUG("Find attribute dont read file with name: "+rd_file.filename(full_paths));
+	      dontread_rd.push_back(rd_file.filename(full_paths));
 	      all_rd_files.erase(all_rd_files.begin()+i);
 	      --i;
 	    }
+      ++i;
 	    file.close();
   }
   List l;
@@ -51,12 +52,13 @@ List read_examples(string path_man){
   return l;
 }
 
-RcppExport SEXP Rfast_read_examples(SEXP path_manSEXP) {
+RcppExport SEXP Rfast_read_examples(SEXP path_manSEXP, SEXP full_pathsSEXP) {
 BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< string >::type path_man(path_manSEXP);
-    __result = read_examples(path_man);
+	  traits::input_parameter<const bool>::type full_paths(full_pathsSEXP);
+    __result = read_examples(path_man,full_paths);
     return __result;
 END_RCPP
 }

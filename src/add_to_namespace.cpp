@@ -5,15 +5,12 @@
 
 using namespace Rcpp;
 
-
-using std::vector;
-using std::string;
 using std::binary_search;
 
 //[[Rcpp::export]]
-List add_to_namespace(const string dir_to_export,const string dir_to_file){
+List add_to_namespace(const string dir_to_export,const string dir_to_file, const bool full_paths = false){
     int which_string_has_export=0;
-    List data = read_functions_and_signatures(dir_to_file);
+    List data = read_functions_and_signatures(dir_to_file,full_paths);
     List functions=data["export"];
     vector<string> newfiles=functions["functions"],s3=functions["s3"],special = functions["special"],already_exported_files;
     if(newfiles.empty()){
@@ -63,13 +60,14 @@ List add_to_namespace(const string dir_to_export,const string dir_to_file){
     return l;
 }
 
-RcppExport SEXP Rfast_add_to_namespace(SEXP dir_to_exportSEXP,SEXP dir_to_fileSEXP) {
+RcppExport SEXP Rfast_add_to_namespace(SEXP dir_to_exportSEXP,SEXP dir_to_fileSEXP, SEXP full_pathsSEXP) {
     BEGIN_RCPP
     RObject __result;
     RNGScope __rngScope;
     traits::input_parameter< const string >::type dir_to_export(dir_to_exportSEXP);
     traits::input_parameter< const string >::type dir_to_file(dir_to_fileSEXP);
-    __result = add_to_namespace(dir_to_export,dir_to_file);
+	traits::input_parameter<const bool>::type full_paths(full_pathsSEXP);
+    __result = add_to_namespace(dir_to_export,dir_to_file, full_paths);
     return __result;
     END_RCPP
 }

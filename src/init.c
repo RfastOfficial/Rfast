@@ -1,7 +1,7 @@
 #include <Rinternals.h>
 #include <R_ext/Rdynload.h>
 
-SEXP Rfast_add_to_namespace(SEXP, SEXP);
+SEXP Rfast_add_to_namespace(SEXP, SEXP, SEXP);
 SEXP Rfast_as_integer(SEXP, SEXP, SEXP);
 SEXP Rfast_apply_condition(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_bcdcor(SEXP, SEXP);
@@ -42,10 +42,10 @@ SEXP Rfast_columns(SEXP, SEXP);
 SEXP Rfast_chi2Test(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_chi2Test_univariate(SEXP, SEXP);
 SEXP Rfast_chi2tests(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_check_namespace(SEXP, SEXP);
-SEXP Rfast_check_aliases(SEXP, SEXP);
-SEXP Rfast_check_true_false(SEXP);
-SEXP Rfast_check_usage(SEXP, SEXP);
+SEXP Rfast_check_namespace(SEXP, SEXP, SEXP);
+SEXP Rfast_check_aliases(SEXP, SEXP, SEXP);
+SEXP Rfast_check_true_false(SEXP, SEXP);
+SEXP Rfast_check_usage(SEXP, SEXP, SEXP);
 SEXP Rfast_col_any(SEXP);
 SEXP Rfast_col_anovas(SEXP, SEXP);
 SEXP Rfast_cholesky(SEXP);
@@ -178,7 +178,7 @@ SEXP Rfast_row_prods(SEXP);
 SEXP Rfast_row_false(SEXP);
 SEXP Rfast_row_order(SEXP, SEXP, SEXP);
 SEXP Rfast_row_true_false(SEXP);
-SEXP Rfast_read_examples(SEXP);
+SEXP Rfast_read_examples(SEXP, SEXP);
 SEXP Rfast_row_count_values(SEXP, SEXP);
 SEXP Rfast_row_mads(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_vars(SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -252,7 +252,7 @@ SEXP Rfast_row_ranks_p(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_sums_p(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"Rfast_add_to_namespace", (DL_FUNC)&Rfast_add_to_namespace, 2},
+    {"Rfast_add_to_namespace", (DL_FUNC)&Rfast_add_to_namespace, 3},
     {"Rfast_apply_condition", (DL_FUNC)&Rfast_apply_condition, 4},
     {"Rfast_as_integer", (DL_FUNC)&Rfast_as_integer, 3},
     {"Rfast_bcdcor", (DL_FUNC)&Rfast_bcdcor, 2},
@@ -293,10 +293,10 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_chi2Test_univariate", (DL_FUNC)&Rfast_chi2Test_univariate, 2},
     {"Rfast_chi2Test", (DL_FUNC)&Rfast_chi2Test, 5},
     {"Rfast_chi2tests", (DL_FUNC)&Rfast_chi2tests, 4},
-    {"Rfast_check_namespace", (DL_FUNC)&Rfast_check_namespace, 2},
-    {"Rfast_check_aliases", (DL_FUNC)&Rfast_check_aliases, 2},
-    {"Rfast_check_true_false", (DL_FUNC)&Rfast_check_true_false, 1},
-    {"Rfast_check_usage", (DL_FUNC)&Rfast_check_usage, 2},
+    {"Rfast_check_namespace", (DL_FUNC)&Rfast_check_namespace, 3},
+    {"Rfast_check_aliases", (DL_FUNC)&Rfast_check_aliases, 3},
+    {"Rfast_check_true_false", (DL_FUNC)&Rfast_check_true_false, 2},
+    {"Rfast_check_usage", (DL_FUNC)&Rfast_check_usage, 3},
     {"Rfast_col_any", (DL_FUNC)&Rfast_col_any, 1},
     {"Rfast_col_anovas", (DL_FUNC)&Rfast_col_anovas, 2},
     {"Rfast_cholesky", (DL_FUNC)&Rfast_cholesky, 1},
@@ -430,7 +430,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_row_false", (DL_FUNC)&Rfast_row_false, 1},
     {"Rfast_row_order", (DL_FUNC)&Rfast_row_order, 3},
     {"Rfast_row_true_false", (DL_FUNC)&Rfast_row_true_false, 1},
-    {"Rfast_read_examples", (DL_FUNC)&Rfast_read_examples, 1},
+    {"Rfast_read_examples", (DL_FUNC)&Rfast_read_examples, 2},
     {"Rfast_row_mads", (DL_FUNC)&Rfast_row_mads, 5},
     {"Rfast_row_vars", (DL_FUNC)&Rfast_row_vars, 5},
     {"Rfast_row_max_indices", (DL_FUNC)&Rfast_row_max_indices, 1},

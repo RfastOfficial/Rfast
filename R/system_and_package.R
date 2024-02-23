@@ -147,8 +147,8 @@ as.Rfast.function<-function(Rfunction.name,margin=NULL){
 }
 
 #[export]
-AddToNamespace <- function(path.namespace,path.rfolder) {
-  .Call(Rfast_add_to_namespace,path.namespace,path.rfolder)
+AddToNamespace <- function(path.namespace,path.rfolder,full.paths = FALSE) {
+  .Call(Rfast_add_to_namespace,path.namespace,path.rfolder,full.paths)
 }
 
 #[export]
@@ -157,23 +157,23 @@ RemoveFromNamespace <- function(path.namespace,files.to.remove) {
 }
 
 #[export]
-read.examples<-function(path.man){
-  .Call(Rfast_read_examples,path.man)
+read.examples<-function(path.man,full.paths = FALSE){
+  .Call(Rfast_read_examples,path.man,full.paths)
 }
 
 #[export]
-checkTF <- function(path.man) {
-	.Call(Rfast_check_true_false,path.man)
+checkTF <- function(path.man,full.paths = FALSE) {
+	.Call(Rfast_check_true_false,path.man,full.paths)
 }
 
 #[export]
-checkNamespace <- function(path.namespace,path.rfolder) {
-	.Call(Rfast_check_namespace,path.namespace,path.rfolder)
+checkNamespace <- function(path.namespace,path.rfolder,full.paths = FALSE) {
+	.Call(Rfast_check_namespace,path.namespace,path.rfolder,full.paths)
 }
 
 #[export]
-checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.names = FALSE){
-  examples_files <- .Call(Rfast_read_examples,path.man)
+checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.names = FALSE,full.paths = FALSE){
+  examples_files <- .Call(Rfast_read_examples,path.man,full.paths = FALSE)
   packageEnv <- new.env(parent = getNamespace(package))
   error_files<-vector("character")
   examples <- examples_files$examples
@@ -206,13 +206,13 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
 }
 
 #[export]
-checkAliases <- function(path.man,path.rfolder) {
-	.Call(Rfast_check_aliases,path.man,path.rfolder)
+checkAliases <- function(path.man,path.rfolder,full.paths = FALSE) {
+	.Call(Rfast_check_aliases,path.man,path.rfolder,full.paths)
 }
 
 #[export]
-checkUsage <- function(path.man,path.rfolder) {
-	.Call(Rfast_check_usage,path.man,path.rfolder)
+checkUsage <- function(path.man,path.rfolder,full.paths = FALSE) {
+	.Call(Rfast_check_usage,path.man,path.rfolder,full.paths)
 }
 
 #[export]
