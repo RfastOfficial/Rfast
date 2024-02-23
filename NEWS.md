@@ -1,6 +1,33 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.2 - TODO**
+***
+> <u> **New** </u>
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  coeff				| optimize bhattacharyya.  |
+>
+>
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  group | Fix bug. |
+>  |  read.directory | Removed. |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.1.1 - Hephaestus**
 ***
 > <u> **New** </u>

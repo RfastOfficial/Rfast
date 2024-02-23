@@ -157,11 +157,6 @@ RemoveFromNamespace <- function(path.namespace,files.to.remove) {
 }
 
 #[export]
-read.directory <- function(path.directory) {
-  .Call(Rfast_read_directory,path.directory)
-}
-
-#[export]
 read.examples<-function(path.man){
   .Call(Rfast_read_examples,path.man)
 }
@@ -222,7 +217,7 @@ checkUsage <- function(path.man,path.rfolder) {
 
 #[export]
 sourceR <- function(path,local=FALSE,encode = "UTF-8",print.errors=FALSE) {
-  file_names <- .Call('Rfast_read_directory', PACKAGE = 'Rfast',path)
+  file_names <- list.files(path)
   error_files<-vector("character")
   if(print.errors){
     warning_error_function <-function(err){

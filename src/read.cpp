@@ -1,31 +1,12 @@
 
 //Author: Manos Papadakis
 #include <RcppArmadillo.h>
-#include <dirent.h>
 #include "system_files.h"
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 
 using namespace Rcpp;
-
-using std::vector;
-using std::string;
-
-
-RcppExport SEXP Rfast_read_directory(SEXP pathSEXP) {
-BEGIN_RCPP
-    RObject __result;
-    RNGScope __rngScope;
-    // traits::input_parameter< const string >::type path(pathSEXP);
-    // __result = read_directory(path);
-    __result = readDirectory(fs::path{as<string>(pathSEXP)});
-    return __result;
-END_RCPP
-}
-
-
-/////////////////////////////////////////////////////////////////////////
 
 using std::ifstream;
 using std::vector;
