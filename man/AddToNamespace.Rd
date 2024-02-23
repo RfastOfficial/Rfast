@@ -10,7 +10,7 @@ Insert/remove function names in/from the NAMESPACE file.
 }
 
 \usage{
-AddToNamespace(path.namespace,path.rfolder)
+AddToNamespace(path.namespace,path.rfolder,full.paths = FALSE)
 RemoveFromNamespace(path.namespace,files.to.remove)
 }
 
@@ -23,6 +23,9 @@ An full path to the directory the new files to be added are stored.
 }
 \item{files.to.remove}{
 An character with the names of the functions to be removed from file NAMESPACE.
+}
+\item{full.paths}{
+Print or return the full paths.
 }
 }
 
