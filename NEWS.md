@@ -16,6 +16,13 @@
 >  | -------------------  | ------------------------------- |
 >  |  group | Fix bug. |
 >  |  read.directory | Removed. |
+>  |  AddToNamespace | New option for using full path names. |
+>  |  checkNamespace | New option for using full path names. |
+>  |  checkAliases | New option for using full path names. |
+>  |  checkUsage | New option for using full path names. |
+>  |  checkTF | New option for using full path names. |
+>  |  read.examples | New option for using full path names. |
+>  |  checkExamples | New option for using full path names. |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
