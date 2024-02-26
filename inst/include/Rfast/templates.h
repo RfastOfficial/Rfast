@@ -855,7 +855,6 @@ void as_integer_h(vector<T> x,IntegerVector &f,const int init,const T val){
     const int n=x.size();
     int i,j=0,c=init;
     vector<int> ind=Order< vector<int>,vector<T> >(x,false,false,0); // diorthoseiii
-    x.push_back(val);
     T v=x[ind[j]];
     f[ind[0]]=init;
     for(i=1;i<n;++i){
