@@ -1,7 +1,6 @@
 
 // Author: Manos Papadakis
 #include <RcppArmadillo.h>
-#include <dirent.h>
 #include "system_files.h"
 
 using namespace Rcpp;

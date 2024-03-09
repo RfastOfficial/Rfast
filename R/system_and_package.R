@@ -157,13 +157,22 @@ RemoveFromNamespace <- function(path.namespace,files.to.remove) {
 }
 
 #[export]
-read.directory <- function(path.directory) {
-  .Call(Rfast_read_directory,path.directory)
+read.examples<-function(path.man,full.paths = FALSE){
+  .Call(Rfast_read_examples,path.man,full.paths)
+}
+
+read.examples<-function(path.man,full.paths = FALSE){
+  .Call(Rfast_read_examples,path.man,full.paths)
 }
 
 #[export]
-read.examples<-function(path.man,full.paths = FALSE){
-  .Call(Rfast_read_examples,path.man,full.paths)
+checkTF <- function(path.man,full.paths = FALSE) {
+	.Call(Rfast_check_true_false,path.man,full.paths)
+}
+
+#[export]
+checkNamespace <- function(path.namespace,path.rfolder,full.paths = FALSE) {
+	.Call(Rfast_check_namespace,path.namespace,path.rfolder,full.paths)
 }
 
 #[export]
@@ -222,7 +231,7 @@ checkUsage <- function(path.man,path.rfolder,full.paths = FALSE) {
 
 #[export]
 sourceR <- function(path,local=FALSE,encode = "UTF-8",print.errors=FALSE) {
-  file_names <- .Call('Rfast_read_directory', PACKAGE = 'Rfast',path)
+  file_names <- list.files(path)
   error_files<-vector("character")
   if(print.errors){
     warning_error_function <-function(err){
