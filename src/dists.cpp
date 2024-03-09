@@ -310,7 +310,7 @@ namespace Dist
     mat xx(x.begin(), nrw, ncl, false);
     NumericMatrix f(ncl, ncl);
     colvec xv(nrw), absx(nrw);
-    mat x_abs = abs(x);
+    mat x_abs = abs(xx);
     double a;
     size_t i, j;
 
