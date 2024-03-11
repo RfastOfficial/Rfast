@@ -14,45 +14,8 @@ using std::string;
 
 namespace Dist
 {
-
-	NumericMatrix euclidean(NumericMatrix x, const bool sqr)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-		if (sqr)
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a = sum(square(xx.col(j) - xv));
-					f(i, j) = a;
-					f(j, i) = a;
-				}
-			}
-		}
-		else
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a = std::sqrt(sum(square(xx.col(j) - xv)));
-					f(i, j) = a;
-					f(j, i) = a;
-				}
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix manhattan(NumericMatrix x)
+	template <class Function>
+	NumericMatrix dist_h(NumericMatrix x, Function func)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		mat xx(x.begin(), nrw, ncl, false);
@@ -65,15 +28,15 @@ namespace Dist
 			xv = xx.col(i);
 			for (j = i + 1; j < ncl; ++j)
 			{
-				a = manhattan(xv, xx.col(j));
+				a = func(xv, xx.col(j));
 				f(i, j) = a;
 				f(j, i) = a;
 			}
 		}
 		return f;
 	}
-
-	NumericMatrix chi_square(NumericMatrix x)
+	template <class Function>
+	NumericMatrix dist_h(NumericMatrix x, const double p, Function func)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		mat xx(x.begin(), nrw, ncl, false);
@@ -86,194 +49,7 @@ namespace Dist
 			xv = xx.col(i);
 			for (j = i + 1; j < ncl; ++j)
 			{
-				a = sum(square(xv - xx.col(j)) / (xv + xx.col(j)));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix soergel(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = manhattan(xv, xx.col(j)) / sum_max_elems(xv, xx.col(j));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix kulczynski(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = manhattan(xv, xx.col(j)) / sum_min_elems(xv, xx.col(j));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix wave_hedges(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = sum(abs(xv - xx.col(j)) / max_elems(xv, xx.col(j)));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix motyka(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = 1.0 - sum_min_elems(xv, xx.col(j)) / sum(xv + xx.col(j));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix harmonic_mean(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = 2.0 * dot(xv, xx.col(j)) / sum(xv + xx.col(j));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix hellinger(NumericMatrix x, const bool sqr)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		const double p = 1.0 / std::sqrt(2.0);
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-		if (sqr)
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a = sum(square(xv - xx.col(j))) * 0.5;
-					f(i, j) = a;
-					f(j, i) = a;
-				}
-			}
-		}
-		else
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a = p * std::sqrt(sum(square(xv - xx.col(j))));
-					f(i, j) = a;
-					f(j, i) = a;
-				}
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix max(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw), tmp(nrw);
-		double a;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				tmp = abs(xv - xx.col(j));
-				a = tmp.at(tmp.index_max());
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix min(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw), tmp(nrw);
-		double a;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				tmp = abs(xv - xx.col(j));
-				a = tmp(tmp.index_min());
+				a = func(xv, xx.col(j), p);
 				f(i, j) = a;
 				f(j, i) = a;
 			}
@@ -284,12 +60,12 @@ namespace Dist
 	NumericMatrix minkowski(NumericMatrix x, const double p)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
-		const double p_1 = 1.0 / p;
 		mat xx(x.begin(), nrw, ncl, false);
 		NumericMatrix f(ncl, ncl);
 		colvec xv(nrw);
 		double a;
 		size_t i, j;
+		const double p_1 = 1.0 / p;
 
 		for (i = 0; i < ncl - 1; ++i)
 		{
@@ -328,50 +104,6 @@ namespace Dist
 		return f;
 	}
 
-	NumericMatrix total_variation(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = 0.5 * manhattan(xv, xx.col(j));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	NumericMatrix sorensen(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericMatrix f(ncl, ncl);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = sum(abs(xv - xx.col(j)) / (xv + xx.col(j)));
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
 	NumericMatrix cosine(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -395,7 +127,6 @@ namespace Dist
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericMatrix kullback_leibler(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -421,7 +152,6 @@ namespace Dist
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericMatrix jensen_shannon(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -448,7 +178,6 @@ namespace Dist
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericMatrix bhattacharyya(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -473,7 +202,6 @@ namespace Dist
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericMatrix jeffries_matusita(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -498,7 +226,6 @@ namespace Dist
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericMatrix itakura_saito(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -523,31 +250,6 @@ namespace Dist
 		return f;
 	}
 
-	//[[Rcpp::export]]
-	NumericMatrix gower(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		const double p = 1.0 / nrw;
-		NumericMatrix f(ncl, ncl);
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a;
-		size_t i, j;
-
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a = manhattan(xv, xx.col(j)) * p;
-				f(i, j) = a;
-				f(j, i) = a;
-			}
-		}
-		return f;
-	}
-
-	//[[Rcpp::export]]
 	NumericMatrix haversine(NumericMatrix x)
 	{
 		const int nrw = x.nrow();
@@ -573,26 +275,9 @@ namespace Dist
 
 }
 
-//[[Rcpp::export]]
 NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const int p)
 {
-	if (method == "euclidean" || p == 2)
-	{
-		return Dist::euclidean(x, sqr);
-	}
-	else if (method == "manhattan" || p == 1)
-	{
-		return Dist::manhattan(x);
-	}
-	else if (method == "maximum")
-	{
-		return Dist::max(x);
-	}
-	else if (method == "minimum")
-	{
-		return Dist::min(x);
-	}
-	else if (method == "canberra")
+	if (method == "canberra")
 	{
 		return Dist::canberra(x);
 	}
@@ -603,14 +288,6 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 	else if (method == "bhattacharyya")
 	{
 		return Dist::bhattacharyya(x);
-	}
-	else if (method == "hellinger")
-	{
-		return Dist::hellinger(x, sqr);
-	}
-	else if (method == "total_variation")
-	{
-		return Dist::total_variation(x);
 	}
 	else if (method == "kullback_leibler")
 	{
@@ -628,45 +305,69 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 	{
 		return Dist::haversine(x);
 	}
-	else if (method == "chi_square")
-	{
-		return Dist::chi_square(x);
-	}
-	else if (method == "sorensen")
-	{
-		return Dist::sorensen(x);
-	}
-	else if (method == "soergel")
-	{
-		return Dist::soergel(x);
-	}
 	else if (method == "cosine")
 	{
 		return Dist::cosine(x);
-	}
-	else if (method == "wave_hedges")
-	{
-		return Dist::wave_hedges(x);
-	}
-	else if (method == "motyka")
-	{
-		return Dist::motyka(x);
-	}
-	else if (method == "harmonic_mean")
-	{
-		return Dist::harmonic_mean(x);
 	}
 	else if (method == "jeffries_matusita")
 	{
 		return Dist::jeffries_matusita(x);
 	}
-	else if (method == "gower")
+	else if (method == "manhattan" || p == 2)
 	{
-		return Dist::gower(x);
+		return Dist::dist_h(x, Dist::manhattan);
+	}
+	else if (method == "chi_square")
+	{
+		return Dist::dist_h(x, Dist::chi_square);
+	}
+	else if (method == "soergel")
+	{
+		return Dist::dist_h(x, Dist::soergel);
 	}
 	else if (method == "kulczynski")
 	{
-		return Dist::kulczynski(x);
+		return Dist::dist_h(x, Dist::kulczynski);
+	}
+	else if (method == "wave_hedges")
+	{
+		return Dist::dist_h(x, Dist::wave_hedges);
+	}
+	else if (method == "motyka")
+	{
+		return Dist::dist_h(x, Dist::motyka);
+	}
+	else if (method == "harmonic_mean")
+	{
+		return Dist::dist_h(x, Dist::harmonic_mean);
+	}
+	else if (method == "total_variation")
+	{
+		return Dist::dist_h(x, Dist::total_variation);
+	}
+	else if (method == "sorensen")
+	{
+		return Dist::dist_h(x, Dist::sorensen);
+	}
+	else if (method == "euclidean" || p == 1)
+	{
+		return sqr ? Dist::dist_h(x, Dist::euclidean<true>) : Dist::dist_h(x, Dist::euclidean<false>);
+	}
+	else if (method == "maximum")
+	{
+		return Dist::dist_h(x, Dist::max);
+	}
+	else if (method == "minimum")
+	{
+		return Dist::dist_h(x, Dist::min);
+	}
+	else if (method == "hellinger")
+	{
+		return sqr ? Dist::dist_h(x, 0.5, Dist::hellinger<true>) : Dist::dist_h(x, 1.0 / std::sqrt(2.0), Dist::hellinger<false>);
+	}
+	else if (method == "gower")
+	{
+		return Dist::dist_h(x, 1.0 / x.nrow(), Dist::gower);
 	}
 	stop("Unsupported Method: %s", method);
 }
@@ -688,35 +389,8 @@ RcppExport SEXP Rfast_dist(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP
 namespace DistVector
 {
 
-	NumericVector euclidean(NumericMatrix x, const bool sqr)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		if (sqr)
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j, ++k)
-				{
-					f[k] = sum(square(xx.col(j) - xv));
-				}
-			}
-		else
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j, ++k)
-				{
-					f[k] = std::sqrt(sum(square(xv - xx.col(j))));
-				}
-			}
-		return f;
-	}
-
-	NumericVector manhattan(NumericMatrix x)
+	template <class Function>
+	NumericVector dist_h(NumericMatrix x, Function func)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		mat xx(x.begin(), nrw, ncl, false);
@@ -728,74 +402,26 @@ namespace DistVector
 			xv = xx.col(i);
 			for (j = i + 1; j < ncl; ++j, ++k)
 			{
-				f[k] = sum(abs(xv - xx.col(j)));
+				f[k] = func(xv, xx.col(j));
 			}
 		}
 		return f;
 	}
 
-	NumericVector hellinger(NumericMatrix x, const bool sqr)
+	template <class Function>
+	NumericVector dist_h(NumericMatrix x, const double p, Function func)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
-		const double p = 1.0 / std::sqrt(2.0);
 		mat xx(x.begin(), nrw, ncl, false);
 		NumericVector f(proper_size(nrw, ncl));
 		colvec xv(nrw);
 		size_t i, j, k = 0;
-		if (sqr)
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j, ++k)
-				{
-					f[k] = sum(square(xv - xx.col(j))) * 0.5;
-				}
-			}
-		else
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j, ++k)
-				{
-					f[k] = p * std::sqrt(sum(square(xv - xx.col(j))));
-				}
-			}
-		return f;
-	}
-
-	NumericVector max(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw), tmp(nrw);
-		size_t i, j, k = 0;
 		for (i = 0; i < ncl - 1; ++i)
 		{
 			xv = xx.col(i);
 			for (j = i + 1; j < ncl; ++j, ++k)
 			{
-				tmp = abs(xv - xx.col(j));
-				f[k] = tmp.at(tmp.index_max());
-			}
-		}
-		return f;
-	}
-
-	NumericVector min(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw), tmp(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				tmp = abs(xx.col(j) - xv);
-				f[k] = tmp[tmp.index_min()];
+				f[k] = func(xv, xx.col(j), p);
 			}
 		}
 		return f;
@@ -840,25 +466,6 @@ namespace DistVector
 		return f;
 	}
 
-	NumericVector total_variation(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = 0.5 * sum(abs(xv - xx.col(j)));
-			}
-		}
-		return f;
-	}
-
-	//[[Rcpp::export]]
 	NumericVector kullback_leibler(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -879,7 +486,6 @@ namespace DistVector
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericVector bhattacharyya(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -900,7 +506,6 @@ namespace DistVector
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericVector jeffries_matusita(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -921,7 +526,6 @@ namespace DistVector
 		return f;
 	}
 
-	//[[Rcpp::export]]
 	NumericVector itakura_saito(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -942,46 +546,6 @@ namespace DistVector
 		return f;
 	}
 
-	//[[Rcpp::export]]
-	NumericVector gower(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		const double p = 1.0 / nrw;
-		NumericVector f(proper_size(nrw, ncl));
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = sum(abs(xv - xx.col(j))) * p;
-			}
-		}
-		return f;
-	}
-
-	NumericVector kulczynski(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = sum(abs(xv - xx.col(j))) / sum_min_elems(xv, xx.col(j));
-			}
-		}
-		return f;
-	}
-
-	//[[Rcpp::export]]
 	NumericVector jensen_shannon(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -1023,116 +587,6 @@ namespace DistVector
 		return f;
 	}
 
-	NumericVector soergel(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = sum(abs(xv - xx.col(j))) / sum_max_elems(xv, xx.col(j));
-			}
-		}
-		return f;
-	}
-
-	NumericVector chi_square(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = sum(square(xv - xx.col(j)) / (xv + xx.col(j)));
-			}
-		}
-		return f;
-	}
-
-	NumericVector sorensen(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = sum(abs(xv - xx.col(j)) / (xv + xx.col(j)));
-			}
-		}
-		return f;
-	}
-
-	NumericVector harmonic_mean(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = 2.0 * dot(xv, xx.col(j)) / sum(xv + xx.col(j));
-			}
-		}
-		return f;
-	}
-
-	NumericVector wave_hedges(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = sum(abs(xv - xx.col(j)) / max_elems(xv, xx.col(j)));
-			}
-		}
-		return f;
-	}
-
-	NumericVector motyka(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		NumericVector f(proper_size(nrw, ncl));
-		colvec xv(nrw);
-		size_t i, j, k = 0;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j, ++k)
-			{
-				f[k] = 1.0 - sum_min_elems(xv, xx.col(j)) / sum(xv + xx.col(j));
-			}
-		}
-		return f;
-	}
-
-	//[[Rcpp::export]]
 	NumericVector haversine(NumericMatrix x)
 	{
 		const int nrw = x.nrow();
@@ -1161,23 +615,7 @@ namespace DistVector
 //[[Rcpp::export]]
 NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, const int p)
 {
-	if (method == "euclidean" || p == 2)
-	{
-		return DistVector::euclidean(x, sqr);
-	}
-	else if (method == "manhattan" || p == 1)
-	{
-		return DistVector::manhattan(x);
-	}
-	else if (method == "maximum")
-	{
-		return DistVector::max(x);
-	}
-	else if (method == "minimum")
-	{
-		return DistVector::min(x);
-	}
-	else if (method == "canberra")
+	if (method == "canberra")
 	{
 		return DistVector::canberra(x);
 	}
@@ -1188,14 +626,6 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 	else if (method == "bhattacharyya")
 	{
 		return DistVector::bhattacharyya(x);
-	}
-	else if (method == "hellinger")
-	{
-		return DistVector::hellinger(x, sqr);
-	}
-	else if (method == "total_variation")
-	{
-		return DistVector::total_variation(x);
 	}
 	else if (method == "kullback_leibler")
 	{
@@ -1213,45 +643,69 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 	{
 		return DistVector::haversine(x);
 	}
-	else if (method == "chi_square")
-	{
-		return DistVector::chi_square(x);
-	}
-	else if (method == "sorensen")
-	{
-		return DistVector::sorensen(x);
-	}
-	else if (method == "soergel")
-	{
-		return DistVector::soergel(x);
-	}
 	else if (method == "cosine")
 	{
 		return DistVector::cosine(x);
-	}
-	else if (method == "wave_hedges")
-	{
-		return DistVector::wave_hedges(x);
-	}
-	else if (method == "motyka")
-	{
-		return DistVector::motyka(x);
-	}
-	else if (method == "harmonic_mean")
-	{
-		return DistVector::harmonic_mean(x);
 	}
 	else if (method == "jeffries_matusita")
 	{
 		return DistVector::jeffries_matusita(x);
 	}
-	else if (method == "gower")
+	else if (method == "manhattan" || p == 2)
 	{
-		return DistVector::gower(x);
+		return DistVector::dist_h(x, Dist::manhattan);
+	}
+	else if (method == "chi_square")
+	{
+		return DistVector::dist_h(x, Dist::chi_square);
+	}
+	else if (method == "soergel")
+	{
+		return DistVector::dist_h(x, Dist::soergel);
 	}
 	else if (method == "kulczynski")
 	{
-		return DistVector::kulczynski(x);
+		return DistVector::dist_h(x, Dist::kulczynski);
+	}
+	else if (method == "wave_hedges")
+	{
+		return DistVector::dist_h(x, Dist::wave_hedges);
+	}
+	else if (method == "motyka")
+	{
+		return DistVector::dist_h(x, Dist::motyka);
+	}
+	else if (method == "harmonic_mean")
+	{
+		return DistVector::dist_h(x, Dist::harmonic_mean);
+	}
+	else if (method == "total_variation")
+	{
+		return DistVector::dist_h(x, Dist::total_variation);
+	}
+	else if (method == "sorensen")
+	{
+		return DistVector::dist_h(x, Dist::sorensen);
+	}
+	else if (method == "euclidean" || p == 1)
+	{
+		return sqr ? DistVector::dist_h(x, Dist::euclidean<true>) : DistVector::dist_h(x, Dist::euclidean<false>);
+	}
+	else if (method == "maximum")
+	{
+		return DistVector::dist_h(x, Dist::max);
+	}
+	else if (method == "minimum")
+	{
+		return DistVector::dist_h(x, Dist::min);
+	}
+	else if (method == "hellinger")
+	{
+		return sqr ? DistVector::dist_h(x, 0.5, Dist::hellinger<true>) : DistVector::dist_h(x, 1.0 / std::sqrt(2.0), Dist::hellinger<false>);
+	}
+	else if (method == "gower")
+	{
+		return DistVector::dist_h(x, 1.0 / x.nrow(), Dist::gower);
 	}
 	stop("Unsupported Method: %s", method);
 }

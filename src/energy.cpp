@@ -10,8 +10,8 @@ using namespace Rcpp;
 using namespace arma;
 
 List dcor(NumericMatrix x,NumericMatrix y) {
-  NumericMatrix a = Dist::euclidean(x,false);
-  NumericMatrix b = Dist::euclidean(y,false);
+  NumericMatrix a = dist(x,"euclidean",false);
+  NumericMatrix b = dist(y,"euclidean",false);
   const int n=a.ncol();
   mat aa(a.begin(),n,n,false);
   mat bb(b.begin(),n,n,false);
@@ -51,8 +51,8 @@ END_RCPP
 
 
 double dcov(NumericMatrix x,NumericMatrix y) {
-  NumericMatrix a = Dist::euclidean(x,false);
-  NumericMatrix b = Dist::euclidean(y,false);
+  NumericMatrix a = dist(x,"euclidean",false);
+  NumericMatrix b = dist(y,"euclidean",false);
   const int ncla=a.ncol(),nrwa=a.nrow();
   mat aa(a.begin(),nrwa,ncla,false);
   const int nclb=b.ncol(),nrwb=b.nrow();
@@ -84,7 +84,7 @@ END_RCPP
 
 
 double dvar(NumericMatrix x) {
-  NumericMatrix a = Dist::euclidean(x,false);
+  NumericMatrix a = dist(x,"euclidean",false);
   const int ncla=a.ncol(),nrwa=a.nrow();
   mat aa(a.begin(),nrwa,ncla,false);
   rowvec ma = mean(aa,0);
@@ -110,7 +110,7 @@ END_RCPP
 
 double edist(NumericMatrix x,NumericMatrix y){
 	const int n1=x.ncol(),n2=y.ncol();
-	double mij=total_dista(x, y,"euclidean",false),mii=DistTotal::euclidean(x,false),mjj=DistTotal::euclidean(y,false);
+	double mij=total_dista(x, y,"euclidean",false),mii=total_dist(x,"euclidean",false),mjj=total_dist(x,"euclidean",false);
         return (2 * mij/(n1 * n2) - 2 * mii/(n1*n1) - 2 * mjj/(n2*n2) ) * n1 * n2 / (n1 + n2);
 }
 
@@ -140,8 +140,8 @@ static vec lower_tri(mat &x){
 
 
 double bcdcor(NumericMatrix x,NumericMatrix y) {
-  NumericMatrix a = Dist::euclidean(x,false);
-  NumericMatrix b = Dist::euclidean(y,false);
+  NumericMatrix a = dist(x,"euclidean",false);
+  NumericMatrix b = dist(y,"euclidean",false);
   const double n=a.ncol();
   mat aa(a.begin(),n,n,false);
   mat bb(b.begin(),n,n,false);

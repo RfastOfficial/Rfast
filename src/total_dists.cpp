@@ -6,131 +6,46 @@
 #include "mn.h"
 #include "Rfast.h"
 #include "Coeff.h"
+#include "Dist.h"
 
 using namespace Rcpp;
 using namespace arma;
 
 namespace DistTotal
 {
-
-	double euclidean(NumericMatrix x, const bool sqr)
+	template <class Function>
+	double dist_h(NumericMatrix x, Function func)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		mat xx(x.begin(), nrw, ncl, false);
 		colvec xv(nrw);
-		double a = 0;
-		size_t i, j;
-		if (sqr)
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a += sum(square(xx.col(j) - xv));
-				}
-			}
-		}
-		else
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a += std::sqrt(sum(square(xv - xx.col(j))));
-				}
-			}
-		}
-		return a;
-	}
-
-	double manhattan(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0;
+		double a=0.0;
 		size_t i, j;
 		for (i = 0; i < ncl - 1; ++i)
 		{
 			xv = xx.col(i);
 			for (j = i + 1; j < ncl; ++j)
 			{
-				a += sum(abs(xv - xx.col(j)));
+				a += accu(func(xv, xx.col(j)));
 			}
 		}
 		return a;
 	}
-
-	double hellinger(NumericMatrix x, const bool sqr)
+	template <class Function>
+	double dist_h(NumericMatrix x, const double p, Function func)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
-		const double p = 1.0 / std::sqrt(2.0);
 		mat xx(x.begin(), nrw, ncl, false);
+		NumericMatrix f(ncl, ncl);
 		colvec xv(nrw);
-		double a = 0;
-		size_t i, j;
-		if (sqr)
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a += sum(square(xv - xx.col(j)));
-				}
-			}
-			a *= 0.5;
-		}
-		else
-		{
-			for (i = 0; i < ncl - 1; ++i)
-			{
-				xv = xx.col(i);
-				for (j = i + 1; j < ncl; ++j)
-				{
-					a += std::sqrt(sum(square(xv - xx.col(j))));
-				}
-			}
-			a *= p;
-		}
-		return a;
-	}
-
-	double max(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw), tmp(nrw);
-		double a = 0;
+		double a=0.0;
 		size_t i, j;
 		for (i = 0; i < ncl - 1; ++i)
 		{
 			xv = xx.col(i);
 			for (j = i + 1; j < ncl; ++j)
 			{
-				tmp = abs(xv - xx.col(j));
-				a += tmp[tmp.index_max()];
-			}
-		}
-		return a;
-	}
-
-	double min(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw), tmp(nrw);
-		double a = 0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				tmp = abs(xx.col(j) - xv);
-				a += tmp[tmp.index_min()];
+				a += accu(func(xv, xx.col(j), p));
 			}
 		}
 		return a;
@@ -175,64 +90,6 @@ namespace DistTotal
 		return a;
 	}
 
-	//[[Rcpp::export]]
-	double gower(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		const double p = 1.0 / nrw;
-		NumericMatrix f(ncl, ncl);
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw), log_xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += sum(abs(xv - xx.col(j)));
-			}
-		}
-		return a * p;
-	}
-
-	double kulczynski(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += sum(abs(xv - xx.col(j))) / sum_min_elems(xv, xx.col(j));
-			}
-		}
-		return a;
-	}
-
-	double total_variation(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += sum(abs(xv - xx.col(j)));
-			}
-		}
-		return a * 0.5;
-	}
-
 	double kullback_leibler(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -273,7 +130,6 @@ namespace DistTotal
 		return -a;
 	}
 
-	//[[Rcpp::export]]
 	double jeffries_matusita(NumericMatrix x)
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
@@ -315,7 +171,6 @@ namespace DistTotal
 		return a;
 	}
 
-	//[[Rcpp::export]]
 	double haversine(NumericMatrix x)
 	{
 		const int nrw = x.nrow();
@@ -378,136 +233,11 @@ namespace DistTotal
 		return a;
 	}
 
-	double wave_hedges(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += sum(abs(xv - xx.col(j)) / max_elems(xv, xx.col(j)));
-			}
-		}
-		return a;
-	}
-
-	double motyka(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += 1.0 - sum_min_elems(xv, xx.col(j)) / sum(xv + xx.col(j));
-			}
-		}
-		return a;
-	}
-
-	double harmonic_mean(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += dot(xv, xx.col(j)) / sum(xv + xx.col(j));
-			}
-		}
-		return a * 2.0;
-	}
-
-	double soergel(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += sum(abs(xv - xx.col(j))) / sum_max_elems(xv, xx.col(j));
-			}
-		}
-		return a;
-	}
-
-	double chi_square(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += sum(square(xv - xx.col(j)) / (xv + xx.col(j)));
-			}
-		}
-		return a;
-	}
-
-	double sorensen(NumericMatrix x)
-	{
-		const size_t ncl = x.ncol(), nrw = x.nrow();
-		mat xx(x.begin(), nrw, ncl, false);
-		colvec xv(nrw);
-		double a = 0.0;
-		size_t i, j;
-
-		for (i = 0; i < ncl - 1; ++i)
-		{
-			xv = xx.col(i);
-			for (j = i + 1; j < ncl; ++j)
-			{
-				a += sum(abs(xv - xx.col(j)) / (xv + xx.col(j)));
-			}
-		}
-		return a;
-	}
-
 }
 
-double total_dists(NumericMatrix x, const string method, const bool sqr, const int p)
+double total_dist(NumericMatrix x, const string method, const bool sqr, const int p)
 {
-	if (method == "euclidean" || p == 2)
-	{
-		return DistTotal::euclidean(x, sqr);
-	}
-	else if (method == "manhattan" || p == 1)
-	{
-		return DistTotal::manhattan(x);
-	}
-	else if (method == "maximum")
-	{
-		return DistTotal::max(x);
-	}
-	else if (method == "minimum")
-	{
-		return DistTotal::min(x);
-	}
-	else if (method == "canberra")
+	if (method == "canberra")
 	{
 		return DistTotal::canberra(x);
 	}
@@ -518,14 +248,6 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
 	else if (method == "bhattacharyya")
 	{
 		return DistTotal::bhattacharyya(x);
-	}
-	else if (method == "hellinger")
-	{
-		return DistTotal::hellinger(x, sqr);
-	}
-	else if (method == "total_variation")
-	{
-		return DistTotal::total_variation(x);
 	}
 	else if (method == "kullback_leibler")
 	{
@@ -543,45 +265,69 @@ double total_dists(NumericMatrix x, const string method, const bool sqr, const i
 	{
 		return DistTotal::haversine(x);
 	}
-	else if (method == "chi_square")
-	{
-		return DistTotal::chi_square(x);
-	}
-	else if (method == "sorensen")
-	{
-		return DistTotal::sorensen(x);
-	}
-	else if (method == "soergel")
-	{
-		return DistTotal::soergel(x);
-	}
 	else if (method == "cosine")
 	{
 		return DistTotal::cosine(x);
-	}
-	else if (method == "wave_hedges")
-	{
-		return DistTotal::wave_hedges(x);
-	}
-	else if (method == "motyka")
-	{
-		return DistTotal::motyka(x);
-	}
-	else if (method == "harmonic_mean")
-	{
-		return DistTotal::harmonic_mean(x);
 	}
 	else if (method == "jeffries_matusita")
 	{
 		return DistTotal::jeffries_matusita(x);
 	}
-	else if (method == "gower")
+	else if (method == "manhattan" || p == 2)
 	{
-		return DistTotal::gower(x);
+		return DistTotal::dist_h(x, Dist::manhattan);
+	}
+	else if (method == "chi_square")
+	{
+		return DistTotal::dist_h(x, Dist::chi_square);
+	}
+	else if (method == "soergel")
+	{
+		return DistTotal::dist_h(x, Dist::soergel);
 	}
 	else if (method == "kulczynski")
 	{
-		return DistTotal::kulczynski(x);
+		return DistTotal::dist_h(x, Dist::kulczynski);
+	}
+	else if (method == "wave_hedges")
+	{
+		return DistTotal::dist_h(x, Dist::wave_hedges);
+	}
+	else if (method == "motyka")
+	{
+		return DistTotal::dist_h(x, Dist::motyka);
+	}
+	else if (method == "harmonic_mean")
+	{
+		return DistTotal::dist_h(x, Dist::harmonic_mean);
+	}
+	else if (method == "total_variation")
+	{
+		return DistTotal::dist_h(x, Dist::total_variation);
+	}
+	else if (method == "sorensen")
+	{
+		return DistTotal::dist_h(x, Dist::sorensen);
+	}
+	else if (method == "euclidean" || p == 1)
+	{
+		return sqr ? DistTotal::dist_h(x, Dist::euclidean<true>) : DistTotal::dist_h(x, Dist::euclidean<false>);
+	}
+	else if (method == "maximum")
+	{
+		return DistTotal::dist_h(x, Dist::max);
+	}
+	else if (method == "minimum")
+	{
+		return DistTotal::dist_h(x, Dist::min);
+	}
+	else if (method == "hellinger")
+	{
+		return sqr ? DistTotal::dist_h(x, 0.5, Dist::hellinger<true>) : DistTotal::dist_h(x, 1.0 / std::sqrt(2.0), Dist::hellinger<false>);
+	}
+	else if (method == "gower")
+	{
+		return DistTotal::dist_h(x, 1.0 / x.nrow(), Dist::gower);
 	}
 	stop("Unsupported Method: %s", method);
 }
@@ -595,7 +341,7 @@ RcppExport SEXP Rfast_total_dists(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEX
 	traits::input_parameter<const string>::type method(methodSEXP);
 	traits::input_parameter<const bool>::type sqr(sqrSEXP);
 	traits::input_parameter<const int>::type p(pSEXP);
-	__result = total_dists(x, method, sqr, p);
+	__result = total_dist(x, method, sqr, p);
 	return __result;
 	END_RCPP
 }
