@@ -228,7 +228,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
@@ -252,7 +252,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
@@ -282,7 +282,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
@@ -306,7 +306,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
@@ -339,7 +339,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
@@ -363,7 +363,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::stable_sort>(f, i++, false, s);
@@ -393,7 +393,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
@@ -417,7 +417,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::sort>(f, i++, false, s);
@@ -941,7 +941,7 @@ namespace Rfast
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				int i = s - x.begin();
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					setResultParallelSection<colvec, NumericVector, med_helper<colvec>>(ff, s, i, na_rm);
@@ -965,7 +965,7 @@ namespace Rfast
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				int i = s - x.begin();
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					setResult<NumericVector, med_helper<colvec>>(ff, i, na_rm, s);
@@ -1244,7 +1244,7 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
@@ -1267,7 +1267,7 @@ namespace Rfast
 		{
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
@@ -1372,7 +1372,7 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
@@ -1395,7 +1395,7 @@ namespace Rfast
 		{
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
@@ -1543,7 +1543,7 @@ namespace Rfast
 		for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 		{
 			engine.seed(seeds[i]);
-			switch (Type::type(s->get()))
+			switch (Type::type<SEXP>(s->get()))
 			{
 			case Type::Types::REAL:
 				setResult<NumericVector>(f, i, s, Rfast::shuffle<colvec>, engine);
@@ -1640,7 +1640,7 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
@@ -1669,7 +1669,7 @@ namespace Rfast
 			int i = 0;
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
@@ -1703,7 +1703,7 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
@@ -1732,7 +1732,7 @@ namespace Rfast
 			int i = 0;
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
@@ -1766,7 +1766,7 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);
@@ -1795,7 +1795,7 @@ namespace Rfast
 			int i = 0;
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f.col(i++) = singleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);

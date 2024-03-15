@@ -12,7 +12,7 @@ using namespace Rcpp;
 using namespace arma;
 
 namespace Rfast {
-    struct Type
+    namespace Type
     {
         enum class Types {
             REAL,
@@ -36,8 +36,25 @@ namespace Rfast {
             inline static const int Complex = CPLXSXP;
         };
 
-        template<class T>
-        static Types type(T t){
+        template<class T, class U>
+        static Types type(U t){
+            if constexpr(std::is_same<T, int>::value){
+                return Types::INT;
+            }else if constexpr(std::is_same<T, double>::value){
+                return Types::REAL;
+            }else if constexpr(std::is_same<T, string>::value){
+                return Types::STRING;
+            }else if constexpr(std::is_same<T, bool>::value){
+                return Types::LOGICAL;
+            }else if constexpr(std::is_same<T, char>::value){
+                return Types::CHAR;
+            }else{
+                stop("Error: unsupported type.\n");
+            }
+        }
+        
+        template<>
+        Types type<SEXP>(SEXP t){
             if(Rf_isFactor(t)) return Types::FACTOR;
             if(Rf_isNewList(t)) return Types::DATAFRAME;
             switch(TYPEOF(t)){

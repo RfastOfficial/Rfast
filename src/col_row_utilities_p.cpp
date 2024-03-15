@@ -247,7 +247,7 @@ SEXP col_sums_p(SEXP x, const unsigned int cores)
 {
   const int n = Rf_ncols(x);
   SEXP F;
-  switch (Rfast::Type::type(x))
+  switch (Rfast::Type::type<SEXP>(x))
   {
     case Rfast::Type::Types::REAL:
     {
@@ -297,7 +297,7 @@ SEXP row_sums_p(SEXP x, const unsigned int cores)
 {
   const int n = Rf_nrows(x);
   SEXP F;
-  switch (Rfast::Type::type(x))
+  switch (Rfast::Type::type<SEXP>(x))
   {
     case Rfast::Type::Types::REAL:
     {

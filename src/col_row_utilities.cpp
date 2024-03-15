@@ -323,7 +323,7 @@ SEXP col_max(SEXP x, const bool parallel, const unsigned int cores)
 	else
 	{
 		SEXP F;
-		switch (Rfast::Type::type(x))
+		switch (Rfast::Type::type<SEXP>(x))
 		{
 		case Rfast::Type::Types::REAL:
 		{
@@ -597,7 +597,7 @@ SEXP col_min(SEXP x, const bool parallel, const unsigned int cores)
 	else
 	{
 		SEXP F;
-		switch (Rfast::Type::type(x))
+		switch (Rfast::Type::type<SEXP>(x))
 		{
 		case Rfast::Type::Types::REAL:
 		{
