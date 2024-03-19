@@ -1584,11 +1584,11 @@ namespace Rfast
 	template <class Engine = std::default_random_engine>
 	NumericMatrix rowShuffle(NumericMatrix x, Engine engine = Engine())
 	{
-		const int n = x.ncol();
+		const int n = x.nrow();
 		seed_seq seq{get_current_nanoseconds()};
 		std::vector<long long unsigned int> seeds(n);
 		seq.generate(seeds.begin(), seeds.end());
-		NumericMatrix y(x.nrow(), n);
+		NumericMatrix y(n, x.ncol());
 		for (int i = 0; i < n; ++i)
 		{
 			engine.seed(seeds[i]);
