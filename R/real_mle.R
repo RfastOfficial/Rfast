@@ -179,7 +179,7 @@ logistic.mle <- function(x, tol = 1e-07) {
 normal.mle <- function(x) {
     n <- length(x)
     m <- sum(x)/n
-    s <- sum(x^2)/n - m^2)
+    s <- sum(x^2)/n - m^2
     loglik <-  - 0.5 * n * ( log(2 * pi) + log(s) ) - 0.5 * n
     param <- c(m, s)
     names(param) <- c("mean", "unbiased variance")
