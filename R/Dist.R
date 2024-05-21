@@ -26,7 +26,7 @@ edist <- function(x, y = NULL){
 	  dis <- matrix(0, p, p)
 	  ni <- numeric(p)
 	  for (i in 1:p) { 
-	    dii[i] <- Rfast::total.dist(x[[ i ]])
+	    dii[i] <- 2 * Rfast::total.dist(x[[ i ]])
 	    ni[i] <- dim(x[[ i ]])[1]  ## poses grammes exei
 	  }
 	  for ( i in 1:(p - 1) ) {
