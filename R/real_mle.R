@@ -182,7 +182,7 @@ normal.mle <- function(x) {
     s <- sum(x^2)/n - m^2
     loglik <-  - 0.5 * n * ( log(2 * pi) + log(s) ) - 0.5 * n
     param <- c(m, s)
-    names(param) <- c("mean", "unbiased variance")
+    names(param) <- c("mean", "variance")
     list(loglik = loglik, param = param)
 }
 
