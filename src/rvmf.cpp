@@ -85,7 +85,7 @@ void rvmf(unsigned int n, colvec mu, double k, mat &out)
   {
     // Rcout<<__LINE__<<endl;
     mat x1 = randn<mat>(n, mu.n_elem, distr_param(0, 1));
-    out = x1 / sqrt(sum(square(x1), 1));
+    out = x1.each_col() / sqrt(sum(square(x1), 1));
     // Rcout<<__LINE__<<endl;
   }
   // Rcout<<__LINE__<<endl;
