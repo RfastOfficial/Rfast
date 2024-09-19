@@ -23,6 +23,7 @@
 >  |  checkTF | New option for using full path names. |
 >  |  read.examples | New option for using full path names. |
 >  |  checkExamples | New option for using full path names. |
+>  |  rvmf | Optimized and fix bug. |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
