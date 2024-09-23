@@ -24,6 +24,7 @@
 >  |  checkExamples | New option for using full path names. |
 >  |  rvmf | Optimized and fix bug. |
 >  |  coeff				| optimize bhattacharyya.  |
+>  |  spatmed.reg		| Change of the stopping criterion.  |
 >
 
 
@@ -37,7 +38,6 @@
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  coeff				| Coefficient matrix.  |
->  |  spatmed.reg		| Change of the stopping criterion.  |
 
 >
 >
