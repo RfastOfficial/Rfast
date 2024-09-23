@@ -37,6 +37,8 @@
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  coeff				| Coefficient matrix.  |
+>  |  spatmed.reg		| Change of the stopping criterion.  |
+
 >
 >
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
