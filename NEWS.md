@@ -23,6 +23,9 @@
 >  |  read.examples | New option for using full path names. |
 >  |  checkExamples | New option for using full path names. |
 >  |  as_integer | New option for parallel. |
+>  |  rvmf | Optimized and fix bug. |
+>  |  coeff				| optimize bhattacharyya.  |
+>  |  spatmed.reg		| Change of the stopping criterion.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
@@ -30,9 +33,6 @@
 >  |	    Function/Structure	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  Set | New class like std::set but faster. |
->  |  rvmf | Optimized and fix bug. |
->  |  coeff				| optimize bhattacharyya.  |
->  |  spatmed.reg		| Change of the stopping criterion.  |
 >
 
 
