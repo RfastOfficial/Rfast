@@ -1,0 +1,24 @@
+
+r.files = "C:/Users/epapadakis/Documents/GitHub/Rfast2/R/"
+rd.files = "C:/Users/epapadakis/Documents/GitHub/Rfast2/man/"
+package.dir = "C:/Users/epapadakis/Documents/GitHub/Rfast2/"
+nsp.dir = "C:/Users/epapadakis/Documents/GitHub/Rfast2/NAMESPACE"
+
+r.files = "C:/Users/epapadakis/Documents/GitHub/Rfast/R/"
+rd.files = "C:/Users/epapadakis/Documents/GitHub/Rfast/man/"
+package.dir = "C:/Users/epapadakis/Documents/GitHub/Rfast/"
+nsp.dir = "C:/Users/epapadakis/Documents/GitHub/Rfast/NAMESPACE"
+
+
+r.files = "C:/Users/epapadakis/Documents/GitHub/Rnanoflann/R/"
+rd.files = "C:/Users/epapadakis/Documents/GitHub/Rnanoflann/man/"
+package.dir = "C:/Users/epapadakis/Documents/GitHub/Rnanoflann/"
+nsp.dir = "C:/Users/epapadakis/Documents/GitHub/Rnanoflann/NAMESPACE"
+
+Rfast::AddToNamespace(nsp.dir,r.files)
+Rfast::checkAliases(rd.files,r.files)
+Rfast::checkUsage(rd.files,r.files)
+Rfast::checkExamples(rd.files,"Rfast",print.names = TRUE)
+Rfast::checkTF(rd.files)
+Rfast::sourceR(r.files,print.errors = TRUE)
+Rfast::sourceRd(rd.files,print.errors = TRUE)
