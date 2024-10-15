@@ -157,18 +157,13 @@ RemoveFromNamespace <- function(path.namespace,files.to.remove) {
 }
 
 #[export]
-<<<<<<< Updated upstream
 read.directory <- function(path.directory) {
   .Call(Rfast_read_directory,path.directory)
 }
 
 #[export]
-read.examples<-function(path.man,full.paths = FALSE){
-  .Call(Rfast_read_examples,path.man,full.paths)
-=======
 read.examples<-function(path.man,paths.full = FALSE){
   .Call(Rfast_read_examples,path.man,paths.full)
->>>>>>> Stashed changes
 }
 
 #[export]

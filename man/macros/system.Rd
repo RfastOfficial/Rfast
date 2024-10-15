@@ -1,3 +1,4 @@
+%[dont read]
 % System Rd macros
 
 % These macros are automatically loaded whenever R processes an Rd file.
