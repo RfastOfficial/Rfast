@@ -9,7 +9,7 @@ Reading the files of a directory.
 }
 
 \usage{
-read.examples(path.man,full.path = FALSE)
+read.examples(path.man,paths.full = FALSE)
 }
 
 \arguments{
@@ -17,7 +17,7 @@ read.examples(path.man,full.path = FALSE)
 The full path to the directory with the Rd files in it. 
 For example: \"C:\\Users\\username\\Documents\\R\\Rfast_1.8.0\\man\\\"
 }
-\item{full.paths}{
+\item{paths.full}{
 Print or return the full paths.
 }
 }
