@@ -12,7 +12,7 @@ using std::string;
 namespace Dist
 {
     template<bool sqr>
-    inline double euclidean(colvec &x, colvec y)
+    inline double euclidean(colvec &x, colvec &y)
     {
         if constexpr(sqr){
             return std::sqrt(sum(square(y - x)));
@@ -77,6 +77,11 @@ namespace Dist
         return Dist::manhattan(x, y) * p;
     }
     
+    inline double minkowski(colvec &x, colvec y, const double p)
+    {
+        return pow(sum_with<std::pow, colvec>(abs(x - y), p), 1.0 / p);
+    }
+    
     template<bool sqr>
     inline double hellinger(colvec &x, colvec y,const double p)
     {
@@ -101,8 +106,8 @@ namespace DistaIndices
 {
 }
 
-NumericMatrix dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0);
-double total_dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0);
+NumericMatrix dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);
+double total_dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);
 
 double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = "",
                    const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false);
