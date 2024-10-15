@@ -154,12 +154,12 @@ namespace Rfast
 		if (tx)
 		{
 			n = x.n_cols;
-			p = x.n_cols;
+			p = y.n_cols;
 		}
 		else
 		{
 			n = x.n_rows;
-			p = ty ? x.n_rows : x.n_cols;
+			p = ty ? y.n_rows : y.n_cols;
 		}
 		mat C(n, p);
 		colvec yi;

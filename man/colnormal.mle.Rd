@@ -43,7 +43,7 @@ A numerical matrix with data. Each column refers to a different vector of observ
 For exponential, 2 parameter exponential, Weibull, gamma, inverse Gaussian, Maxwell-Boltzman, Lindley, Rayleigh and Pareto
 distributions, the numbers must be greater than zero. For the Poisson and geometric distributions, the numbers
 must be integers, 0, 1, 2,... For the Normal and Laplace distribution the numbers can take any value. The von
-Mises distribution takes values beween 0 and 2 * pi (radians).
+Mises distribution takes values beween 0 and 2 \eqn{\pi} (radians).
 }
 \item{tol}{
 The tolerance value to terminate the Newton-Fisher algorithm.

@@ -3,12 +3,6 @@
 
 ### **Version 2.1.1 - Hephaestus**
 ***
-> <u> **New** </u>
->
->  |	    Function	    |           What's new!             |
->  | -------------------  | ------------------------------- |
->
->
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
 >
 >  |	    Function	    |           What's new!             |
@@ -20,6 +14,7 @@
 >  |  ttest2 | Added an option to select the alternative hypothesis. |
 >  |  ttests | Added an option to select the alternative hypothesis. |
 >  |  group | Fix bug. |
+>  |  read.directory | Removed. |
 >  |  AddToNamespace | New option for using full path names. |
 >  |  checkNamespace | New option for using full path names. |
 >  |  checkAliases | New option for using full path names. |
@@ -35,6 +30,9 @@
 >  |	    Function/Structure	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  Set | New class like std::set but faster. |
+>  |  rvmf | Optimized and fix bug. |
+>  |  coeff				| optimize bhattacharyya.  |
+>  |  spatmed.reg		| Change of the stopping criterion.  |
 >
 
 
@@ -48,6 +46,7 @@
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  coeff				| Coefficient matrix.  |
+
 >
 >
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
