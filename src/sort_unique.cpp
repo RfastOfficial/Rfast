@@ -3,6 +3,7 @@
 #include <RcppArmadillo.h>
 #include <vector>
 #include "Rfast.h"
+#include "Rfast/Set.h"
 
 using namespace Rcpp;
 
@@ -211,3 +212,54 @@ END_RCPP
 
 
 //////////////////////////////////////////////////////////////////
+
+template<class T> void Unique_h(SEXP x, SEXP &indx, const bool fromLast){
+    Set<T> s(x, fromLast);
+    indx = PROTECT(Rf_allocVector(TYPEOF(x), s.size()));
+    s.values(indx);
+    Rf_copyMostAttrib(x, indx);
+    UNPROTECT(1);
+}
+
+SEXP Unique(SEXP x, const bool fromLast = false) {
+    const Types tx = type<SEXP>(x);
+    SEXP indx = R_NilValue;
+    switch(tx){
+    case Types::INT:
+    {
+        Unique_h<int>(x, indx, fromLast);
+        break;
+    }
+    case Types::REAL:
+    {
+        Unique_h<double>(x, indx, fromLast);
+        break;
+    }
+    case Types::STRING:
+    {
+        Unique_h<SEXP>(x, indx, fromLast);
+        break;
+    }
+    case Types::COMPLEX:
+    {
+        Unique_h<Rcomplex>(x, indx, fromLast);
+        break;
+    }
+    default:
+    {
+        stop("Type is not supported.");
+    }
+    }
+    return indx;
+}
+
+
+RcppExport SEXP Rfast_Unique(SEXP x, SEXP fromLastSEXP){
+BEGIN_RCPP
+    RObject __result;
+    RNGScope __rngScope;
+    traits::input_parameter< const bool >::type fromLast(fromLastSEXP);
+    __result = Unique(x,fromLast);
+    return __result;
+END_RCPP
+}

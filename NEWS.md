@@ -7,7 +7,7 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
->  |  Dist | Fix bug and optimize bhattacharyya, jeffries_matusita. |
+>  |  Dist | Fix bug and optimize bhattacharyya, jeffries_matusita. Add new option parallel. |
 >  |  total.dists | Fix bug optimize bhattacharyya, jeffries_matusita. |
 >  |  total.dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
 >  |  dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
@@ -22,9 +22,17 @@
 >  |  checkTF | New option for using full path names. |
 >  |  read.examples | New option for using full path names. |
 >  |  checkExamples | New option for using full path names. |
+>  |  as_integer | New option for parallel. |
 >  |  rvmf | Optimized and fix bug. |
 >  |  coeff				| optimize bhattacharyya.  |
 >  |  spatmed.reg		| Change of the stopping criterion.  |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  Set | New class like std::set but faster. |
 >
 
 

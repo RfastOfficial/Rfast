@@ -6,44 +6,84 @@
 #include <R.h>
 #include <Rinternals.h>
 #include <type_traits>
+#include <string>
+using std::string;
 using namespace Rcpp;
 using namespace arma;
 
 namespace Rfast {
-    struct Type
+    namespace Type
     {
         enum class Types {
             REAL,
             INT,
             CHAR,
+            STRING,
             FACTOR,
             LIST,
             DATAFRAME,
-            LOGICAL
+            LOGICAL,
+            COMPLEX
         };
 
         struct R {
             inline static const int Real = REALSXP;
             inline static const int Int = INTSXP;
             inline static const int Char = CHARSXP;
+            inline static const int String = STRSXP;
+            inline static const int List = LISTSXP;
             inline static const int Lgl = LGLSXP;
+            inline static const int Complex = CPLXSXP;
         };
 
-        template<class T>
-        static Types type(T t){
+        template<class T, class U>
+        static Types type(U t){
+            if constexpr(std::is_same<T, int>::value){
+                return Types::INT;
+            }else if constexpr(std::is_same<T, double>::value){
+                return Types::REAL;
+            }else if constexpr(std::is_same<T, string>::value){
+                return Types::STRING;
+            }else if constexpr(std::is_same<T, bool>::value){
+                return Types::LOGICAL;
+            }else if constexpr(std::is_same<T, char>::value){
+                return Types::CHAR;
+            }else{
+                stop("Error: unsupported type.\n");
+            }
+        }
+        
+        template<>
+        Types type<SEXP>(SEXP t){
             if(Rf_isFactor(t)) return Types::FACTOR;
             if(Rf_isNewList(t)) return Types::DATAFRAME;
             switch(TYPEOF(t)){
-                case REALSXP: return Types::REAL;
-                case INTSXP: return Types::INT;
-                case CHARSXP: return Types::CHAR;
-                case LISTSXP: return Types::LIST;
-                case LGLSXP: return Types::LOGICAL;
+                case R::Real: return Types::REAL;
+                case R::Int: return Types::INT;
+                case R::Char: return Types::CHAR;
+                case R::String: return Types::STRING;
+                case R::List: return Types::LIST;
+                case R::Lgl: return Types::LOGICAL;
+                case R::Complex: return Types::COMPLEX;
                 default:
                 stop("Error: unsupported type.\n");
             }
         }
     };
+
+    template<class T> T* asPtr(SEXP x){
+        if constexpr(std::is_same<T,SEXP>::value){
+            return STRING_PTR(x);
+        }else if constexpr(std::is_same<T,double>::value){
+            return REAL(x);
+        }else if constexpr(std::is_same<T,int>::value){
+            return INTEGER(x);
+        }else if constexpr(std::is_same<T,Rcomplex>::value){
+            return COMPLEX(x);
+        }
+        return nullptr;
+    }
+
     namespace internal { // the initialization of static variables are defined in file types.cpp
 	    template<class T>
 	    struct NA_helper : std::false_type {

@@ -158,15 +158,15 @@ double med_helper(typename T::iterator start,typename T::iterator last){
 * T: argument class
 */
 template<typename Ret,typename T>
-Ret Order(T x,const bool stable,const bool descend,const int init_v){
+Ret Order(T x,const bool stable,const bool descend,const int init_v,const bool parallel = false){
     Ret ind(x.size());
     iota(ind.begin(),ind.end(),init_v);
     if(descend){
         auto descend_func = [&](int i,int j){return x[i-init_v]>x[j-init_v];};
-        stable ? std::stable_sort(ind.begin(),ind.end(),descend_func) : std::sort(ind.begin(),ind.end(),descend_func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end(),descend_func,parallel) : Rfast::sort(ind.begin(),ind.end(),descend_func,parallel);
     }else{
         auto func = [&](int i,int j){return x[i-init_v]<x[j-init_v];};
-        stable ? std::stable_sort(ind.begin(),ind.end(),func) : std::sort(ind.begin(),ind.end(),func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end(),func,parallel) : Rfast::sort(ind.begin(),ind.end(),func,parallel);
     }
     return ind;
 }
@@ -833,10 +833,10 @@ void myoperator(T f[],T &x,T *y,int &len){
 }
 
 template<typename T>
-void as_integer_h_sorted(vector<T> x,IntegerVector &f,const int init,const T val){
+void as_integer_h_sorted(vector<T> x,IntegerVector &f,const int init,const T val,const bool parallel = false){
     const int n=x.size();
     int i,j=0,c=init;
-    sort(x.begin(),x.end());
+    Rfast::sort(x.begin(),x.end(),parallel);
     auto v=x[j];
     f[0]=init;
     for(i=1;i<n;++i){
@@ -851,10 +851,10 @@ void as_integer_h_sorted(vector<T> x,IntegerVector &f,const int init,const T val
 
 
 template<typename T>
-void as_integer_h(vector<T> x,IntegerVector &f,const int init,const T val){
+void as_integer_h(vector<T> x,IntegerVector &f,const int init,const T val,const bool parallel = false){
     const int n=x.size();
     int i,j=0,c=init;
-    vector<int> ind=Order< vector<int>,vector<T> >(x,false,false,0); // diorthoseiii
+    vector<int> ind=Order< vector<int>,vector<T> >(x,false,false,0,parallel); // diorthoseiii
     T v=x[ind[j]];
     f[ind[0]]=init;
     for(i=1;i<n;++i){
