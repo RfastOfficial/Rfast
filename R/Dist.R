@@ -1,16 +1,21 @@
 
 
 #[export]
-Dist <- function(x,method = "euclidean", square = FALSE,p=0,vector = FALSE) {
+Dist <- function(x,method = "euclidean", square = FALSE,p=0, result = "matrix" ,vector = FALSE, parallel = FALSE) {
+	if (vector) {
+        .Deprecated("Use options \"vector\" instead", "Rfast")
+    }
 	if (method == "canberra1" || method == "canberra2") {
         .Deprecated("The replacement type is \"canberra\"", "Rfast")
     }
 	if(method != "haversine")
   		x <- t(x)
-	if(vector){
-		.Call(Rfast_dist_vec,x,method,square,p)
-	}else{
-		.Call(Rfast_dist,x,method,square,p)
+	if(result == "vector"){
+		.Call(Rfast_dist_vec,x,method,square,p, parallel)
+	}else if(result == "matrix"){
+		.Call(Rfast_dist,x,method,square,p, parallel)
+	}else if(result == "sum"){
+  		.Call(Rfast_total_dists,x,method,square,p, parallel)
 	}
 }
 
@@ -42,12 +47,13 @@ edist <- function(x, y = NULL){
 
 #[export]
 total.dist <- function(x,method = "euclidean", square = FALSE,p=0) {
+  .Deprecated("Use Dist(x, result = \"sum\")", "Rfast")
   if (method == "canberra1" || method == "canberra2") {
         .Deprecated("The replacement method is \"canberra\"", "Rfast")
     }
   if(method != "haversine")
 	x <- t(x)
-  .Call(Rfast_total_dists,x,method,square,p)
+  .Call(Rfast_total_dists,x,method,square,p,FALSE)
 }
 
 #[export]
