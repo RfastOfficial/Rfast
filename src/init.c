@@ -2,7 +2,7 @@
 #include <R_ext/Rdynload.h>
 
 SEXP Rfast_add_to_namespace(SEXP, SEXP, SEXP);
-SEXP Rfast_as_integer(SEXP, SEXP, SEXP);
+SEXP Rfast_as_integer(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_apply_condition(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_bcdcor(SEXP, SEXP);
 SEXP Rfast_binarysearch(SEXP, SEXP);
@@ -62,8 +62,8 @@ SEXP Rfast_diag_matrix_fill_vec(SEXP, SEXP);
 SEXP Rfast_diag_fill_scalar(SEXP, SEXP);
 SEXP Rfast_diag_fill_vec(SEXP, SEXP);
 SEXP Rfast_design_matrix(SEXP, SEXP);
-SEXP Rfast_dist(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_dist_vec(SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_dist(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_dist_vec(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_Digamma(SEXP);
 SEXP Rfast_design_matrix_big(SEXP);
 SEXP Rfast_dista(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
@@ -210,6 +210,7 @@ SEXP Rfast_table_sign(SEXP, SEXP, SEXP);
 SEXP Rfast_table2_c(SEXP, SEXP, SEXP);
 SEXP Rfast_table2_with_names(SEXP, SEXP, SEXP);
 SEXP Rfast_transpose(SEXP);
+SEXP Rfast_Unique(SEXP, SEXP);
 SEXP Rfast_upper_tri(SEXP, SEXP);
 SEXP Rfast_upper_tri_assign(SEXP, SEXP, SEXP);
 SEXP Rfast_upper_tri_b(SEXP, SEXP, SEXP);
@@ -254,7 +255,7 @@ SEXP Rfast_row_sums_p(SEXP, SEXP);
 static const R_CallMethodDef CallEntries[] = {
     {"Rfast_add_to_namespace", (DL_FUNC)&Rfast_add_to_namespace, 3},
     {"Rfast_apply_condition", (DL_FUNC)&Rfast_apply_condition, 4},
-    {"Rfast_as_integer", (DL_FUNC)&Rfast_as_integer, 3},
+    {"Rfast_as_integer", (DL_FUNC)&Rfast_as_integer, 4},
     {"Rfast_bcdcor", (DL_FUNC)&Rfast_bcdcor, 2},
     {"Rfast_binarysearch", (DL_FUNC)&Rfast_binarysearch, 2},
     {"Rfast_bic_fs_reg", (DL_FUNC)&Rfast_bic_fs_reg, 4},
@@ -313,8 +314,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_diag_fill_scalar", (DL_FUNC)&Rfast_diag_fill_scalar, 2},
     {"Rfast_diag_fill_vec", (DL_FUNC)&Rfast_diag_fill_vec, 2},
     {"Rfast_design_matrix", (DL_FUNC)&Rfast_design_matrix, 2},
-    {"Rfast_dist", (DL_FUNC)&Rfast_dist, 4},
-    {"Rfast_dist_vec", (DL_FUNC)&Rfast_dist_vec, 4},
+    {"Rfast_dist", (DL_FUNC)&Rfast_dist, 5},
+    {"Rfast_dist_vec", (DL_FUNC)&Rfast_dist_vec, 5},
     {"Rfast_Digamma", (DL_FUNC)&Rfast_Digamma, 1},
     {"Rfast_design_matrix_big", (DL_FUNC)&Rfast_design_matrix_big, 1},
     {"Rfast_dista", (DL_FUNC)&Rfast_dista, 8},
@@ -461,6 +462,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_table2_c", (DL_FUNC)&Rfast_table2_c, 3},
     {"Rfast_table2_with_names", (DL_FUNC)&Rfast_table2_with_names, 3},
     {"Rfast_transpose", (DL_FUNC)&Rfast_transpose, 1},
+    {"Rfast_Unique", (DL_FUNC)&Rfast_Unique, 2},
     {"Rfast_upper_tri", (DL_FUNC)&Rfast_upper_tri, 2},
     {"Rfast_upper_tri_assign", (DL_FUNC)&Rfast_upper_tri_assign, 3},
     {"Rfast_upper_tri_b", (DL_FUNC)&Rfast_upper_tri_b, 3},
