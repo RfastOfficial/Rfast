@@ -13,12 +13,12 @@ Check Namespace/Rd and examples files.
 }
 
 \usage{
-checkNamespace(path.namespace,path.rfolder,full.path = FALSE)
-checkAliases(path.man,path.rfolder,full.path = FALSE)
-checkTF(path.man,full.path = FALSE)
+checkNamespace(path.namespace,path.rfolder,paths.full = FALSE)
+checkAliases(path.man,path.rfolder,paths.full = FALSE)
+checkTF(path.man,paths.full = FALSE)
 checkExamples(path.man,package,each = 1,print.errors = stderr(),
-	print.names = FALSE,full.path = FALSE)
-checkUsage(path.man,path.rfolder,full.path = FALSE)
+	print.names = FALSE,paths.full = FALSE)
+checkUsage(path.man,path.rfolder,paths.full = FALSE)
 }
 
 \arguments{
@@ -43,7 +43,7 @@ Print the errors to a file. By default it's "stderr()".
 \item{print.names}{
 A boolean value (TRUE/FALSE) for printing the names of the files before running the examples.
 }
-\item{full.paths}{
+\item{paths.full}{
 Print or return the full paths.
 }
 }

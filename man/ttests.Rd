@@ -11,7 +11,8 @@ It performs very many 2 sample tests.
 }
 
 \usage{
-ttests(x, y = NULL, ina, alternative = "unequal", paired = FALSE, logged = FALSE, parallel = FALSE)
+ttests(x, y = NULL, ina, alternative = "unequal", paired = FALSE, 
+logged = FALSE, parallel = FALSE)
 mcnemars(x, y = NULL, ina, logged = FALSE) 
 var2tests(x, y = NULL, ina, alternative = "unequal", logged = FALSE) 
 }
