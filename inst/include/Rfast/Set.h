@@ -110,9 +110,9 @@ template<class T, class Hash_Helper = HashBase<T>> class Set : protected Hash<T>
 
 	void insertAll(const bool fromLast = false){
 		if(fromLast){
-            for (size_t i = n-1; i >=0; --i)
+            for (size_t i = n; i >0; --i)
             {
-                insert(data[i], i);
+                insert(data[i-1], i-1);
             }
         }else{
             for (size_t i = 0; i < n; ++i)
@@ -184,8 +184,7 @@ public:
     
 };
 
-template
-<class T, class I, class Function, class Hash_Helper = HashBase<I>> class Group : protected Hash<I> {
+template<class T, class I, class Function, class Hash_Helper = HashBase<I>> class Group : protected Hash<I> {
     T *data;
     I *ina;
     size_t n, un_len = 0;
