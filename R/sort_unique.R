@@ -13,6 +13,6 @@ sort_unique <- function(x) {
 }
 
 #[export]
-Unique <- function(x, fromLast = TRUE) {
+Unique <- function(x, fromLast = FALSE) {
   .Call(Rfast_Unique,x,fromLast)
 }
