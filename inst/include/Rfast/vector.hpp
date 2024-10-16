@@ -78,7 +78,7 @@ namespace Rfast {
 		// argument na_rm for remove NAs from the vector using R's "R_isNA" function
 	template<>
 	inline double mad<NumericVector>(NumericVector xx ,const string method,const bool na_rm){
-		colvec x(xx.begin(),newsize,false);
+		colvec x(xx.begin(),xx.size(),false);
 		return mad<colvec>(x,method,na_rm);
 	}
 		// type T can any iterable class
