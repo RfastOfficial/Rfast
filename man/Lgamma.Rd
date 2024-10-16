@@ -3,7 +3,7 @@
 \alias{Digamma}
 \alias{Trigamma}
 \title{
-Natural logarithm of the gamma function and its derivatives.
+Natural logarithm of the gamma function and its derivatives
 }
 
 \description{

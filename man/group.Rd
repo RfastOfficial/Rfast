@@ -2,7 +2,7 @@
 \alias{group}
 \alias{group.sum}
 \title{
-Some summary statistics of a vector for each level of a grouping variable. 
+Some summary statistics of a vector for each level of a grouping variable
 }
 
 \description{

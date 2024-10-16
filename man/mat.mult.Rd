@@ -4,7 +4,7 @@
 \alias{Tcrossprod}
 
 \title{
-Matrix multiplication, Cross and Tcross product.
+Matrix multiplication, Cross and Tcross product
 }
 
 \description{

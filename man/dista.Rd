@@ -1,7 +1,7 @@
 \name{Distance between vectors and a matrix - Sum of all pairwise distances in a distance matrix.}
 \alias{dista}
 \alias{total.dista}
-\title{Distance between vectors and a matrix - Sum of all pairwise distances in a distance matrix.
+\title{Distance between vectors and a matrix - Sum of all pairwise distances in a distance matrix
 }
 
 \description{
