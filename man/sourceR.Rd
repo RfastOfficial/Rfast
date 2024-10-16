@@ -11,7 +11,7 @@ Source many R/Rd files.
 
 \usage{
 sourceR(path,local=FALSE,encode = "UTF-8",print.errors=FALSE)
-sourceRd(path,print.errors=FALSE)
+sourceRd(path,print.errors=FALSE, macros = NULL)
 }
 
 \arguments{
@@ -27,6 +27,9 @@ Character vector. The encoding(s) to be assumed when file is a character string:
 \item{print.errors}{
 A boolean value (TRUE/FALSE) for printing the errors, if exists, for every file.
 }
+\item{macros}{
+A full or relative path to the macros file.
+}
 }
 
 \details{
@@ -36,9 +39,6 @@ Reads many R files and source them.
 \value{
 Returns the files that had produced errors during source.
 }
-
-%\references{
-%}
 
 \author{
 R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
