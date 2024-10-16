@@ -24,3 +24,6 @@
 \newcommand{\packageLicense}{\Sexpr[results=rd,stage=build]{utils::packageDescription("#1")[["License"]]}}
 \newcommand{\packageName}{\Sexpr[results=rd,stage=build]{utils::packageDescription("#1")[["Package"]]}}
 \newcommand{\packageAuthors}{\Sexpr[results=rd,stage=build]{utils::packageDescription("#1")[["Author"]]}}
+\newcommand{\packageTitle}{\Sexpr[results=rd,stage=build]{utils::packageDescription("#1")[["Title"]]}}
+\newcommand{\packageDescription}{\Sexpr[results=rd,stage=build]{utils::packageDescription("#1")[["Description"]]}}
+\newcommand{\packageMaintainer}{\Sexpr[results=rd,stage=build]{utils::packageDescription("#1")[["Maintainer"]]}}
