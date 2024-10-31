@@ -1,0 +1,4 @@
+BasedOnStyle: Google
+BraceWrapping:
+  AfterFunction: false
+  AfterControlStatement: false
