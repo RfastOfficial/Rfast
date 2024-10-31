@@ -2,3 +2,4 @@ BasedOnStyle: Google
 BraceWrapping:
   AfterFunction: false
   AfterControlStatement: false
+ColumnLimit: 100
