@@ -6,3 +6,4 @@
 ^.html
 ^.gitignore
 ^.vscode
+^.clang-format
