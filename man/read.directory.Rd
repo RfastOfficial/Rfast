@@ -10,6 +10,7 @@ Reading the files of a directory.
 
 \usage{
 read.examples(path.man,paths.full = FALSE)
+
 }
 
 \arguments{
