@@ -100,7 +100,7 @@ Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
 
 
 # [export]
-rvmf <- function(n, mu, k) {
+rvmf <- function(n, mu, k, parallel = FALSE) {
   # rotation <- function(a, b) {
     # p <- length(a)
     # ab <- sum(a * b)
@@ -138,9 +138,7 @@ rvmf <- function(n, mu, k) {
     # x <- x1 / sqrt(Rfast::rowsums(x1^2))
   # }
 
-  x <- .Call(Rfast_rvmf,n,mu,k)
-  colnames(x) <- names(mu)
-  x
+  .Call(Rfast_rvmf,n,mu,k,parallel)
 }
 
 
