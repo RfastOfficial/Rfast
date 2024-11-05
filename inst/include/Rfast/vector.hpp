@@ -27,7 +27,7 @@ namespace Rfast {
 	template<class T>
 	inline double var(T x,const bool std=false,const bool na_rm=false){
 		int n = 0;
-		double v=0.0,sum1=0,sum2=0;
+		typename std::remove_reference<typename T::value_type>::type v=0.0,sum1=0,sum2=0;
 		if(na_rm){
 			for(auto v : x){
 				if(!R_IsNA(v)){
@@ -38,7 +38,7 @@ namespace Rfast {
 			}
 		}else{
 			n=x.size();
-			double *xx=&x[0],*end=xx+n;
+			typename std::remove_reference<typename T::value_type>::type *xx=&x[0],*end=xx+n;
 			for(;end-xx;++xx){
 				v=*xx;
 				sum1+=v*v;
