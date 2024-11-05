@@ -3,11 +3,13 @@
 #define TEMPLATES_H
 
 // [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::depends(RcppParallel)]]
 #include <RcppArmadillo.h>
 #include <algorithm>
 #include <R.h>
 #include <Rinternals.h>
-#include "Rfast/parallel.h"
+#include "parallel.h"
+#include "types.hpp"
 
 
 //#include <Rinlinedfuns.h>
@@ -1046,7 +1048,7 @@ Ret rank_first(T x,const bool descend,const bool stable){
 }
 
 template<class T,Mfunction<T,T,T> oper,Mfunction<T,T,T> func>
-NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = R_NilValue, const bool parallel=false){
+NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = Rfast::R::Null, const bool parallel=false){
     const bool is_ind_null = Rf_isNull(ind);
     const int n = is_ind_null ? x.ncol() : LENGTH(ind);
     NumericVector f(n);
