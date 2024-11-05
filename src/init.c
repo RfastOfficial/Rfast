@@ -83,15 +83,6 @@ SEXP Rfast_g2tests_perm(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_g2tests(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_group(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_group_sum(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_group_all(SEXP, SEXP, SEXP);
-SEXP Rfast_group_any(SEXP, SEXP, SEXP);
-SEXP Rfast_group_mad(SEXP, SEXP, SEXP);
-SEXP Rfast_group_max(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_group_mean(SEXP, SEXP, SEXP);
-SEXP Rfast_group_med(SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_group_min(SEXP, SEXP, SEXP);
-SEXP Rfast_group_min_max(SEXP, SEXP, SEXP);
-SEXP Rfast_group_var(SEXP, SEXP, SEXP);
 SEXP Rfast_glm_logistic(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_glm_poisson(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_hash2list(SEXP, SEXP);
@@ -170,7 +161,7 @@ SEXP Rfast_row_nth(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_min_max(SEXP);
 SEXP Rfast_row_shuffle(SEXP);
 SEXP Rfast_Round(SEXP, SEXP, SEXP);
-SEXP Rfast_rvmf(SEXP, SEXP, SEXP);
+SEXP Rfast_rvmf(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_rvonmises(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_all(SEXP);
 SEXP Rfast_row_true(SEXP);
@@ -335,15 +326,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_g2tests", (DL_FUNC)&Rfast_g2tests, 4},
     {"Rfast_group", (DL_FUNC)&Rfast_group, 6},
     {"Rfast_group_sum", (DL_FUNC)&Rfast_group_sum, 4},
-    {"Rfast_group_all", (DL_FUNC)&Rfast_group_all, 3},
-    {"Rfast_group_any", (DL_FUNC)&Rfast_group_any, 3},
-    {"Rfast_group_mad", (DL_FUNC)&Rfast_group_mad, 3},
-    {"Rfast_group_max", (DL_FUNC)&Rfast_group_max, 4},
-    {"Rfast_group_mean", (DL_FUNC)&Rfast_group_mean, 3},
-    {"Rfast_group_med", (DL_FUNC)&Rfast_group_med, 4},
-    {"Rfast_group_min", (DL_FUNC)&Rfast_group_min, 3},
-    {"Rfast_group_min_max", (DL_FUNC)&Rfast_group_min_max, 3},
-    {"Rfast_group_var", (DL_FUNC)&Rfast_group_var, 3},
     {"Rfast_glm_logistic", (DL_FUNC)&Rfast_glm_logistic, 4},
     {"Rfast_glm_poisson", (DL_FUNC)&Rfast_glm_poisson, 4},
     {"Rfast_hash2list", (DL_FUNC)&Rfast_hash2list, 2},
@@ -423,7 +405,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"Rfast_row_min_max", (DL_FUNC)&Rfast_row_min_max, 1},
     {"Rfast_row_shuffle", (DL_FUNC)&Rfast_row_shuffle, 1},
     {"Rfast_Round", (DL_FUNC)&Rfast_Round, 3},
-    {"Rfast_rvmf", (DL_FUNC)&Rfast_rvmf, 3},
+    {"Rfast_rvmf", (DL_FUNC)&Rfast_rvmf, 4},
     {"Rfast_rvonmises", (DL_FUNC)&Rfast_rvonmises, 4},
     {"Rfast_row_all", (DL_FUNC)&Rfast_row_all, 1},
     {"Rfast_row_true", (DL_FUNC)&Rfast_row_true, 1},
