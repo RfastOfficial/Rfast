@@ -84,5 +84,9 @@
         "resumable": "cpp",
         "filesystem": "cpp"
     },
-    "r.lsp.promptToInstall": false
+    "r.lsp.promptToInstall": false,
+    "[cpp]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false
+    }
 }
