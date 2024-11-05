@@ -55,10 +55,11 @@ group.sum <- function(x, ina,ina.max = NULL,ina.min = NULL) {
 #}
 
 #[export]
-group<-function(x,ina,method="sum",ina.min=NULL,ina.max = NULL,ina.length.unique=NULL,mad.method="median") {
-	if(method=="med"){
-		ina.max<- if(is.null(ina.max)) max(ina) 
-		ina.min<- if(is.null(ina.length.unique)) length(unique(ina))
-	}
-	.Call(Rfast_group,x,ina,method,ina.min,ina.max,mad.method)
+group<-function(x,ina,method="sum",ina.min=NULL,ina.max = NULL,
+	ina.length.unique=NULL,mad.method="median", std = FALSE, sorted = FALSE) {
+	# if(method=="med"){
+	# 	ina.max<- if(is.null(ina.max)) max(ina) 
+	# 	ina.min<- if(is.null(ina.length.unique)) length(unique(ina))
+	# }
+	.Call(Rfast_group,x,ina,method,mad.method, sorted, std)
 }
