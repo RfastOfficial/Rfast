@@ -24,6 +24,9 @@ The concentration parameter. If k = 0, random values from the spherical uniform 
 Values from a multivariate normal distribution with zero mean vector and the identity matrix as 
 the covariance matrix. Then each vector becomes a unit vector.
 }
+\item{parallel}{
+Run the algorithm in parallel. The parallel algorithm needs memory.
+}
 }
 
 \details{
