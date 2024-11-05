@@ -3,3 +3,6 @@ BraceWrapping:
   AfterFunction: false
   AfterControlStatement: false
 ColumnLimit: 120
+UseTab: Always      # Use tabs for indentation
+IndentWidth: 4     # Set your preferred indentation width
+TabWidth: 4        # Set the visual width of a tab
