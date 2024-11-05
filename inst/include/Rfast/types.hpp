@@ -12,6 +12,18 @@ using namespace Rcpp;
 using namespace arma;
 
 namespace Rfast {
+
+    struct R {
+        inline static const int Real = REALSXP;
+        inline static const int Int = INTSXP;
+        inline static const int Char = CHARSXP;
+        inline static const int String = STRSXP;
+        inline static const int List = LISTSXP;
+        inline static const int Lgl = LGLSXP;
+        inline static const int Complex = CPLXSXP;
+        inline static SEXP Null = R_NilValue;
+    };
+
     namespace Type
     {
         enum class Types {
@@ -24,16 +36,6 @@ namespace Rfast {
             DATAFRAME,
             LOGICAL,
             COMPLEX
-        };
-
-        struct R {
-            inline static const int Real = REALSXP;
-            inline static const int Int = INTSXP;
-            inline static const int Char = CHARSXP;
-            inline static const int String = STRSXP;
-            inline static const int List = LISTSXP;
-            inline static const int Lgl = LGLSXP;
-            inline static const int Complex = CPLXSXP;
         };
 
         template<class T, class U>
