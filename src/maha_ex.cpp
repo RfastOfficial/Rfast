@@ -1,5 +1,6 @@
 ﻿// [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
+#include "Rfast.h"
 using namespace Rcpp;
 
 arma::vec mahaInt(arma::mat & X,arma::vec & mu,arma::mat & sigma,const bool isChol);
@@ -19,7 +20,7 @@ RcppExport SEXP Rfast_mahaCpp(SEXP X, SEXP mu, SEXP sigma, SEXP isChol)
     bool isChol_ = as<bool>(isChol);
     
     NumericVector dist = wrap( mahaInt(X_, mu_, sigma_, isChol_) );
-    dist.attr( "dim" ) = R_NilValue;
+    dist.attr( "dim" ) = Rfast::R::Null;
     
     return dist;
     
