@@ -1,6 +1,7 @@
 \name{ Sort and unique numbers }
 \alias{sort_unique}
 \alias{sort_unique.length}
+\alias{Unique}
 \title{
 Sort and unique
 }
@@ -12,11 +13,15 @@ Sort and unique numbers.
 \usage{
 sort_unique(x)
 sort_unique.length(x)
+Unique(x, fromLast = FALSE)
 }
 
 \arguments{
 \item{x}{
 A numeric vector. 
+}
+\item{fromLast}{
+logical indicating if duplication should be considered from the last, i.e., the last (or rightmost) of identical elements will be kept. This only matters for names or dimnames.
 }
 }
 
@@ -25,7 +30,7 @@ The "sort_unique" function implements R's "unique" function using C++'s function
 }
 
 \value{
-Returns the discrete values but sorted or their length (depending on the function you do).
+Returns the discrete values or sorted or their length (depending on the function you do).
 }
 
 \author{
