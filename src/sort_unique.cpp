@@ -253,7 +253,7 @@ void Unique_h(SEXP x, SEXP &indx, const bool fromLast)
 SEXP Unique(SEXP x, const bool fromLast = false)
 {
     const Types tx = type<SEXP>(x);
-    SEXP indx = R_NilValue;
+    SEXP indx = Rfast::R::Null;
     switch (tx)
     {
     case Types::INT:
