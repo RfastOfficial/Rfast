@@ -207,6 +207,7 @@ List check_usage(string path_man, string path_rf, const bool full_paths = false)
 		}
 		else
 		{
+			DEBUG("file: ",rd_file.filename(true));
 			aliases = read_aliases(file_rd);
 			functions_usage = read_usage(file_rd, aliases_with_lines_more_than_90);
 
@@ -219,6 +220,7 @@ List check_usage(string path_man, string path_rf, const bool full_paths = false)
 			string curr_func, func_from_r_file;
 			for (auto &al : aliases)
 			{
+				DEBUG("\t",al);
 				for (auto &tmp : functions_usage)
 				{ // sigourevo oti gia to alias iparxei h antistoixi sinartisi sto usage
 					if (tmp.compare(0, al.size(), al) == 0 and tmp[al.size()] == '(')
@@ -239,7 +241,7 @@ List check_usage(string path_man, string path_rf, const bool full_paths = false)
 						// r_file = as<string>(functions_details["filename"]); // to onoma toy arxeiou pou iparxei to aliase
 						function_signature = as<string>(functions_details["signature"]); // ipografi tis sinartiseis
 
-						// DEBUG("current: "+curr_func+" , fromRfile: "+function_signature);
+						//DEBUG("current: "+curr_func+" , fromRfile: "+function_signature);
 						if (curr_func != function_signature)
 						{
 							DEBUG(curr_func + " : " + function_signature + " [" + al + "]");
@@ -254,6 +256,7 @@ List check_usage(string path_man, string path_rf, const bool full_paths = false)
 				}
 			}
 		}
+		file_rd.close();
 	}
 	List L, r_rd;
 	if (!missing_functions.empty())
