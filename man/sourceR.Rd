@@ -46,8 +46,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 
 \seealso{
-\code{\link{read.directory}, \link{AddToNamespace} 
-}
+\link{AddToNamespace} 
 }
 
 \examples{
