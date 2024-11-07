@@ -1,7 +1,7 @@
 #include "mn.h"
 #include <RcppArmadillo.h>
 
-arma::vec qpois_regs(arma::mat& x,arma::vec& y,const double tol,const double ylogy,const double my) {
+arma::vec qpois_regs(arma::mat x,arma::vec y,const double tol,const double ylogy,const double my) {
   const unsigned int n=x.n_rows,pcols=x.n_cols,d=2;
   unsigned int i;
   colvec b_old(d),b_new(d),L1(d),yhat(n);
