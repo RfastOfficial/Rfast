@@ -9,7 +9,7 @@ It generates random vectors following the von Mises-Fisher distribution. The dat
 }
 
 \usage{
-rvmf(n, mu, k)
+rvmf(n, mu, k, parallel = FALSE)
 }
 
 \arguments{
