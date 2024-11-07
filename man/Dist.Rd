@@ -11,7 +11,8 @@ Distance matrix - Sum of all pairwise distances in a distance matrix.
 }
 
 \usage{
-Dist(x, method = "euclidean", square = FALSE, p = 0,vector = FALSE)
+Dist(x,method = "euclidean", square = FALSE,p=0, 
+    result = "matrix" ,vector = FALSE, parallel = FALSE)
 total.dist(x, method = "euclidean", square = FALSE, p = 0)
 vecdist(x)
 }
@@ -31,10 +32,22 @@ If you choose "euclidean" or "hellinger" as the method, then you can have the op
 squared Euclidean distances by setting this argument to TRUE. 
 }
 \item{p}{
-This is for the the Minkowski, the power of the metric. 
+This is for the Minkowski method, the power of the metric. 
 }
 \item{vector}{
 For return a vector instead a matrix.
+}
+\item{result}{
+One of the:
+\itemize{
+    \item matrix : Return the result as matrix
+    \item vector : Return the result as vector
+    \item sum: Return the sum of the result
+    }
+}
+\item{parallel}{
+For methods \bold{euclidean}, \bold{canberra} and \bold{minkowski}, you can run the 
+algorithm in parallel. 
 }
 }
 

@@ -3,7 +3,7 @@
 #[export]
 Dist <- function(x,method = "euclidean", square = FALSE,p=0, result = "matrix" ,vector = FALSE, parallel = FALSE) {
 	if (vector) {
-        .Deprecated("Use options \"vector\" instead", "Rfast")
+        .Deprecated("Use options \"result\" instead", "Rfast")
     }
 	if (method == "canberra1" || method == "canberra2") {
         .Deprecated("The replacement type is \"canberra\"", "Rfast")

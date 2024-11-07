@@ -10,7 +10,7 @@ Distance between vectors and a matrix - Sum of all pairwise distances in a dista
 
 \usage{
 dista(xnew, x, type = "euclidean", k = 0, index = FALSE, 
- trans = TRUE, square = FALSE, p = 0, parallel = FALSE)
+ trans = TRUE, square = FALSE, p = 0, result = "matrix", parallel = FALSE)
 total.dista(xnew, x, type = "euclidean", k = 0,
  square = FALSE, p = 0, parallel = FALSE)  
 }
@@ -44,6 +44,14 @@ This is for the the Minkowski, the power of the metric.
 \item{parallel}{
 For methods \bold{kullback_leibler}, \bold{jensen_shannon} and \bold{itakura_saito}, you can run the 
 algorithm in parallel. 
+}
+\item{result}{
+One of the:
+\itemize{
+    \item matrix : Return the result as matrix
+    \item vector : Return the result as vector
+    \item sum: Return the sum of the result
+    }
 }
 }
 
