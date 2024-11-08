@@ -8,7 +8,7 @@ dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRU
         x <- t(x)
     }
     if(result == "matrix"){
-		.Call(Rfast_dista, xnew, x, type, square, p, k, index, parallel)
+		x <- .Call(Rfast_dista, xnew, x, type, square, p, k, index, parallel)
         if (trans) x <- t(x)
         x
 	}else if(result == "sum"){
