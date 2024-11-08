@@ -35,7 +35,7 @@ dvar <- function(x) {
     sxi <- cumsum(x)
     sxn <- sxi[n]
     ai <- (2 * i - n) * x + sxn - 2 * sxi
-    D <- Rfast::total.dist(x, square = TRUE)
+    D <- Rfast::Dist(x, square = TRUE, result = "sum")
     a <- 2 * D/n^2 - 2/n^3 * sum(ai^2) + sum(ai)^2/n^4 
     a <- sqrt(a)
   }

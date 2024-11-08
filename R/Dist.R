@@ -28,12 +28,12 @@ edist <- function(x, y = NULL){
 	  dis <- matrix(0, p, p)
 	  ni <- numeric(p)
 	  for (i in 1:p) { 
-	    dii[i] <- Rfast::total.dist(x[[ i ]])
+	    dii[i] <- Rfast::Dist(x[[ i ]], result = "sum")
 	    ni[i] <- dim(x[[ i ]])[1]  ## poses grammes exei
 	  }
 	  for ( i in 1:(p - 1) ) {
 	    for ( j in (i + 1):p ) {
-	      mij <- Rfast::total.dista(x[[ i ]], x[[ j ]])
+	      mij <- Rfast::dista(x[[ i ]], x[[ j ]], result = "sum")
 	      dis[i, j] <- (2 * mij - ni[ j ] * dii[i] / ni[ i ] - ni[i] * 
 	                   dii[j]/ni[j] ) / (ni[i] + ni[j])
 	      dis[j, i] <- dis[i, j]

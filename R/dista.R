@@ -9,11 +9,11 @@ dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRU
     }
     if(result == "matrix"){
 		.Call(Rfast_dista, xnew, x, type, square, p, k, index, parallel)
+        if (trans) x <- t(x)
+        x
 	}else if(result == "sum"){
   		.Call(Rfast_total_dista, xnew, x, type, square, p, k, parallel)
 	}
-    if (trans) x <- t(x)
-    x
 }
 
 #[export]
