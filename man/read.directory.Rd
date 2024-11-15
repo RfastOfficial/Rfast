@@ -1,5 +1,6 @@
 \name{Reading the files of a directory}
 \alias{read.examples}
+\alias{read.directory}
 \title{
 Reading the files of a directory
 }
@@ -10,7 +11,7 @@ Reading the files of a directory.
 
 \usage{
 read.examples(path.man,paths.full = FALSE)
-
+read.directory(path.directory)
 }
 
 \arguments{
@@ -20,6 +21,9 @@ For example: \"C:\\Users\\username\\Documents\\R\\Rfast_1.8.0\\man\\\"
 }
 \item{paths.full}{
 Print or return the full paths.
+}
+\item{path.directory}{
+The full path to the directory.
 }
 }
 
