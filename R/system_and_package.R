@@ -246,7 +246,7 @@ sourceR <- function(path,local=FALSE,encode = "UTF-8",print.errors=FALSE) {
 
 #[export]
 sourceRd <- function(path,print.errors=FALSE, macros = NULL) {
-  file_names <- list.files(rd.files, pattern = "*.Rd")
+  file_names <- list.files(path, pattern = "*.Rd")
   error_files<-vector("character")
   if(print.errors){
       warning_error_function <-function(err){
