@@ -6,7 +6,7 @@
 #include <chrono>
 #include <random>
 #include "Rfast.h"
-#include "Rfast\types.hpp"
+#include "Rfast/types.hpp"
 
 using namespace Rcpp;
 using namespace arma;
