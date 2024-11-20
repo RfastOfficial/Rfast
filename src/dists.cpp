@@ -185,7 +185,7 @@ namespace Dist
 			colvec xlogx_xv(xlogx.begin_col(i), nrw, false);
 			for (size_t j = i + 1; j < ncl; ++j)
 			{
-				a = sum_with_condition<double, check_if_is_finite, colvec>(xlogx_xv + xlogx_xv.col(j) - (arma::log(xv + xx.col(j)) + log0_5) % (xv + xx.col(j)));
+				a = sum_with_condition<double, check_if_is_finite, colvec>(xlogx_xv + xlogx.col(j) - (arma::log(xv + xx.col(j)) + log0_5) % (xv + xx.col(j)));
 				f(i, j) = a;
 				f(j, i) = a;
 			}
