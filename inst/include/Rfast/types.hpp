@@ -39,7 +39,7 @@ namespace Rfast {
         };
 
         template<class T, class U>
-        static Types type(U t){
+        static Types type([[maybe_unused]] U t){
             if constexpr(std::is_same<T, int>::value){
                 return Types::INT;
             }else if constexpr(std::is_same<T, double>::value){

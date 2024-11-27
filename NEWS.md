@@ -7,7 +7,7 @@
 >
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
->  |  Dist | Fix bug and optimize bhattacharyya, jeffries_matusita. Add new option parallel. |
+>  |  Dist | Fix bug and optimize bhattacharyya, jeffries_matusita, jensen_shannon. Add new option parallel. |
 >  |  total.dists | Fix bug optimize bhattacharyya, jeffries_matusita. |
 >  |  total.dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
 >  |  dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
@@ -63,11 +63,11 @@
 >  |  colVars | Fix bug about data.frame.  |
 >  |  Dist(...,method = "minimum") | Bug fix.  |
 >  |  Dist(...,method = "bhattacharyya") | Bug fix .  |
->  |  Dist(...,method = "itakura_saito") | Bug fix. Supports parallel.  |
+>  |  dista(...,type = "itakura_saito") | Bug fix. Supports parallel.  |
 >  |  Dist(...,method = "canberra1") | Depricated.  |
 >  |  Dist(...,method = "canberra2") | Depricated.  |
->  |  Dist(...,method = "jensen_shannon") | Supports parallel.  |
->  |  Dist(...,method = "kullback_leibler") | Supports parallel.  |
+>  |  dista(...,type = "jensen_shannon") | Supports parallel.  |
+>  |  dista(...,type = "kullback_leibler") | Supports parallel.  |
 >  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean","jeffries_matusita","gower","kulczynski")  |
 >  |  dista | All the methods from the Dist function are now supported.  |
 >  |  total.dist  | All the methods from the Dist function are now supported.  |
