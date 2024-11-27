@@ -7,7 +7,9 @@
 #include "Coeff.h"
 #include "Dist.h"
 #include <string>
+#ifdef _OPENMP
 #include <omp.h>
+#endif
 
 using namespace Rcpp;
 using namespace arma;
