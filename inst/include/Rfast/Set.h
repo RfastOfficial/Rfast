@@ -132,25 +132,36 @@ struct HashBase<Rcomplex>
 template <class T, class Hash_Helper = HashBase<T>>
 class Set : protected Hash<T>
 {
-    T *data;
+    using type = typename std::conditional<std::is_same<T, SEXP>::value, SEXP, T*>::type;
+    using type_get = typename std::conditional<std::is_same<T, SEXP>::value, SEXP, T&>::type;
+
+    type data;
     size_t n, un_len = 0;
     Hash_Helper hash_helper;
     vector<int> pans, h;
+
+    type_get get(unsigned int i){
+        if constexpr(is_same<T, SEXP>::value){
+            return STRING_ELT(data,i);
+        }else{
+            return data[i];
+        }
+    }
 
     void insertAll(const bool fromLast = false)
     {
         if (fromLast)
         {
-            for (size_t i = n; i > 0; --i)
+            for (size_t i = n-1; i >= 0; --i)
             {
-                insert(data[i - 1], i - 1);
+                insert(get(i), i);
             }
         }
         else
         {
             for (size_t i = 0; i < n; ++i)
             {
-                insert(data[i], i);
+                insert(get(i), i);
             }
         }
     }
@@ -175,13 +186,13 @@ public:
         insertAll(fromLast);
     }
 
-    inline void insert(T &d, int i = 0)
+    inline void insert(type_get d, int i = 0)
     {
         bool ok = true;
         size_t id = this->HASH(hash_helper(d));
         while (h[id])
         {
-            if (data[h[id] - 1] == d)
+            if (get(h[id] - 1) == d)
             {
                 ok = false;
                 break;
@@ -216,11 +227,11 @@ public:
             {
                 if constexpr (is_same<T, SEXP>::value)
                 {
-                    SET_STRING_ELT(indx, ct++, data[i]);
+                    SET_STRING_ELT(indx, ct++, get(i));
                 }
                 else
                 {
-                    py[ct++] = data[i];
+                    py[ct++] = get(i);
                 }
             }
         }
