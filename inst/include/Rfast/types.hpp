@@ -73,9 +73,10 @@ namespace Rfast {
         }
     };
 
-    template<class T> T* asPtr(SEXP x){
+    template<class T> 
+    typename std::conditional<std::is_same<T, SEXP>::value, SEXP, T*>::type asPtr(SEXP x){
         if constexpr(std::is_same<T,SEXP>::value){
-            return STRING_PTR(x);
+            return x;
         }else if constexpr(std::is_same<T,double>::value){
             return REAL(x);
         }else if constexpr(std::is_same<T,int>::value){
