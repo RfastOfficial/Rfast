@@ -2,7 +2,7 @@ Package: Rfast
 Type: Package
 Title: A Collection of Efficient and Extremely Fast R Functions
 Version: 2.1.1
-Date: 2024-11-15
+Date: 2024-11-25
 Authors@R: c(
                 person("Manos Papadakis", email = "rfastofficial@gmail.com", role = c("aut", "cre", "cph")), 
                 person("Michail Tsagris", role = c("aut")), 
