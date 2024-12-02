@@ -108,7 +108,7 @@ namespace Dist
 		NumericMatrix f(ncl, ncl);
 		mat xx(x.begin(), nrw, ncl, false), ff(f.begin(), ncl, ncl, false);
 		colvec norm_x = euclidean_norm(xx).t();
-		double a;
+		double a = 0;
 
 		for (size_t i = 0; i < ncl - 1; ++i)
 		{
@@ -130,7 +130,7 @@ namespace Dist
 		NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
 		mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
 		colvec log_xv(nrw);
-		double a;
+		double a = 0;
 
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
@@ -154,7 +154,7 @@ namespace Dist
 		NumericMatrix f(ncl, ncl), log_x(nrw, ncl);
 		mat xx(x.begin(), nrw, ncl, false), log_xx(log_x.begin(), nrw, ncl, false);
 		colvec log_xv(nrw);
-		double a;
+		double a = 0;
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
 
 		for (size_t i = 0; i < ncl - 1; ++i)
@@ -178,7 +178,7 @@ namespace Dist
 		colvec xlogx_xv(nrw);
 		mat xx(x.begin(), nrw, ncl, false), ff(f.begin(), ncl, ncl, false);
 		mat xlogx = xx % arma::log(xx);
-		double a;
+		double a = 0;
 		const double log0_5 = std::log(0.5);
 
 		for (size_t i = 0; i < ncl - 1; ++i)
@@ -202,7 +202,7 @@ namespace Dist
 		mat xx(x.begin(), nrw, ncl, false), ff(f.begin(), ncl, ncl, false);
 		mat sqrt_xx(nrw, ncl, fill::none);
 		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
-		double a;
+		double a = 0;
 
 		for (size_t i = 0; i < ncl - 1; ++i)
 		{
@@ -224,7 +224,7 @@ namespace Dist
 		mat xx(x.begin(), nrw, ncl, false), ff(f.begin(), ncl, ncl, false);
 		mat sqrt_xx(nrw, ncl, fill::none);
 		fill_with<std::sqrt, double *, double *>(xx.begin(), xx.end(), sqrt_xx.begin());
-		double a;
+		double a = 0;
 
 		for (size_t i = 0; i < ncl - 1; ++i)
 		{
@@ -742,7 +742,7 @@ namespace DistTotal
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		mat xx(x.begin(), nrw, ncl, false);
-		double a;
+		double a = 0;
 		if (parallel)
 		{
 #pragma omp parallel for
