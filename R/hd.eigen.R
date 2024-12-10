@@ -1,15 +1,15 @@
 #[export]
 hd.eigen <- function(x, center = TRUE, scale = FALSE, k = NULL, vectors = FALSE, large = FALSE) {
     n <- dim(x)[1]
-    if (center & scale) {
+    if ( center & scale ) {
         y <- t(x) - Rfast::colmeans(x)
-        y <- y/sqrt(Rfast::rowsums(y^2)) * sqrt(n - 1)
+        y <- y / sqrt( Rfast::rowsums(y^2) ) * sqrt(n - 1)
         xx <- Rfast::Crossprod(y, y)
-    }   else if (center & !scale) {
+    }   else if ( center & !scale ) {
         m <- Rfast::colmeans(x) 
         y <- t(x) - m
         xx <- Rfast::Crossprod(y, y)
-    }   else if (!center & scale) {
+    }   else if ( !center & scale ) {
         s <- Rfast::colVars(x, std = TRUE)
         y <- t(x) / s 
         xx <- Rfast::Crossprod(y, y)

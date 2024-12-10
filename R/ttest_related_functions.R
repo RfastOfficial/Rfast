@@ -239,8 +239,10 @@ boot.ttest2 <- function(x, y, B = 999) {
    z2 <- y - m2 + mc
    R <- round( sqrt(B) )
 
-   z1 <- matrix(sample(z1, R * n1, replace = TRUE), ncol = R)
-   z2 <- matrix(sample(z2, R * n2, replace = TRUE), ncol = R)
+   z1 <- sample(z1, R * n1, replace = TRUE)
+   dim(z1) = c(n1, R)
+   z2 <- sample(z2, R * n2, replace = TRUE)
+   dim(z1) = c(n2, R)
    bm1 <- Rfast::colmeans(z1)
    bm2 <- Rfast::colmeans(z2)
    zx2 <- Rfast::colsums(z1^2)
