@@ -26,6 +26,7 @@
 >  |  rvmf | Optimized and fix bug. |
 >  |  coeff				| optimize bhattacharyya.  |
 >  |  spatmed.reg		| Change of the stopping criterion.  |
+>  |  edist		| Fix a bug in the case of lists.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
