@@ -1646,10 +1646,10 @@ namespace Rfast
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
 					break;
 				case Type::Types::INT:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::FACTOR:
 #ifdef _OPENMP
@@ -1675,10 +1675,10 @@ namespace Rfast
 					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
 					break;
 				case Type::Types::INT:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f[i++] = FactorVector(s->get()).maxIndex();
@@ -1709,10 +1709,10 @@ namespace Rfast
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
 					break;
 				case Type::Types::INT:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::FACTOR:
 #ifdef _OPENMP
@@ -1738,10 +1738,10 @@ namespace Rfast
 					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
 					break;
 				case Type::Types::INT:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f[i++] = FactorVector(s->get()).maxIndex();
@@ -1772,10 +1772,10 @@ namespace Rfast
 					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);
 					break;
 				case Type::Types::INT:
-					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::FACTOR:
 #ifdef _OPENMP
@@ -1801,10 +1801,10 @@ namespace Rfast
 					f.col(i++) = singleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);
 					break;
 				case Type::Types::INT:
-					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(i++) = singleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(i++) = singleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f.col(i++) = FactorVector(s->get()).minmaxIndex<colvec>();
