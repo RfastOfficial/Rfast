@@ -203,12 +203,12 @@ namespace Rfast
         template <class T>
         static T sort(SEXP xx, const bool descend = false)
         {
-            icolvec x, inds;
+            arma::Col<int> x, inds;
 #pragma omp critical
             {
                 IntegerVector I(xx);
-                x = icolvec(I.begin(), I.size(), false);
-                inds = Tabulate<icolvec, icolvec>(x, x.n_elem);
+                x = arma::Col<int>(I.begin(), I.size(), false);
+                inds = Tabulate<arma::Col<int>, arma::Col<int>>(x, x.n_elem);
             }
             T res(x.size());
             int start = 0;
