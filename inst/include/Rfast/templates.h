@@ -511,23 +511,24 @@ Ret Tabulate(int* start,int* end,int& nroww){
 */
 template<typename Ret,typename T1,typename T2>
 Ret group_sum_helper(T1 x,T2 key,int *minn=nullptr,int *maxx=nullptr){
-    int mn,mx;
+    using type = typename T2::value_type;
+    type mn,mx;
     const bool is_mn_null=(minn==nullptr),is_mx_null=(maxx==nullptr);
     if(is_mx_null && is_mn_null){
-        min_max<int>(key.begin(),key.end(),mn,mx);
+        min_max<type>(key.begin(),key.end(),mn,mx);
     }else if(is_mx_null){
         mn=*minn;
-        maximum<int>(key.begin(),key.end(),mx);
+        maximum<type>(key.begin(),key.end(),mx);
     }else if(is_mn_null){
         mx=*maxx;
-        minimum<int>(key.begin(),key.end(),mn);
+        minimum<type>(key.begin(),key.end(),mn);
     }else{
         mn=*minn;
         mx=*maxx;
     }
     typename T2::iterator kk=key.begin();
-    vector<double> f(mx-mn+1);
-    vector<bool> is_good(mx-mn+1);
+    vector<double> f(mx-mn+1, 0);
+    vector<bool> is_good(mx-mn+1, 0);
     typename T1::iterator xx=x.begin(),rr;
     vector<double>::iterator ff=f.begin();
     vector<bool>::iterator ok;
