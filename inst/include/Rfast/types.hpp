@@ -55,7 +55,7 @@ namespace Rfast {
             }
         }
         
-        template<>
+        template<> [[maybe_unused]]
         Types type<SEXP>(SEXP t){
             if(Rf_isFactor(t)) return Types::FACTOR;
             if(Rf_isNewList(t)) return Types::DATAFRAME;
