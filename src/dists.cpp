@@ -264,7 +264,7 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? Dist::dist_h(x, Dist::euclidean<true>, parallel) : Dist::dist_h(x, Dist::euclidean<false>, parallel);
+		return sqr ? Dist::dist_h(x, Dist::euclidean<false>, parallel) : Dist::dist_h(x, Dist::euclidean<true>, parallel);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
