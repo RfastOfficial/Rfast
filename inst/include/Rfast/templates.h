@@ -511,7 +511,7 @@ Ret Tabulate(int* start,int* end,int& nroww){
 */
 template<typename Ret,typename T1,typename T2>
 Ret group_sum_helper(T1 x,T2 key,int *minn=nullptr,int *maxx=nullptr){
-    using type = typename T2::value_type;
+    using type = typename std::remove_reference<typename T2::value_type>::type;
     type mn,mx;
     const bool is_mn_null=(minn==nullptr),is_mx_null=(maxx==nullptr);
     if(is_mx_null && is_mn_null){
