@@ -47,3 +47,13 @@ dvar <- function(x) {
 bcdcor <- function(x,y) {
   .Call( Rfast_bcdcor, t(x), t(y) )
 }
+
+#[export]
+bcdcov <- function(x,y) {
+  .Call( Rfast_bcdcov, t(x), t(y) )
+}
+
+#[export]
+bcdvar <- function(x) {
+  .Call( Rfast_bcdvar, t(x) )
+}
