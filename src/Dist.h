@@ -3,11 +3,14 @@
 #ifndef DIST_H
 #define DIST_H
 
+#include <RcppArmadillo.h>
 #include <Rcpp.h>
 #include <string>
+#include "mn.h"
 
 using Rcpp::NumericMatrix;
 using std::string;
+using namespace arma;
 
 namespace Dist
 {
