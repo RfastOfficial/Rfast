@@ -96,6 +96,7 @@ SEXP Rfast_is_element_string(SEXP, SEXP);
 SEXP Rfast_is_integer(SEXP);
 SEXP Rfast_k_nn(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_k_nn_cv(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_kernel(SEXP, SEXP);
 SEXP Rfast_lowerbound(SEXP, SEXP);
 SEXP Rfast_Lgamma(SEXP);
 SEXP Rfast_len_sort_unique_int(SEXP);
