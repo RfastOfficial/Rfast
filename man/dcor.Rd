@@ -1,6 +1,5 @@
 \name{Distance correlation}
 \alias{dcor}
-\alias{bcdcor}
 \title{
 Distance correlation
 }
@@ -10,8 +9,7 @@ Distance correlation.
 }
 
 \usage{
-dcor(x, y)
-bcdcor(x, y)
+dcor(x, y, bc = FALSE)
 }
 
 \arguments{
@@ -20,6 +18,9 @@ A numerical matrix.
 }
 \item{y}{
 A numerical matrix.
+}
+\item{bc}{
+If you want the bias-corrected distance correlation set this equal to TRUE.
 }
 }
 
@@ -47,7 +48,10 @@ The distance correlation.
 
 \references{
 G.J. Szekely, M.L. Rizzo and N. K. Bakirov (2007). Measuring and Testing Independence 
-by Correlation of Distances. Annals of Statistics, 35(6):2769-2794.
+by Correlation of Distances. Annals of Statistics, 35(6): 2769--2794.
+
+Szekely G. J. and Rizzo M. L. (2023). The Energy of Data and Distance Correlation. 
+Chapman and Hall/CRC.
 }
 
 \author{
