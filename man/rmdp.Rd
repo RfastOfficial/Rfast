@@ -72,8 +72,8 @@ Documentation: Michail Tsagris <mtsagris@uoc.gr> and Changliang Zhou <nk.chlzou@
 }
 
 \examples{
-x <- matrix(rnorm(50 * 400), ncol = 400)
-a <- rmdp(x, itertime = 500)
+x <- matrix(rnorm(50 * 200), ncol = 200)
+a <- rmdp(x, itertime = 100)
 
 x<-a<-NULL
 }
