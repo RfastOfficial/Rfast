@@ -56,9 +56,9 @@ SEXP Rfast_col_mads(SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_col_true_false(SEXP);
 SEXP Rfast_count_value(SEXP, SEXP);
 SEXP Rfast_Choose(SEXP, SEXP);
-SEXP Rfast_dvar(SEXP);
-SEXP Rfast_dcor(SEXP, SEXP);
-SEXP Rfast_dcov(SEXP, SEXP);
+SEXP Rfast_dvar(SEXP, SEXP);
+SEXP Rfast_dcor(SEXP, SEXP, SEXP);
+SEXP Rfast_dcov(SEXP, SEXP, SEXP);
 SEXP Rfast_diag_matrix_fill_scalar(SEXP, SEXP);
 SEXP Rfast_diag_matrix_fill_vec(SEXP, SEXP);
 SEXP Rfast_diag_fill_scalar(SEXP, SEXP);
@@ -96,7 +96,6 @@ SEXP Rfast_is_element_string(SEXP, SEXP);
 SEXP Rfast_is_integer(SEXP);
 SEXP Rfast_k_nn(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_k_nn_cv(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_kernel(SEXP, SEXP);
 SEXP Rfast_lowerbound(SEXP, SEXP);
 SEXP Rfast_Lgamma(SEXP);
 SEXP Rfast_len_sort_unique_int(SEXP);
@@ -250,9 +249,6 @@ static const R_CallMethodDef CallEntries[] = {
 	{"Rfast_add_to_namespace", (DL_FUNC)&Rfast_add_to_namespace, 3},
 	{"Rfast_apply_condition", (DL_FUNC)&Rfast_apply_condition, 4},
 	{"Rfast_as_integer", (DL_FUNC)&Rfast_as_integer, 4},
-	{"Rfast_bcdcor", (DL_FUNC)&Rfast_bcdcor, 2},
-	{"Rfast_bcdcov", (DL_FUNC)&Rfast_bcdcov, 2},
-	{"Rfast_bcdvar", (DL_FUNC)&Rfast_bcdvar, 1},
 	{"Rfast_binarysearch", (DL_FUNC)&Rfast_binarysearch, 2},
 	{"Rfast_bic_fs_reg", (DL_FUNC)&Rfast_bic_fs_reg, 4},
 	{"Rfast_bs_reg", (DL_FUNC)&Rfast_bs_reg, 4},
@@ -302,9 +298,9 @@ static const R_CallMethodDef CallEntries[] = {
 	{"Rfast_col_true_false", (DL_FUNC)&Rfast_col_true_false, 1},
 	{"Rfast_count_value", (DL_FUNC)&Rfast_count_value, 2},
 	{"Rfast_Choose", (DL_FUNC)&Rfast_Choose, 2},
-	{"Rfast_dvar", (DL_FUNC)&Rfast_dvar, 1},
-	{"Rfast_dcor", (DL_FUNC)&Rfast_dcor, 2},
-	{"Rfast_dcov", (DL_FUNC)&Rfast_dcov, 2},
+	{"Rfast_dvar", (DL_FUNC)&Rfast_dvar, 2},
+	{"Rfast_dcor", (DL_FUNC)&Rfast_dcor, 3},
+	{"Rfast_dcov", (DL_FUNC)&Rfast_dcov, 3},
 	{"Rfast_diag_matrix_fill_scalar", (DL_FUNC)&Rfast_diag_matrix_fill_scalar, 2},
 	{"Rfast_diag_matrix_fill_vec", (DL_FUNC)&Rfast_diag_matrix_fill_vec, 2},
 	{"Rfast_diag_fill_scalar", (DL_FUNC)&Rfast_diag_fill_scalar, 2},
@@ -342,7 +338,6 @@ static const R_CallMethodDef CallEntries[] = {
 	{"Rfast_is_integer", (DL_FUNC)&Rfast_is_integer, 1},
 	{"Rfast_k_nn", (DL_FUNC)&Rfast_k_nn, 9},
 	{"Rfast_k_nn_cv", (DL_FUNC)&Rfast_k_nn_cv, 10},
-	{"Rfast_kernel", (DL_FUNC)&Rfast_kernel, 2},
 	{"Rfast_lowerbound", (DL_FUNC)&Rfast_lowerbound, 2},
 	{"Rfast_Lgamma", (DL_FUNC)&Rfast_Lgamma, 1},
 	{"Rfast_len_sort_unique_int", (DL_FUNC)&Rfast_len_sort_unique_int, 1},
