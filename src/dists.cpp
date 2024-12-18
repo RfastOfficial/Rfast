@@ -3,6 +3,7 @@
 
 #include <RcppArmadillo.h>
 #include "mn.h"
+#include "Rfast/Dist.h"
 #include "Rfast.h"
 #include "Coeff.h"
 #include <string>
