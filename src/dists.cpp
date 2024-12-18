@@ -115,7 +115,7 @@ namespace Dist
 			double normx = norm_x[i];
 			for (size_t j = i + 1; j < ncl; ++j)
 			{
-				a = dot(xv, xx.col(j)) / (normx * norm_x[j]);
+				a = 2.0 * (1 - dot(xv, xx.col(j)) / (normx * norm_x[j]));
 				f(i, j) = a;
 				f(j, i) = a;
 			}
