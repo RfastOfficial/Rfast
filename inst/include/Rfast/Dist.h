@@ -6,11 +6,16 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 #include <string>
-#include "mn.h"
 
 using Rcpp::NumericMatrix;
 using std::string;
 using namespace arma;
+
+typedef double (*Binary_Function)(double,double); // binary function
+double sum_max_elems(colvec x, colvec y);
+double sum_min_elems(colvec x, colvec y);
+colvec max_elems(colvec x, colvec y);
+template<Binary_Function F,typename T> double sum_with(T x,const double p);
 
 namespace Dist
 {
@@ -23,6 +28,17 @@ namespace Dist
             return sum(square(y - x));
         }
     }
+
+    template<bool sqr>
+    inline double euclidean(double &x, colvec &y)
+    {
+        if constexpr(sqr){
+            return std::sqrt(sum(square(y - x)));
+        }else{
+            return sum(square(y - x));
+        }
+    }
+
 
     inline double manhattan(colvec &x, colvec y)
     {

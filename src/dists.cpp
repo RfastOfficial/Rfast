@@ -5,7 +5,6 @@
 #include "mn.h"
 #include "Rfast.h"
 #include "Coeff.h"
-#include "Dist.h"
 #include <string>
 #ifdef _OPENMP
 #include <omp.h>
@@ -116,7 +115,7 @@ namespace Dist
 			double normx = norm_x[i];
 			for (size_t j = i + 1; j < ncl; ++j)
 			{
-				a = dot(xv, xx.col(j)) / (normx * norm_x[j]);
+				a = 2.0 * (1 - dot(xv, xx.col(j)) / (normx * norm_x[j]));
 				f(i, j) = a;
 				f(j, i) = a;
 			}
@@ -264,7 +263,7 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? Dist::dist_h(x, Dist::euclidean<false>, parallel) : Dist::dist_h(x, Dist::euclidean<true>, parallel);
+		return sqr ? Dist::dist_h(x, Dist::euclidean<false, colvec>, parallel) : Dist::dist_h(x, Dist::euclidean<true, colvec>, parallel);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
@@ -598,7 +597,7 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? DistVector::dist_h(x, Dist::euclidean<true>, parallel) : DistVector::dist_h(x, Dist::euclidean<false>, parallel);
+		return sqr ? DistVector::dist_h(x, Dist::euclidean<false, colvec>, parallel) : DistVector::dist_h(x, Dist::euclidean<true, colvec>, parallel);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
@@ -929,7 +928,7 @@ double total_dist(NumericMatrix x, const string method, const bool sqr, const in
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? DistTotal::dist_h(x, Dist::euclidean<true>, parallel) : DistTotal::dist_h(x, Dist::euclidean<false>, parallel);
+		return sqr ? DistTotal::dist_h(x, Dist::euclidean<false, colvec>, parallel) : DistTotal::dist_h(x, Dist::euclidean<true, colvec>, parallel);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
