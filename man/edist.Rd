@@ -9,7 +9,7 @@ Energy distance between matrices.
 }
 
 \usage{
-edist(x, y=NULL)
+edist(x, y = NULL)
 }
 
 \arguments{
@@ -38,7 +38,10 @@ Szekely G. J. (2000) Technical Report 03-05, E-statistics: Energy of Statistical
 Mathematics and Statistics, Bowling Green State University. 
 
 Sejdinovic D., Sriperumbudur B., Gretton A. and Fukumizu, K. (2013). Equivalence of distance-based and
-RKHS-based statistics in hypothesis testing. The Annals of Statistics, 41(5), 2263-2291.
+RKHS-based statistics in hypothesis testing. The Annals of Statistics, 41(5): 2263--2291.
+
+Szekely G. J. and Rizzo M. L. (2023). The Energy of Data and Distance Correlation. 
+Chapman and Hall/CRC.
 }
 
 \author{
@@ -48,7 +51,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \seealso{
-\code{ \link{dvar}, \link{total.dist}, \link{total.dista}, \link{Dist}, \link{dista}
+\code{ \link{dvar}, \link{Dist}, \link{dista}
 }
 }
 

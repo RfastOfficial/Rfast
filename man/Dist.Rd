@@ -40,9 +40,9 @@ For return a vector instead a matrix.
 \item{result}{
 One of the:
 \itemize{
-    \item matrix : Return the result as matrix
-    \item vector : Return the result as vector
-    \item sum: Return the sum of the result
+    \item "matrix" : Return the result as matrix.
+    \item "vector" : Return the result as vector.
+    \item "sum" : Return the sum of the result.
     }
 }
 \item{parallel}{

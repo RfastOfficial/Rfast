@@ -26,7 +26,10 @@
 >  |  rvmf | Optimized and fix bug. |
 >  |  coeff				| optimize bhattacharyya.  |
 >  |  spatmed.reg		| Change of the stopping criterion.  |
->  |  edist		| Fix a bug in the case of lists.  |
+>  |  edist		| Fix a bug in the case of lists and made a bit faster.  |
+>  |  dcor		| Time improvement.  |
+>  |  dvar		| Time improvement.  |
+>  |  dcov		| Time improvement.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 

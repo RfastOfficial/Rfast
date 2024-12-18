@@ -1,6 +1,5 @@
 \name{Distance correlation}
 \alias{dcor}
-\alias{bcdcor}
 \title{
 Distance correlation
 }
@@ -10,8 +9,7 @@ Distance correlation.
 }
 
 \usage{
-dcor(x, y)
-bcdcor(x, y)
+dcor(x, y, bc = FALSE)
 }
 
 \arguments{
@@ -21,10 +19,13 @@ A numerical matrix.
 \item{y}{
 A numerical matrix.
 }
+\item{bc}{
+If you want the bias-corrected distance correlation set this equal to TRUE.
+}
 }
 
 \details{
-The distance correlation or the bias corrected distance correlation of two matrices is calculated. The latter one 
+The distance correlation or the bias-corrected distance correlation of two matrices is calculated. The latter one 
 is used for the hypothesis test that the distance correlation is zero (see \code{\link{dcor.ttest}}).
 }
 
@@ -47,7 +48,10 @@ The distance correlation.
 
 \references{
 G.J. Szekely, M.L. Rizzo and N. K. Bakirov (2007). Measuring and Testing Independence 
-by Correlation of Distances. Annals of Statistics, 35(6):2769-2794.
+by Correlation of Distances. Annals of Statistics, 35(6): 2769--2794.
+
+Szekely G. J. and Rizzo M. L. (2023). The Energy of Data and Distance Correlation. 
+Chapman and Hall/CRC.
 }
 
 \author{
@@ -64,10 +68,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 x <- as.matrix(iris[1:50, 1:4])
 y <- as.matrix(iris[51:100, 1:4])
-res<-dcor(x, y)
-res<-bcdcor(x, y)
-
-x<-y<-NULL
+res <- dcor(x, y)
+x <- y <- NULL
 }
 
 \keyword{ Distance correlation }
