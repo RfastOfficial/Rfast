@@ -1,15 +1,15 @@
 Package: Rfast
 Type: Package
 Title: A Collection of Efficient and Extremely Fast R Functions
-Version: 2.1.2
-Date: 2024-12-09
+Version: 2.1.1
+Date: 2024-12-18
 Authors@R: c(
                 person("Manos Papadakis", email = "rfastofficial@gmail.com", role = c("aut", "cre", "cph")), 
                 person("Michail Tsagris", role = c("aut")), 
                 person("Marios Dimitriadis", role = c("ctb")), 
                 person("Stefanos Fafalios", role = c("aut")), 
-                person("Ioannis Tsamardinos", role = c("ctb")), 
                 person("Matteo Fasiolo", role = c("ctb")), 
+                person("Morgan Jacob", role = c("ctb")), 
                 person("Giorgos Borboudakis", role = c("ctb")), 
                 person("John Burkardt", role = c("ctb")), 
                 person("Changliang Zou", role = c("ctb")), 
