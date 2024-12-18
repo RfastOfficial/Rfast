@@ -52,7 +52,11 @@ The estimated covatriance matrix.
 }
 
 \references{
-Ro K., Zou C., Wang Z. and Yin G. (2015). Outlier detection for high-dimensional data. Biometrika, 102(3):589-599.
+Ro K., Zou C., Wang Z. and Yin G. (2015). Outlier detection for high-dimensional data. Biometrika, 102(3): 589--599.
+
+Tsagris M., Papadakis M., Alenazi A. and Alzeley O. (2024). 
+Computationally Efficient Outlier Detection for High-Dimensional Data Using the MDP Algorithm. 
+Computation, 12(9): 185.
 }
 
 \author{
