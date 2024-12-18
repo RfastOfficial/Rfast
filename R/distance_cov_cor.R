@@ -1,19 +1,19 @@
 #[export]
-dcor <- function(x, y) {
-  .Call( Rfast_dcor, t(x), t(y) )
+dcor <- function(x, y, bc = FALSE) {
+  .Call( Rfast_dcor, t(x), t(y), bc )
 }
 
 
 #[export]
-dcov <- function(x, y) {
-  .Call( Rfast_dcov, t(x), t(y) )
+dcov <- function(x, y, bc = FALSE) {
+  .Call( Rfast_dcov, t(x), t(y), bc )
 }
 
 
 #[export]
 dcor.ttest <- function(x, y, logged = FALSE) {
   n <- dim(x)[1]
-  bcr <- bcdcor(x ,y)
+  bcr <- dcor(x ,y, bc = TRUE)
   M <- 0.5 * n * (n - 3)
   dof <- M - 1
   stat <- sqrt(M - 1) * bcr / sqrt(1 - bcr^2)
@@ -25,9 +25,9 @@ dcor.ttest <- function(x, y, logged = FALSE) {
 
 
 #[export]
-dvar <- function(x) {
+dvar <- function(x, bc = FALSE) {
   if ( is.matrix(x) ) {
-    a <- .Call( Rfast_dvar, t(x) )
+    a <- .Call( Rfast_dvar, t(x), bc )
   } else {
     n <- length(x)
     i <- 1:n
@@ -40,20 +40,4 @@ dvar <- function(x) {
     a <- sqrt(a)
   }
   a  
-}
-
-
-#[export]
-bcdcor <- function(x,y) {
-  .Call( Rfast_bcdcor, t(x), t(y) )
-}
-
-#[export]
-bcdcov <- function(x,y) {
-  .Call( Rfast_bcdcov, t(x), t(y) )
-}
-
-#[export]
-bcdvar <- function(x) {
-  .Call( Rfast_bcdvar, t(x) )
 }
