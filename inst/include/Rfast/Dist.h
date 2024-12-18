@@ -19,8 +19,8 @@ template<Binary_Function F,typename T> double sum_with(T x,const double p);
 
 namespace Dist
 {
-    template<bool sqr>
-    inline double euclidean(colvec &x, colvec &y)
+    template<bool sqr, class T = colvec>
+    inline double euclidean(T &x, colvec &y)
     {
         if constexpr(sqr){
             return std::sqrt(sum(square(y - x)));
@@ -28,17 +28,6 @@ namespace Dist
             return sum(square(y - x));
         }
     }
-
-    template<bool sqr>
-    inline double euclidean(double &x, colvec &y)
-    {
-        if constexpr(sqr){
-            return std::sqrt(sum(square(y - x)));
-        }else{
-            return sum(square(y - x));
-        }
-    }
-
 
     inline double manhattan(colvec &x, colvec y)
     {
