@@ -24,7 +24,7 @@
 >  |  checkExamples | New option for using full path names. |
 >  |  as_integer | New option for parallel. |
 >  |  rvmf | Optimized and fix bug. |
->  |  coeff				| optimize bhattacharyya.  |
+>  |  coeff				| Optimize bhattacharyya.  |
 >  |  spatmed.reg		| Change of the stopping criterion.  |
 >  |  edist		| Fix a bug in the case of lists and made a bit faster.  |
 >  |  dcor		| Time improvement.  |
