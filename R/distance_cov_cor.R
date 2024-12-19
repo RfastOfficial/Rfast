@@ -13,7 +13,7 @@ dcov <- function(x, y, bc = FALSE) {
 #[export]
 dcor.ttest <- function(x, y, logged = FALSE) {
   n <- dim(x)[1]
-  bcr <- dcor(x ,y, bc = TRUE)
+  bcr <- dcor(x ,y, bc = TRUE)$dcor
   M <- 0.5 * n * (n - 3)
   dof <- M - 1
   stat <- sqrt(M - 1) * bcr / sqrt(1 - bcr^2)
