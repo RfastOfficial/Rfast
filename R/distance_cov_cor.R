@@ -9,6 +9,11 @@ dcov <- function(x, y, bc = FALSE) {
   .Call( Rfast_dcov, t(x), t(y), bc )
 }
 
+#[export]
+bcdcor <- function(x, y) {
+  .Deprecated("Please use instead the dcor(..., bc = TRUE)")
+}
+
 
 #[export]
 dcor.ttest <- function(x, y, logged = FALSE) {
