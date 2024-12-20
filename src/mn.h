@@ -68,7 +68,7 @@ colvec pnormc(colvec);
 double sum_abs(mat, mat);
 NumericVector toNumbers(string, const string);
 IntegerVector combine(IntegerVector, IntegerVector);
-icolvec get_k_indices(rowvec, const int &);
+arma::Col<int> get_k_indices(rowvec, const int &);
 colvec get_k_values(rowvec, const int &);
 bool check_if_is_finite(double);
 IntegerVector Order(NumericVector, const bool, const bool, const bool);

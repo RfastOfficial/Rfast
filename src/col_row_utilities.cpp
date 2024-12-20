@@ -1399,7 +1399,7 @@ RcppExport SEXP Rfast_row_sums(SEXP x, SEXP indices, SEXP na_rmSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
-	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, imat, icolvec>(x, indices, na_rm)
+	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, imat, arma::Col<int>>(x, indices, na_rm)
 							   : row_sums<double, NumericVector, NumericMatrix, mat, colvec>(x, indices, na_rm);
 	return __result;
 	END_RCPP

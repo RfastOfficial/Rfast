@@ -124,7 +124,7 @@ IntegerMatrix col_order_p(NumericMatrix x, const bool stable, const bool descend
 #endif
   for (int i = 0; i < ncl; ++i)
   {
-    ff.col(i) = Order<icolvec, colvec>(xx.col(i), stable, descending, 1);
+    ff.col(i) = Order<arma::Col<int>, colvec>(xx.col(i), stable, descending, 1);
   }
   return f;
 }

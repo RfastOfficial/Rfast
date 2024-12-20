@@ -421,34 +421,34 @@ SEXP group2(SEXP x, SEXP ina, string method, const string method_mad = "", const
 					group_s<int, int, mmin<int>>(x, ina, indx, sorted, std::numeric_limits<int>::max());
 				} else if (method == "mean") {
 					group_b<int, int>(x, ina, indx, sorted, 0, [&](GroupBucket<int, int>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
+						arma::Col<int> ccc(s.data(), s.size(), false);
 						return mean(ccc);
 					});
 				} else if (method == "sum") {
 					group_b<int, int>(x, ina, indx, sorted, 0, [&](GroupBucket<int, int>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
+						arma::Col<int> ccc(s.data(), s.size(), false);
 						return accu(ccc);
 					});
 				} else if (method == "median") {
 					group_b<int, int>(x, ina, indx, sorted, 0, Rfast::median<GroupBucket<int, int>::Bucket>);
 				} else if (method == "var") {
 					group_b<int, int>(x, ina, indx, sorted, 0, [&](GroupBucket<int, int>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
-						return Rfast::var<icolvec>(ccc, std);
+						arma::Col<int> ccc(s.data(), s.size(), false);
+						return Rfast::var<arma::Col<int>>(ccc, std);
 					});
 				} else if (method == "mad") {
 					group_b<int, int>(x, ina, indx, sorted, 0, [&](GroupBucket<int, int>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
-						return Rfast::mad<icolvec>(ccc, method_mad);
+						arma::Col<int> ccc(s.data(), s.size(), false);
+						return Rfast::mad<arma::Col<int>>(ccc, method_mad);
 					});
 				} else if (method == "any") {
 					group_b<int, int>(x, ina, indx, sorted, 0, [&](GroupBucket<int, int>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
+						arma::Col<int> ccc(s.data(), s.size(), false);
 						return any(ccc);
 					});
 				} else if (method == "all") {
 					group_b<int, int>(x, ina, indx, sorted, 0, [&](GroupBucket<int, int>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
+						arma::Col<int> ccc(s.data(), s.size(), false);
 						return all(ccc);
 					});
 				}
@@ -505,29 +505,29 @@ SEXP group2(SEXP x, SEXP ina, string method, const string method_mad = "", const
 					group_s<int, double, mmin<int>>(x, ina, indx, sorted, std::numeric_limits<int>::max());
 				} else if (method == "mean") {
 					group_b<int, double>(x, ina, indx, sorted, 0, [&](GroupBucket<int, double>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
+						arma::Col<int> ccc(s.data(), s.size(), false);
 						return mean(ccc);
 					});
 				} else if (method == "sum") {
 					group_b<int, double>(x, ina, indx, sorted, 0, [&](GroupBucket<int, double>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
+						arma::Col<int> ccc(s.data(), s.size(), false);
 						return accu(ccc);
 					});
 				} else if (method == "median") {
 					group_b<int, double>(x, ina, indx, sorted, 0, Rfast::median<GroupBucket<int, double>::Bucket>);
 				} else if (method == "var") {
 					group_b<int, double>(x, ina, indx, sorted, 0, [&](GroupBucket<int, double>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
-						return Rfast::var<icolvec>(ccc, std);
+						arma::Col<int> ccc(s.data(), s.size(), false);
+						return Rfast::var<arma::Col<int>>(ccc, std);
 					});
 				} else if (method == "mad") {
 					group_b<int, double>(x, ina, indx, sorted, 0, [&](GroupBucket<int, double>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
-						return Rfast::mad<icolvec>(ccc, method_mad);
+						arma::Col<int> ccc(s.data(), s.size(), false);
+						return Rfast::mad<arma::Col<int>>(ccc, method_mad);
 					});
 				} else if (method == "any") {
 					group_b<int, double>(x, ina, indx, sorted, 0, [&](GroupBucket<int, double>::Bucket &s) {
-						icolvec ccc(s.data(), s.size(), false);
+						arma::Col<int> ccc(s.data(), s.size(), false);
 						return any(ccc);
 					});
 				}

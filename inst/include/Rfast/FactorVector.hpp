@@ -150,10 +150,10 @@ namespace Rfast
         template <class T>
         T sort(const bool descend = false)
         {
-            icolvec x, inds;
+            arma::Col<int> x, inds;
             IntegerVector I(*this);
-            x = icolvec(I.begin(), I.size());
-            inds = Tabulate<icolvec, icolvec>(x, x.n_elem);
+            x = arma::Col<int>(I.begin(), I.size());
+            inds = Tabulate<arma::Col<int>, arma::Col<int>>(x, x.n_elem);
             T res(x.size());
             int start = 0;
 

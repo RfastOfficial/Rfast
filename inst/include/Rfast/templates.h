@@ -1068,7 +1068,7 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
         }
     }else{
         IntegerVector indd(ind);
-        icolvec iind(indd.begin(),indd.size(),false);
+        arma::Col<int> iind(indd.begin(),indd.size(),false);
         if(parallel){
             #pragma omp parallel for
             for(int i=0;i<n;++i){
