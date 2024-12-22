@@ -11,7 +11,7 @@ using namespace Rcpp;
 using namespace arma;
 
 static Ziggurat::Ziggurat::Ziggurat zigg;
-thread_local Random::uniform<Random::real> rng(0, 1);
+Random::uniform<Random::real> rng(0, 1);
 
 class Gamma {
 	double shape, rate, d, c;
@@ -64,8 +64,8 @@ class Beta : public BetaOne {
 	}
 };
 
-thread_local BetaOne *_beta;
-thread_local Random::uniform<Random::real> *_rng;
+BetaOne *_beta;
+Random::uniform<Random::real> *_rng;
 
 #ifdef _OPENMP
 #pragma omp threadprivate(_beta, _rng)
