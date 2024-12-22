@@ -19,7 +19,7 @@ class Gamma {
    public:
 	Gamma() {}
 	Gamma(double shape, double rate)
-		: shape(shape), rate(1.0 / rate), d(shape - 1.0 / 3.0), c(1.0 / std::sqrt(9.0 * d)) {}
+		: shape(shape), rate(1.0 / rate), d(this->shape - 1.0 / 3.0), c(1.0 / std::sqrt(9.0 * d)) {}
 
 	inline double operator()() {
 		// Marsaglia and Tsang method for rate >= 1
@@ -56,7 +56,7 @@ class Beta : public BetaOne {
 	Gamma beta_d;
 
    public:
-	Beta(double alpha, double beta) : BetaOne(alpha), beta(beta), beta_d(Gamma(beta, 1.0)) {}
+	Beta(double alpha, double beta) : BetaOne(alpha), beta(beta), beta_d(Gamma(this->beta, 1.0)) {}
 
 	inline double operator()() {
 		double x = alpha_d();
