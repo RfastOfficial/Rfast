@@ -27,7 +27,7 @@ A vector with the Gini coefficient, one for each variable.
 }
 
 \author{
-Michail Tsagris
+Michail Tsagris.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }
@@ -39,7 +39,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- matrix( rpois(500 * 1000, 1000), ncol = 1000 )
+x <- matrix( rpois(300 * 100, 100), ncol = 100 )
 a <- ginis(x)
 }
 
