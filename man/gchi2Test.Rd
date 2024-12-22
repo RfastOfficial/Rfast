@@ -27,9 +27,7 @@ Should the p-values be returned (FALSE) or their logarithm (TRUE)?
 
 \details{
 The function calculates the test statistic of the \eqn{\chi^2} and the \eqn{G^2} tests of unconditional 
-independence between x and y. x and y need not be numerical vectors like in \code{\link{g2Test}}. This 
-function is more close to the spirit of MASS' \bold{loglm} function which calculates both statistics 
-using Poisson log-linear models (Tsagris, 2017). 
+independence between x and y. x and y need not be numerical vectors like in \code{\link{g2Test}}. 
 }
 
 \value{
@@ -42,7 +40,7 @@ Journal of Data Science, 15(2): 347--356.
 }
 
 \author{
-Manos Papadakis and Michail Tsagris
+Manos Papadakis and Michail Tsagris.
 
 R implementation and documentation: Manos Papadakis <papadakm95@gmail.com> 
 and Michail Tsagris <mtsagris@uoc.gr>.
@@ -60,7 +58,7 @@ and Michail Tsagris <mtsagris@uoc.gr>.
 \examples{
 nvalues <- 3
 nvars <- 2
-nsamples <- 5000
+nsamples <- 2000
 data <- matrix( sample( 0:(nvalues - 1), nvars * nsamples, replace = TRUE ), nsamples, nvars )
 
 res<-gchi2Test(data[, 1], data[, 2])
