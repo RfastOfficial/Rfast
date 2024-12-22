@@ -329,7 +329,7 @@ bool my_any(int* start,int *end){
 //spml_mle
 colvec pnormc(colvec x){
   for(double *xx=&x[0],*endx=&x[x.n_elem];xx!=endx;++xx){
-    *xx=R::pnorm5(*xx,0,1,1,0);
+    *xx=R::pnorm(*xx,0,1,1,0);
   }
   return x;
 }
