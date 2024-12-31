@@ -1,4 +1,4 @@
-\name{Simulation of random values from a von Mises-Fisher distribution}
+hi\name{Simulation of random values from a von Mises-Fisher distribution}
 \alias{rvmf}
 \title{
 Random values simulation from a von Mises-Fisher distribution
@@ -66,7 +66,7 @@ m <- rnorm(4)
 m <- m/sqrt(sum(m^2))
 x <- rvmf(1000, m, 25)
 m
-res<-vmf.mle(x)
+#res<-vmf.mle(x)
 }
 
 \keyword{ Random values simulation }
