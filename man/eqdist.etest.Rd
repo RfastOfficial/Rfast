@@ -1,5 +1,5 @@
 \name{Energy test of equal univariate distributions}
-\alias{edist}
+\alias{eqdist.etest}
 \title{
 Energy test of equal univariate distributions
 }
@@ -25,11 +25,11 @@ The number of permutations to perform.
 }
 
 \details{
-The test performs the energy test of equal univariate distributions and the p-value is computed via pmerutations.
+The test performs the energy test of equal univariate distributions and the p-value is computed via permutations.
 }
 
 \value{
-If "x" is matrix, a numerical value, the energy distance. If "x" is list, a matrix with all pairwsie distances of the matrices.
+The permutation based p-value.
 }
 
 \references{
@@ -46,28 +46,20 @@ Chapman and Hall/CRC.
 }
 
 \author{
-Manos Papadakis
+Michail Tsagris.
 
-R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
+R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \seealso{
-\code{ \link{dvar}, \link{Dist}, \link{dista}
+\code{ \link{edist}, \link{dcor}
 }
 }
 
 \examples{
-x <- as.matrix( iris[1:50, 1:4] )
-y <- as.matrix( iris[51:100, 1:4] )
-res<-edist(x, y)
-z <- as.matrix(iris[101:150, 1:4])
-a <- list()
-a[[ 1 ]] <- x
-a[[ 2 ]] <- y
-a[[ 3 ]] <- z
-res<-edist(a)
-
-x<-y<-z<-a<-NULL
+y <- iris[1:50, 1] 
+x <- iris[1:50, 2] 
+eqdist.etest(y, x)
 }
 
 \keyword{ Energy distances }
