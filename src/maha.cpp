@@ -28,7 +28,7 @@ USA. */
 /* 
 *  Internal C++ function for Mahalanobis distance
 */
-NumericVector mahaInt(arma::mat & X,  
+Rcpp::NumericVector mahaInt(arma::mat & X,  
                   arma::vec & mu,  
                   arma::mat & sigma,
                   const bool isChol = false)
@@ -51,7 +51,7 @@ NumericVector mahaInt(arma::mat & X,
   
   vec D = cholDec.diag();
 
-  NumericVector Out(X.n_rows);
+  Rcpp::NumericVector Out(X.n_rows);
   vec out(Out.begin(), Out.size(), false);
   
   // Declaring some private variables
