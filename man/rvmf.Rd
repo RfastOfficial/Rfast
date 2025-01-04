@@ -1,4 +1,4 @@
-hi\name{Simulation of random values from a von Mises-Fisher distribution}
+\name{Simulation of random values from a von Mises-Fisher distribution}
 \alias{rvmf}
 \title{
 Random values simulation from a von Mises-Fisher distribution

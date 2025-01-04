@@ -1,33 +1,34 @@
 ﻿// [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
+
 #include "Rfast.h"
 using namespace Rcpp;
 
-arma::vec mahaInt(arma::mat & X,arma::vec & mu,arma::mat & sigma,const bool isChol);
+NumericVector mahaInt(arma::mat& X, arma::vec& mu, arma::mat& sigma, const bool isChol);
 
-/* 
+/*
  *  Internal C++ function for Mahalanobis distance
-*/
-RcppExport SEXP Rfast_mahaCpp(SEXP X, SEXP mu, SEXP sigma, SEXP isChol)
-{
-  using namespace Rcpp;
-  
-  try{
-    
-    arma::mat X_ = as<arma::mat>(X);
-    arma::vec mu_ = as<arma::vec>(mu);  
-    arma::mat sigma_ = as<arma::mat>(sigma); 
-    bool isChol_ = as<bool>(isChol);
-    
-    NumericVector dist = wrap( mahaInt(X_, mu_, sigma_, isChol_) );
-    dist.attr( "dim" ) = Rfast::R::Null;
-    
-    return dist;
-    
-  } catch( std::exception& __ex__){
-    forward_exception_to_r(__ex__);
-  } catch(...){
-    ::Rf_error( "c++ exception (unknown reason)" );
-  }
-  return wrap(NA_REAL);
+ */
+RcppExport SEXP Rfast_mahaCpp(SEXP XSEXP, SEXP muSEXP, SEXP sigmaSEXP, SEXP isCholSEXP) {
+	BEGIN_RCPP
+	RObject __result = wrap(NA_REAL);
+	RNGScope __rngScope;
+	NumericMatrix X(XSEXP);
+	NumericVector mu(muSEXP);
+	NumericMatrix sigma(sigmaSEXP);
+	traits::input_parameter<bool>::type isChol(isCholSEXP);
+
+	try {
+    arma::mat X_(X.begin(), X.nrow(), X.ncol(), false), sigma_(sigma.begin(), sigma.nrow(), sigma.ncol(), false);
+    arma::vec mu_(mu.begin(), mu.size(), false);
+		NumericVector dist = mahaInt(X_, mu_, sigma_, isChol);
+		__result = dist;
+
+	} catch (std::exception& __ex__) {
+		forward_exception_to_r(__ex__);
+	} catch (...) {
+		::Rf_error("c++ exception (unknown reason)");
+	}
+	return __result;
+	END_RCPP
 }
