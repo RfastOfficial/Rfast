@@ -46,3 +46,14 @@ dvar <- function(x, bc = FALSE) {
   }
   a  
 }
+
+
+#[export]
+pdcor <- function(x, y, z) {
+  a1 <- Rfast::dcor(x, y, bc = TRUE)$dcor
+  a2 <- Rfast::dcor(x, z, bc = TRUE)$dcor 
+  a3 <- Rfast::dcor(y, z, bc = TRUE)$dcor
+  up <- a1 - a2 * a3
+  down <- sqrt( 1 - a2^2 ) * sqrt( 1 - a3^2 )
+  up / down
+}
