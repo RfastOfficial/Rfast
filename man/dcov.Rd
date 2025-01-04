@@ -1,7 +1,6 @@
 \name{Distance variance and covariance}
 \alias{dvar}
 \alias{dcov}
-\alias{bcdcor}
 \title{
 Distance variance and covariance
 }
@@ -13,7 +12,6 @@ Distance variance and covariances.
 \usage{
 dvar(x, bc = FALSE)
 dcov(x, y, bc = FALSE)
-bcdcor(x, y)
 }
 
 \arguments{
