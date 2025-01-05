@@ -40,7 +40,8 @@ dvar <- function (x, bc = FALSE) {
     sxi <- cumsum(x)
     sxn <- sxi[n]
     ai <- (2 * i - n) * x + sxn - 2 * sxi
-    D <- Rfast::Dist(x, square = TRUE, result = "sum")
+    #D <- Rfast::Dist(x, square = TRUE, result = "sum")
+    D <- n * sum(x^2) - sxn^2
     if ( bc ) {
       a <- 2 * D / ( n * (n - 3) ) - 2 / ( n * (n - 2) * (n - 3) ) * sum(ai^2) + 
            sum(ai)^2 / (n * (n - 1) * (n - 2) * (n - 3) )
