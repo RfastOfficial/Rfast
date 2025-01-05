@@ -30,9 +30,9 @@ dcor.ttest <- function(x, y, logged = FALSE) {
 
 
 #[export]
-dvar <- function(x, bc = FALSE) {
+dvar <- function (x, bc = FALSE) {
   if ( is.matrix(x) ) {
-    a <- .Call( Rfast_dvar, t(x), bc )
+    a <- .Call(Rfast_dvar, t(x), bc)
   } else {
     n <- length(x)
     i <- 1:n
@@ -41,11 +41,15 @@ dvar <- function(x, bc = FALSE) {
     sxn <- sxi[n]
     ai <- (2 * i - n) * x + sxn - 2 * sxi
     D <- Rfast::Dist(x, square = TRUE, result = "sum")
-    a <- 2 * D/n^2 - 2/n^3 * sum(ai^2) + sum(ai)^2/n^4 
-    a <- sqrt(a)
+    if ( bc ) {
+      a <- 2 * D / ( n * (n - 3) ) - 2 / ( n * (n - 2) * (n - 3) ) * sum(ai^2) + 
+           sum(ai)^2 / (n * (n - 1) * (n - 2) * (n - 3) )
+    } else  a <- 2 * D/n^2 - 2/n^3 * sum(ai^2) + sum(ai)^2/n^4
+      a <- sqrt(a)
   }
-  a  
+  a
 }
+
 
 
 #[export]
