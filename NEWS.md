@@ -1,6 +1,21 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.4 - Ares**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  Dist | Fix bug. |
+>  |  rvmf | Fix bug. |
+>  |  eqdist.etest | Energy test of equal univariate distributions. |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.1.1 - Hephaestus**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
@@ -27,9 +42,9 @@
 >  |  coeff				| Optimize bhattacharyya.  |
 >  |  spatmed.reg		| Change of the stopping criterion.  |
 >  |  edist		| Fix a bug in the case of lists and made a bit faster.  |
->  |  dcor		| Time improvement.  |
->  |  dvar		| Time improvement.  |
->  |  dcov		| Time improvement.  |
+>  |  dcor		| Time and memory improvement.  |
+>  |  dvar		| Time and memory improvement.  |
+>  |  dcov		| Time and memory improvement.  |
 >
 >
 > <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
