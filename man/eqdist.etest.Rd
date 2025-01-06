@@ -45,6 +45,9 @@ RKHS-based statistics in hypothesis testing. The Annals of Statistics, 41(5): 22
 
 Szekely G. J. and Rizzo M. L. (2023). The Energy of Data and Distance Correlation. 
 Chapman and Hall/CRC.
+
+Tsagris M. and Papadakis M. (2025). Fast and light-weight energy statistics using the R package Rfast. 
+https://www.researchgate.net/publication/387583091_Fast_and_light-weight_energy_statistics_using_the_R_package_Rfast
 }
 
 \author{
