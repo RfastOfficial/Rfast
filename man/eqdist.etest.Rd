@@ -14,10 +14,10 @@ eqdist.etest(y, x, R = 999)
 
 \arguments{
 \item{y}{
-A numerical vector. 
+A numerical vector or a numerical matrix. 
 }
 \item{x}{
-A numerical vector. 
+A numerical vector or a numerical matrix. 
 }
 \item{R}{
 The number of permutations to perform.
@@ -26,6 +26,8 @@ The number of permutations to perform.
 
 \details{
 The test performs the energy test of equal univariate distributions and the p-value is computed via permutations.
+Both the univariate and multivariate cases are memory-saving, the univariate case is pretty fast, but the 
+multivariate case is not fast enough.
 }
 
 \value{
