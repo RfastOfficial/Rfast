@@ -13,6 +13,7 @@ eqdist.etest <- function(y, x, R = 999) {
     j <- 1:nj
     y <- Rfast::Sort(y)
     sy <- sum(y)
+    s <- sx + sy
     djj <- 2 * sum(j * y ) - (nj + 1) * sy
     n <- ni + nj  ## total sample size
     dij <- Rfast::dista(x, y, result = "sum")
@@ -27,7 +28,7 @@ eqdist.etest <- function(y, x, R = 999) {
       sxp <- sum(xp)
       pdii <- 2 * sum(i * xp ) - (ni + 1) * sxp
       yp <- Rfast::Sort(z[-id])
-      syp <- sum(yp)
+      syp <- s - sxp
       pdjj <- 2 * sum(j * yp ) - (nj + 1) * syp
       pdij <- dtot - pdii - pdjj  
       pstat[k] <- pdij - nj * pdii / ni - ni * pdjj / nj
@@ -44,7 +45,7 @@ eqdist.etest <- function(y, x, R = 999) {
     }
   }
   ( sum( pstat >= stat ) + 1 ) / (R + 1)
-}  
+} 
   
 
 #total.vecdist <- function(x) {
