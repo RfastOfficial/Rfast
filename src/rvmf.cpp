@@ -178,9 +178,9 @@ void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel) {
         S.cols(0,d1-1).each_col() %= sqrt((1.0 - square(S.col(d1))) / sum(square(S.cols(0,d1-1)), 1));
 
 		const double M = accu(abs(-mu(span(0, d1))));
-		if (M + std::abs(1 - mu[mu.n_elem]) < 1e-13) {
+		if (M + std::abs(1 - mu[mu.n_elem-1]) < 1e-13) {
 			out = S;
-		} else if (M + std::abs(1 + mu[mu.n_elem]) < 1e-13) {
+		} else if (M + std::abs(1 + mu[mu.n_elem-1]) < 1e-13) {
 			out = -S;
 		} else {
 			mat A = rotation(mu);
