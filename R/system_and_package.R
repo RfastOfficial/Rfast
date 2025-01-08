@@ -195,14 +195,14 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
         }
     }
     
-    getTime<-function(t){
-        t<-unclass(t)
-        tim<- round(t[1], 2)
+    getTime<-function(time){
+        time<-unclass(time)
+        tim<- round(time[1], 2)
         s <- ""
         if(tim == 0){
             s<-"<"
         }
-        paste(s,tim," ",attr(t,"units"), sep="")
+        paste(s,tim," ",attr(time,"units"), sep="")
     }
     t <-0
     if(print.names){
