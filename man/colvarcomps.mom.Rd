@@ -95,7 +95,7 @@ y <- c(98, 97, 99, 96, 91, 90, 93, 92,
 y <- matrix(y)
 id <- rep(1:4, each = 4)
 
-x <- rmvnorm(100, numeric(100), diag(rexp(100)) )
+x <- rmvnorm(100, numeric(20), diag(rexp(20)) )
 id <- rep(1:25, each = 4)
 n <- 25  ;  d <- 4
 a <- colvarcomps.mom(x, id) 
