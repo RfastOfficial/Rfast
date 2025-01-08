@@ -70,7 +70,7 @@ x <- rnorm(100)
 z <- cbind(3 + 2 * x, 1 -3 * x)
 y <- cbind( rnorm(100,z[ ,1], 1), rnorm(100, z[ ,2], 1) )
 y <- y / sqrt( rowsums(y^2) )
-x <- matrnorm(100, 100)
+x <- matrnorm(100, 10)
 a <- spml.regs(y, x)
 x <- NULL
 }

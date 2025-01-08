@@ -73,7 +73,7 @@ Documentation: Michail Tsagris <mtsagris@uoc.gr> and Changliang Zhou <nk.chlzou@
 
 \examples{
 x <- matrix(rnorm(30 * 100), ncol = 100)
-a <- rmdp(x, itertime = 10)
+a <- rmdp(x, itertime = 5)
 
 x<-a<-NULL
 }
