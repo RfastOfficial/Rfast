@@ -178,36 +178,60 @@ checkNamespace <- function(path.namespace,path.rfolder,paths.full = FALSE) {
 
 #[export]
 checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.names = FALSE,paths.full = FALSE){
-  examples_files <- .Call(Rfast_read_examples,path.man,paths.full = FALSE)
-  packageEnv <- new.env(parent = getNamespace(package))
-  error_files<-vector("character")
-  examples <- examples_files$examples
-  file_names<-examples_files$files
-  if(!is.null(print.errors)){
-    warning_error_function <-function(err){
-      write(paste(file_names[i],":","\n",err),print.errors)
-      error_files <<- c(error_files,file_names[i])
+    examples_files <- .Call(Rfast_read_examples,path.man,paths.full = FALSE)
+    packageEnv <- new.env(parent = getNamespace(package))
+    error_files<-vector("character")
+    examples <- examples_files$examples
+    file_names<-examples_files$files
+    if(!is.null(print.errors)){
+        warning_error_function <-function(err){
+            error_files <<- c(error_files,file_names[i])
+            return (err)
+        }
+    }else{
+        warning_error_function <-function(err){
+            error_files <<- c(error_files,file_names[i])
+            return (err)
+        }
     }
-  }else{
-    warning_error_function <-function(err){
-      error_files <<- c(error_files,file_names[i])
+    
+    getTime<-function(t){
+        t<-unclass(t)
+        tim<- round(t[1], 2)
+        s <- ""
+        if(tim == 0){
+            s<-"<"
+        }
+        paste(s,tim," ",attr(t,"units"), sep="")
     }
-  }
-  if(print.names){
-    for(i in 1:length(examples)){
-      print(file_names[i])
-      for(j in 1:each){
-      	tryCatch(eval(parse(text=examples[i]),envir=packageEnv),error=warning_error_function, warning=warning_error_function)
-      }
+    t <-0
+    if(print.names){
+        for(i in 1:length(examples)){
+            cat("\033[1;34m",file_names[i],"\033[0m")
+            err <- NULL
+            for(j in 1:each){
+                st <- Sys.time()
+                err <- tryCatch(eval(parse(text=examples[i]),envir=packageEnv),error=warning_error_function, warning=warning_error_function)
+                et <- Sys.time()
+                t <- t + et - st
+                found_error <- inherits(err, "error") || inherits(err, "warning")
+                if (found_error) {
+                    break
+                }
+            }
+            cat(" \033[32m(", getTime(t/each), ")\033[0m\n", sep="")
+            if(found_error){
+                cat("\t\033[31mError/Warning: ", conditionMessage(err), "\033[0m\n")  # Display error or warning in red
+            }
+        }
+    }else{
+        for(i in 1:length(examples)){
+            for(j in 1:each){
+                tryCatch(eval(parse(text=examples[i]),envir=packageEnv),error=warning_error_function, warning=warning_error_function)
+            }
+        }
     }
-  }else{
-    for(i in 1:length(examples)){
-      for(j in 1:each){
-      	tryCatch(eval(parse(text=examples[i]),envir=packageEnv),error=warning_error_function, warning=warning_error_function)
-      }
-    }
-  }
-  list("Errors"=error_files,"Big Examples"=examples_files$long_lines,"dont read"=examples_files$`dont read`)
+    list("Errors"=error_files,"Big Examples"=examples_files$long_lines,"dont read"=examples_files$`dont read`)
 }
 
 #[export]
