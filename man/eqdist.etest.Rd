@@ -64,7 +64,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 \examples{
 y <- iris[1:50, 1] 
 x <- iris[1:50, 2] 
-eqdist.etest(y, x, R = 499)
+eqdist.etest(y, x, R = 299)
 }
 
 \keyword{ Energy distances }
