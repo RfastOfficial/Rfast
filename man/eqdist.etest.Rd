@@ -57,14 +57,14 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \seealso{
-\code{ \link{edist}, \link{dcor}
+\code{ \link{edist}, \link{dcov}
 }
 }
 
 \examples{
 y <- iris[1:50, 1] 
 x <- iris[1:50, 2] 
-eqdist.etest(y, x)
+eqdist.etest(y, x, R = 499)
 }
 
 \keyword{ Energy distances }
