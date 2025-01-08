@@ -191,7 +191,7 @@ void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel) {
 		}
 	} else {
 		randn_z(out);
-		out /= sqrt(sum(square(out), 1));
+		out.each_col() /= sqrt(sum(square(out), 1));
 	}
 }
 
