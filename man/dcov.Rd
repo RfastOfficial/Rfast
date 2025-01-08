@@ -1,17 +1,19 @@
-\name{Distance variance and covariance}
+\name{Distance variance, covariance and correlation}
 \alias{dvar}
 \alias{dcov}
+\alias{dcor}
 \title{
-Distance variance and covariance
+Distance variance, covariance and correlation
 }
 
 \description{
-Distance variance and covariances.
+Distance variance, covariance and correlation.
 }
 
 \usage{
 dvar(x, bc = FALSE)
 dcov(x, y, bc = FALSE)
+dcor(x, y, bc = FALSE)
 }
 
 \arguments{
@@ -27,12 +29,28 @@ If you want the bias-corrected distance correlation set this equal to TRUE.
 }
 
 \details{
-The distance variance of a matrix/vector or the distance covariance of two matrices is calculated.
+The distance variance of a matrix/vector, the distance covariance or distance correlation of two matrices is calculated.
 For the distance variance of a vector we use the fast method of Huo and Szekely (2016).
 }
 
 \value{
-The distance covariance or distance variance.
+The distance covariance or the distance variance.
+
+For the bias corrected distance correlation its value only.
+ 
+For the distance correlation a list including:
+\item{dcov}{
+The distance covariance.
+}
+\item{dvarX}{
+The distance variance of x.
+}
+\item{dvarY}{
+The distance variance of Y.
+}
+\item{dcor}{
+The distance correlation.
+}
 }
 
 \references{
@@ -44,7 +62,7 @@ Chapman and Hall/CRC.
 }
 
 \author{
-Manos Papadakis
+Michail Tsagris and Manos Papadakis.
 
 R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos Papadakis <papadakm95@gmail.com>.
 }
@@ -53,15 +71,15 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 %}
 
 \seealso{
-\code{ \link{dcor}, \link{edist}
+\code{ \link{pdcor}, \link{dcor.ttest}, \link{edist}
 }
 }
 
 \examples{
 x <- as.matrix(iris[1:50, 1:4])
 y <- as.matrix(iris[51:100, 1:4])
-res <- dcov(x, y)
 res <- dvar(x[, 1])
+dcor(x, y)
 }
 
 \keyword{ Distance variance }

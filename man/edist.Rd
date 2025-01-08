@@ -51,7 +51,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \seealso{
-\code{ \link{dvar}, \link{Dist}, \link{dista}
+\code{ \link{dcov}, \link{Dist}, \link{dista}
 }
 }
 

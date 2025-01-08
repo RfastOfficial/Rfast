@@ -47,7 +47,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \seealso{
-\code{ \link{dcor}, \link{dcor.ttest}
+\code{ \link{dcov}, \link{dcor.ttest}
 }
 }
 
