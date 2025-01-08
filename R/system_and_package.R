@@ -204,11 +204,11 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
         }
         paste(s,tim," ",attr(time,"units"), sep="")
     }
-    t <-0
     if(print.names){
         for(i in 1:length(examples)){
             cat("\033[1;34m",file_names[i],"\033[0m")
             err <- NULL
+            t <-0
             for(j in 1:each){
                 st <- Sys.time()
                 err <- tryCatch(eval(parse(text=examples[i]),envir=packageEnv),error=warning_error_function, warning=warning_error_function)
