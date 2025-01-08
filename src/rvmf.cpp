@@ -176,8 +176,8 @@ void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel) {
 		double ca = k * x0 + (mu.n_elem - 1) * log1p(-x0 * x0);
 		S.col(d1) = rvmf_h(n, ca, d1, x0, m, k, b, parallel);
 		colvec tmp = (1.0 - square(S.col(d1)));
-		tmp = sqrt( tmp / sum(square(S.cols(0,d1-1)), 1));
-        S.cols(0,d1-1).each_col() %= tmp;
+		tmp = sqrt( tmp / sum(square(S_h), 1));
+        S_h.each_col() %= tmp;
 
 		const double M = accu(abs(-mu(span(0, d1))));
 		if (M + std::abs(1 - mu[mu.n_elem-1]) < 1e-13) {
