@@ -5,3 +5,4 @@ PKG_CXXFLAGS = -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointe
 PKG_CPPFLAGS = -I../inst/include
 
 LDLIBS += -fsanitize=address
+CXX = g++-14
