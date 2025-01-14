@@ -19,7 +19,9 @@ namespace Dista
 			{
 				if (k > 0)
 				{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
 						disa.col(i) = get_k_values(sum(square(x.each_col() - xnew.col(i)), 0), k);
@@ -27,7 +29,9 @@ namespace Dista
 				}
 				else
 				{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
 						disa.col(i) = sum(square(x.each_col() - xnew.col(i)), 0).t();
@@ -38,7 +42,9 @@ namespace Dista
 			{
 				if (k > 0)
 				{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
 						disa.col(i) = get_k_values(foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)), k);
@@ -46,7 +52,9 @@ namespace Dista
 				}
 				else
 				{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
 						disa.col(i) = foreach<std::sqrt, rowvec>(sum(square(x.each_col() - xnew.col(i)), 0)).t();
@@ -393,7 +401,9 @@ namespace Dista
 		{
 			if (k > 0)
 			{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
 					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
@@ -402,7 +412,9 @@ namespace Dista
 			}
 			else
 			{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
 					mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
@@ -440,7 +452,9 @@ namespace Dista
 		{
 			if (k > 0)
 			{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
 					mat v = x.each_col() + xnew.col(i);
@@ -450,7 +464,9 @@ namespace Dista
 			}
 			else
 			{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
 					mat v = x.each_col() + xnew.col(i);
@@ -535,7 +551,9 @@ namespace Dista
 		{
 			if (k > 0)
 			{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
 					mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
@@ -544,7 +562,9 @@ namespace Dista
 			}
 			else
 			{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
 					mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
@@ -844,7 +864,9 @@ namespace DistaIndices
 
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
 				mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
@@ -867,7 +889,9 @@ namespace DistaIndices
 		const double log0_5 = std::log(0.5);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
 				mat log_ma = arma::log(x.each_col() + xnew.col(i)) + log0_5;
@@ -946,7 +970,9 @@ namespace DistaIndices
 		fill_with<std::log, double *, double *>(xnew.begin(), xnew.end(), log_xnew.begin());
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
 				mat m = (x.each_col() / xnew.col(i)) - (log_x.each_col() - log_xnew.col(i)) - 1;
@@ -1470,7 +1496,9 @@ namespace DistaTotal
         {
             if (k > 0)
             {
-#pragma omp parallel for reduction(+ : a)
+#ifdef _OPENMP
+	#pragma omp parallel for reduction(+ : a)
+#endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
@@ -1480,7 +1508,9 @@ namespace DistaTotal
             }
             else
             {
-#pragma omp parallel for reduction(+ : a)
+#ifdef _OPENMP
+	#pragma omp parallel for reduction(+ : a)
+#endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     mat m = (x.each_col() - xnew.col(i)) % (log_xx.each_col() - log_xnew.col(i));
@@ -1523,7 +1553,9 @@ namespace DistaTotal
         {
             if (k > 0)
             {
-#pragma omp parallel for reduction(+ : a)
+#ifdef _OPENMP
+	#pragma omp parallel for reduction(+ : a)
+#endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     mat v = x.each_col() + xnew.col(i);
@@ -1534,7 +1566,9 @@ namespace DistaTotal
             }
             else
             {
-#pragma omp parallel for reduction(+ : a)
+#ifdef _OPENMP
+	#pragma omp parallel for reduction(+ : a)
+#endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     mat v = x.each_col() + xnew.col(i);
@@ -1629,7 +1663,9 @@ namespace DistaTotal
         {
             if (k > 0)
             {
-#pragma omp parallel for reduction(+ : a)
+#ifdef _OPENMP
+	#pragma omp parallel for reduction(+ : a)
+#endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     mat m = x.each_col() / xnew.col(i) - (log_x.each_col() - log_xnew.col(i)) - 1;
@@ -1639,7 +1675,9 @@ namespace DistaTotal
             }
             else
             {
-#pragma omp parallel for reduction(+ : a)
+#ifdef _OPENMP
+	#pragma omp parallel for reduction(+ : a)
+#endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
                     mat m = (x.each_col() - xnew.col(i)) % (log_x.each_col() - log_xnew.col(i));

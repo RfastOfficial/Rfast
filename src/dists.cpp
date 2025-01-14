@@ -37,7 +37,9 @@ namespace Dist
 		mat xx(x.begin(), nrw, ncl, false), ff(f.begin(), ncl, ncl, false);
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
 				colvec xv(xx.begin_col(i), nrw, false);
@@ -72,7 +74,9 @@ namespace Dist
 
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
 				colvec xv(xx.begin_col(i), nrw, false);
@@ -383,8 +387,10 @@ namespace DistVector
 				for (size_t j = i + 1; j < ncl; ++j)
 				{
 					colvec y(xx.begin_col(j), nrw, false);
-					ff[k] = func(xv, y);
-#pragma omp atomic
+					ff[k] = func(xv, y);	
+#ifdef _OPENMP
+	#pragma omp atomic
+#endif
 					++k;
 				}
 			}
@@ -409,7 +415,9 @@ namespace DistVector
 		size_t k = 0;
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
 				colvec xv(xx.begin_col(i), nrw, false);
@@ -713,16 +721,22 @@ namespace DistTotal
 		double a = 0.0;
 		if constexpr (parallel)
 		{
-			#pragma omp parallel
-			{
+#ifdef _OPENMP
+	#pragma omp parallel
+	{
+#endif
 				for (size_t j = i + 1; j < ncl; ++j)
 				{
 					colvec y(xx.begin_col(j), nrw, false);
-					double tmp = func(xv, y);
-					#pragma omp atomic
+					double tmp = func(xv, y);	
+#ifdef _OPENMP
+	#pragma omp atomic
+#endif
 					a += tmp;
 				}
-			}
+#ifdef _OPENMP
+}
+#endif
 		}
 		else
 		{
@@ -744,12 +758,17 @@ namespace DistTotal
 		double a = 0;
 		if (parallel)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
 				colvec xv(xx.begin_col(i), nrw, false);
 				double tmp = dist_inner<Function,true>(xx, xv, i, ncl, nrw, func);
-#pragma omp atomic
+				
+#ifdef _OPENMP
+	#pragma omp atomic
+#endif
 				a += tmp;
 			}
 		}

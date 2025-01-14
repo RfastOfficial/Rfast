@@ -16,7 +16,9 @@ colvec rmdp(NumericMatrix Y, const int h, umat rnd, const int itertime, const bo
 
 	if (parallel)
 	{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 		for (int A = 0; A < itertime; ++A)
 		{
 			mat ny = y.rows(rnd(span::all, A));
@@ -48,14 +50,19 @@ colvec rmdp(NumericMatrix Y, const int h, umat rnd, const int itertime, const bo
 			}
 
 			double tempdet = prod(var_t);
+			
+#ifdef _OPENMP
 #pragma omp critical
 			{
+#endif
 				if (!bestdet || tempdet < bestdet)
 				{
 					bestdet = tempdet;
 					final_vec = jvec;
 				}
+#ifdef _OPENMP
 			}
+#endif
 		}
 	}
 	else
