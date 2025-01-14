@@ -1,4 +1,4 @@
-PKG_LIBS = -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(SHLIB_OPENMP_CXXFLAGS) `"${R_HOME}/bin/Rscript" -e "RcppParallel::LdFlags()"`
+PKG_LIBS = -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer -lasan $(LAPACK_LIBS) $(BLAS_LIBS) $(FLIBS) $(SHLIB_OPENMP_CXXFLAGS) `"${R_HOME}/bin/Rscript" -e "RcppParallel::LdFlags()"`
 
 PKG_CXXFLAGS = -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer $(SHLIB_OPENMP_CXXFLAGS)
 
