@@ -49,8 +49,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>
 }
 
 \examples{
-x <- matrix( rvonmises(n = 50 * 10, m = 2, k = 0), ncol = 10 )
-res<-colwatsons(x)
+#x <- matrix( rvonmises(n = 50 * 10, m = 2, k = 0), ncol = 10 )
+#res<-colwatsons(x)
 x <- NULL
 }
 
