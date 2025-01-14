@@ -64,8 +64,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 m <- rnorm(4)
 m <- m/sqrt(sum(m^2))
-x <- rvmf(1000, m, 25)
-m
+#x <- rvmf(1000, m, 25)
 #res<-vmf.mle(x)
 }
 
