@@ -25,11 +25,15 @@ template <class T, class HELPER, Mfunction<typename T::iterator, typename T::ite
 typename T::value_type parallelSingleIteratorWithoutCopy(DataFrame::iterator s)
 {
 	T y;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy(*s);
 		y = T(yy.begin(), yy.size(), false);
+#ifdef _OPENMP
 	}
+#endif
 	return *Function(y.begin(), y.end());
 }
 
@@ -119,11 +123,15 @@ template <class T, class HELPER,
 void setResultParallelSection(mat &f, DataFrame::iterator s, const int i,const bool na_rm, F cmp)
 {
 	T y;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy(*s);
 		y = as<T>(yy);
+#ifdef _OPENMP
 	}
+#endif
 	na_rm ? Function(y.begin(), y.end(), cmp) : Function(y.begin(), y.begin()+(int)(std::remove_if(y.begin(), y.end(), R_IsNA) - y.begin()), cmp);
 	f.col(i) = y;
 }
@@ -132,11 +140,15 @@ template <class T, class HELPER,Mfunction<typename T::value_type,typename T::ite
 void setResultParallelSection(colvec &f, DataFrame::iterator s, const int i,const bool na_rm)
 {
 	T y;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy(*s);
 		y = as<T>(yy);
+#ifdef _OPENMP
 	}
+#endif
 	f[i] = na_rm ? Function(y.begin(), y.end()) : Function(y.begin(), y.begin()+(int)(std::remove_if(y.begin(), y.end(), R_IsNA) - y.begin()));
 }
 
@@ -144,11 +156,15 @@ template <class T, class HELPER, class Function,class ...Args>
 typename T::value_type setResultParallelSection(DataFrame::iterator s, Function func, Args... args)
 {
 	T y;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy(*s);
 		y = as<T>(yy);
+#ifdef _OPENMP
 	}
+#endif
 	return func(y,args...);
 }
 
@@ -156,11 +172,15 @@ template <class T, class HELPER, Mfunction<void, typename T::iterator, typename 
 void setResultParallelSection(mat &f, DataFrame::iterator s, const int i,const bool na_rm)
 {
 	T y;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy(*s);
 		y = as<T>(yy);
+#ifdef _OPENMP
 	}
+#endif
 	na_rm ? Function(y.begin(), y.end()) : Function(y.begin(), y.begin()+(int)(std::remove_if(y.begin(), y.end(), R_IsNA) - y.begin()));
 	f.col(i) = y;
 }
@@ -206,17 +226,25 @@ void setResultParallelSection(List &f,const bool na_rm, DataFrame::iterator s, F
 {
 	T y;
 	int i;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy = *s;
 		y = as<T>(yy);
 		i = s - f.begin();
+#ifdef _OPENMP
 	}
+#endif
 	na_rm ? Function(y.begin(), y.end(), cmp) : Function(y.begin(), y.begin()+(int)(std::remove_if(y.begin(), y.end(), R_IsNA) - y.begin()), cmp);
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		f[i] = HELPER(y.begin(), y.end());
+#ifdef _OPENMP
 	}
+#endif
 }
 
 template <class T, class HELPER, Mfunction<void, typename T::iterator, typename T::iterator> Function>
@@ -224,17 +252,26 @@ void setResultParallelSection(List &f,const bool na_rm, DataFrame::iterator s)
 {
 	T y;
 	int i;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy = *s;
 		y = as<T>(yy);
 		i = s - f.begin();
+#ifdef _OPENMP
 	}
+#endif
 	na_rm ? Function(y.begin(), y.end()) : Function(y.begin(), y.begin()+(int)(std::remove_if(y.begin(), y.end(), R_IsNA) - y.begin()));
-#pragma omp critical
+
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		f[i] = HELPER(y.begin(), y.end());
+#ifdef _OPENMP
 	}
+#endif
 }
 
 template <class T, class HELPER, Mfunction<typename T::iterator, typename T::iterator, typename T::iterator> Function>
@@ -242,28 +279,41 @@ void parallelSingleIteratorWithoutCopy(List &f, DataFrame::iterator s)
 {
 	T y;
 	int i;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy(*s);
 		y = as<T>(yy);
 		i = s - f.begin();
+#ifdef _OPENMP
 	}
+#endif
 	auto value = *Function(y.begin(), y.end());
-#pragma omp critical
+
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		f[i] = HELPER::create(value);
+#ifdef _OPENMP
 	}
+#endif
 }
 
 template <class RET, class T, class HELPER, Mfunction<std::pair<typename T::iterator, typename T::iterator>, typename T::iterator, typename T::iterator> Function>
 RET parallelSingleIteratorWithoutCopy(DataFrame::iterator s)
 {
 	T y;
-#pragma omp critical
+#ifdef _OPENMP
+	#pragma omp critical
 	{
+#endif
 		HELPER yy(*s);
 		y = T(yy.begin(), yy.size(), false);
+#ifdef _OPENMP
 	}
+#endif
 	auto v = Function(y.begin(), y.end());
 	return {static_cast<typename RET::value_type>(*v.first), static_cast<typename RET::value_type>(*v.second)};
 }

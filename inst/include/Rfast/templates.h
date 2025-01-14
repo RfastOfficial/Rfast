@@ -1057,7 +1057,9 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
     colvec yy(y.begin(),y.size(),false),ff(f.begin(),f.size(),false);
     if(is_ind_null){
         if(parallel){
-            #pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
             for(int i=0;i<n;++i){
                 f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
             }
@@ -1070,7 +1072,9 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
         IntegerVector indd(ind);
         arma::Col<int> iind(indd.begin(),indd.size(),false);
         if(parallel){
-            #pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
             for(int i=0;i<n;++i){
                 f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
             }

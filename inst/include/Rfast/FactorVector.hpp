@@ -204,12 +204,16 @@ namespace Rfast
         static T sort(SEXP xx, const bool descend = false)
         {
             arma::Col<int> x, inds;
-#pragma omp critical
-            {
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
                 IntegerVector I(xx);
                 x = arma::Col<int>(I.begin(), I.size(), false);
                 inds = Tabulate<arma::Col<int>, arma::Col<int>>(x, x.n_elem);
-            }
+#ifdef _OPENMP
+	}
+#endif
             T res(x.size());
             int start = 0;
 
