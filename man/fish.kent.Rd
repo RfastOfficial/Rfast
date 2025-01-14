@@ -52,8 +52,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>
 }
 
 \examples{
-x <- rvmf(100, rnorm(3), 15)
-res<-fish.kent(x)
+#x <- rvmf(100, rnorm(3), 15)
+#res<-fish.kent(x)
 x <- NULL
 }
 
