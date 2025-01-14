@@ -107,13 +107,13 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- matrnorm(500, 500)
-y <- rbinom(500, 1, 0.6)   ## binary logistic regression
-a2 <- score.glms(y, x)
-y <- rweibull(500, 2, 3)   
-a <- score.weibregs(y, x) 
-mean(a[, 2] < 0.05) 
-x <- NULL
+#x <- matrnorm(500, 500)
+#y <- rbinom(500, 1, 0.6)   ## binary logistic regression
+#a2 <- score.glms(y, x)
+#y <- rweibull(500, 2, 3)   
+#a <- score.weibregs(y, x) 
+#mean(a[, 2] < 0.05) 
+#x <- NULL
 }
 
 \keyword{ GLMS }
