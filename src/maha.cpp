@@ -72,12 +72,12 @@ Rcpp::NumericVector mahaInt(arma::mat & X,
     {
       acc = 0.0;
       
-      for(ii = 0; ii < irow; ii++) acc += tmp.at(ii) * cholDec.at(irow, ii);
+      for(ii = 0; ii < irow; ii++) acc += tmp(ii) * cholDec(irow, ii);
       
-      tmp.at(irow) = ( X.at(icol, irow) - mu.at(irow) - acc ) / D.at(irow);
+      tmp(irow) = ( X(icol, irow) - mu(irow) - acc ) / D(irow);
     }
     
-    out.at(icol) = sum(square(tmp)); 
+    out(icol) = sum(square(tmp)); 
   } 
   
 return Out;
