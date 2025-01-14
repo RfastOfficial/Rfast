@@ -9,7 +9,6 @@
 >  | -------------------  | ------------------------------- |
 >  |  Dist | Fix bug. |
 >  |  rvmf | Fix bug. |
->  |  eqdist.etest | Energy test of equal univariate distributions. |
 >
 
 
