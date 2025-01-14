@@ -60,6 +60,6 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 \examples{
 x <- as.matrix(iris[1:50, 1:4])
 y <- as.matrix(iris[51:100, 1:4])
-res<-dcor.ttest(x, y)
+#res<-dcor.ttest(x, y)
 }
 
