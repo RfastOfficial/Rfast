@@ -448,13 +448,17 @@ NumericVector col_means(DataFrame x, const bool parallel = false, const unsigned
 		{
 			colvec y;
 			int i;
-#pragma omp critical
-			{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 				NumericVector yy;
 				yy = *s;
 				y = colvec(yy.begin(), yy.size(), false);
 				i = s - x.begin();
-			}
+#ifdef _OPENMP
+	}
+#endif
 			ff[i] = mean(y);
 		}
 	}
@@ -1064,18 +1068,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_mean<colvec, colvec, ivec>(y, descend);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else if (method == "min")
@@ -1087,18 +1099,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_min<colvec, colvec, ivec>(y, descend);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else if (method == "max")
@@ -1110,18 +1130,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_max<colvec, colvec, ivec>(y, descend);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else if (method == "first")
@@ -1133,18 +1161,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_first<colvec, colvec, ivec>(y, descend, stable);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else
@@ -1358,7 +1394,9 @@ Ret row_sums(T1 x, SEXP indices, const bool na_rm = false)
 		F2 ff(f.begin(), X.n_rows, false);
 		if (na_rm)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < X.n_rows; ++i)
 			{
 				ff[i] = sum_with_condition<T, notNA<T>, typename F1::row_iterator>(X.begin_row(i), X.end_row(i));
@@ -1374,7 +1412,9 @@ Ret row_sums(T1 x, SEXP indices, const bool na_rm = false)
 		IntegerVector ind(indices);
 		if (na_rm)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < X.n_rows; ++i)
 			{
 				const int j = ind[i] - 1;
