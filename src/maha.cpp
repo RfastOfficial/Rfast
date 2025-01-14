@@ -78,7 +78,7 @@ Rcpp::NumericVector mahaInt(arma::mat & X,
     }
     
     out.at(icol) = sum(square(tmp)); 
-  }
+  } 
   
 return Out;
 }
