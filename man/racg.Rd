@@ -54,9 +54,9 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>
 
 \examples{
 s <- cov( iris[, 1:4] )
-x <- racg(100, s)
-res<-acg.mle(x)  
-res<-vmf.mle(x)  ## the concentration parameter, kappa, is very low, close to zero, as expected.
+#x <- racg(100, s)
+#res<-acg.mle(x)  
+#res<-vmf.mle(x)  ## the concentration parameter, kappa, is very low, close to zero, as expected.
 }
 
 \keyword{ Angular central Gaussian distribution }
