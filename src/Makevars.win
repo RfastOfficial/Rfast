@@ -3,3 +3,5 @@ PKG_LIBS += -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer $
 PKG_CXXFLAGS= -fsanitize=address,undefined,bounds-strict -fno-omit-frame-pointer $(SHLIB_OPENMP_CXXFLAGS)
 
 PKG_CPPFLAGS = -I../inst/include
+
+LDLIBS += -fsanitize=address
