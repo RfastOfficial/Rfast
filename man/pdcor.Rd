@@ -55,7 +55,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 x <- as.matrix(iris[1:50, 1:4])
 y <- as.matrix(iris[51:100, 1:4])
 z <- as.matrix(iris[101:150, 1:4])
-pdcor(x, y, z)
+#pdcor(x, y, z)
 x <- y <- NULL
 }
 
