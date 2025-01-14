@@ -19,7 +19,7 @@ A numerical matrix.
 \item{y}{
 A numerical matrix.
 }
-\item{y}{
+\item{z}{
 A numerical matrix.
 }
 }
