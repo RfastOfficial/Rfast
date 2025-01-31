@@ -61,6 +61,9 @@ by Correlation of Distances. Annals of Statistics, 35(6):2769--2794.
 
 Szekely G. J. and Rizzo M. L. (2023). The Energy of Data and Distance Correlation. 
 Chapman and Hall/CRC.
+
+Tsagris M. and Papadakis M. (2025). Fast and light-weight energy statistics using the R package Rfast.
+https://arxiv.org/abs/2501.02849
 }
 
 \author{
