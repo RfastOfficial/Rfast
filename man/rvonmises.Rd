@@ -60,8 +60,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- rvonmises(1000, 2, 25, rads = TRUE)
-res<-vm.mle(x)
+#x <- rvonmises(1000, 2, 25, rads = TRUE)
+#res<-vm.mle(x)
 }
 
 \keyword{ Random values simulation }

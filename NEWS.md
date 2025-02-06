@@ -1,6 +1,62 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.4 - Ares**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  Dist | Fix bug. |
+>  |  rvmf | Fix bug. |
+>
+
+
+</br>
+</br>
+
+### **Version 2.1.1 - Hephaestus**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  Dist | Fix bug and optimize bhattacharyya, jeffries_matusita, jensen_shannon. Add new option parallel. |
+>  |  total.dists | Fix bug optimize bhattacharyya, jeffries_matusita. |
+>  |  total.dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
+>  |  dista | Fix bug about option index and k optimize bhattacharyya, jeffries_matusita. |
+>  |  ttest2 | Added an option to select the alternative hypothesis. |
+>  |  ttests | Added an option to select the alternative hypothesis. |
+>  |  group | Fix bug. |
+>  |  read.directory | Removed. |
+>  |  AddToNamespace | New option for using full path names. |
+>  |  checkNamespace | New option for using full path names. |
+>  |  checkAliases | New option for using full path names. |
+>  |  checkUsage | New option for using full path names. |
+>  |  checkTF | New option for using full path names. |
+>  |  read.examples | New option for using full path names. |
+>  |  checkExamples | New option for using full path names. |
+>  |  as_integer | New option for parallel. |
+>  |  rvmf | Optimized and fix bug. |
+>  |  coeff				| Optimize bhattacharyya.  |
+>  |  spatmed.reg		| Change of the stopping criterion.  |
+>  |  edist		| Fix a bug in the case of lists and made a bit faster.  |
+>  |  dcor		| Time and memory improvement.  |
+>  |  dvar		| Time and memory improvement.  |
+>  |  dcov		| Time and memory improvement.  |
+>
+>
+> <u> **LinkingTo** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function/Structure	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  Set | New class like std::set but faster. |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.1.0 - Hades**
 ***
 > <u> **New** </u>
@@ -24,11 +80,11 @@
 >  |  colVars | Fix bug about data.frame.  |
 >  |  Dist(...,method = "minimum") | Bug fix.  |
 >  |  Dist(...,method = "bhattacharyya") | Bug fix .  |
->  |  Dist(...,method = "itakura_saito") | Bug fix. Supports parallel.  |
+>  |  dista(...,type = "itakura_saito") | Bug fix. Supports parallel.  |
 >  |  Dist(...,method = "canberra1") | Depricated.  |
 >  |  Dist(...,method = "canberra2") | Depricated.  |
->  |  Dist(...,method = "jensen_shannon") | Supports parallel.  |
->  |  Dist(...,method = "kullback_leibler") | Supports parallel.  |
+>  |  dista(...,type = "jensen_shannon") | Supports parallel.  |
+>  |  dista(...,type = "kullback_leibler") | Supports parallel.  |
 >  |  Dist | New methods ("canberra","chi_square","soergel","sorensen","cosine","wave_hedges","motyka","harmonic_mean","jeffries_matusita","gower","kulczynski")  |
 >  |  dista | All the methods from the Dist function are now supported.  |
 >  |  total.dist  | All the methods from the Dist function are now supported.  |

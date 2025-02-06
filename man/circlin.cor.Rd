@@ -51,11 +51,11 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>
 }
 
 \examples{
-phi <- rvonmises(50, 2, 20, rads = TRUE)
-x <- 2 * phi + rnorm(50)
-y <- matrix(rnorm(50 * 5), ncol = 5)
-res<-circlin.cor(phi, x)
-res<-circlin.cor(phi, y)
+#phi <- rvonmises(50, 2, 20, rads = TRUE)
+#x <- 2 * phi + rnorm(50)
+#y <- matrix(rnorm(50 * 5), ncol = 5)
+#res<-circlin.cor(phi, x)
+#res<-circlin.cor(phi, y)
 y <- NULL
 }
 \keyword{ Circular-linear correlation }

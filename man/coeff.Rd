@@ -1,7 +1,7 @@
 \name{Coefficient matrices}
 \alias{coeff}
 \title{
-Coefficient matrices.
+Coefficient matrices
 }
 
 \description{

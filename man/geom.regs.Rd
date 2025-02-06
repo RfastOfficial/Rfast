@@ -1,7 +1,7 @@
 \name{Many simple geometric regressions}
 \alias{geom.regs}
 \title{
-Many simple geometric regressions.
+Many simple geometric regressions
 }
 
 \description{

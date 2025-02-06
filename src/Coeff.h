@@ -13,8 +13,9 @@ using namespace Rcpp;
 
 namespace Coeff
 {
-    inline double bhattacharyya(colvec x, colvec y){
-        return sum(sqrt(x % y));
+    template<bool Sqrt>
+    double bhattacharyya(colvec x, colvec y){
+        return Sqrt ? sum(sqrt(x % y)) : dot(x,y);
     }
 }
 

@@ -1,7 +1,7 @@
 \name{Correlation based forward regression}
 \alias{cor.fsreg}
 \title{
-Correlation based forward regression.
+Correlation based forward regression
 }
 
 \description{

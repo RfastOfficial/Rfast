@@ -1,48 +1,37 @@
 // Author: Manos Papadakis
 
+#include "Rfast/parallel.h"
+#include "mn.h"
 #include <RcppArmadillo.h>
 #include <algorithm>
-#include "mn.h"
-#include "Rfast/parallel.h"
 
 using namespace Rcpp;
 using std::remove_if;
 
-int nth_int(vector<int> x, int elem)
-{
+int nth_int(vector<int> x, int elem) {
   int aa, mx, mn;
   bool has_pos = false, has_neg = false;
   max_neg_pos(&x[0], &x[x.size() - 1] + 1, mx, mn, has_pos, has_neg);
   vector<int> pos, f(x.size()), neg;
   vector<int>::iterator a = x.begin();
-  if (has_pos)
-  {
+  if (has_pos) {
     pos.resize(mx + 1, 0);
   }
-  if (has_neg)
-  {
+  if (has_neg) {
     neg.resize(1 - mn, 0);
   }
-  if (has_pos && has_neg)
-  {
-    for (; a != x.end(); ++a)
-    {
+  if (has_pos && has_neg) {
+    for (; a != x.end(); ++a) {
       aa = *a;
       aa < 0 ? ++neg[-aa] : ++pos[aa];
     }
-  }
-  else if (has_pos)
-  {
-    for (; a != x.end(); ++a)
-    {
+  } else if (has_pos) {
+    for (; a != x.end(); ++a) {
       aa = *a;
       ++pos[aa];
     }
-  }
-  else
-  {
-    for (; a != x.end(); ++a)
-    {
+  } else {
+    for (; a != x.end(); ++a) {
       aa = *a;
       ++neg[-aa];
     }
@@ -50,24 +39,19 @@ int nth_int(vector<int> x, int elem)
 
   --elem;
   int res = 0, num = 0;
-  if (has_neg)
-  {
-    for (vector<int>::reverse_iterator nr = neg.rbegin(); nr != neg.rend(); ++nr)
-    {
-      if (*nr != 0)
-      {
+  if (has_neg) {
+    for (vector<int>::reverse_iterator nr = neg.rbegin(); nr != neg.rend();
+         ++nr) {
+      if (*nr != 0) {
         num += *nr;
         if (elem > num)
           res = nr - neg.rbegin() + 1;
       }
     }
   }
-  if (has_pos)
-  {
-    for (a = pos.begin(); a != pos.end(); ++a)
-    {
-      if (*a != 0)
-      {
+  if (has_pos) {
+    for (a = pos.begin(); a != pos.end(); ++a) {
+      if (*a != 0) {
         num += *a;
         if (elem > num)
           res = a - pos.begin() + 1;
@@ -78,8 +62,8 @@ int nth_int(vector<int> x, int elem)
 }
 
 // nth
-RcppExport SEXP Rfast_nth(SEXP xSEXP, SEXP elemSEXP, SEXP num_of_nthsSEXP, SEXP descendSEXP, SEXP na_rmSEXP, SEXP indexSEXP)
-{
+RcppExport SEXP Rfast_nth(SEXP xSEXP, SEXP elemSEXP, SEXP num_of_nthsSEXP,
+                          SEXP descendSEXP, SEXP na_rmSEXP, SEXP indexSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -92,26 +76,17 @@ RcppExport SEXP Rfast_nth(SEXP xSEXP, SEXP elemSEXP, SEXP num_of_nthsSEXP, SEXP 
 
   NumericVector x = clone(xSEXP);
 
-  if (num_of_nths > 1)
-  {
+  if (num_of_nths > 1) {
     colvec y(x.begin(), x.size(), false);
-    if (index)
-    {
+    if (index) {
       __result = nth_helper_index_n_elems<colvec>(y, elem, descend, na_rm);
-    }
-    else
-    {
+    } else {
       __result = nth_helper_n_elems<colvec>(y, elem, descend, na_rm);
     }
-  }
-  else
-  {
-    if (index)
-    {
+  } else {
+    if (index) {
       __result = nth_helper_index<NumericVector>(x, elem, descend, na_rm);
-    }
-    else
-    {
+    } else {
       __result = nth_helper<NumericVector>(x, elem, descend, na_rm);
     }
   }
@@ -120,8 +95,7 @@ RcppExport SEXP Rfast_nth(SEXP xSEXP, SEXP elemSEXP, SEXP num_of_nthsSEXP, SEXP 
 }
 
 // nth_int
-RcppExport SEXP Rfast_nth_int(SEXP xSEXP, SEXP elemSEXP)
-{
+RcppExport SEXP Rfast_nth_int(SEXP xSEXP, SEXP elemSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -134,21 +108,25 @@ RcppExport SEXP Rfast_nth_int(SEXP xSEXP, SEXP elemSEXP)
 
 //////////////////////////////////////////////////////////////////////////////
 
-double med(SEXP x, const bool na_rm)
-{
+double med(SEXP x, const bool na_rm) {
   double s = 0;
-  switch (TYPEOF(x))
-  {
-  case REALSXP:
-  {
+  switch (TYPEOF(x)) {
+  case REALSXP: {
     NumericVector xx(Rf_duplicate(x));
-    s = na_rm ? med_helper<NumericVector>(xx.begin(), xx.begin() + (std::remove_if(xx.begin(), xx.end(), R_IsNA) - xx.begin())) : med_helper<NumericVector>(xx.begin(), xx.end());
+    s = na_rm ? med_helper<NumericVector>(
+                    xx.begin(),
+                    xx.begin() + (std::remove_if(xx.begin(), xx.end(), R_IsNA) -
+                                  xx.begin()))
+              : med_helper<NumericVector>(xx.begin(), xx.end());
     break;
   }
-  case INTSXP:
-  {
+  case INTSXP: {
     IntegerVector xx(Rf_duplicate(x));
-    s = na_rm ? med_helper<IntegerVector>(xx.begin(), xx.begin() + (std::remove_if(xx.begin(), xx.end(), R_IsNA) - xx.begin())) : med_helper<IntegerVector>(xx.begin(), xx.end());
+    s = na_rm ? med_helper<IntegerVector>(
+                    xx.begin(),
+                    xx.begin() + (std::remove_if(xx.begin(), xx.end(), R_IsNA) -
+                                  xx.begin()))
+              : med_helper<IntegerVector>(xx.begin(), xx.end());
     break;
   }
   default:
@@ -159,8 +137,7 @@ double med(SEXP x, const bool na_rm)
 }
 
 // returns median of a vector
-RcppExport SEXP Rfast_med(SEXP x, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_med(SEXP x, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -172,25 +149,19 @@ RcppExport SEXP Rfast_med(SEXP x, SEXP na_rmSEXP)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-SEXP min_max(SEXP x, bool index = false)
-{
+SEXP min_max(SEXP x, bool index = false) {
   SEXP F;
   double *xx = REAL(x), *end = xx + LENGTH(x);
   double xxx;
-  if (index)
-  {
+  if (index) {
     F = PROTECT(Rf_allocVector(INTSXP, 2));
     int *f = INTEGER(F), min_i = 0, max_i = 0;
     double *bg = xx;
-    for (xx++; xx != end; ++xx)
-    {
+    for (xx++; xx != end; ++xx) {
       xxx = *xx;
-      if (xxx > bg[max_i])
-      {
+      if (xxx > bg[max_i]) {
         max_i = xx - bg;
-      }
-      else if (xxx < bg[min_i])
-      {
+      } else if (xxx < bg[min_i]) {
         min_i = xx - bg;
       }
     }
@@ -201,8 +172,7 @@ SEXP min_max(SEXP x, bool index = false)
   }
   F = PROTECT(Rf_allocVector(REALSXP, 2));
   double *f = REAL(F), min = *xx, max = min;
-  for (xx++; xx != end; ++xx)
-  {
+  for (xx++; xx != end; ++xx) {
     xxx = *xx;
     if (xxx > max)
       max = xxx;
@@ -215,8 +185,7 @@ SEXP min_max(SEXP x, bool index = false)
   return F;
 }
 
-RcppExport SEXP Rfast_min_max(SEXP x, SEXP indexSEXP)
-{
+RcppExport SEXP Rfast_min_max(SEXP x, SEXP indexSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -226,14 +195,12 @@ RcppExport SEXP Rfast_min_max(SEXP x, SEXP indexSEXP)
   END_RCPP
 }
 
-SEXP min_max_perc(SEXP x)
-{
+SEXP min_max_perc(SEXP x) {
   const int n = LENGTH(x);
   SEXP f = Rf_allocVector(REALSXP, 4);
   double *start = REAL(x), *end = start + n, mx, mn, pos = 0, xx, *FF = REAL(f);
   mn = mx = *start;
-  for (; start != end; ++start)
-  {
+  for (; start != end; ++start) {
     xx = *start;
     if (xx > 0)
       pos++;
@@ -249,8 +216,7 @@ SEXP min_max_perc(SEXP x)
   return f;
 }
 
-RcppExport SEXP Rfast_min_max_perc(SEXP x)
-{
+RcppExport SEXP Rfast_min_max_perc(SEXP x) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -261,22 +227,25 @@ RcppExport SEXP Rfast_min_max_perc(SEXP x)
 
 ////////////////////////////////////////////////////////////////////
 
-SEXP pmax_simple(SEXP x, SEXP y)
-{
-  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y)) ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x))) : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
-  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y), *startf = REAL(f);
+SEXP pmax_simple(SEXP x, SEXP y) {
+  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y))
+               ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x)))
+               : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
+  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
+         *startf = REAL(f);
   for (; startx != end; ++startx, ++starty, ++startf)
     *startf = std::max(*startx, *starty);
   UNPROTECT(1);
   return f;
 }
 
-SEXP pmax_na_rm(SEXP x, SEXP y)
-{
-  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y)) ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x))) : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
-  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y), *startf = REAL(f);
-  for (; startx != end; ++startx, ++starty, ++startf)
-  {
+SEXP pmax_na_rm(SEXP x, SEXP y) {
+  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y))
+               ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x)))
+               : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
+  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
+         *startf = REAL(f);
+  for (; startx != end; ++startx, ++starty, ++startf) {
     if (!(R_IsNA(*startx) || R_IsNA(*starty)))
       *startf = std::max(*startx, *starty);
   }
@@ -284,13 +253,11 @@ SEXP pmax_na_rm(SEXP x, SEXP y)
   return f;
 }
 
-SEXP pmax(SEXP x, SEXP y, const bool na_rm)
-{
+SEXP pmax(SEXP x, SEXP y, const bool na_rm) {
   return na_rm ? pmax_na_rm(x, y) : pmax_simple(x, y);
 }
 
-RcppExport SEXP Rfast_pmax(SEXP x, SEXP y, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_pmax(SEXP x, SEXP y, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -300,22 +267,25 @@ RcppExport SEXP Rfast_pmax(SEXP x, SEXP y, SEXP na_rmSEXP)
   END_RCPP
 }
 
-SEXP pmin_simple(SEXP x, SEXP y)
-{
-  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y)) ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x))) : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
-  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y), *startf = REAL(f);
+SEXP pmin_simple(SEXP x, SEXP y) {
+  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y))
+               ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x)))
+               : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
+  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
+         *startf = REAL(f);
   for (; startx != end; ++startx, ++starty, ++startf)
     *startf = std::min(*startx, *starty);
   UNPROTECT(1);
   return f;
 }
 
-SEXP pmin_na_rm(SEXP x, SEXP y)
-{
-  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y)) ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x))) : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
-  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y), *startf = REAL(f);
-  for (; startx != end; ++startx, ++starty, ++startf)
-  {
+SEXP pmin_na_rm(SEXP x, SEXP y) {
+  SEXP f = (Rf_isMatrix(x) && Rf_isMatrix(y))
+               ? PROTECT(Rf_allocMatrix(REALSXP, Rf_nrows(x), Rf_ncols(x)))
+               : PROTECT(Rf_allocVector(REALSXP, LENGTH(x)));
+  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
+         *startf = REAL(f);
+  for (; startx != end; ++startx, ++starty, ++startf) {
     if (!(R_IsNA(*startx) || R_IsNA(*starty)))
       *startf = std::min(*startx, *starty);
   }
@@ -323,13 +293,11 @@ SEXP pmin_na_rm(SEXP x, SEXP y)
   return f;
 }
 
-SEXP pmin(SEXP x, SEXP y, const bool na_rm)
-{
+SEXP pmin(SEXP x, SEXP y, const bool na_rm) {
   return na_rm ? pmin_na_rm(x, y) : pmin_simple(x, y);
 }
 
-RcppExport SEXP Rfast_pmin(SEXP x, SEXP y, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_pmin(SEXP x, SEXP y, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -340,18 +308,15 @@ RcppExport SEXP Rfast_pmin(SEXP x, SEXP y, SEXP na_rmSEXP)
 }
 
 //[[Rcpp::export]]
-SEXP pmin_pmax_simple(SEXP x, SEXP y)
-{
+SEXP pmin_pmax_simple(SEXP x, SEXP y) {
   SEXP f = PROTECT(Rf_allocMatrix(REALSXP, 2, LENGTH(x)));
-  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y), *startf = REAL(f);
+  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
+         *startf = REAL(f);
   for (; startx != end; ++startx, ++starty, startf += 2)
-    if (*startx < *starty)
-    {
+    if (*startx < *starty) {
       *startf = *startx;
       startf[1] = *starty;
-    }
-    else
-    {
+    } else {
       *startf = *starty;
       startf[1] = *startx;
     }
@@ -360,23 +325,18 @@ SEXP pmin_pmax_simple(SEXP x, SEXP y)
 }
 
 //[[Rcpp::export]]
-SEXP pmin_pmax_na_rm(SEXP x, SEXP y)
-{
+SEXP pmin_pmax_na_rm(SEXP x, SEXP y) {
   SEXP f = PROTECT(Rf_allocMatrix(REALSXP, 2, LENGTH(x)));
-  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y), *startf = REAL(f), vx, vy;
-  for (; startx != end; ++startx, ++starty, startf += 2)
-  {
+  double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
+         *startf = REAL(f), vx, vy;
+  for (; startx != end; ++startx, ++starty, startf += 2) {
     vx = *startx;
     vy = *starty;
-    if (!(R_IsNA(vx) || (R_IsNA(vy))))
-    {
-      if (vx < vy)
-      {
+    if (!(R_IsNA(vx) || (R_IsNA(vy)))) {
+      if (vx < vy) {
         *startf = vx;
         startf[1] = vy;
-      }
-      else
-      {
+      } else {
         *startf = vy;
         startf[1] = vx;
       }
@@ -386,13 +346,11 @@ SEXP pmin_pmax_na_rm(SEXP x, SEXP y)
   return f;
 }
 
-SEXP pmin_pmax(SEXP x, SEXP y, const bool na_rm)
-{
+SEXP pmin_pmax(SEXP x, SEXP y, const bool na_rm) {
   return na_rm ? pmin_pmax_na_rm(x, y) : pmin_pmax_simple(x, y);
 }
 
-RcppExport SEXP Rfast_pmin_pmax(SEXP x, SEXP y, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_pmin_pmax(SEXP x, SEXP y, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -404,30 +362,25 @@ RcppExport SEXP Rfast_pmin_pmax(SEXP x, SEXP y, SEXP na_rmSEXP)
 
 ////////////////////////////////////////////////////////////////////
 
-NumericVector min_freq_d(NumericVector x, const int na_rm)
-{
+NumericVector min_freq_d(NumericVector x, const int na_rm) {
   NumericVector xx = clone(x);
-  const int n_1 = na_rm ? x.size() : remove_if(xx.begin(), xx.end(), R_IsNA) - xx.begin();
+  const int n_1 =
+      na_rm ? x.size() : remove_if(xx.begin(), xx.end(), R_IsNA) - xx.begin();
   int i, j = 0;
   std::sort(xx.begin(), xx.begin() + n_1);
-  if (!na_rm)
-  {
+  if (!na_rm) {
     xx.push_back(0.0);
   }
   int times = 0;
   double v = xx[j], mn_val = 0.0;
   int mn_fr = INT_MAX;
-  for (i = 1; i < n_1; ++i)
-  {
-    if (v != xx[i])
-    {
+  for (i = 1; i < n_1; ++i) {
+    if (v != xx[i]) {
       times = i - j;
-      if (times < mn_fr)
-      {
+      if (times < mn_fr) {
         mn_fr = times;
         mn_val = v;
-        if (times == 1)
-        {
+        if (times == 1) {
           break;
         }
       }
@@ -438,8 +391,7 @@ NumericVector min_freq_d(NumericVector x, const int na_rm)
   return NumericVector::create(_["value"] = mn_val, _["freq"] = mn_fr);
 }
 
-RcppExport SEXP Rfast_min_freq_d(SEXP xSEXP, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_min_freq_d(SEXP xSEXP, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -450,17 +402,13 @@ RcppExport SEXP Rfast_min_freq_d(SEXP xSEXP, SEXP na_rmSEXP)
   END_RCPP
 }
 
-IntegerVector min_freq_i(IntegerVector X, const bool na_rm)
-{
+IntegerVector min_freq_i(IntegerVector X, const bool na_rm) {
   int sz;
   IntegerVector x;
-  if (na_rm)
-  {
+  if (na_rm) {
     x = clone(X);
     sz = remove_if(x.begin(), x.end(), R_IsNA) - x.begin();
-  }
-  else
-  {
+  } else {
     x = X;
     sz = x.size();
   }
@@ -468,24 +416,18 @@ IntegerVector min_freq_i(IntegerVector X, const bool na_rm)
   vector<int> f(sz), ff, neg(sz);
   IntegerVector::iterator a = x.begin();
   vector<int>::iterator F = f.begin(), nn = neg.begin(), index;
-  for (; a != x.end(); ++a)
-  {
+  for (; a != x.end(); ++a) {
     aa = *a;
-    if (aa < 0)
-    {
-      if (-aa >= szn)
-      {
+    if (aa < 0) {
+      if (-aa >= szn) {
         neg.resize(-aa + 1);
         nn = neg.begin();
         szn = neg.size();
       }
       count_neg++;
       *(nn - aa) += 1;
-    }
-    else
-    {
-      if (aa >= szp)
-      {
+    } else {
+      if (aa >= szp) {
         f.resize(aa + 1);
         F = f.begin();
         szp = f.size();
@@ -495,29 +437,21 @@ IntegerVector min_freq_i(IntegerVector X, const bool na_rm)
     }
   }
   int val, freq;
-  if (!count_neg)
-  {
+  if (!count_neg) {
     index = min_element(f.begin(), f.end());
     val = index - f.begin();
     freq = *index;
-  }
-  else if (!count_pos)
-  {
+  } else if (!count_pos) {
     index = min_element(neg.begin(), neg.end());
     val = index - f.begin();
     freq = *index;
-  }
-  else
-  {
+  } else {
     vector<int>::iterator index_neg = min_element(neg.begin(), neg.end());
     index = min_element(f.begin(), f.end());
-    if (*index > *index_neg)
-    {
+    if (*index > *index_neg) {
       freq = *index;
       val = index - f.begin();
-    }
-    else
-    {
+    } else {
       freq = *index_neg;
       val = index_neg - neg.begin();
     }
@@ -525,8 +459,7 @@ IntegerVector min_freq_i(IntegerVector X, const bool na_rm)
   return IntegerVector::create(_["value"] = val, _["frequency"] = freq);
 }
 
-RcppExport SEXP Rfast_min_freq_i(SEXP xSEXP, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_min_freq_i(SEXP xSEXP, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -537,26 +470,22 @@ RcppExport SEXP Rfast_min_freq_i(SEXP xSEXP, SEXP na_rmSEXP)
   END_RCPP
 }
 
-NumericVector max_freq_d(NumericVector x, const int na_rm)
-{
+NumericVector max_freq_d(NumericVector x, const int na_rm) {
   NumericVector xx = clone(x);
-  const int n_1 = na_rm ? x.size() : remove_if(xx.begin(), xx.end(), R_IsNA) - xx.begin();
+  const int n_1 =
+      na_rm ? x.size() : remove_if(xx.begin(), xx.end(), R_IsNA) - xx.begin();
   int i, j = 0;
   std::sort(xx.begin(), xx.begin() + n_1);
-  if (!na_rm)
-  {
+  if (!na_rm) {
     xx.push_back(0.0);
   }
   int times = 0;
   double v = xx[j], mx_val = 0.0;
   int mx_fr = 0;
-  for (i = 1; i < n_1; ++i)
-  {
-    if (v != xx[i])
-    {
+  for (i = 1; i < n_1; ++i) {
+    if (v != xx[i]) {
       times = i - j;
-      if (times > mx_fr)
-      {
+      if (times > mx_fr) {
         mx_fr = times;
         mx_val = v;
       }
@@ -567,8 +496,7 @@ NumericVector max_freq_d(NumericVector x, const int na_rm)
   return NumericVector::create(_["value"] = mx_val, _["freq"] = mx_fr);
 }
 
-RcppExport SEXP Rfast_max_freq_d(SEXP xSEXP, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_max_freq_d(SEXP xSEXP, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -579,17 +507,13 @@ RcppExport SEXP Rfast_max_freq_d(SEXP xSEXP, SEXP na_rmSEXP)
   END_RCPP
 }
 
-IntegerVector max_freq_i(IntegerVector X, const bool na_rm)
-{
+IntegerVector max_freq_i(IntegerVector X, const bool na_rm) {
   int sz;
   IntegerVector x;
-  if (na_rm)
-  {
+  if (na_rm) {
     x = clone(X);
     sz = remove_if(x.begin(), x.end(), R_IsNA) - x.begin();
-  }
-  else
-  {
+  } else {
     x = X;
     sz = x.size();
   }
@@ -597,24 +521,18 @@ IntegerVector max_freq_i(IntegerVector X, const bool na_rm)
   vector<int> f(sz), ff, neg(sz);
   IntegerVector::iterator a = x.begin();
   vector<int>::iterator F = f.begin(), nn = neg.begin(), index;
-  for (; a != x.end(); ++a)
-  {
+  for (; a != x.end(); ++a) {
     aa = *a;
-    if (aa < 0)
-    {
-      if (-aa >= szn)
-      {
+    if (aa < 0) {
+      if (-aa >= szn) {
         neg.resize(-aa + 1);
         nn = neg.begin();
         szn = neg.size();
       }
       count_neg++;
       *(nn - aa) += 1;
-    }
-    else
-    {
-      if (aa >= szp)
-      {
+    } else {
+      if (aa >= szp) {
         f.resize(aa + 1);
         F = f.begin();
         szp = f.size();
@@ -624,29 +542,21 @@ IntegerVector max_freq_i(IntegerVector X, const bool na_rm)
     }
   }
   int val, freq;
-  if (!count_neg)
-  {
+  if (!count_neg) {
     index = max_element(f.begin(), f.end());
     val = index - f.begin();
     freq = *index;
-  }
-  else if (!count_pos)
-  {
+  } else if (!count_pos) {
     index = max_element(neg.begin(), neg.end());
     val = index - f.begin();
     freq = *index;
-  }
-  else
-  {
+  } else {
     vector<int>::iterator index_neg = max_element(neg.begin(), neg.end());
     index = max_element(f.begin(), f.end());
-    if (*index > *index_neg)
-    {
+    if (*index > *index_neg) {
       freq = *index;
       val = index - f.begin();
-    }
-    else
-    {
+    } else {
       freq = *index_neg;
       val = index_neg - neg.begin();
     }
@@ -654,8 +564,7 @@ IntegerVector max_freq_i(IntegerVector X, const bool na_rm)
   return IntegerVector::create(_["value"] = val, _["frequency"] = freq);
 }
 
-RcppExport SEXP Rfast_max_freq_i(SEXP xSEXP, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_max_freq_i(SEXP xSEXP, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -668,14 +577,12 @@ RcppExport SEXP Rfast_max_freq_i(SEXP xSEXP, SEXP na_rmSEXP)
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-SEXP Outer(SEXP x, SEXP y, const char oper = '*')
-{
+SEXP Outer(SEXP x, SEXP y, const char oper = '*') {
   int lenx = LENGTH(x), leny = LENGTH(y);
   SEXP F = PROTECT(Rf_allocMatrix(REALSXP, leny, lenx));
   double *xx = REAL(x), *end = xx + lenx, *f = REAL(F), *yy = REAL(y);
 
-  switch (oper)
-  {
+  switch (oper) {
   case '*':
     for (; xx != end; ++xx, f += leny)
       myoperator<double, mmult<double>>(f, *xx, yy, leny);
@@ -707,8 +614,7 @@ SEXP Outer(SEXP x, SEXP y, const char oper = '*')
   return F;
 }
 
-RcppExport SEXP Rfast_Outer(SEXP x, SEXP y, SEXP operSEXP)
-{
+RcppExport SEXP Rfast_Outer(SEXP x, SEXP y, SEXP operSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -720,8 +626,7 @@ RcppExport SEXP Rfast_Outer(SEXP x, SEXP y, SEXP operSEXP)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-SEXP Round_simple(SEXP x, int dg)
-{
+SEXP Round_simple(SEXP x, int dg) {
   const int n = LENGTH(x);
   SEXP f = PROTECT(Rf_duplicate(x));
   double *start = REAL(x), *end = start + n, *ff = REAL(f);
@@ -731,8 +636,7 @@ SEXP Round_simple(SEXP x, int dg)
   return f;
 }
 
-SEXP Round_na_rm(SEXP x, const int dg)
-{
+SEXP Round_na_rm(SEXP x, const int dg) {
   const int n = LENGTH(x);
   SEXP f = PROTECT(Rf_duplicate(x));
   double *start = REAL(x), *end = start + n, *ff = REAL(f);
@@ -743,13 +647,12 @@ SEXP Round_na_rm(SEXP x, const int dg)
 }
 
 //[[Rcpp::export]]
-SEXP Round(SEXP x, const int dg, const bool na_rm)
-{
-  return na_rm ? Round_simple(x, dg > 15 ? 15 : dg) : Round_na_rm(x, dg > 15 ? 15 : dg);
+SEXP Round(SEXP x, const int dg, const bool na_rm) {
+  return na_rm ? Round_simple(x, dg > 15 ? 15 : dg)
+               : Round_na_rm(x, dg > 15 ? 15 : dg);
 }
 
-RcppExport SEXP Rfast_Round(SEXP x, SEXP dgSEXP, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_Round(SEXP x, SEXP dgSEXP, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -762,16 +665,13 @@ RcppExport SEXP Rfast_Round(SEXP x, SEXP dgSEXP, SEXP na_rmSEXP)
 
 ///////////////////////////////////////////////////////////////////////////////
 //[[Rcpp::export]]
-NumericMatrix squareform_c(NumericVector x)
-{
+NumericMatrix squareform_c(NumericVector x) {
   const int d = my_round(0.5 + sqrt(1 + 8 * x.size()) / 2.0);
   int i, j, s = 0;
   double a;
   NumericMatrix f(d, d);
-  for (i = 0; i < d; ++i)
-  {
-    for (j = i + 1; j < d; ++j, ++s)
-    {
+  for (i = 0; i < d; ++i) {
+    for (j = i + 1; j < d; ++j, ++s) {
       a = x[s];
       f(j, i) = a;
       f(i, j) = a;
@@ -780,8 +680,7 @@ NumericMatrix squareform_c(NumericVector x)
   return f;
 }
 
-RcppExport SEXP Rfast_squareform_c(SEXP xSEXP)
-{
+RcppExport SEXP Rfast_squareform_c(SEXP xSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -793,8 +692,7 @@ RcppExport SEXP Rfast_squareform_c(SEXP xSEXP)
 
 //////////////////////////////////////////////////////////////////////////////
 
-RcppExport SEXP Rfast_symmetric(SEXP xSEXP)
-{
+RcppExport SEXP Rfast_symmetric(SEXP xSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -806,8 +704,7 @@ RcppExport SEXP Rfast_symmetric(SEXP xSEXP)
 
 /////////////////////////////////////////////////////////////////////////////////
 
-RcppExport SEXP Rfast_var(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_var(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -821,19 +718,20 @@ RcppExport SEXP Rfast_var(SEXP xSEXP, SEXP stdSEXP, SEXP na_rmSEXP)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int count_value(SEXP x, SEXP value)
-{
+int count_value(SEXP x, SEXP value) {
   int s = 0;
-  switch (TYPEOF(value))
-  {
+  switch (TYPEOF(value)) {
   case REALSXP:
-    s = count_value_helper<NumericVector, double>(NumericVector(x), Rf_asReal(value));
+    s = count_value_helper<NumericVector, double>(NumericVector(x),
+                                                  Rf_asReal(value));
     break;
   case INTSXP:
-    s = count_value_helper<IntegerVector, int>(IntegerVector(x), Rf_asInteger(value));
+    s = count_value_helper<IntegerVector, int>(IntegerVector(x),
+                                               Rf_asInteger(value));
     break;
   case STRSXP:
-    s = count_value_helper<vector<string>, string>(as<vector<string>>(x), as<string>(value));
+    s = count_value_helper<vector<string>, string>(as<vector<string>>(x),
+                                                   as<string>(value));
     break;
   default:
     stop("Error: Unknown type of argument value.\n");
@@ -842,8 +740,7 @@ int count_value(SEXP x, SEXP value)
   return s;
 }
 
-RcppExport SEXP Rfast_count_value(SEXP x, SEXP value)
-{
+RcppExport SEXP Rfast_count_value(SEXP x, SEXP value) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -854,22 +751,18 @@ RcppExport SEXP Rfast_count_value(SEXP x, SEXP value)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-SEXP Log(SEXP x)
-{
+SEXP Log(SEXP x) {
   const int nrow = Rf_nrows(x), ncol = Rf_ncols(x), n = nrow * ncol;
   SEXP f;
-  switch (TYPEOF(x))
-  {
-  case REALSXP:
-  {
+  switch (TYPEOF(x)) {
+  case REALSXP: {
     f = PROTECT(Rf_allocMatrix(REALSXP, nrow, ncol));
     double *start_f = REAL(f), *start_x = REAL(x), *end_x = start_x + n;
     for (; start_x != end_x; ++start_x, ++start_f)
       *start_f = std::log(*start_x);
     break;
   }
-  default:
-  {
+  default: {
     f = PROTECT(Rf_allocMatrix(INTSXP, nrow, ncol));
     int *start_f = INTEGER(f), *start_x = INTEGER(x), *end_x = start_x + n;
     for (; start_x != end_x; ++start_x, ++start_f)
@@ -881,8 +774,7 @@ SEXP Log(SEXP x)
   return f;
 }
 
-RcppExport SEXP Rfast_Log(SEXP x)
-{
+RcppExport SEXP Rfast_Log(SEXP x) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -895,28 +787,24 @@ RcppExport SEXP Rfast_Log(SEXP x)
 
 using std::lgamma;
 
-SEXP Lbeta(SEXP x, SEXP y)
-{
+SEXP Lbeta(SEXP x, SEXP y) {
   int n = LENGTH(x);
   SEXP f = PROTECT(Rf_duplicate(x));
-  switch (TYPEOF(x))
-  {
-  case REALSXP:
-  {
-    double *start_f = REAL(f), *start_x = REAL(x), *start_y = REAL(y), *end_x = start_x + n, X, Y;
-    for (; start_x != end_x; ++start_x, ++start_y, ++start_f)
-    {
+  switch (TYPEOF(x)) {
+  case REALSXP: {
+    double *start_f = REAL(f), *start_x = REAL(x), *start_y = REAL(y),
+           *end_x = start_x + n, X, Y;
+    for (; start_x != end_x; ++start_x, ++start_y, ++start_f) {
       X = *start_x;
       Y = *start_y;
       *start_f = lgamma(X) + lgamma(Y) - lgamma(X + Y);
     }
     break;
   }
-  default:
-  {
-    int *start_f = INTEGER(f), *start_x = INTEGER(x), *start_y = INTEGER(y), *end_x = start_x + n, X, Y;
-    for (; start_x != end_x; ++start_x, ++start_y, ++start_f)
-    {
+  default: {
+    int *start_f = INTEGER(f), *start_x = INTEGER(x), *start_y = INTEGER(y),
+        *end_x = start_x + n, X, Y;
+    for (; start_x != end_x; ++start_x, ++start_y, ++start_f) {
       X = *start_x;
       Y = *start_y;
       *start_f = lgamma(X) + lgamma(Y) - lgamma(X + Y);
@@ -928,8 +816,7 @@ SEXP Lbeta(SEXP x, SEXP y)
   return f;
 }
 
-RcppExport SEXP Rfast_Lbeta(SEXP x, SEXP y)
-{
+RcppExport SEXP Rfast_Lbeta(SEXP x, SEXP y) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -941,13 +828,11 @@ RcppExport SEXP Rfast_Lbeta(SEXP x, SEXP y)
 //////////////////////////////////////////////////////////////////////////////
 
 //[[Rcpp::export]]
-IntegerVector Match(NumericVector x, NumericVector key)
-{
+IntegerVector Match(NumericVector x, NumericVector key) {
   return match(x, key);
 }
 
-RcppExport SEXP Rfast_Match(SEXP xSEXP, SEXP keySEXP)
-{
+RcppExport SEXP Rfast_Match(SEXP xSEXP, SEXP keySEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -962,44 +847,31 @@ RcppExport SEXP Rfast_Match(SEXP xSEXP, SEXP keySEXP)
 
 typedef Rboolean (*R_Function)(SEXP);
 
-template <R_Function func>
-void which_is_helper(DataFrame &x, vector<int> &P)
-{
+template <R_Function func> void which_is_helper(DataFrame &x, vector<int> &P) {
   DataFrame::iterator xx = x.begin();
-  for (int i = 1; xx != x.end(); ++xx, ++i)
-  {
-    if (func(*xx))
-    {
+  for (int i = 1; xx != x.end(); ++xx, ++i) {
+    if (func(*xx)) {
       P.push_back(i);
     }
   }
 }
 
 //[[Rcpp::export]]
-vector<int> which_is(DataFrame x, const string method)
-{
+vector<int> which_is(DataFrame x, const string method) {
   vector<int> P;
-  if (method == "logical")
-  {
+  if (method == "logical") {
     which_is_helper<Rf_isLogical>(x, P);
-  }
-  else if (method == "integer")
-  {
+  } else if (method == "integer") {
     which_is_helper<Rf_isInteger>(x, P);
-  }
-  else if (method == "factor")
-  {
+  } else if (method == "factor") {
     which_is_helper<Rf_isFactor>(x, P);
-  }
-  else if (method == "numeric")
-  {
+  } else if (method == "numeric") {
     which_is_helper<Rf_isNumeric>(x, P);
   }
   return P;
 }
 
-RcppExport SEXP Rfast_which_is(SEXP xSEXP, SEXP methodSEXP)
-{
+RcppExport SEXP Rfast_which_is(SEXP xSEXP, SEXP methodSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
@@ -1012,15 +884,15 @@ RcppExport SEXP Rfast_which_is(SEXP xSEXP, SEXP methodSEXP)
 
 ///////////////////////////////////////////////////////////////////////////
 
-RcppExport SEXP Rfast_mad2(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP)
-{
+RcppExport SEXP Rfast_mad2(SEXP xSEXP, SEXP methodSEXP, SEXP na_rmSEXP) {
   BEGIN_RCPP
   RObject __result;
   RNGScope __rngScope;
   string method = as<string>(methodSEXP);
   traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
   // if method is median then copy the vector because median changes the memory
-  traits::input_parameter<NumericVector>::type x(method == "median" ? Rf_duplicate(xSEXP) : xSEXP);
+  traits::input_parameter<NumericVector>::type x(
+      method == "median" ? Rf_duplicate(xSEXP) : xSEXP);
   __result = Rfast::mad<NumericVector>(x, method, na_rm);
   return __result;
   END_RCPP

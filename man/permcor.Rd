@@ -57,6 +57,5 @@ and <mtsagris@csd.uoc.gr>
 \examples{
 x <- iris[, 1]
 y <- iris[, 2]
-res<-permcor(x, y)
-res<-permcor(x, y, R = 9999)
+permcor(x, y, R = 499)
 }

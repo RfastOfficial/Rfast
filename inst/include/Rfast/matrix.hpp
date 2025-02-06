@@ -154,12 +154,12 @@ namespace Rfast
 		if (tx)
 		{
 			n = x.n_cols;
-			p = x.n_cols;
+			p = y.n_cols;
 		}
 		else
 		{
 			n = x.n_rows;
-			p = ty ? x.n_rows : x.n_cols;
+			p = ty ? y.n_rows : y.n_cols;
 		}
 		mat C(n, p);
 		colvec yi;
@@ -228,7 +228,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
@@ -252,7 +252,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
@@ -282,7 +282,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
@@ -306,7 +306,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
@@ -339,7 +339,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false);
@@ -363,7 +363,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::stable_sort>(f, i++, false, s);
@@ -393,7 +393,7 @@ namespace Rfast
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
 						int i = s - x.begin();
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false);
@@ -417,7 +417,7 @@ namespace Rfast
 					int i = 0;
 					for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 					{
-						switch (Type::type(s->get()))
+						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
 							setResult<colvec, std::sort>(f, i++, false, s);
@@ -941,7 +941,7 @@ namespace Rfast
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				int i = s - x.begin();
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					setResultParallelSection<colvec, NumericVector, med_helper<colvec>>(ff, s, i, na_rm);
@@ -965,7 +965,7 @@ namespace Rfast
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
 				int i = s - x.begin();
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					setResult<NumericVector, med_helper<colvec>>(ff, i, na_rm, s);
@@ -1244,7 +1244,7 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
@@ -1267,7 +1267,7 @@ namespace Rfast
 		{
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::var<colvec>, std, na_rm);
@@ -1372,7 +1372,7 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = setResultParallelSection<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
@@ -1395,7 +1395,7 @@ namespace Rfast
 		{
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					ff[s - x.begin()] = singleIteratorWithoutCopy<colvec, NumericVector>(s, Rfast::mad<colvec>, method, na_rm);
@@ -1543,7 +1543,7 @@ namespace Rfast
 		for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 		{
 			engine.seed(seeds[i]);
-			switch (Type::type(s->get()))
+			switch (Type::type<SEXP>(s->get()))
 			{
 			case Type::Types::REAL:
 				setResult<NumericVector>(f, i, s, Rfast::shuffle<colvec>, engine);
@@ -1584,11 +1584,11 @@ namespace Rfast
 	template <class Engine = std::default_random_engine>
 	NumericMatrix rowShuffle(NumericMatrix x, Engine engine = Engine())
 	{
-		const int n = x.ncol();
+		const int n = x.nrow();
 		seed_seq seq{get_current_nanoseconds()};
 		std::vector<long long unsigned int> seeds(n);
 		seq.generate(seeds.begin(), seeds.end());
-		NumericMatrix y(x.nrow(), n);
+		NumericMatrix y(n, x.ncol());
 		for (int i = 0; i < n; ++i)
 		{
 			engine.seed(seeds[i]);
@@ -1640,16 +1640,16 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
 					break;
 				case Type::Types::INT:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::FACTOR:
 #ifdef _OPENMP
@@ -1669,16 +1669,16 @@ namespace Rfast
 			int i = 0;
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::max_element>(s);
 					break;
 				case Type::Types::INT:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::max_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::max_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f[i++] = FactorVector(s->get()).maxIndex();
@@ -1703,16 +1703,16 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
 					break;
 				case Type::Types::INT:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[s - x.begin()] = parallelSingleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::FACTOR:
 #ifdef _OPENMP
@@ -1732,16 +1732,16 @@ namespace Rfast
 			int i = 0;
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f[i++] = singleIteratorWithoutCopy<colvec, NumericVector, std::min_element>(s);
 					break;
 				case Type::Types::INT:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f[i++] = singleIteratorWithoutCopy<icolvec, IntegerVector, std::min_element>(s);
+					f[i++] = singleIteratorWithoutCopy<arma::Col<int>, IntegerVector, std::min_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f[i++] = FactorVector(s->get()).maxIndex();
@@ -1766,16 +1766,16 @@ namespace Rfast
 #endif
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);
 					break;
 				case Type::Types::INT:
-					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(s - x.begin()) = parallelSingleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::FACTOR:
 #ifdef _OPENMP
@@ -1795,16 +1795,16 @@ namespace Rfast
 			int i = 0;
 			for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 			{
-				switch (Type::type(s->get()))
+				switch (Type::type<SEXP>(s->get()))
 				{
 				case Type::Types::REAL:
 					f.col(i++) = singleIteratorWithoutCopy<colvec, colvec, NumericVector, std::minmax_element>(s);
 					break;
 				case Type::Types::INT:
-					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(i++) = singleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::CHAR:
-					f.col(i++) = singleIteratorWithoutCopy<colvec, icolvec, IntegerVector, std::minmax_element>(s);
+					f.col(i++) = singleIteratorWithoutCopy<colvec, arma::Col<int>, IntegerVector, std::minmax_element>(s);
 					break;
 				case Type::Types::FACTOR:
 					f.col(i++) = FactorVector(s->get()).minmaxIndex<colvec>();

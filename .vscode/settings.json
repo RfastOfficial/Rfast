@@ -78,7 +78,15 @@
         "execution": "cpp",
         "numeric": "cpp",
         "*.f7": "html",
-        "future": "cpp"
+        "future": "cpp",
+        "condition_variable": "cpp",
+        "coroutine": "cpp",
+        "resumable": "cpp",
+        "filesystem": "cpp"
     },
-    "r.lsp.promptToInstall": false
+    "r.lsp.promptToInstall": false,
+    "[cpp]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": false
+    }
 }

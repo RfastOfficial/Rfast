@@ -3,11 +3,13 @@
 #define TEMPLATES_H
 
 // [[Rcpp::depends(RcppArmadillo)]]
+// [[Rcpp::depends(RcppParallel)]]
 #include <RcppArmadillo.h>
 #include <algorithm>
 #include <R.h>
 #include <Rinternals.h>
-#include "Rfast/parallel.h"
+#include "parallel.h"
+#include "types.hpp"
 
 
 //#include <Rinlinedfuns.h>
@@ -158,15 +160,15 @@ double med_helper(typename T::iterator start,typename T::iterator last){
 * T: argument class
 */
 template<typename Ret,typename T>
-Ret Order(T x,const bool stable,const bool descend,const int init_v){
+Ret Order(T x,const bool stable,const bool descend,const int init_v,const bool parallel = false){
     Ret ind(x.size());
     iota(ind.begin(),ind.end(),init_v);
     if(descend){
         auto descend_func = [&](int i,int j){return x[i-init_v]>x[j-init_v];};
-        stable ? std::stable_sort(ind.begin(),ind.end(),descend_func) : std::sort(ind.begin(),ind.end(),descend_func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end(),descend_func,parallel) : Rfast::sort(ind.begin(),ind.end(),descend_func,parallel);
     }else{
         auto func = [&](int i,int j){return x[i-init_v]<x[j-init_v];};
-        stable ? std::stable_sort(ind.begin(),ind.end(),func) : std::sort(ind.begin(),ind.end(),func);
+        stable ? Rfast::stable_sort(ind.begin(),ind.end(),func,parallel) : Rfast::sort(ind.begin(),ind.end(),func,parallel);
     }
     return ind;
 }
@@ -509,23 +511,24 @@ Ret Tabulate(int* start,int* end,int& nroww){
 */
 template<typename Ret,typename T1,typename T2>
 Ret group_sum_helper(T1 x,T2 key,int *minn=nullptr,int *maxx=nullptr){
-    int mn,mx;
+    using type = typename std::remove_reference<typename T2::value_type>::type;
+    type mn,mx;
     const bool is_mn_null=(minn==nullptr),is_mx_null=(maxx==nullptr);
     if(is_mx_null && is_mn_null){
-        min_max<int>(key.begin(),key.end(),mn,mx);
+        min_max<type>(key.begin(),key.end(),mn,mx);
     }else if(is_mx_null){
         mn=*minn;
-        maximum<int>(key.begin(),key.end(),mx);
+        maximum<type>(key.begin(),key.end(),mx);
     }else if(is_mn_null){
         mx=*maxx;
-        minimum<int>(key.begin(),key.end(),mn);
+        minimum<type>(key.begin(),key.end(),mn);
     }else{
         mn=*minn;
         mx=*maxx;
     }
     typename T2::iterator kk=key.begin();
-    vector<double> f(mx-mn+1);
-    vector<bool> is_good(mx-mn+1);
+    vector<double> f(mx-mn+1, 0);
+    vector<bool> is_good(mx-mn+1, 0);
     typename T1::iterator xx=x.begin(),rr;
     vector<double>::iterator ff=f.begin();
     vector<bool>::iterator ok;
@@ -833,10 +836,10 @@ void myoperator(T f[],T &x,T *y,int &len){
 }
 
 template<typename T>
-void as_integer_h_sorted(vector<T> x,IntegerVector &f,const int init,const T val){
+void as_integer_h_sorted(vector<T> x,IntegerVector &f,const int init,const T val,const bool parallel = false){
     const int n=x.size();
     int i,j=0,c=init;
-    sort(x.begin(),x.end());
+    Rfast::sort(x.begin(),x.end(),parallel);
     auto v=x[j];
     f[0]=init;
     for(i=1;i<n;++i){
@@ -851,11 +854,10 @@ void as_integer_h_sorted(vector<T> x,IntegerVector &f,const int init,const T val
 
 
 template<typename T>
-void as_integer_h(vector<T> x,IntegerVector &f,const int init,const T val){
+void as_integer_h(vector<T> x,IntegerVector &f,const int init,const T val,const bool parallel = false){
     const int n=x.size();
     int i,j=0,c=init;
-    vector<int> ind=Order< vector<int>,vector<T> >(x,false,false,0); // diorthoseiii
-    x.push_back(val);
+    vector<int> ind=Order< vector<int>,vector<T> >(x,false,false,0,parallel); // diorthoseiii
     T v=x[ind[j]];
     f[ind[0]]=init;
     for(i=1;i<n;++i){
@@ -1047,7 +1049,7 @@ Ret rank_first(T x,const bool descend,const bool stable){
 }
 
 template<class T,Mfunction<T,T,T> oper,Mfunction<T,T,T> func>
-NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = R_NilValue, const bool parallel=false){
+NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = Rfast::R::Null, const bool parallel=false){
     const bool is_ind_null = Rf_isNull(ind);
     const int n = is_ind_null ? x.ncol() : LENGTH(ind);
     NumericVector f(n);
@@ -1055,7 +1057,9 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
     colvec yy(y.begin(),y.size(),false),ff(f.begin(),f.size(),false);
     if(is_ind_null){
         if(parallel){
-            #pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
             for(int i=0;i<n;++i){
                 f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
             }
@@ -1066,9 +1070,11 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
         }
     }else{
         IntegerVector indd(ind);
-        icolvec iind(indd.begin(),indd.size(),false);
+        arma::Col<int> iind(indd.begin(),indd.size(),false);
         if(parallel){
-            #pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
             for(int i=0;i<n;++i){
                 f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
             }

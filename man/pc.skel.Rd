@@ -115,7 +115,7 @@ R implementation and documentation: Marios Dimitriadis <kmdimitriadis@gmail.com>
 
 \examples{
 # simulate a dataset with continuous data
-dataset <- matrix(rnorm(100 * 50, 1, 100), nrow = 100) 
+dataset <- matrnorm(100, 10) 
 a <- pc.skel(dataset, method = "pearson", alpha = 0.05) 
 }
 

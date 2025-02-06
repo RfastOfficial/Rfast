@@ -7,17 +7,26 @@
 #include <array>
 #include <string>
 #include <fstream>
-#include <dirent.h>
 #include <chrono>
 #include <algorithm>
 #include <iterator>
 #include <Rcpp.h>
-
+#include <filesystem>
+namespace fs = std::filesystem;
 using Rcpp::List;
 using std::vector;
 using std::array;
 using std::string;
 using std::ifstream;
+
+struct Path : public fs::path {
+    Path(const fs::path& p) : fs::path::path(p) {}
+    std::string filename(const bool full_path = false){
+        return full_path ? fs::path::generic_string() : fs::path::filename().generic_string();
+    }
+};
+using Files = vector<Path>;
+
 
 class Timer {
     std::chrono::steady_clock sc;
@@ -86,22 +95,21 @@ array<string,2> split_words_in_half(string,const char);
 void writeFile(vector<string>,string);
 vector<string> readNamespaceFile(string,int&);
 bool is_namespace_export(string);
-vector<string> readDirectory(const string,const int);
-bool is_alias(const char *s,int);
+Files readDirectory(const fs::path);
+bool is_alias(string &);
 bool next_alias(ifstream &,string &);
 vector<string> read_aliases(ifstream &);
 vector<string> find_which(vector<string>,vector<string>);
 vector<string> find_duplis(vector<string>);
-bool is_example(const char *,int);
+bool is_example(string &);
 int get_example(ifstream&,string&);
-vector<string> read_directory(string);
 string read_example(ifstream &,int&);
 bool binary_help(vector<string>::iterator,vector<string>::iterator,string&,vector<string>::iterator&);
 vector<string> read_usage(ifstream &, vector<string> &);
 string read_function_from_r_file(ifstream &);
 void remove_spaces(string&);
 void remove_spaces_from_begin_end(string&);
-List read_examples(string);
+List read_examples(string,const bool);
 bool check_read_file(ifstream&,char);
 void dont_read_man(vector<string>&,vector<string>&);
 void reset_file(ifstream& file);
@@ -111,7 +119,9 @@ bool is_export(string& s);
 string read_current_signature_function_from_r_file(string& ,string ,ifstream &,const int );
 
 void read_functions_from_r_file(
-    const string,
+    Path&,
+    const bool,
+    vector<string> &,
     vector<string> &,
     vector<string> &,
     vector<string> &,
@@ -120,7 +130,7 @@ void read_functions_from_r_file(
     List& ,
     bool& );        
 
-List read_functions_and_signatures(string path);
+List read_functions_and_signatures(string path, const bool full_paths);
 bool is_export_s3(string&);
 bool is_export_special(string&);
 bool is_s3method(string&);

@@ -1,7 +1,7 @@
 # [export]
 matrnorm <- function(n, p, seed = NULL) {
-  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
-  matrix(RcppZiggurat::zrnorm(n * p), ncol = p)
+  if ( !is.null(seed) ) RcppZiggurat::zsetseed(seed)
+  matrix( RcppZiggurat::zrnorm(n * p), ncol = p )
 }
 
 
@@ -12,10 +12,10 @@ racg <- function(n, sigma, seed = NULL) {
   ## sigma is the covariance matrix
   ## sigma does not have to be of full rank
   p <- dim(sigma)[1]
-  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+  if ( !is.null(seed) ) RcppZiggurat::zsetseed(seed)
   x <- Rfast::matrnorm(n, p)
   x <- x %*% chol(sigma)
-  x / sqrt(Rfast::rowsums(x^2))
+  x / sqrt( Rfast::rowsums(x^2) )
 }
 
 
@@ -100,7 +100,7 @@ Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
 
 
 # [export]
-rvmf <- function(n, mu, k) {
+rvmf <- function(n, mu, k, parallel = FALSE) {
   # rotation <- function(a, b) {
     # p <- length(a)
     # ab <- sum(a * b)
@@ -138,9 +138,7 @@ rvmf <- function(n, mu, k) {
     # x <- x1 / sqrt(Rfast::rowsums(x1^2))
   # }
 
-  x <- .Call(Rfast_rvmf,n,mu,k)
-  colnames(x) <- names(mu)
-  x
+  .Call(Rfast_rvmf,n,mu,k,parallel)
 }
 
 

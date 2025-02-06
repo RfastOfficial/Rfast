@@ -12,7 +12,6 @@
 
 namespace Rfast {
 
-
 	using namespace Rcpp;
 	using namespace arma;
 	using std::remove_if;
@@ -28,7 +27,7 @@ namespace Rfast {
 	template<class T>
 	inline double var(T x,const bool std=false,const bool na_rm=false){
 		int n = 0;
-		double v=0.0,sum1=0,sum2=0;
+		typename std::remove_reference<typename T::value_type>::type v=0.0,sum1=0,sum2=0;
 		if(na_rm){
 			for(auto v : x){
 				if(!R_IsNA(v)){
@@ -39,7 +38,7 @@ namespace Rfast {
 			}
 		}else{
 			n=x.size();
-			double *xx=&x[0],*end=xx+n;
+			typename std::remove_reference<typename T::value_type>::type *xx=&x[0],*end=xx+n;
 			for(;end-xx;++xx){
 				v=*xx;
 				sum1+=v*v;
@@ -79,24 +78,8 @@ namespace Rfast {
 		// argument na_rm for remove NAs from the vector using R's "R_isNA" function
 	template<>
 	inline double mad<NumericVector>(NumericVector xx ,const string method,const bool na_rm){
-		const int newsize = na_rm ? remove_if(xx.begin(),xx.end(),R_IsNA)-xx.begin() : xx.size();
-		colvec x(xx.begin(),newsize,false);
-		double res=0;
-		if(newsize>1){
-			if(method=="median"){
-				const double center = 1.4826;
-				const double md=med_helper<colvec>(x.begin(),x.end());
-				colvec y=abs(x-md);
-				res=med_helper<colvec>(y.begin(),y.end())*center;
-			}else if(method=="mean"){
-				res=mean(abs(x-mean(x)));
-			}else{
-				stop("Wrong method. Choose \"median\" or \"mean\"");
-			}
-		}else{
-			res=NA<double>::value();
-		}
-		return res;
+		colvec x(xx.begin(),xx.size(),false);
+		return mad<colvec>(x,method,na_rm);
 	}
 		// type T can any iterable class
 		// type Engine can by anyone that overloads operator()

@@ -17,11 +17,13 @@ using std::sort;
 using std::string;
 using std::vector;
 
-vector<string> check_namespace(const string dir_to_export, const string dir_to_file)
+vector<string> check_namespace(const string dir_to_export, const string dir_to_file, const bool full_paths = false)
 {
+	List all_functions = read_functions_and_signatures(dir_to_file, full_paths)["export"];
+	vector<string> all_r_functions = all_functions["functions"];
 	int which_string_has_export = 0, len_which_not_exp = 1;
-	vector<string> allfiles = readDirectory(dir_to_file, 2), which_undefined_function, all_exported_files;
-	if (allfiles.empty())
+	vector<string> which_undefined_function, all_exported_files;
+	if (all_r_functions.empty())
 	{
 		stop("Warning: empty folder.\n");
 	}
@@ -34,10 +36,10 @@ vector<string> check_namespace(const string dir_to_export, const string dir_to_f
 	exported_files.erase(exported_files.end() - 1);
 	exported_files.erase(exported_files.begin(), exported_files.begin() + 7);
 	all_exported_files = split_words(exported_files, ",");
-	sort(allfiles.begin(), allfiles.end());
+	sort(all_r_functions.begin(), all_r_functions.end());
 	for (unsigned int i = 0; i < all_exported_files.size(); ++i)
 	{
-		if (binary_search(allfiles.begin(), allfiles.end(), all_exported_files[i]) == false)
+		if (binary_search(all_r_functions.begin(), all_r_functions.end(), all_exported_files[i]) == false)
 		{
 			which_undefined_function.resize(len_which_not_exp);
 			which_undefined_function[len_which_not_exp - 1] = all_exported_files[i];
@@ -47,23 +49,24 @@ vector<string> check_namespace(const string dir_to_export, const string dir_to_f
 	return which_undefined_function;
 }
 
-RcppExport SEXP Rfast_check_namespace(SEXP dir_to_exportSEXP, SEXP dir_to_fileSEXP)
+RcppExport SEXP Rfast_check_namespace(SEXP dir_to_exportSEXP, SEXP dir_to_fileSEXP, SEXP full_pathsSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const string>::type dir_to_export(dir_to_exportSEXP);
 	traits::input_parameter<const string>::type dir_to_file(dir_to_fileSEXP);
-	__result = check_namespace(dir_to_export, dir_to_file);
+	traits::input_parameter<const bool>::type full_paths(full_pathsSEXP);
+	__result = check_namespace(dir_to_export, dir_to_file, full_paths);
 	return __result;
 	END_RCPP
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-List check_true_false(string path_to_man)
+List check_true_false(string path_to_man, const bool full_paths = false)
 {
-	List ex = read_examples(path_to_man), L;
+	List ex = read_examples(path_to_man, full_paths), L;
 	CharacterVector names = ex["files"];
 	vector<string> exams = as<vector<string>>(ex["examples"]);
 	string s;
@@ -92,41 +95,38 @@ List check_true_false(string path_to_man)
 	return L;
 }
 
-RcppExport SEXP Rfast_check_true_false(SEXP path_manSEXP)
+RcppExport SEXP Rfast_check_true_false(SEXP path_manSEXP, SEXP full_pathsSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<string>::type path_man(path_manSEXP);
-	__result = check_true_false(path_man);
+	traits::input_parameter<const bool>::type full_paths(full_pathsSEXP);
+	__result = check_true_false(path_man, full_paths);
 	return __result;
 	END_RCPP
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 using std::remove;
-//[[Rcpp::export]]
-List read_export(const string path_rf)
-{
-	return read_functions_and_signatures(path_rf);
-}
 
 //[[Rcpp::export]]
-List check_aliases(const string path_man, const string path_rf)
+List check_aliases(const string path_man, const string path_rf, const bool full_paths = false)
 {
 	ifstream file;
-	List data = read_functions_and_signatures(path_rf);
+	List data = read_functions_and_signatures(path_rf, full_paths);
 	List all_functions = data["export"];
 	vector<string> aliases, all_r_functions = all_functions["functions"],
-							all_s3method = all_functions["s3"], all_rd_files = readDirectory(path_man, 3), tmp, dontread_rd;
+							all_s3method = all_functions["s3"], tmp, dontread_rd;
+	Files all_rd_files = readDirectory(path_man);
 	all_r_functions.reserve(all_r_functions.size() + all_s3method.size());
 	all_r_functions.insert(all_r_functions.end(), all_s3method.begin(), all_s3method.end());
 	for (auto &rd_file : all_rd_files)
 	{
-		file.open(path_man + rd_file + ".Rd");
+		file.open(rd_file.filename(true));
 		if (!file.is_open())
 		{
-			Rcout << "Can't open file " << rd_file << ".\n";
+			Rcout << "Can't open file " << rd_file.filename(full_paths) << ".\n";
 			continue;
 		}
 		if (check_read_file(file, '%'))
@@ -137,11 +137,12 @@ List check_aliases(const string path_man, const string path_rf)
 		}
 		else
 		{
-			DEBUG("Find attribute dont read file with name: " + rd_file);
-			dontread_rd.push_back(rd_file);
+			DEBUG("Find attribute dont read file with name: " + rd_file.filename(full_paths));
+			dontread_rd.push_back(rd_file.filename(full_paths));
 		}
 		file.close();
 	}
+
 	sort(aliases.begin(), aliases.end());
 	sort(all_r_functions.begin(), all_r_functions.end());
 	List ls;
@@ -160,76 +161,66 @@ List check_aliases(const string path_man, const string path_rf)
 	return ls;
 }
 
-RcppExport SEXP Rfast_check_aliases(SEXP dir_to_manSEXP, SEXP dir_to_fileSEXP)
+RcppExport SEXP Rfast_check_aliases(SEXP dir_to_manSEXP, SEXP dir_to_fileSEXP, SEXP full_pathsSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const string>::type dir_to_man(dir_to_manSEXP);
 	traits::input_parameter<const string>::type dir_to_file(dir_to_fileSEXP);
-	__result = check_aliases(dir_to_man, dir_to_file);
+	traits::input_parameter<const bool>::type full_paths(full_pathsSEXP);
+	__result = check_aliases(dir_to_man, dir_to_file, full_paths);
 	return __result;
 	END_RCPP
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct File : public ifstream
-{
-	string name;
-	void fopen(string path, string name)
-	{
-		this->name = name;
-		this->open(path + name);
-	}
-	void fclose()
-	{
-		this->close();
-		name = "";
-	}
-};
 using std::remove;
 
 //[[Rcpp::export]]
-List check_usage(string path_man, string path_rf)
+List check_usage(string path_man, string path_rf, const bool full_paths = false)
 {
 	DEBUG("START");
-	File file_rd, file_r;
-	vector<string> all_rd_files = read_directory(path_man), dontread_rd, dontread_r;
+	ifstream file_rd, file_r;
+	vector<string> dontread_rd, dontread_r;
+	Files all_rd_files = readDirectory(path_man);
 	std::vector<string> exported_functions_names, not_exported_functions_names;
-	vector<string> missing_functions, aliases, functions_usage, missmatch_functions, name_of_functions_in_usage,aliases_with_lines_more_than_90;
+	vector<string> missing_functions, aliases, functions_usage, missmatch_functions, name_of_functions_in_usage, aliases_with_lines_more_than_90;
 	string r_file, function_signature;
 	List aliases_per_rd_with_lines_more_than_90;
 
-	List functions = read_functions_and_signatures(path_rf), functions_signatures = functions["signatures"];
+	List functions = read_functions_and_signatures(path_rf, full_paths), functions_signatures = functions["signatures"];
 
-	for (unsigned int i = 0; i < all_rd_files.size(); ++i)
+	for (auto &rd_file : all_rd_files)
 	{
-		file_rd.fopen(path_man, all_rd_files[i]);
+		file_rd.open(rd_file.filename(true));
 		if (!file_rd.is_open())
 		{
-			Rcout << "Can't open file " << all_rd_files[i] << ".\n";
+			// Rcout << "Can't open file " << rd_file.filename(full_paths) << ".\n";
 			continue;
 		}
 		if (!check_read_file(file_rd, '%'))
 		{
-			dontread_rd.push_back(file_rd.name);
-			DEBUG("Find attribute dont read file with name: " + file_rd.name);
+			dontread_rd.push_back(rd_file.filename(full_paths));
+			DEBUG("Find attribute dont read file with name: " + rd_file.filename(full_paths));
 		}
 		else
 		{
-
+			DEBUG("file: ",rd_file.filename(true));
 			aliases = read_aliases(file_rd);
-			functions_usage = read_usage(file_rd,aliases_with_lines_more_than_90);
+			functions_usage = read_usage(file_rd, aliases_with_lines_more_than_90);
 
-			if(!aliases_with_lines_more_than_90.empty()){
-				aliases_per_rd_with_lines_more_than_90[file_rd.name] = aliases_with_lines_more_than_90;
+			if (!aliases_with_lines_more_than_90.empty())
+			{
+				aliases_per_rd_with_lines_more_than_90[rd_file.filename()] = aliases_with_lines_more_than_90;
 				aliases_with_lines_more_than_90.clear();
 			}
 
 			string curr_func, func_from_r_file;
 			for (auto &al : aliases)
 			{
+				DEBUG("\t",al);
 				for (auto &tmp : functions_usage)
 				{ // sigourevo oti gia to alias iparxei h antistoixi sinartisi sto usage
 					if (tmp.compare(0, al.size(), al) == 0 and tmp[al.size()] == '(')
@@ -240,7 +231,7 @@ List check_usage(string path_man, string path_rf)
 				}
 				if (curr_func.empty())
 				{
-					missing_functions.push_back("<" + al + "> not in <" + file_rd.name + ">"); // aliase not in usage
+					missing_functions.push_back("<" + al + "> not in <" + rd_file.filename(full_paths) + ">"); // aliase not in usage
 				}
 				else
 				{
@@ -250,11 +241,11 @@ List check_usage(string path_man, string path_rf)
 						// r_file = as<string>(functions_details["filename"]); // to onoma toy arxeiou pou iparxei to aliase
 						function_signature = as<string>(functions_details["signature"]); // ipografi tis sinartiseis
 
-						// DEBUG("current: "+curr_func+" , fromRfile: "+function_signature);
+						//DEBUG("current: "+curr_func+" , fromRfile: "+function_signature);
 						if (curr_func != function_signature)
 						{
 							DEBUG(curr_func + " : " + function_signature + " [" + al + "]");
-							missmatch_functions.push_back("signature of <" + al + "> missmatch with usage in <" + file_rd.name + ">");
+							missmatch_functions.push_back("signature of <" + al + "> missmatch with usage in <" + rd_file.filename(full_paths) + ">");
 						}
 					}
 					else
@@ -265,7 +256,7 @@ List check_usage(string path_man, string path_rf)
 				}
 			}
 		}
-		file_rd.fclose();
+		file_rd.close();
 	}
 	List L, r_rd;
 	if (!missing_functions.empty())
@@ -286,14 +277,15 @@ List check_usage(string path_man, string path_rf)
 	return L;
 }
 
-RcppExport SEXP Rfast_check_usage(SEXP path_manSEXP, SEXP path_rfSEXP)
+RcppExport SEXP Rfast_check_usage(SEXP path_manSEXP, SEXP path_rfSEXP, SEXP full_pathsSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<string>::type path_man(path_manSEXP);
 	traits::input_parameter<string>::type path_rf(path_rfSEXP);
-	__result = check_usage(path_man, path_rf);
+	traits::input_parameter<const bool>::type full_paths(full_pathsSEXP);
+	__result = check_usage(path_man, path_rf, full_paths);
 	return __result;
 	END_RCPP
 }
