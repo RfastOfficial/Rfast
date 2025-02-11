@@ -64,7 +64,6 @@
 >  |	    Function	    |           What's new!             |
 >  | -------------------  | ------------------------------- |
 >  |  coeff				| Coefficient matrix.  |
-
 >
 >
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 

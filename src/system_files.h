@@ -126,6 +126,7 @@ void read_functions_from_r_file(
     vector<string> &,
     vector<string> &,
     vector<string> &,
+    vector<string> &,
     List& ,
     bool& );        
 
