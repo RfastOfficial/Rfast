@@ -1,7 +1,7 @@
 # [export]
 matrnorm <- function(n, p, seed = NULL) {
-  if ( !is.null(seed) ) RcppZiggurat::zsetseed(seed)
-  matrix( RcppZiggurat::zrnorm(n * p), ncol = p )
+  if ( !is.null(seed) ) zigg::zsetseed(seed)
+  matrix( zigg::zrnorm(n * p), ncol = p )
 }
 
 
@@ -12,7 +12,7 @@ racg <- function(n, sigma, seed = NULL) {
   ## sigma is the covariance matrix
   ## sigma does not have to be of full rank
   p <- dim(sigma)[1]
-  if ( !is.null(seed) ) RcppZiggurat::zsetseed(seed)
+  if ( !is.null(seed) ) zigg::zsetseed(seed)
   x <- Rfast::matrnorm(n, p)
   x <- x %*% chol(sigma)
   x / sqrt( Rfast::rowsums(x^2) )
@@ -51,7 +51,7 @@ rmvlaplace <- function(n, lam, mu, G, seed = NULL) {
   } else {
     d <- length(mu) ## dimensionality of the data
     z <- rexp(n, lam)
-    if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+    if (!is.null(seed)) zigg::zsetseed(seed)
     x <- Rfast::matrnorm(n, d)
     y <- sqrt(z) * x %*% chol(G) + rep(mu, rep(n, d)) ## the simulated sample
   }
@@ -62,7 +62,7 @@ rmvlaplace <- function(n, lam, mu, G, seed = NULL) {
 # [export]
 rmvnorm <- function(n, mu, sigma, seed = NULL) {
   p <- length(mu)
-  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+  if (!is.null(seed)) zigg::zsetseed(seed)
   x <- Rfast::matrnorm(n, p)
   x %*% chol(sigma) + rep(mu, rep(n, p))
 }
@@ -76,7 +76,7 @@ rmvt <- function(n, mu, sigma, v, seed = NULL) {
   ## sigma does not have to be of full rank
   ## v is the degrees of freedom
   p <- length(mu)
-  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+  if (!is.null(seed)) zigg::zsetseed(seed)
   x <- Rfast::matrnorm(n, p)
   w <- sqrt(v / rchisq(n, v))
   w * x %*% chol(sigma) + rep(mu, rep(n, p))
@@ -85,15 +85,15 @@ rmvt <- function(n, mu, sigma, v, seed = NULL) {
 
 # [export]
 Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
-  if (!is.null(seed)) RcppZiggurat::zsetseed(seed)
+  if (!is.null(seed)) zigg::zsetseed(seed)
   if (m == 0 & s == 1) {
-    x <- RcppZiggurat::zrnorm(n)
+    x <- zigg::zrnorm(n)
   } else if (m == 0 & s != 1) {
-    x <- RcppZiggurat::zrnorm(n) * s
+    x <- zigg::zrnorm(n) * s
   } else if (m != 0 & s == 1) {
-    x <- RcppZiggurat::zrnorm(n) + m
+    x <- zigg::zrnorm(n) + m
   } else {
-    x <- RcppZiggurat::zrnorm(n) * s + m
+    x <- zigg::zrnorm(n) * s + m
   }
   x
 }
@@ -117,7 +117,7 @@ rvmf <- function(n, mu, k, parallel = FALSE) {
     # mu <- mu / sqrt(sum(mu^2))
     # ini <- c(numeric(d - 1), 1)
     # d1 <- d - 1
-    # v1 <- Rfast::matrnorm(n, d1) ##  matrix( RcppZiggurat::zrnorm(n * d1), ncol = d1 )
+    # v1 <- Rfast::matrnorm(n, d1) ##  matrix( zigg::zrnorm(n * d1), ncol = d1 )
     # v <- v1 / sqrt(Rfast::rowsums(v1^2))
     # b <- (-2 * k + sqrt(4 * k^2 + d1^2)) / d1
     # x0 <- (1 - b) / (1 + b)
@@ -134,7 +134,7 @@ rvmf <- function(n, mu, k, parallel = FALSE) {
       # x <- tcrossprod(S, A)
     # }
   # } else {
-    # x1 <- Rfast::matrnorm(n, d) ## matrix( RcppZiggurat::zrnorm(n * d), ncol = d )
+    # x1 <- Rfast::matrnorm(n, d) ## matrix( zigg::zrnorm(n * d), ncol = d )
     # x <- x1 / sqrt(Rfast::rowsums(x1^2))
   # }
 
@@ -152,7 +152,7 @@ rvmf <- function(n, mu, k, parallel = FALSE) {
 #     mu <- mu / sqrt( sum(mu^2) )  ## the mean direction
 #     ini <- c(numeric(d - 1), 1)  ## mean direction is set to (0, ..., 0, 1)
 #     d1 <- d - 1
-#     v1 <- matrix( RcppZiggurat::zrnorm(n * d1), ncol = d1)
+#     v1 <- matrix( zigg::zrnorm(n * d1), ncol = d1)
 #     v <- v1 / sqrt( rowsums(v1^2) )
 #     b <- ( -2 * k + sqrt(4 * k^2 + d1^2) ) / d1
 #     x0 <- (1 - b)/(1 + b)
@@ -176,7 +176,7 @@ rvmf <- function(n, mu, k, parallel = FALSE) {
 #     x <- tcrossprod(S, A)  ## the x has direction mu
 #   } else {  ## uniform distribution
 #     ## requires MASS if k = 0
-#     x1 <- matrix( RcppZiggurat::zrnorm(n * d), ncol = d )
+#     x1 <- matrix( zigg::zrnorm(n * d), ncol = d )
 #     x <- x1 / sqrt( Rfast::rowsums(x1^2) )
 #   }
 #   x

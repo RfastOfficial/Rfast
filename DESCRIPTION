@@ -17,8 +17,8 @@ Authors@R: c(
                 person("Christina Chatzipantsiou", role = c("ctb"))
         )
 Maintainer: Manos Papadakis <rfastofficial@gmail.com>
-Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), RcppZiggurat, RcppParallel
-LinkingTo: Rcpp (>= 0.12.3), RcppArmadillo, RcppParallel, RcppZiggurat
+Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), zigg, RcppParallel
+LinkingTo: Rcpp (>= 0.12.3), RcppArmadillo, RcppParallel, zigg
 Suggests: philentropy
 SystemRequirements: C++17
 BugReports: https://github.com/RfastOfficial/Rfast/issues

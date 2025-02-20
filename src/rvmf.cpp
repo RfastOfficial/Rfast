@@ -3,14 +3,14 @@
 
 #include <RcppArmadillo.h>
 #include <math.h>
-#include <Ziggurat.h>
+#include <zigg/header>
 #include "Rfast.h"
 #include "Random.h"
 
 using namespace Rcpp;
 using namespace arma;
 
-static Ziggurat::Ziggurat::Ziggurat zigg;
+static zigg::Ziggurat ziggurat;
 Random::uniform<Random::real> rng(0, 1);
 
 class Gamma {
@@ -24,7 +24,7 @@ class Gamma {
 	inline double operator()() {
 		// Marsaglia and Tsang method for rate >= 1
 		while (true) {
-			double x = zigg.norm(), x2 = x * x;
+			double x = ziggurat.norm(), x2 = x * x;
 			double v = 1.0 + c * x;
 			v = v * v * v;
 			double u = rng();
@@ -87,7 +87,7 @@ static void randn_z(mat &res, double mean = 0.0, double stddev = 1.0)
 {
     for (auto &elem : res)
     {
-        elem = zigg.norm();
+        elem = ziggurat.norm();
     }
 }
 
