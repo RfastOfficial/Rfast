@@ -12,9 +12,7 @@ Authors@R: c(
                 person("Morgan Jacob", role = c("ctb")), 
                 person("Giorgos Borboudakis", role = c("ctb")), 
                 person("John Burkardt", role = c("ctb")), 
-                person("Changliang Zou", role = c("ctb")), 
-                person("Kleanthi Lakiotaki", role = c("ctb")), 
-                person("Christina Chatzipantsiou", role = c("ctb"))
+                person("Changliang Zou", role = c("ctb")) 
         )
 Maintainer: Manos Papadakis <rfastofficial@gmail.com>
 Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), zigg, RcppParallel
