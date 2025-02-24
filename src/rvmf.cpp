@@ -24,7 +24,7 @@ class Gamma {
 	inline double operator()() {
 		// Marsaglia and Tsang method for rate >= 1
 		while (true) {
-			double x = ziggurat.norm(), x2 = x * x;
+			double x = ziggurat.rnorm(), x2 = x * x;
 			double v = 1.0 + c * x;
 			v = v * v * v;
 			double u = rng();
@@ -87,7 +87,7 @@ static void randn_z(mat &res, double mean = 0.0, double stddev = 1.0)
 {
     for (auto &elem : res)
     {
-        elem = ziggurat.norm();
+        elem = ziggurat.rnorm();
     }
 }
 
