@@ -14,7 +14,7 @@
 // #define STR(x) STRS(x)
 // #pragma message STR(__cplusplus)
 
-#if __cplusplus >= 201603L && (!defined(__APPLE__) && !defined(__MACH__) && !defined(__clang__))
+#if __cplusplus >= 201603L && (!defined(__APPLE__) && !defined(__MACH__) && !defined(__clang__)) && defined(__GNUC__) && (__GNUC__ > 9)
 #define _PARALLEL_
 // #pragma message "Parallel is supported"
 #include <execution>

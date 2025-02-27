@@ -89,51 +89,20 @@ bool is_namespace_export(string x)
     return x.size() > sizeof("export") and x[0] == 'e' and x[1] == 'x' and x[2] == 'p' and x[3] == 'o' and x[4] == 'r' and x[5] == 't';
 }
 
-vector<string> read_directory(string path)
+Files readDirectory(const fs::path path)
 {
-    DIR *dir = NULL;
-    struct dirent *ent;
-    vector<string> files;
-    string textf;
-    if ((dir = opendir(path.c_str())) != NULL)
+    Files files;
+    if (fs::exists(path))
     {
-        readdir(dir);
-        readdir(dir);
-        while ((ent = readdir(dir)) != NULL)
-        {
-            textf = ent->d_name;
-            files.push_back(textf);
+        for (const auto& entry : fs::recursive_directory_iterator(path)) { // automatically skips special directories . and ..
+            if (fs::is_regular_file(entry)) {
+                files.push_back(entry.path());
+            }
         }
-        closedir(dir);
     }
     else
     {
-        stop("Error: Could not open directory with path \"" + path + "\"");
-    }
-    return files;
-}
-
-vector<string> readDirectory(const string path, const int n)
-{
-    DIR *dir = NULL;
-    struct dirent *ent;
-    vector<string> files;
-    string textf;
-    if ((dir = opendir(path.c_str())) != NULL)
-    {
-        readdir(dir); // read . file
-        readdir(dir); // read .. file
-        while ((ent = readdir(dir)) != NULL)
-        {
-            textf = ent->d_name;
-            textf.erase(textf.end() - n, textf.end());
-            files.push_back(textf);
-        }
-        closedir(dir);
-    }
-    else
-    {
-        Rcpp::stop("Error: Could not open directory with path \"" + path + "\"");
+        Rcpp::stop("Error: Could not open directory with path \"" + path.generic_string() + "\"");
     }
     return files;
 }
@@ -615,7 +584,8 @@ string read_current_signature_function_from_r_file(string &line, string keyword_
 
 // proipothesi na einai dilomeno h sinartisi tou stil a<-function h a=function
 void read_functions_from_r_file(
-    const string filename,
+    Path& filename,
+    const bool full_paths,
     vector<string> &exported_functions_names,
     vector<string> &exported_functions_s3,
     vector<string> &not_exported_functions_names,
@@ -624,8 +594,7 @@ void read_functions_from_r_file(
     List &signatures,
     bool &found_dont_read)
 {
-
-    ifstream file(filename.c_str());
+    ifstream file(filename.filename(true));
     size_t position_of_function_key1 = 0, position_of_function_key2 = 0;
     string line;
     int depth_scope = 0, number_of_line = 0, number_of_export_line = 0;
@@ -681,21 +650,21 @@ void read_functions_from_r_file(
                         {
                             DEBUG("<-function export: " + function_name);
                             exported_functions_names.push_back(function_name);
-                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "<-function", file, position_of_function_key1), _["filename"] = filename, _["export type"] = "export");
+                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "<-function", file, position_of_function_key1), _["filename"] = filename.filename(full_paths), _["export type"] = "export");
                             found_export = false;
                         }
                         else if (found_export_s3)
                         {
                             DEBUG("<-function export s3: " + function_name);
                             exported_functions_s3.push_back(function_name);
-                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "<-function", file, position_of_function_key1), _["filename"] = filename, _["export type"] = "export s3");
+                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "<-function", file, position_of_function_key1), _["filename"] = filename.filename(full_paths), _["export type"] = "export s3");
                             found_export_s3 = false;
                         }
                         else if (found_export_special)
                         {
                             DEBUG("<-function export special: " + function_name);
                             exported_special_functions.push_back(function_name);
-                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "<-function", file, position_of_function_key1), _["filename"] = filename, _["export type"] = "export special");
+                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "<-function", file, position_of_function_key1), _["filename"] = filename.filename(full_paths), _["export type"] = "export special");
                             found_export_special = false;
                         }
                         else if (is_hidden_function(function_name))
@@ -720,21 +689,21 @@ void read_functions_from_r_file(
                         {
                             DEBUG("<-function export: " + function_name);
                             exported_functions_names.push_back(function_name);
-                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "=function", file, position_of_function_key2), _["filename"] = filename, _["export type"] = "export");
+                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "=function", file, position_of_function_key2), _["filename"] = filename.filename(full_paths), _["export type"] = "export");
                             found_export = false;
                         }
                         else if (found_export_s3)
                         {
                             DEBUG("<-function export s3: " + function_name);
                             exported_functions_s3.push_back(function_name);
-                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "=function", file, position_of_function_key2), _["filename"] = filename, _["export type"] = "export s3");
+                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "=function", file, position_of_function_key2), _["filename"] = filename.filename(full_paths), _["export type"] = "export s3");
                             found_export_s3 = false;
                         }
                         else if (found_export_special)
                         {
                             DEBUG("<-function export s3: " + function_name);
                             exported_special_functions.push_back(function_name);
-                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "=function", file, position_of_function_key2), _["filename"] = filename, _["export type"] = "export s3");
+                            signatures[function_name] = List::create(_["signature"] = read_current_signature_function_from_r_file(line, "=function", file, position_of_function_key2), _["filename"] = filename.filename(full_paths), _["export type"] = "export s3");
                             found_export_special = false;
                         }
                         else if (is_hidden_function(function_name))
@@ -752,7 +721,7 @@ void read_functions_from_r_file(
             }
             if ((found_export or found_export_s3 or found_export_special) and number_of_export_line == number_of_line - 1)
             { // an exo vrei export  stin porigoumeni grammi kai h epomeni einai space
-                Rcout << "Warning: In file '" << filename << "' unused [export] attribute in line " << number_of_export_line << ".\n";
+                Rcout << "Warning: In file '" << filename.filename(false) << "' unused [export] attribute in line " << number_of_export_line << ".\n";
             }
             found_export = false;
             found_export_s3 = false;
@@ -800,11 +769,11 @@ void read_functions_from_r_file(
     }
 }
 
-List read_functions_and_signatures(string path)
+List read_functions_and_signatures(string path,const bool full_paths)
 {
     vector<string> exported_functions_names, exported_functions_s3, hidden_functions_names,
-        not_exported_functions_names, files = read_directory(path), dont_read, exported_special_functions;
-
+        not_exported_functions_names, dont_read, exported_special_functions;
+    Files files = readDirectory(path);
     exported_functions_names.reserve(500);
     exported_functions_s3.reserve(50);
     not_exported_functions_names.reserve(500);
@@ -813,7 +782,8 @@ List read_functions_and_signatures(string path)
     for (auto &file : files)
     {
         read_functions_from_r_file(
-            path + file,
+            file,
+            full_paths,
             exported_functions_names,
             exported_functions_s3,
             not_exported_functions_names,
@@ -824,7 +794,7 @@ List read_functions_and_signatures(string path)
         if (found_dont_read)
         {
             found_dont_read = false;
-            dont_read.push_back(file);
+            dont_read.push_back(file.filename(full_paths));
         }
     }
     List l, exp;
@@ -846,5 +816,6 @@ List read_functions_and_signatures(string path)
         exp["s3"] = std::vector<string>();
     if (exp.size() != 0)
         l["export"] = exp;
+
     return l;
 }

@@ -11,7 +11,8 @@ Distance matrix - Sum of all pairwise distances in a distance matrix.
 }
 
 \usage{
-Dist(x, method = "euclidean", square = FALSE, p = 0,vector = FALSE)
+Dist(x,method = "euclidean", square = FALSE,p=0, 
+    result = "matrix" ,vector = FALSE, parallel = FALSE)
 total.dist(x, method = "euclidean", square = FALSE, p = 0)
 vecdist(x)
 }
@@ -31,10 +32,22 @@ If you choose "euclidean" or "hellinger" as the method, then you can have the op
 squared Euclidean distances by setting this argument to TRUE. 
 }
 \item{p}{
-This is for the the Minkowski, the power of the metric. 
+This is for the Minkowski method, the power of the metric. 
 }
 \item{vector}{
 For return a vector instead a matrix.
+}
+\item{result}{
+One of the:
+\itemize{
+    \item "matrix" : Return the result as matrix.
+    \item "vector" : Return the result as vector.
+    \item "sum" : Return the sum of the result.
+    }
+}
+\item{parallel}{
+For methods \bold{euclidean}, \bold{canberra} and \bold{minkowski}, you can run the 
+algorithm in parallel. 
 }
 }
 
@@ -43,27 +56,28 @@ The distance matrix is compute with an extra argument for the Euclidean distance
 The "kullback_leibler" refers to the symmetric Kullback-Leibler divergence. 
 
 \itemize{
-\item euclidean : \eqn{  \sqrt( \sum | P_i - Q_i |^2)}
-\item manhattan : \eqn{  \sum | P_i - Q_i |}
-\item minimum : \eqn{  \min | P_i - Q_i |}
-\item maximum : \eqn{  \max | P_i - Q_i |}
-\item minkowski : \eqn{  ( \sum | P_i - Q_i |^p)^(1/p)}
-\item bhattacharyya : \eqn{  - ln \sum \sqrt(P_i * Q_i)}
-\item hellinger : \eqn{  2 * \sqrt( 1 - \sum \sqrt(P_i * Q_i))}
-\item kullback_leibler : \eqn{  \sum P_i * log(P_i / Q_i)}
-\item jensen_shannon : \eqn{  0.5 * ( \sum P_i * log(2 * P_i / P_i + Q_i) + \sum Q_i * log(2 * Q_i / P_i + Q_i))}
+\item euclidean : \eqn{ \sum \sqrt( \sum | P_i - Q_i |^2)}
+\item manhattan : \eqn{ \sum | P_i - Q_i |}
+\item minimum : \eqn{ \sum \min | P_i - Q_i |}
+\item maximum : \eqn{ \sum \max | P_i - Q_i |}
+\item minkowski : \eqn{ ( \sum | P_i - Q_i |^p)^{\frac{1}{p}}}
+\item bhattacharyya : \eqn{ - ln (\sum \sqrt(P_i * Q_i))}
+\item hellinger : \eqn{ 2 * \sqrt( 1 - \sum \sqrt(P_i * Q_i))}
+\item kullback_leibler : \eqn{ \sum P_i * log(\frac{P_i}{Q_i})}
+\item jensen_shannon : \eqn{ 0.5 * ( \sum P_i * log(2 * \frac{P_i}{Q_i + Q_i}) + \sum Q_i * log(2 * \frac{Q_i}{P_i + Q_i}))}
+\item canberra : \eqn{ \sum \frac{| P_i - Q_i |}{P_i + Q_i}}
+\item chi_square \eqn{X}^2 : \eqn{ \sum (\frac{(P_i - Q_i )^2}{P_i + Q_i})}
+\item soergel : \eqn{ \frac{\sum | P_i - Q_i |}{\sum \max(P_i , Q_i)}}
+\item sorensen : \eqn{ \frac{\sum | P_i - Q_i |}{\sum (P_i + Q_i)}}
+\item cosine : \eqn{ \sum \frac{\sum (P_i * Q_i)}{\sqrt(\sum P_i^2) * \sqrt(\sum Q_i^2)}}
+\item wave_hedges : \eqn{ \sum \frac{\sum | P_i - Q_i |}{\max(P_i , Q_i)}}
+\item motyka : \eqn{ \sum \frac{\min(P_i, Q_i)}{(P_i + Q_i)}}
+\item harmonic_mean : \eqn{ 2 * \frac{\sum P_i * Q_i}{P_i + Q_i}}
+\item jeffries_matusita : \eqn{ \sum \sqrt( 2 - 2 * \sum \sqrt(P_i * Q_i))}
+\item gower : \eqn{ \sum \frac{1}{d} * \sum | P_i - Q_i |}
+\item kulczynski : \eqn{ \sum \frac{\sum | P_i - Q_i |}{\sum \min(P_i , Q_i)}}
+\item itakura_saito : \eqn{ \sum \frac{P_i}{Q_i}  - log(\frac{P_i}{Q_i}) - 1}
 \item haversine : \eqn{ 2 * R * \arcsin(\sqrt(\sin((lat_2 - lat_1)/2)^2 + \cos(lat_1) * \cos(lat_2) * \sin((lon_2 - lon_1)/2)^2)) }
-\item canberra : \eqn{  \sum | P_i - Q_i | / (P_i + Q_i)}
-\item chi_square \eqn{X}^2 : \eqn{  \sum ( (P_i - Q_i )^2 / (P_i + Q_i) )}
-\item soergel : \eqn{  \sum | P_i - Q_i | / \sum \max(P_i , Q_i)}
-\item sorensen : \eqn{  \sum | P_i - Q_i | / \sum (P_i + Q_i)}
-\item cosine : \eqn{ \sum (P_i * Q_i) / \sqrt(\sum P_i^2) * \sqrt(\sum Q_i^2)}
-\item wave_hedges : \eqn{  \sum | P_i - Q_i | / \max(P_i , Q_i)}
-\item motyka : \eqn{  \sum \min(P_i , Q_i) / (P_i + Q_i)}
-\item harmonic_mean : \eqn{ 2 * \sum (P_i * Q_i) / (P_i + Q_i)}
-\item jeffries_matusita : \eqn{  \sqrt( 2 - 2 * \sum \sqrt(P_i * Q_i))}
-\item gower : \eqn{  1/d * \sum | P_i - Q_i |}
-\item kulczynski : \eqn{  1 / \sum | P_i - Q_i | / \sum \min(P_i , Q_i)}
 }
 }
 

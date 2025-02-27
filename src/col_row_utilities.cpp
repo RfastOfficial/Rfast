@@ -6,6 +6,7 @@
 #include <chrono>
 #include <random>
 #include "Rfast.h"
+#include "Rfast/types.hpp"
 
 using namespace Rcpp;
 using namespace arma;
@@ -323,7 +324,7 @@ SEXP col_max(SEXP x, const bool parallel, const unsigned int cores)
 	else
 	{
 		SEXP F;
-		switch (Rfast::Type::type(x))
+		switch (Rfast::Type::type<SEXP>(x))
 		{
 		case Rfast::Type::Types::REAL:
 		{
@@ -447,13 +448,17 @@ NumericVector col_means(DataFrame x, const bool parallel = false, const unsigned
 		{
 			colvec y;
 			int i;
-#pragma omp critical
-			{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 				NumericVector yy;
 				yy = *s;
 				y = colvec(yy.begin(), yy.size(), false);
 				i = s - x.begin();
-			}
+#ifdef _OPENMP
+	}
+#endif
 			ff[i] = mean(y);
 		}
 	}
@@ -597,7 +602,7 @@ SEXP col_min(SEXP x, const bool parallel, const unsigned int cores)
 	else
 	{
 		SEXP F;
-		switch (Rfast::Type::type(x))
+		switch (Rfast::Type::type<SEXP>(x))
 		{
 		case Rfast::Type::Types::REAL:
 		{
@@ -789,7 +794,7 @@ using std::nth_element;
 SEXP col_nth(NumericMatrix X, IntegerVector elems, const int num_of_nths, const bool descend, const bool na_rm, const bool index)
 {
 	const unsigned int n = elems.size();
-	SEXP F = R_NilValue;
+	SEXP F = Rfast::R::Null;
 	if (num_of_nths == 1)
 	{
 		NumericVector y(X.nrow());
@@ -864,7 +869,7 @@ RcppExport SEXP Rfast_col_nth(SEXP xSEXP, SEXP ySEXP, SEXP num_of_nthsSEXP, SEXP
 SEXP row_nth(NumericMatrix X, IntegerVector elems, const int num_of_nths, const bool descend, const bool na_rm, const bool index)
 {
 	const unsigned int n = elems.size();
-	SEXP F = R_NilValue;
+	SEXP F = Rfast::R::Null;
 
 	if (num_of_nths == 1)
 	{
@@ -1063,18 +1068,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_mean<colvec, colvec, ivec>(y, descend);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else if (method == "min")
@@ -1086,18 +1099,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_min<colvec, colvec, ivec>(y, descend);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else if (method == "max")
@@ -1109,18 +1130,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_max<colvec, colvec, ivec>(y, descend);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else if (method == "first")
@@ -1132,18 +1161,26 @@ DataFrame col_ranks(DataFrame x, string method, const bool descend, const bool s
 			{
 				colvec y;
 				int i;
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					NumericVector yy;
 					yy = *s;
 					y = colvec(yy.begin(), yy.size());
 					i = s - x.begin();
-				}
+#ifdef _OPENMP
+	}
+#endif
 				y = rank_first<colvec, colvec, ivec>(y, descend, stable);
-#pragma omp critical
-				{
+#ifdef _OPENMP
+	#pragma omp critical
+	{
+#endif
 					f.insert(i, NumericVector(y.begin(), y.end()));
-				}
+#ifdef _OPENMP
+	}
+#endif
 			}
 		}
 		else
@@ -1357,7 +1394,9 @@ Ret row_sums(T1 x, SEXP indices, const bool na_rm = false)
 		F2 ff(f.begin(), X.n_rows, false);
 		if (na_rm)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < X.n_rows; ++i)
 			{
 				ff[i] = sum_with_condition<T, notNA<T>, typename F1::row_iterator>(X.begin_row(i), X.end_row(i));
@@ -1373,7 +1412,9 @@ Ret row_sums(T1 x, SEXP indices, const bool na_rm = false)
 		IntegerVector ind(indices);
 		if (na_rm)
 		{
-#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 			for (unsigned int i = 0; i < X.n_rows; ++i)
 			{
 				const int j = ind[i] - 1;
@@ -1398,7 +1439,7 @@ RcppExport SEXP Rfast_row_sums(SEXP x, SEXP indices, SEXP na_rmSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
-	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, imat, icolvec>(x, indices, na_rm)
+	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, imat, arma::Col<int>>(x, indices, na_rm)
 							   : row_sums<double, NumericVector, NumericMatrix, mat, colvec>(x, indices, na_rm);
 	return __result;
 	END_RCPP

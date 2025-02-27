@@ -2,7 +2,7 @@
 \alias{group}
 \alias{group.sum}
 \title{
-Some summary statistics of a vector for each level of a grouping variable. 
+Some summary statistics of a vector for each level of a grouping variable
 }
 
 \description{
@@ -11,7 +11,7 @@ Some summary statistics of a vector for each level of a grouping variable.
 
 \usage{
 group(x,ina,method="sum",ina.min=NULL,ina.max = NULL,
-	ina.length.unique=NULL,mad.method="median")
+	ina.length.unique=NULL,mad.method="median", std = FALSE, sorted = FALSE)
 group.sum(x, ina,ina.max = NULL,ina.min = NULL)
 }
 
@@ -36,6 +36,12 @@ Minimum number for vector ina.
 }
 \item{mad.method}{
 A character vector with values "median", for median absolute deviation or "mean", for mean absolute deviation. This works only with method="mad". 
+}
+\item{std}{
+A boolean value for method \bold{var} for using standard deviation.
+}
+\item{sorted}{
+A boolean value for getting the results sorted based on ina.
 }
 }
 

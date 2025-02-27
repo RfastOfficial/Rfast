@@ -18,7 +18,9 @@ NumericMatrix gaussian_nb(NumericMatrix X,NumericMatrix M,NumericMatrix S,Numeri
 	NumericMatrix Res(k,X.nrow());
 	mat res(Res.begin(),Res.nrow(),Res.ncol(),false);
 	if(parallel){
-		#pragma omp parallel for
+#ifdef _OPENMP
+	#pragma omp parallel for
+#endif
 		for (int i=0;i<k;++i){
 			rowvec mi = m.row(i);
 			rowvec si = s.row(i);

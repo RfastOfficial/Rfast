@@ -3,7 +3,7 @@
 \alias{rowMaxs}
 \alias{rowMinsMaxs}
 \title{
-Row-wise minimum and maximum of a matrix.
+Row-wise minimum and maximum of a matrix
 }
 
 \description{

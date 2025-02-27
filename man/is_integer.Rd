@@ -11,7 +11,7 @@ Check if values are integers and convert to integer.
 
 \usage{
 is_integer(x)
-as_integer(x,result.sort = TRUE,init = 1)
+as_integer(x,result.sort = TRUE,init = 1, parallel = FALSE)
 }
 
 \arguments{
@@ -24,6 +24,9 @@ A logical value for sorting the result.
 }
 \item{init}{
 An integer value to start.
+}
+\item{parallel}{
+Run the algorithm in parallel. 
 }
 }
 
@@ -50,7 +53,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 
 \seealso{
-\code{\link{as_integer}, \link{colVars}, \link{colmeans}, \link{read.directory}
+\code{\link{as_integer}, \link{colVars}, \link{colmeans}
 }
 }
 

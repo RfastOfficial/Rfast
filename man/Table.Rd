@@ -85,7 +85,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 
 \seealso{
-\code{\link{colShuffle}, \link{colVars}, \link{colmeans}, \link{read.directory}, \link{is_integer}, \link{as_integer}
+\code{\link{colShuffle}, \link{colVars}, \link{colmeans}, \link{is_integer}, \link{as_integer}
 }
 }
 

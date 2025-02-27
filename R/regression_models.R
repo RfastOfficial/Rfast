@@ -347,37 +347,46 @@ prop.reg <- function (y, x, varb = "quasi", tol = 1e-09, maxiters = 100) {
 ################################
 
 #[export]
-spatmed.reg <- function(y, x, tol = 1e-07) {
-  x <- model.matrix(y ~ ., data.frame(x) )
-  p <- dim(x)[2]
-  d <- dim(y)[2]
-
-  B1 <- solve(crossprod(x), crossprod(x, y) )
-  est <- y - x %*% B1
-  ww <- sqrt( Rfast::rowsums(est^2) )
-  ## ww <- sqrt( Rfast::rowsums( est^2 ) )
-  z <- x / ww
-  B2 <- solve( crossprod(z, x), crossprod(z, y) )
-  i <- 2
-  while ( sum( abs(B2 - B1) ) > tol ) {
-    i <- i + 1
-    B1 <- B2
+spatmed.reg <- function (y, x, tol = 1e-07) {
+    x <- model.matrix(y ~ ., data.frame(x))
+    p <- dim(x)[2]
+    d <- dim(y)[2]
+    B <- solve(crossprod(x), crossprod(x, y))
+    est <- y - x %*% B
+    ww <- sqrt( Rfast::rowsums( est^2) )
+	d1 <- sum(ww) 
+    z <- x/ww
+    B1 <- solve(crossprod(z, x), crossprod(z, y))
     est <- y - x %*% B1
-    ww <- sqrt( Rfast::rowsums(est^2) )
-	## ww <- sqrt( Rfast::rowsums( est^2 ) )
-    ela <- which( ww == 0 )
-    z <- x / ww
-    if ( length(ela) > 0 )  z[ela, ] <- 0
-    B2 <- solve( crossprod(z, x), crossprod(z, y) )
-  }
-  be <- B2
-  
-  if ( is.null(colnames(y)) ) {
-    colnames(be) <- paste("Y", 1:d, sep = "")
-  } else  colnames(be) <- colnames(y)
-  rownames(be)  <- colnames(x)
-
-  list(iters = i, be = be)
+    ww <- sqrt(Rfast::rowsums(est^2))
+    d2 <- sum(ww)  
+    ela <- which(ww == 0)
+    z <- x/ww
+    if (length(ela) > 0)  z[ela, ] <- 0
+    B2 <- try( solve( crossprod(z, x), crossprod(z, y) ), silent = TRUE )
+    if ( identical( class(B2), "try-error" ) )  B2 <- B1 
+	i <- 2
+    while (sum( abs(d2 - d1)) > tol) {
+        i <- i + 1
+        B1 <- B2
+		d1 <- d2 
+        est <- y - x %*% B1
+        ww <- sqrt( Rfast::rowsums(est^2) )
+		d2 <- sum(ww) 
+        ela <- which(ww == 0)
+        z <- x/ww
+        if (length(ela) > 0) 
+            z[ela, ] <- 0
+        B2 <- try( solve( crossprod(z, x), crossprod(z, y) ), silent = TRUE )
+        if ( identical( class(B2), "try-error" ) )  B2 <- B1 
+    }
+    be <- B2
+    if (is.null(colnames(y))) {
+        colnames(be) <- paste("Y", 1:d, sep = "")
+    }
+    else colnames(be) <- colnames(y)
+    rownames(be) <- colnames(x)
+    list(iters = i, be = be)
 }
 
 

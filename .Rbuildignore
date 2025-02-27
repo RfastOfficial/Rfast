@@ -6,3 +6,5 @@
 ^.html
 ^.gitignore
 ^.vscode
+^.clang-format
+^.MyUnique.cpp

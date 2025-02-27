@@ -3,7 +3,7 @@
 \alias{Digamma}
 \alias{Trigamma}
 \title{
-Natural logarithm of the gamma function and its derivatives.
+Natural logarithm of the gamma function and its derivatives
 }
 
 \description{
@@ -48,7 +48,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-x <- matrix( rnorm(500 * 500), ncol = 500 )
+x <- matrix( rnorm(100 * 100), ncol = 100 )
  a1 <- Lgamma(x) 
 a2 <- lgamma(x) 
 all.equal(as.vector(a1), as.vector(a2))

@@ -1,7 +1,7 @@
 \name{Many simple multinomial regressions}
 \alias{multinom.regs}
 \title{
-Many simple multinomial regressions.
+Many simple multinomial regressions
 }
 
 \description{

@@ -94,8 +94,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \examples{
-x <- matrnorm(100, 400)
-y <- rnorm(100)
+x <- matrnorm(200, 100)
+y <- rnorm(200)
 a <- ompr(y, x)
 a
 x <- NULL

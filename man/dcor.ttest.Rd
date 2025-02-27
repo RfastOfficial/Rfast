@@ -37,7 +37,10 @@ its associated p-value.
 
 \references{
 G.J. Szekely, M.L. Rizzo and N. K. Bakirov (2007). Measuring and Testing Independence 
-by Correlation of Distances. Annals of Statistics, 35(6):2769-2794.
+by Correlation of Distances. Annals of Statistics, 35(6): 2769--2794.
+
+Szekely G. J. and Rizzo M. L. (2023). The Energy of Data and Distance Correlation. 
+Chapman and Hall/CRC.
 }
 
 \author{
@@ -50,13 +53,13 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 %}
 
 \seealso{
-\code{ \link{bcdcor}, \link{dcov}, \link{edist}
+\code{ \link{dcov}, \link{edist}
 }
 }
 
 \examples{
 x <- as.matrix(iris[1:50, 1:4])
 y <- as.matrix(iris[51:100, 1:4])
-res<-dcor.ttest(x, y)
+#res<-dcor.ttest(x, y)
 }
 

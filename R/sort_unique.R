@@ -11,3 +11,8 @@ sort_unique <- function(x) {
   	.Call(Rfast_sort_unique_int,x)
   }
 }
+
+#[export]
+Unique <- function(x, fromLast = FALSE) {
+  .Call(Rfast_Unique,x,fromLast)
+}

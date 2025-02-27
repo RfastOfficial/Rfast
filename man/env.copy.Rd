@@ -35,7 +35,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 
 
 \seealso{
-\code{\link{colShuffle}, \link{colVars}, \link{colmeans}, \link{read.directory}
+\code{\link{colShuffle}, \link{colVars}, \link{colmeans}
 }
 }
 

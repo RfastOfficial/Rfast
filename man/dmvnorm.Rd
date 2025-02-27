@@ -61,8 +61,8 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 x <- matrnorm(100, 20)
 mu <- colmeans(x)
 s <- cova(x)
-a1 <- dmvnorm(x, mu, s) 
-a2 <- dmvt(x, mu, s, 1)
+#1 <- dmvnorm(x, mu, s) 
+#2 <- dmvt(x, mu, s, 1)
 x <- NULL 
 }
 

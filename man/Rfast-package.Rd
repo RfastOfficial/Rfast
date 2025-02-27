@@ -30,9 +30,7 @@ License: \tab \packageLicense{Rfast}\cr
 \item Matteo Fasiolo <matteo.fasiolo@gmail.com>
 \item Giorgos Borboudakis <borbudak@gmail.com>
 \item John Burkardt <jburkardt@fsu.edu>
-\item Kleanthi Lakiotaki <kliolak@gmail.com>
 \item Changliang Zou <nk.chlzou@gmail.com>
-\item Christina Chatzipantsiou <chatzipantsiou@gmail.com>
 }
 }
 

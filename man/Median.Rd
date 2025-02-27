@@ -4,7 +4,7 @@
 \alias{Median}
 \alias{med}
 \title{
-Column and row-wise medians of a matrix or median of a vector.
+Column and row-wise medians of a matrix or median of a vector
 }
 
 \description{

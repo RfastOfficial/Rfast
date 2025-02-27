@@ -2,7 +2,7 @@
 \alias{colrange}
 \alias{rowrange}
 \title{
-Column and row-wise range of values of a matrix.
+Column and row-wise range of values of a matrix
 }
 
 \description{

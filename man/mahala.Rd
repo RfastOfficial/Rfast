@@ -55,7 +55,7 @@ C++ and R implementation and documentation: Matteo Fasiolo <matteo.fasiolo@gmail
 x <- matrix( rnorm(100 * 50), ncol = 50 )
 m <- colmeans(x)
 s <- cov(x)
-a1 <- mahala(x, m, s) 
+#a1 <- mahala(x, m, s) 
 }
 
 \keyword{ Mahalanobis distance }

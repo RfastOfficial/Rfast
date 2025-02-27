@@ -84,7 +84,10 @@ A list including:
 If pred.ret is TRUE the predicted values for each fold are returned as elements in a list.
 }
 \item{crit}{
-A vector whose length is equal to the number of k and is the accuracy metric for each k.
+A vector whose length is equal to the number of k and is the accuracy metric for each k. 
+If you want to compute other metrics of accuracy we suggest you choose "pred.ret = TRUE" when 
+running the function and then write a simple function to compute 
+more metrics. See \bold{col.accs()} or \bold{colmses()} in the package \bold{Rfast2}.
 }
 }
 

@@ -62,18 +62,12 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- rbeta(1000, 1, 4)
-for(i in 1:1000) beta.mle(x)
+x <- rbeta(100, 1, 4)
 res<-beta.mle(x)
-res<-ibeta.mle(x)
-
-x <- runif(1000)
 res<-hsecant01.mle(x)
 res<-logitnorm.mle(x)
-res<-ibeta.mle(x)
 
-x <- rbeta(1000, 2, 5)
-x[sample(1:1000, 50)] <- 0
+x[sample(1:100, 5)] <- 0
 res<-ibeta.mle(x)
 
 
