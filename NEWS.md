@@ -1,6 +1,29 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.5 - Apollo**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  Tcrossprod | Enable 64bit matrices. |
+>  |  Crossprod | Enable 64bit matrices. |
+>  |  mat.mult | Enable 64bit matrices. |
+>  |  colOrder | Enable 64bit matrices. |
+>  |  rowOrder | Enable 64bit matrices. |
+>  |  colSort | Enable 64bit matrices. |
+>  |  rowSort | Enable 64bit matrices. |
+>  |  colRanks | Enable 64bit matrices. |
+>  |  rowRanks | Enable 64bit matrices. |
+>  |  colShuffle | Enable 64bit matrices. |
+>  |  rowShuffle | Enable 64bit matrices. |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.1.4 - Ares**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
