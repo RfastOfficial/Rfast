@@ -709,12 +709,6 @@ inline RET mgreater(T x,T y){
     return x>y;
 }
 
-template<typename T>
-inline bool mgreater(T x,T y){
-    return x>y;
-}
-
-
 template<typename RET, typename T>
 inline RET mdiv(T x,T y){
     return x/y;

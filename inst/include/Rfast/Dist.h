@@ -17,6 +17,8 @@ double sum_min_elems(colvec x, colvec y);
 colvec max_elems(colvec x, colvec y);
 template<Binary_Function F,typename T> double sum_with(T x,const double p);
 
+namespace Rfast{
+
 namespace Dist
 {
     template<bool sqr, class T = colvec>
@@ -101,6 +103,9 @@ namespace Dist
     }
 
 }
+
+
+}
 namespace DistTotal
 {
 }
@@ -113,6 +118,7 @@ namespace Dista
 namespace DistaIndices
 {
 }
+
 
 NumericMatrix dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);
 double total_dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);
