@@ -50,7 +50,7 @@ std::vector<double> inter(arma::vec& vals1, arma::vec& vals2);
 
 std::vector<unsigned int> index_row_eq(arma::mat& ds, std::vector<double>& vals);
 
-arma::mat rm_rows(arma::mat& src, arma::uvec& rows);
+arma::mat rm_rows(arma::mat& src, std::vector<unsigned int>& rows);
 
 arma::mat rm_rows_std(arma::mat& src, std::vector<unsigned int>& rows);
 

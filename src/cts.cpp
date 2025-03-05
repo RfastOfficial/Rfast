@@ -7,9 +7,9 @@
 #define db_print(...) \
 	do { if (DEBUG) Rprintf(__VA_ARGS__); } while (0)
 
-static unsigned int skip_ahead(arma::uvec& vals, const unsigned int curr) {
+static unsigned int skip_ahead(std::vector<unsigned int>& vals, const unsigned int curr) {
 	unsigned int i;
-	for (i = curr + 1; i < vals.size() && vals(i) == vals(curr); ++i) {
+	for (i = curr + 1; i < vals.size() && vals[i] == vals[curr]; ++i) {
 	}
 	return i;
 }
@@ -353,8 +353,8 @@ std::vector<double> inter(arma::vec& vals1, arma::vec& vals2) {
 // Alters row_idxs
 void append_rows(arma::mat& ds, const double val, std::vector<unsigned int>& row_idxs);
 
-arma::uvec index_row_eq(arma::mat& ds, std::vector<double>& vals) {
-	arma::uvec row_idxs;
+std::vector<unsigned int> index_row_eq(arma::mat& ds, std::vector<double>& vals) {
+	std::vector<unsigned int> row_idxs;
 	for (unsigned int i = 0; i < vals.size(); i++) {
 		append_rows(ds, vals.at(i), row_idxs);
 	}
@@ -373,14 +373,14 @@ void append_rows(arma::mat& ds, const double val, std::vector<unsigned int>& row
 	}
 }
 
-arma::mat rm_rows(arma::mat& src, arma::uvec& rows) {
+arma::mat rm_rows(arma::mat& src, std::vector<unsigned int>& rows) {
 	unsigned int dst_nrows = src.n_rows - rows.size();
 	unsigned int dst_ncols = src.n_cols;
 	arma::mat dst(dst_nrows, dst_ncols);
 	unsigned int src_row = 0;
 	unsigned int rows_idx = 0;
 	for (unsigned int dst_row = 0; dst_row < dst_nrows; dst_row++) {
-		while (src_row < src.n_rows && rows_idx < rows.size() && src_row == rows(rows_idx)) {
+		while (src_row < src.n_rows && rows_idx < rows.size() && src_row == rows[rows_idx]) {
 			src_row++;
 			rows_idx = skip_ahead(rows, rows_idx);
 		}
