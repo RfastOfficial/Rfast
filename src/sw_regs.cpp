@@ -654,7 +654,7 @@ static arma::vec gen_types_bs(arma::vec& y, arma::mat& ds, arma::uvec& idxs,
 		else {
 			std::vector<unsigned int> tmp_idxs = rm_idxs;
 			tmp_idxs.push_back(idxs[i]);
-			minus_idxs = tmp_idxs;
+			minus_idxs = arma::conv_to<arma::uvec>::from(tmp_idxs);
 		}
 		arma::mat adj_ds = rm_cols(ds, minus_idxs);
 		if (is_logistic) {
