@@ -4,6 +4,7 @@
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::depends(RcppParallel)]]
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <algorithm>
 #include <R.h>

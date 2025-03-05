@@ -6,6 +6,7 @@
 #include <vector>
 #include <random>
 #include <unordered_map>
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "Rfast.h"
 #include "cts_rf.h"

@@ -2,6 +2,7 @@
 
 //[[Rcpp::plugins(cpp11)]]
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <vector>
 #include "Rfast.h"

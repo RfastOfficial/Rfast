@@ -3,7 +3,6 @@
 #define MATRIX_HPP
 
 #define ARMA_64BIT_WORD
-
 #include <RcppArmadillo.h>
 #include <algorithm>
 #include <vector>

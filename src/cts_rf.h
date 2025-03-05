@@ -2,6 +2,7 @@
 #define _cts_rf_h_
 
 #include <vector>
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 
 // [[Rcpp::plugins("cpp11")]]

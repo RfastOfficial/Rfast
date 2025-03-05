@@ -23,6 +23,7 @@ USA. */
  * See ?maha() for a description of the arguments and output.
  */ 
 // [[Rcpp::depends(RcppArmadillo)]]
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 
 /* 

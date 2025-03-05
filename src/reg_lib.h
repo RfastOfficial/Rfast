@@ -4,6 +4,7 @@
 #define _reg_lib_
 
 // [[Rcpp::depends(RcppArmadillo)]]
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "my_k_sorted_array.h"
 

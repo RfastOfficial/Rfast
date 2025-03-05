@@ -1,5 +1,6 @@
 // Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "Rfast.h"
 #include "mn.h"
@@ -1005,7 +1006,7 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
 	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	IntegerMatrix disaa(n, nu);
-	imat disa(disaa.begin(), n, nu, false);
+	imat disa(reinterpret_cast<imat::elem_type*>(disaa.begin()), n, nu, false);
 	if (method == "euclidean")
 	{
 		DistaIndices::euclidean(xnew, x, disa, sqr, k);

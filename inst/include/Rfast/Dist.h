@@ -3,6 +3,7 @@
 #ifndef DIST_H
 #define DIST_H
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 #include <string>
