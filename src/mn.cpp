@@ -1,12 +1,7 @@
-// [[Rcpp::depends(RcppArmadillo)]]
-//[[Rcpp::plugins(cpp11)]]
-#define ARMA_64BIT_WORD
-#include <RcppArmadillo.h>
 #include <vector>
 #include <string>
 #include <algorithm>
 #include "mn.h"
-#include "Rfast.h"
 
 using namespace Rcpp;
 using namespace arma;

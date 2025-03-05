@@ -3,8 +3,6 @@
 //[[Rcpp::plugins(cpp11)]]
 
 #define ARMA_64BIT_WORD
-
-#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 
 #include "Rfast/Dist.h"
