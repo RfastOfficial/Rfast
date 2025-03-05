@@ -31,7 +31,8 @@ END_RCPP
 
 
 //[[Rcpp::plugins(cpp11)]]
-static double group_sum_tabulate_div(colvec& x,int *kk,int mn,int mx){
+template<class T>
+static double group_sum_tabulate_div(colvec& x,T *kk,T mn,T mx){
   colvec val_m(mx-mn+1,fill::zeros);
   colvec val_ni(mx-mn+1,fill::zeros);
   colvec::iterator xx=x.begin();
@@ -57,12 +58,12 @@ NumericVector col_anovas(NumericVector Y,IntegerMatrix X) {
   const int nrw=X.nrow(),ncl=X.ncol();
   NumericVector a(ncl),k(ncl);
   colvec kk(k.begin(),ncl,false),y(Y.begin(),nrw,false);
-  imat x(X.begin(),nrw,ncl,false);
+  imat x(reinterpret_cast<imat::elem_type*>(X.begin()),nrw,ncl,false);
   irowvec mx=max(x,0),mn=min(x,0);
-  int *startx=x.begin(),*endx=startx+x.n_elem,*tend=startx+nrw,*mxx=mx.begin(),*mnn=mn.begin();
+  imat::elem_type *startx=x.begin(),*endx=startx+x.n_elem,*tend=startx+nrw,*mxx=mx.begin(),*mnn=mn.begin();
   double *aa=a.begin();
   for (;startx!=endx;++aa,++mxx,++mnn) {
-    *aa=group_sum_tabulate_div(y,startx,*mnn,*mxx);
+    *aa=group_sum_tabulate_div<imat::elem_type>(y,startx,*mnn,*mxx);
     startx=tend;
     tend+=nrw;
   }
