@@ -88,8 +88,6 @@ as.Rfast.function<-function(Rfunction.name,margin=NULL){
         Rffunc<-"lower_tri"
     }else if(Rfunction.name=="upper.tri"){
         Rffunc<-"upper_tri"
-    }else if(Rfunction.name=="all.equals"){
-        Rffunc<-"all_equals"
     }else if(Rfunction.name=="chol"){
         Rffunc<-"cholesky"
     }else if(Rfunction.name=="choose"){
