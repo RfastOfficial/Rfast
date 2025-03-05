@@ -378,7 +378,7 @@ static unsigned int link_vars(arma::mat& ds, arma::mat& cor_ds, arma::uvec& max_
 		if (inter_res.size()) {
 			dbl_print("inter_res.size()\n");
 			dbl_print("Calculating rem_rows.\n");
-			arma::uvec rem_rows = index_row_eq(sam, inter_res) ;
+			arma::uvec rem_rows = arma::conv_to<arma::uvec>::from(index_row_eq(sam, inter_res));
 
 			dbl_print("Removing rem_rows from sam.\n");
 			sam = rm_rows(sam, rem_rows);
