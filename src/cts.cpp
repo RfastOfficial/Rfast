@@ -353,8 +353,8 @@ std::vector<double> inter(arma::vec& vals1, arma::vec& vals2) {
 // Alters row_idxs
 void append_rows(arma::mat& ds, const double val, std::vector<unsigned int>& row_idxs);
 
-std::vector<unsigned int> index_row_eq(arma::mat& ds, std::vector<double>& vals) {
-	std::vector<unsigned int> row_idxs;
+arma::uvec index_row_eq(arma::mat& ds, std::vector<double>& vals) {
+	arma::uvec row_idxs;
 	for (unsigned int i = 0; i < vals.size(); i++) {
 		append_rows(ds, vals.at(i), row_idxs);
 	}
