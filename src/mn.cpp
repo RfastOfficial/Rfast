@@ -1,3 +1,4 @@
+#define ARMA_64BIT_WORD
 #include <vector>
 #include <string>
 #include <algorithm>
