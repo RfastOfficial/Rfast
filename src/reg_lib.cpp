@@ -1,6 +1,5 @@
 //Author: Stefanos Fafalios
 
-#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "reg_lib.h"
 #include "Rfast/templates.h"
