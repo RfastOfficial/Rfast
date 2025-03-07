@@ -90,14 +90,14 @@ bool is_namespace_export(string x)
     return x.size() > sizeof("export") and x[0] == 'e' and x[1] == 'x' and x[2] == 'p' and x[3] == 'o' and x[4] == 'r' and x[5] == 't';
 }
 
-Files readDirectory(const fs::path path, const string extension = "")
+Files readDirectory(const fs::path path, const string extension)
 {
     bool checkExtension = !extension.empty();
     Files files;
     if (fs::exists(path))
     {
         for (const auto& entry : fs::recursive_directory_iterator(path)) { // automatically skips special directories . and ..
-            if (s::is_regular_file(entry) && (!checkExtension || (checkExtension && entry.path().extension() == extension))) {
+            if (fs::is_regular_file(entry) && (!checkExtension || (checkExtension && entry.path().extension() == extension))) {
                 files.push_back(entry.path());
             }
         }
