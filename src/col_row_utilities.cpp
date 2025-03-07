@@ -1342,11 +1342,11 @@ template <class T, class Ret, class T1, class F1, class F2>
 Ret col_sums(T1 x, SEXP indices, const bool na_rm = false)
 {
 	const int n = Rf_isNull(indices) ? 0 : LENGTH(indices);
-	F1 X(reinterpret_cast<typename F1::elem_type*>(x.begin()), x.nrow(), x.ncol(), false);
+	F1 X(x.begin(), x.nrow(), x.ncol(), false);
 	Ret f(n == 0 ? X.n_cols : n);
 	if (n == 0)
 	{
-		F2 ff(reinterpret_cast<typename F2::elem_type*>(f.begin()), X.n_cols, false);
+		F2 ff(f.begin(), X.n_cols, false);
 		if (na_rm)
 		{
 #ifdef _OPENMP
@@ -1392,11 +1392,11 @@ template <class T, class Ret, class T1, class F1, class F2>
 Ret row_sums(T1 x, SEXP indices, const bool na_rm = false)
 {
 	const int n = Rf_isNull(indices) ? 0 : LENGTH(indices);
-	F1 X(reinterpret_cast<typename F1::elem_type*>(x.begin()), x.nrow(), x.ncol(), false);
+	F1 X(x.begin(), x.nrow(), x.ncol(), false);
 	Ret f(n == 0 ? X.n_rows : n);
 	if (n == 0)
 	{
-		F2 ff(reinterpret_cast<typename F2::elem_type*>(f.begin()), X.n_rows, false);
+		F2 ff(f.begin(), X.n_rows, false);
 		if (na_rm)
 		{
 #ifdef _OPENMP
@@ -1444,7 +1444,7 @@ RcppExport SEXP Rfast_row_sums(SEXP x, SEXP indices, SEXP na_rmSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
-	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, imat, icolvec>(x, indices, na_rm)
+	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, Mat<int>, Col<int>>(x, indices, na_rm)
 							   : row_sums<double, NumericVector, NumericMatrix, mat, colvec>(x, indices, na_rm);
 	return __result;
 	END_RCPP
@@ -1456,7 +1456,7 @@ RcppExport SEXP Rfast_col_sums(SEXP x, SEXP indices, SEXP na_rmSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
-	__result = Rf_isInteger(x) ? col_sums<int, IntegerVector, IntegerMatrix, imat, irowvec>(x, indices, na_rm)
+	__result = Rf_isInteger(x) ? col_sums<int, IntegerVector, IntegerMatrix, Mat<int>, Row<int>>(x, indices, na_rm)
 							   : col_sums<double, NumericVector, NumericMatrix, mat, rowvec>(x, indices, na_rm);
 	return __result;
 	END_RCPP
