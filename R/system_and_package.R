@@ -181,6 +181,9 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
     error_files<-vector("character")
     examples <- examples_files$examples
     file_names<-examples_files$files
+
+    max_file_name <- max(nchar(file_names))
+
     if(!is.null(print.errors)){
         warning_error_function <-function(err){
             error_files <<- c(error_files,file_names[i])
@@ -204,7 +207,8 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
     }
     if(print.names){
         for(i in 1:length(examples)){
-            cat("\033[1;34m",file_names[i],"\033[0m")
+            spaces <- strrep(" ", max_file_name - nchar(file_names[i])) #how many space should i  place in order to have vertical orientation
+            cat("\033[1;34m",file_names[i],"\033[0m", spaces)
             err <- NULL
             t <-0
             for(j in 1:each){
