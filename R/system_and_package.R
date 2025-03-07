@@ -183,6 +183,9 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
     file_names<-examples_files$files
 
     max_file_name <- max(nchar(file_names))
+    max_file_name2 <- file_names[which.max(nchar(file_names))]
+
+    cat(max_file_name2, " is ", max_file_name,"\n")
 
     if(!is.null(print.errors)){
         warning_error_function <-function(err){
