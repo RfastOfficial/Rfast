@@ -208,7 +208,7 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
     if(print.names){
         for(i in 1:length(examples)){
             spaces <- strrep(" ", max_file_name - nchar(file_names[i])) #how many space should i  place in order to have vertical orientation
-            cat("AAA: spaces ",max_file_name - nchar(file_names[i]),"\n")
+            cat("AAA: spaces ",max_file_name," ",nchar(file_names[i]),"\n")
             cat("\033[1;34m",file_names[i],"\033[0m", spaces)
             err <- NULL
             t <-0
