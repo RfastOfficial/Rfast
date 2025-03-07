@@ -176,7 +176,7 @@ checkNamespace <- function(path.namespace,path.rfolder,paths.full = FALSE) {
 
 #[export]
 checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.names = FALSE,paths.full = FALSE){
-    examples_files <- .Call(Rfast_read_examples,path.man,paths.full = FALSE)
+    examples_files <- .Call("Rfast_read_examples", PACKAGE="Rfast",path.man,paths.full = FALSE)
     packageEnv <- new.env(parent = getNamespace(package))
     error_files<-vector("character")
     examples <- examples_files$examples
@@ -223,7 +223,7 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
             }
             cat(" \033[32m(", getTime(t/each), ")\033[0m\n", sep="")
             if(found_error){
-                cat("\t\033[31mError/Warning: ", conditionMessage(err), "\033[0m\n")  # Display error or warning in red
+                cat("\t\033[31mError/Warning: ", gsub("\n", "\n\t", conditionMessage(err)), "\033[0m\n")  # Display error or warning in red
             }
         }
     }else{

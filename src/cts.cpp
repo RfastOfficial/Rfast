@@ -2,6 +2,7 @@
 // Contact: kmdimitriadis@gmail.com
 
 #include "cts.h"
+#include "cts_rf.h"
 
 #define DEBUG 0
 #define db_print(...) \
