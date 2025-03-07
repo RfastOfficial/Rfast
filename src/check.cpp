@@ -119,7 +119,7 @@ List check_aliases(const string path_man, const string path_rf, const bool full_
 	List all_functions = data["export"];
 	vector<string> aliases, all_r_functions = all_functions["functions"],
 							all_s3method = all_functions["s3"], tmp, dontread_rd;
-	Files all_rd_files = readDirectory(path_man);
+	Files all_rd_files = readDirectory(path_man, ".Rd");
 	all_r_functions.reserve(all_r_functions.size() + all_s3method.size());
 	all_r_functions.insert(all_r_functions.end(), all_s3method.begin(), all_s3method.end());
 	for (auto &rd_file : all_rd_files)
@@ -185,7 +185,7 @@ List check_usage(string path_man, string path_rf, const bool full_paths = false)
 	DEBUG("START");
 	ifstream file_rd, file_r;
 	vector<string> dontread_rd, dontread_r;
-	Files all_rd_files = readDirectory(path_man);
+	Files all_rd_files = readDirectory(path_man, ".Rd");
 	std::vector<string> exported_functions_names, not_exported_functions_names;
 	vector<string> missing_functions, aliases, functions_usage, missmatch_functions, name_of_functions_in_usage, aliases_with_lines_more_than_90;
 	string r_file, function_signature;

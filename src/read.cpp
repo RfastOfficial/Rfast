@@ -33,7 +33,7 @@ List read_examples(string path_man, const bool full_paths = false)
 {
 	ifstream file;
 	vector<string> examples, files_long_lines, dontread_rd,all_rd;
-	Files all_rd_files = readDirectory(path_man);
+	Files all_rd_files = readDirectory(path_man, ".Rd");
 	string tmp;
 	int longlines = 0;
 	for (auto &rd_file : all_rd_files)
