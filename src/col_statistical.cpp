@@ -33,7 +33,6 @@ END_RCPP
 //[[Rcpp::plugins(cpp11)]]
 template<class T>
 static double group_sum_tabulate_div(colvec& x,T *kk,T mn,T mx){
-  Rcout<<mx-mn+1<<"\n";
   colvec val_m(mx-mn+1,fill::zeros);
   colvec val_ni(mx-mn+1,fill::zeros);
   colvec::iterator xx=x.begin();
