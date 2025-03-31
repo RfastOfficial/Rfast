@@ -1,5 +1,6 @@
 // Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "system_files.h"
 #include <algorithm>
@@ -89,13 +90,14 @@ bool is_namespace_export(string x)
     return x.size() > sizeof("export") and x[0] == 'e' and x[1] == 'x' and x[2] == 'p' and x[3] == 'o' and x[4] == 'r' and x[5] == 't';
 }
 
-Files readDirectory(const fs::path path)
+Files readDirectory(const fs::path path, const string extension)
 {
+    bool checkExtension = !extension.empty();
     Files files;
     if (fs::exists(path))
     {
         for (const auto& entry : fs::recursive_directory_iterator(path)) { // automatically skips special directories . and ..
-            if (fs::is_regular_file(entry)) {
+            if (fs::is_regular_file(entry) && (!checkExtension || (checkExtension && entry.path().extension() == extension))) {
                 files.push_back(entry.path());
             }
         }
@@ -773,7 +775,7 @@ List read_functions_and_signatures(string path,const bool full_paths)
 {
     vector<string> exported_functions_names, exported_functions_s3, hidden_functions_names,
         not_exported_functions_names, dont_read, exported_special_functions;
-    Files files = readDirectory(path);
+    Files files = readDirectory(path, ".R");
     exported_functions_names.reserve(500);
     exported_functions_s3.reserve(50);
     not_exported_functions_names.reserve(500);

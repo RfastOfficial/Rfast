@@ -1,6 +1,7 @@
 #ifndef _calc_sw_regs_h_
 #define _calc_sw_regs_h_
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "cts_rf.h"
 #include "cts.h"

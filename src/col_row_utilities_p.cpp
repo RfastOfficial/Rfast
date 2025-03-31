@@ -1,6 +1,7 @@
 
 // Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include "Rfast.h"
@@ -118,7 +119,7 @@ IntegerMatrix col_order_p(NumericMatrix x, const bool stable, const bool descend
   const int ncl = x.ncol(), nrw = x.nrow();
   IntegerMatrix f(nrw, ncl);
   mat xx(x.begin(), nrw, ncl, false);
-  imat ff(f.begin(), nrw, ncl, false);
+  Mat<int> ff(f.begin(), nrw, ncl, false);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
@@ -148,13 +149,13 @@ IntegerMatrix row_order_p(NumericMatrix x, const bool stable, const bool descend
   const int ncl = x.ncol(), nrw = x.nrow();
   IntegerMatrix f(nrw, ncl);
   mat xx(x.begin(), nrw, ncl, false);
-  imat ff(f.begin(), nrw, ncl, false);
+  Mat<int> ff(f.begin(), nrw, ncl, false);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
 #endif
   for (int i = 0; i < nrw; ++i)
   {
-    ff.row(i) = Order<irowvec, rowvec>(xx.row(i), stable, descending, 1);
+    ff.row(i) = Order<arma::Row<int>, rowvec>(xx.row(i), stable, descending, 1);
   }
   return f;
 }
@@ -267,7 +268,7 @@ SEXP col_sums_p(SEXP x, const unsigned int cores)
     {
       F = PROTECT(Rf_allocVector(INTSXP, n));
       int *FF = INTEGER(F);
-      imat xx(INTEGER(x), Rf_nrows(x), n, false);
+      Mat<int> xx(INTEGER(x), Rf_nrows(x), n, false);
       #ifdef _OPENMP
       #pragma omp parallel for num_threads(cores)
       #endif
@@ -317,7 +318,7 @@ SEXP row_sums_p(SEXP x, const unsigned int cores)
     {
       F = PROTECT(Rf_allocVector(INTSXP, n));
       int *FF = INTEGER(F);
-      imat xx(INTEGER(x), n, Rf_ncols(x), false);
+      Mat<int> xx(INTEGER(x), n, Rf_ncols(x), false);
       #ifdef _OPENMP
       #pragma omp parallel for num_threads(cores)
       #endif
@@ -349,7 +350,7 @@ SEXP col_all_p(LogicalMatrix x, const unsigned int cores)
 {
   const int n = x.ncol();
   SEXP f = PROTECT(Rf_allocVector(LGLSXP, n));
-  imat xx(x.begin(), x.nrow(), n, false);
+  Mat<int> xx(x.begin(), x.nrow(), n, false);
   int *ff = LOGICAL(f);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
@@ -378,7 +379,7 @@ SEXP row_all_p(LogicalMatrix x, const unsigned int cores)
 {
   const int n = x.nrow();
   SEXP f = PROTECT(Rf_allocVector(LGLSXP, n));
-  imat xx(x.begin(), n, x.ncol(), false);
+  Mat<int> xx(x.begin(), n, x.ncol(), false);
   int *ff = LOGICAL(f);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
@@ -410,7 +411,7 @@ IntegerVector col_count_values_p(NumericMatrix x, NumericVector values, const un
   const int n = values.size(), p = x.nrow();
   IntegerVector f(n);
   mat xx(x.begin(), p, n, false);
-  ivec ff(f.begin(), n, false);
+  Col<int> ff(f.begin(), n, false);
   colvec vv(values.begin(), n, false);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
@@ -440,7 +441,7 @@ IntegerVector row_count_values_p(NumericMatrix x, NumericVector values, const un
   const int n = values.size(), p = x.nrow();
   IntegerVector f(n);
   mat xx(x.begin(), p, n, false);
-  ivec ff(f.begin(), n, false);
+  Col<int> ff(f.begin(), n, false);
   colvec vv(values.begin(), n, false);
 #ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)

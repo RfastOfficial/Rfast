@@ -1,6 +1,7 @@
 
 // Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include "Rfast/Dist.h"
@@ -267,11 +268,11 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? Dist::dist_h(x, Dist::euclidean<false, colvec>, parallel) : Dist::dist_h(x, Dist::euclidean<true, colvec>, parallel);
+		return sqr ? Dist::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel) : Dist::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
-		return Dist::dist_h(x, Dist::manhattan);
+		return Dist::dist_h(x, Rfast::Dist::manhattan);
 	}
 	else if (method == "canberra")
 	{
@@ -279,7 +280,7 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 	}
 	else if (method == "minkowski")
 	{
-		return Dist::dist_h(x, p, Dist::minkowski, parallel);
+		return Dist::dist_h(x, p, Rfast::Dist::minkowski, parallel);
 	}
 	else if (method == "bhattacharyya")
 	{
@@ -311,51 +312,51 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 	}
 	else if (method == "chi_square")
 	{
-		return Dist::dist_h(x, Dist::chi_square);
+		return Dist::dist_h(x, Rfast::Dist::chi_square);
 	}
 	else if (method == "soergel")
 	{
-		return Dist::dist_h(x, Dist::soergel);
+		return Dist::dist_h(x, Rfast::Dist::soergel);
 	}
 	else if (method == "kulczynski")
 	{
-		return Dist::dist_h(x, Dist::kulczynski);
+		return Dist::dist_h(x, Rfast::Dist::kulczynski);
 	}
 	else if (method == "wave_hedges")
 	{
-		return Dist::dist_h(x, Dist::wave_hedges);
+		return Dist::dist_h(x, Rfast::Dist::wave_hedges);
 	}
 	else if (method == "motyka")
 	{
-		return Dist::dist_h(x, Dist::motyka);
+		return Dist::dist_h(x, Rfast::Dist::motyka);
 	}
 	else if (method == "harmonic_mean")
 	{
-		return Dist::dist_h(x, Dist::harmonic_mean);
+		return Dist::dist_h(x, Rfast::Dist::harmonic_mean);
 	}
 	else if (method == "total_variation")
 	{
-		return Dist::dist_h(x, Dist::total_variation);
+		return Dist::dist_h(x, Rfast::Dist::total_variation);
 	}
 	else if (method == "sorensen")
 	{
-		return Dist::dist_h(x, Dist::sorensen);
+		return Dist::dist_h(x, Rfast::Dist::sorensen);
 	}
 	else if (method == "maximum")
 	{
-		return Dist::dist_h(x, Dist::max);
+		return Dist::dist_h(x, Rfast::Dist::max);
 	}
 	else if (method == "minimum")
 	{
-		return Dist::dist_h(x, Dist::min);
+		return Dist::dist_h(x, Rfast::Dist::min);
 	}
 	else if (method == "hellinger")
 	{
-		return sqr ? Dist::dist_h(x, 0.5, Dist::hellinger<true>) : Dist::dist_h(x, 1.0 / std::sqrt(2.0), Dist::hellinger<false>);
+		return sqr ? Dist::dist_h(x, 0.5, Rfast::Dist::hellinger<true>) : Dist::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>);
 	}
 	else if (method == "gower")
 	{
-		return Dist::dist_h(x, 1.0 / x.nrow(), Dist::gower);
+		return Dist::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower);
 	}
 	stop("Unsupported Method: %s", method);
 }
@@ -382,7 +383,9 @@ namespace DistVector
 	{
 		if constexpr (parallel)
 		{
+      #ifdef _OPENMP
 #pragma omp parallel
+      #endif
 			{
 				for (size_t j = i + 1; j < ncl; ++j)
 				{
@@ -605,11 +608,11 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? DistVector::dist_h(x, Dist::euclidean<false, colvec>, parallel) : DistVector::dist_h(x, Dist::euclidean<true, colvec>, parallel);
+		return sqr ? DistVector::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel) : DistVector::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
-		return DistVector::dist_h(x, Dist::manhattan, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::manhattan, parallel);
 	}
 	else if (method == "canberra")
 	{
@@ -617,7 +620,7 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 	}
 	else if (method == "minkowski")
 	{
-		return DistVector::dist_h(x, p, Dist::minkowski, parallel);
+		return DistVector::dist_h(x, p, Rfast::Dist::minkowski, parallel);
 	}
 	else if (method == "bhattacharyya")
 	{
@@ -649,51 +652,51 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 	}
 	else if (method == "chi_square")
 	{
-		return DistVector::dist_h(x, Dist::chi_square, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::chi_square, parallel);
 	}
 	else if (method == "soergel")
 	{
-		return DistVector::dist_h(x, Dist::soergel, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::soergel, parallel);
 	}
 	else if (method == "kulczynski")
 	{
-		return DistVector::dist_h(x, Dist::kulczynski, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::kulczynski, parallel);
 	}
 	else if (method == "wave_hedges")
 	{
-		return DistVector::dist_h(x, Dist::wave_hedges, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::wave_hedges, parallel);
 	}
 	else if (method == "motyka")
 	{
-		return DistVector::dist_h(x, Dist::motyka, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::motyka, parallel);
 	}
 	else if (method == "harmonic_mean")
 	{
-		return DistVector::dist_h(x, Dist::harmonic_mean, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::harmonic_mean, parallel);
 	}
 	else if (method == "total_variation")
 	{
-		return DistVector::dist_h(x, Dist::total_variation, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::total_variation, parallel);
 	}
 	else if (method == "sorensen")
 	{
-		return DistVector::dist_h(x, Dist::sorensen, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::sorensen, parallel);
 	}
 	else if (method == "maximum")
 	{
-		return DistVector::dist_h(x, Dist::max);
+		return DistVector::dist_h(x, Rfast::Dist::max);
 	}
 	else if (method == "minimum")
 	{
-		return DistVector::dist_h(x, Dist::min);
+		return DistVector::dist_h(x, Rfast::Dist::min);
 	}
 	else if (method == "hellinger")
 	{
-		return sqr ? DistVector::dist_h(x, 0.5, Dist::hellinger<true>, parallel) : DistVector::dist_h(x, 1.0 / std::sqrt(2.0), Dist::hellinger<false>, parallel);
+		return sqr ? DistVector::dist_h(x, 0.5, Rfast::Dist::hellinger<true>, parallel) : DistVector::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>, parallel);
 	}
 	else if (method == "gower")
 	{
-		return DistVector::dist_h(x, 1.0 / x.nrow(), Dist::gower, parallel);
+		return DistVector::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower, parallel);
 	}
 	stop("Unsupported Method: %s", method);
 }
@@ -946,11 +949,11 @@ double total_dist(NumericMatrix x, const string method, const bool sqr, const in
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? DistTotal::dist_h(x, Dist::euclidean<false, colvec>, parallel) : DistTotal::dist_h(x, Dist::euclidean<true, colvec>, parallel);
+		return sqr ? DistTotal::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel) : DistTotal::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
-		return DistTotal::dist_h(x, Dist::manhattan, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::manhattan, parallel);
 	}
 	else if (method == "canberra")
 	{
@@ -958,7 +961,7 @@ double total_dist(NumericMatrix x, const string method, const bool sqr, const in
 	}
 	else if (method == "minkowski")
 	{
-		return DistTotal::dist_h(x, p, Dist::minkowski, parallel);
+		return DistTotal::dist_h(x, p, Rfast::Dist::minkowski, parallel);
 	}
 	else if (method == "bhattacharyya")
 	{
@@ -990,51 +993,51 @@ double total_dist(NumericMatrix x, const string method, const bool sqr, const in
 	}
 	else if (method == "chi_square")
 	{
-		return DistTotal::dist_h(x, Dist::chi_square, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::chi_square, parallel);
 	}
 	else if (method == "soergel")
 	{
-		return DistTotal::dist_h(x, Dist::soergel, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::soergel, parallel);
 	}
 	else if (method == "kulczynski")
 	{
-		return DistTotal::dist_h(x, Dist::kulczynski, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::kulczynski, parallel);
 	}
 	else if (method == "wave_hedges")
 	{
-		return DistTotal::dist_h(x, Dist::wave_hedges, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::wave_hedges, parallel);
 	}
 	else if (method == "motyka")
 	{
-		return DistTotal::dist_h(x, Dist::motyka, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::motyka, parallel);
 	}
 	else if (method == "harmonic_mean")
 	{
-		return DistTotal::dist_h(x, Dist::harmonic_mean, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::harmonic_mean, parallel);
 	}
 	else if (method == "total_variation")
 	{
-		return DistTotal::dist_h(x, Dist::total_variation, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::total_variation, parallel);
 	}
 	else if (method == "sorensen")
 	{
-		return DistTotal::dist_h(x, Dist::sorensen, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::sorensen, parallel);
 	}
 	else if (method == "maximum")
 	{
-		return DistTotal::dist_h(x, Dist::max, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::max, parallel);
 	}
 	else if (method == "minimum")
 	{
-		return DistTotal::dist_h(x, Dist::min, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::min, parallel);
 	}
 	else if (method == "hellinger")
 	{
-		return sqr ? DistTotal::dist_h(x, 0.5, Dist::hellinger<true>, parallel) : DistTotal::dist_h(x, 1.0 / std::sqrt(2.0), Dist::hellinger<false>, parallel);
+		return sqr ? DistTotal::dist_h(x, 0.5, Rfast::Dist::hellinger<true>, parallel) : DistTotal::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>, parallel);
 	}
 	else if (method == "gower")
 	{
-		return DistTotal::dist_h(x, 1.0 / x.nrow(), Dist::gower, parallel);
+		return DistTotal::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower, parallel);
 	}
 	stop("Unsupported Method: %s", method);
 }

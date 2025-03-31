@@ -2,6 +2,7 @@
 #ifndef HELPERS_HPP
 #define HELPERS_HPP
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <algorithm>
 #ifdef _OPENMP

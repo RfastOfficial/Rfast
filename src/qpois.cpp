@@ -1,4 +1,5 @@
 #include "mn.h"
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 
 arma::vec qpois_regs(arma::mat x,arma::vec y,const double tol,const double ylogy,const double my) {

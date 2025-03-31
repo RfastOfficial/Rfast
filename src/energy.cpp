@@ -3,7 +3,6 @@
 //[[Rcpp::plugins(cpp11)]]
 
 #define ARMA_64BIT_WORD
-
 #include <RcppArmadillo.h>
 
 #include "Rfast/Dist.h"
@@ -11,6 +10,7 @@
 
 using namespace Rcpp;
 using namespace arma;
+using namespace Rfast;
 
 
 void initSizes(const size_t n, long double &n2, long double &n3, long double &n4, const bool bc = false){
@@ -47,8 +47,8 @@ double dcov(NumericMatrix X, NumericMatrix Y, const bool bc = false) {
 		long double a = 0.0, b = 0.0;
 		for (size_t j = i + 1; j < ncl; ++j) {
 			colvec xj(x.begin_col(j), nrw, false), yj(y.begin_col(j), nrw, false);
-			long double vx = Dist::euclidean<true>(xv, xj);
-			long double vy = Dist::euclidean<true>(yv, yj);
+			long double vx = Rfast::Dist::euclidean<true>(xv, xj);
+			long double vy = Rfast::Dist::euclidean<true>(yv, yj);
 			sum_sa += vx;
 			sum_sb += vy;
 			a += vx;
@@ -107,7 +107,7 @@ double dvar(NumericMatrix X, const bool bc = false) {
 		long double a = 0.0;
 		for (size_t j = i + 1; j < ncl; ++j) {
 			colvec y(x.begin_col(j), nrw, false);
-			long double v = Dist::euclidean<true>(xv, y);
+			long double v = Rfast::Dist::euclidean<true>(xv, y);
 			sum_sa += v;
 			a += v;
 			sum_row_sa[j] += v;
@@ -156,8 +156,8 @@ List dcor(NumericMatrix X, NumericMatrix Y, const bool bc = false) {
 		long double a = 0.0, b = 0.0;
 		for (size_t j = i + 1; j < ncl; ++j) {
 			colvec xj(x.begin_col(j), nrw, false), yj(y.begin_col(j), nrw, false);
-			long double vx = Dist::euclidean<true>(xv, xj);
-			long double vy = Dist::euclidean<true>(yv, yj);
+			long double vx = Rfast::Dist::euclidean<true>(xv, xj);
+			long double vy = Rfast::Dist::euclidean<true>(yv, yj);
 			a += vx;
 			b += vy;
 			sum_sa += vx;

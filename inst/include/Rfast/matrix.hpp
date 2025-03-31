@@ -2,6 +2,7 @@
 #ifndef MATRIX_HPP
 #define MATRIX_HPP
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <algorithm>
 #include <vector>
@@ -231,13 +232,13 @@ namespace Rfast
 						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, [](typename arma::colvec::value_type x, typename arma::colvec::value_type y){return x>y;});
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::stable_sort>(f, s, i, false, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -255,13 +256,13 @@ namespace Rfast
 						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::stable_sort>(f, i, false, s, mgreater<bool, double, double>);
+							setResult<colvec, std::stable_sort>(f, i, false, s, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);
@@ -285,13 +286,13 @@ namespace Rfast
 						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::INT:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::CHAR:
-							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, mgreater<bool, double, double>);
+							setResultParallelSection<colvec, NumericVector, std::sort>(f, s, i, false, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::FACTOR:
 							f.col(i) = FactorVector::sort<colvec>(s->get(), descend);
@@ -309,13 +310,13 @@ namespace Rfast
 						switch (Type::type<SEXP>(s->get()))
 						{
 						case Type::Types::REAL:
-							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
+							setResult<colvec, std::sort>(f, i, false, s, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::INT:
-							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
+							setResult<colvec, std::sort>(f, i, false, s, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::CHAR:
-							setResult<colvec, std::sort>(f, i, false, s, mgreater<bool, double, double>);
+							setResult<colvec, std::sort>(f, i, false, s, [](double x, double y){return x>y;});
 							break;
 						case Type::Types::FACTOR:
 							f.col(i++) = FactorVector::sort<colvec>(s->get(), descend);

@@ -1,20 +1,19 @@
 Package: Rfast
 Type: Package
 Title: A Collection of Efficient and Extremely Fast R Functions
-Version: 2.1.4
-Date: 2025-01-14
+Version: 2.1.5.1
+Date: 2025-03-10
+Author: Manos Papadakis <rfastofficial@gmail.com>
 Authors@R: c(
                 person("Manos Papadakis", email = "rfastofficial@gmail.com", role = c("aut", "cre", "cph")), 
                 person("Michail Tsagris", role = c("aut")), 
-                person("Marios Dimitriadis", role = c("ctb")), 
+                person("Marios Dimitriadis", role = c("aut")), 
                 person("Stefanos Fafalios", role = c("aut")), 
-                person("Matteo Fasiolo", role = c("ctb")), 
+                person("Matteo Fasiolo", role = c("aut")), 
                 person("Morgan Jacob", role = c("ctb")), 
-                person("Giorgos Borboudakis", role = c("ctb")), 
-                person("John Burkardt", role = c("ctb")), 
-                person("Changliang Zou", role = c("ctb")), 
-                person("Kleanthi Lakiotaki", role = c("ctb")), 
-                person("Christina Chatzipantsiou", role = c("ctb"))
+                person("Giorgos Borboudakis", role = c("aut")), 
+                person("John Burkardt", role = c("aut")), 
+                person("Changliang Zou", role = c("aut")) 
         )
 Maintainer: Manos Papadakis <rfastofficial@gmail.com>
 Depends: R (>= 3.5.0), Rcpp (>= 0.12.3), zigg, RcppParallel

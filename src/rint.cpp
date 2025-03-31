@@ -1,5 +1,6 @@
 //Author: Stefanos Fafalios
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "Rfast.h"
 #include <cmath>

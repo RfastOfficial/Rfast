@@ -2,6 +2,7 @@
 
 #include "Rfast/parallel.h"
 #include "mn.h"
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <algorithm>
 

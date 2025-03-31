@@ -3,6 +3,7 @@
 #ifndef DIST_H
 #define DIST_H
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 #include <string>
@@ -16,6 +17,8 @@ double sum_max_elems(colvec x, colvec y);
 double sum_min_elems(colvec x, colvec y);
 colvec max_elems(colvec x, colvec y);
 template<Binary_Function F,typename T> double sum_with(T x,const double p);
+
+namespace Rfast{
 
 namespace Dist
 {
@@ -101,6 +104,9 @@ namespace Dist
     }
 
 }
+
+
+}
 namespace DistTotal
 {
 }
@@ -113,6 +119,7 @@ namespace Dista
 namespace DistaIndices
 {
 }
+
 
 NumericMatrix dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);
 double total_dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);

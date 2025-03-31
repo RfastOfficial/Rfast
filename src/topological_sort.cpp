@@ -1,6 +1,7 @@
 
 #include <vector>
 #include <stack>
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 //#include "mn.h"
 
