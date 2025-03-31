@@ -2,7 +2,6 @@
 
 #define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
-#include <Rinternals.h>
 #include <R.h>
 #include "mn.h"
 

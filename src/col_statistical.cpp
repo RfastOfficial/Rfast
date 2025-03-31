@@ -3,7 +3,6 @@
 #define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <R.h>
-#include <Rinternals.h>
 
 using namespace Rcpp;
 using namespace arma;
