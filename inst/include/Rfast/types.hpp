@@ -2,6 +2,7 @@
 #define TYPES_H
 
 // [[Rcpp::depends(RcppArmadillo)]]
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <R.h>
 #include <Rinternals.h>

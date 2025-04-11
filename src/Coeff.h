@@ -3,6 +3,7 @@
 #ifndef COEFF_H
 #define COEFF_H
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <string>
 

@@ -1,3 +1,5 @@
+
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "cts.h"
 #include "sw_regs.h"

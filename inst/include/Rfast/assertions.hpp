@@ -32,7 +32,7 @@ namespace Assertion
     {
         constexpr static void check_concept()
         {
-            static_assert(!is_same<T, void>::value, "The template class must provide a function named size.");
+            static_assert(!is_same<T, void>::value, "The template class must provide a function named 'size'.");
         }
     };
 

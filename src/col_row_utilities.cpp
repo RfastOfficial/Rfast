@@ -1,6 +1,7 @@
 
 // Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include <chrono>
@@ -443,7 +444,9 @@ NumericVector col_means(DataFrame x, const bool parallel = false, const unsigned
 	if (parallel)
 	{
 		colvec ff(f.begin(), f.size(), false);
+#ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
+#endif
 		for (DataFrame::iterator s = x.begin(); s < x.end(); ++s)
 		{
 			colvec y;
@@ -485,7 +488,9 @@ NumericVector col_means(NumericMatrix x, const bool parallel = false, const unsi
 	if (parallel)
 	{
 		xx = mat(x.begin(), x.nrow(), n, false);
+#ifdef _OPENMP
 #pragma omp parallel for num_threads(cores)
+#endif
 		for (int i = 0; i < n; i++)
 		{
 			ff[i] = mean(xx.col(i));
@@ -1439,7 +1444,7 @@ RcppExport SEXP Rfast_row_sums(SEXP x, SEXP indices, SEXP na_rmSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
-	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, imat, arma::Col<int>>(x, indices, na_rm)
+	__result = Rf_isInteger(x) ? row_sums<int, IntegerVector, IntegerMatrix, Mat<int>, Col<int>>(x, indices, na_rm)
 							   : row_sums<double, NumericVector, NumericMatrix, mat, colvec>(x, indices, na_rm);
 	return __result;
 	END_RCPP
@@ -1451,7 +1456,7 @@ RcppExport SEXP Rfast_col_sums(SEXP x, SEXP indices, SEXP na_rmSEXP)
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<const bool>::type na_rm(na_rmSEXP);
-	__result = Rf_isInteger(x) ? col_sums<int, IntegerVector, IntegerMatrix, imat, irowvec>(x, indices, na_rm)
+	__result = Rf_isInteger(x) ? col_sums<int, IntegerVector, IntegerMatrix, Mat<int>, Row<int>>(x, indices, na_rm)
 							   : col_sums<double, NumericVector, NumericMatrix, mat, rowvec>(x, indices, na_rm);
 	return __result;
 	END_RCPP

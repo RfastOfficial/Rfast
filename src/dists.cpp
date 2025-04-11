@@ -1,6 +1,7 @@
 
 // Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "mn.h"
 #include "Rfast/Dist.h"
@@ -382,7 +383,9 @@ namespace DistVector
 	{
 		if constexpr (parallel)
 		{
+      #ifdef _OPENMP
 #pragma omp parallel
+      #endif
 			{
 				for (size_t j = i + 1; j < ncl; ++j)
 				{

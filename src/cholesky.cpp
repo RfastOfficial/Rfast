@@ -1,8 +1,8 @@
 //Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <R.h>
-#include <Rinternals.h>
 #include "mn.h"
 
 #ifdef _OPENMP

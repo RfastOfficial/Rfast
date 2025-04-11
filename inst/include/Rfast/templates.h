@@ -4,6 +4,7 @@
 
 // [[Rcpp::depends(RcppArmadillo)]]
 // [[Rcpp::depends(RcppParallel)]]
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <algorithm>
 #include <R.h>
@@ -1099,8 +1100,8 @@ template<class RETURN_TYPE,class T,Mfunction<T,T,T> oper,int type>
 SEXP eachrow_helper(SEXP x,SEXP y){
     int ncol=Rf_ncols(x),nrow=Rf_nrows(x);
     SEXP mat=PROTECT(Rf_allocMatrix(type,nrow,ncol));
-    T *xx=(T *) DATAPTR(x),*xend=xx+ncol*nrow,*yy=(T *) DATAPTR(y),yvalue,*x3;
-    RETURN_TYPE *m=(RETURN_TYPE*)DATAPTR(mat);
+    T *xx=Rfast::asPtr<T>(x),*xend=xx+ncol*nrow,*yy=Rfast::asPtr<T>(y),yvalue,*x3;
+    RETURN_TYPE *m=Rfast::asPtr<RETURN_TYPE>(mat);
     for(;xx!=xend;++yy){
         yvalue=*yy;
         for(x3=xx,xx+=nrow;x3!=xx;++x3,++m){

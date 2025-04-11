@@ -1,6 +1,22 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.5.1 - Apollo**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>  |  colOrder | Disable 64bit integer matrices. |
+>  |  rowOrder | Disable 64bit integer matrices. |
+>  |  colSort | Disable 64bit integer matrices. |
+>  |  rowSort | Disable 64bit integer matrices. |
+>
+
+
+</br>
+</br>
+
 ### **Version 2.1.5 - Apollo**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 

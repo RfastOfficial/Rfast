@@ -1,5 +1,6 @@
 //Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <algorithm>
 

@@ -95,7 +95,7 @@ array<string,2> split_words_in_half(string,const char);
 void writeFile(vector<string>,string);
 vector<string> readNamespaceFile(string,int&);
 bool is_namespace_export(string);
-Files readDirectory(const fs::path);
+Files readDirectory(const fs::path, const string extension = "");
 bool is_alias(string &);
 bool next_alias(ifstream &,string &);
 vector<string> read_aliases(ifstream &);

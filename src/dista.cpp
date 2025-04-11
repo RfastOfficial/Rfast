@@ -1,5 +1,6 @@
 // Author: Manos Papadakis
 
+#define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include "Rfast.h"
 #include "mn.h"
@@ -735,7 +736,7 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 namespace DistaIndices
 {
 
-	void euclidean(mat &xnew, mat &x, imat &disa, const bool sqr, const unsigned int k)
+	void euclidean(mat &xnew, mat &x, Mat<int> &disa, const bool sqr, const unsigned int k)
 	{
 		if (sqr)
 		{
@@ -753,7 +754,7 @@ namespace DistaIndices
 		}
 	}
 
-	void manhattan(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void manhattan(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -761,7 +762,7 @@ namespace DistaIndices
 		}
 	}
 
-	void sorensen(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void sorensen(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -769,7 +770,7 @@ namespace DistaIndices
 		}
 	}
 
-	void chi_square(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void chi_square(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -777,7 +778,7 @@ namespace DistaIndices
 		}
 	}
 
-	void hellinger(mat &xnew, mat &x, imat &disa, const bool sqr, const unsigned int k)
+	void hellinger(mat &xnew, mat &x, Mat<int> &disa, const bool sqr, const unsigned int k)
 	{
 		if (sqr)
 		{
@@ -796,7 +797,7 @@ namespace DistaIndices
 		}
 	}
 
-	void max(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void max(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -804,7 +805,7 @@ namespace DistaIndices
 		}
 	}
 
-	void min(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void min(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -812,7 +813,7 @@ namespace DistaIndices
 		}
 	}
 
-	void minkowski(mat &xnew, mat &x, imat &disa, const double p, const unsigned int k)
+	void minkowski(mat &xnew, mat &x, Mat<int> &disa, const double p, const unsigned int k)
 	{
 		const double p_1 = 1.0 / p;
 
@@ -822,7 +823,7 @@ namespace DistaIndices
 		}
 	}
 
-	void canberra(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void canberra(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		mat x_abs = abs(x);
 
@@ -832,7 +833,7 @@ namespace DistaIndices
 		}
 	}
 
-	void total_variation(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void total_variation(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -840,7 +841,7 @@ namespace DistaIndices
 		}
 	}
 
-	void soergel(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void soergel(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -848,7 +849,7 @@ namespace DistaIndices
 		}
 	}
 
-	void kulczynski(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void kulczynski(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -856,7 +857,7 @@ namespace DistaIndices
 		}
 	}
 
-	void kullback_leibler(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
+	void kullback_leibler(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel = false)
 	{
 		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
@@ -883,7 +884,7 @@ namespace DistaIndices
 		}
 	}
 
-	void jensen_shannon(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
+	void jensen_shannon(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel = false)
 	{
 		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
 		const double log0_5 = std::log(0.5);
@@ -910,7 +911,7 @@ namespace DistaIndices
 		}
 	}
 
-	void bhattacharyya(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void bhattacharyya(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		mat sqrt_x(x.n_rows, x.n_cols, fill::none), sqrt_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::sqrt, double *, double *>(x.begin(), x.end(), sqrt_x.begin());
@@ -921,7 +922,7 @@ namespace DistaIndices
 		}
 	}
 
-	void cosine(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void cosine(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		colvec norm_xnew = euclidean_norm(xnew).t();
 		rowvec norm_x = euclidean_norm(x);
@@ -931,7 +932,7 @@ namespace DistaIndices
 		}
 	}
 
-	void wave_hedges(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void wave_hedges(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -939,7 +940,7 @@ namespace DistaIndices
 		}
 	}
 
-	void motyka(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void motyka(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -947,7 +948,7 @@ namespace DistaIndices
 		}
 	}
 
-	void harmonic_mean(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void harmonic_mean(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -955,7 +956,7 @@ namespace DistaIndices
 		}
 	}
 
-	void jeffries_matusita(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void jeffries_matusita(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		for (size_t i = 0; i < disa.n_cols; ++i)
 		{
@@ -963,7 +964,7 @@ namespace DistaIndices
 		}
 	}
 
-	void itakura_saito(mat &xnew, mat &x, imat &disa, const unsigned int k, const bool parallel = false)
+	void itakura_saito(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel = false)
 	{
 		mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
@@ -989,7 +990,7 @@ namespace DistaIndices
 		}
 	}
 
-	void gower(mat &xnew, mat &x, imat &disa, const unsigned int k)
+	void gower(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k)
 	{
 		const double p = 1.0 / x.n_rows;
 		for (size_t i = 0; i < disa.n_cols; ++i)
@@ -1005,7 +1006,7 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
 	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	IntegerMatrix disaa(n, nu);
-	imat disa(disaa.begin(), n, nu, false);
+	Mat<int> disa(disaa.begin(), n, nu, false);
 	if (method == "euclidean")
 	{
 		DistaIndices::euclidean(xnew, x, disa, sqr, k);

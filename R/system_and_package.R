@@ -88,8 +88,6 @@ as.Rfast.function<-function(Rfunction.name,margin=NULL){
         Rffunc<-"lower_tri"
     }else if(Rfunction.name=="upper.tri"){
         Rffunc<-"upper_tri"
-    }else if(Rfunction.name=="all.equals"){
-        Rffunc<-"all_equals"
     }else if(Rfunction.name=="chol"){
         Rffunc<-"cholesky"
     }else if(Rfunction.name=="choose"){
@@ -178,11 +176,14 @@ checkNamespace <- function(path.namespace,path.rfolder,paths.full = FALSE) {
 
 #[export]
 checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.names = FALSE,paths.full = FALSE){
-    examples_files <- .Call(Rfast_read_examples,path.man,paths.full = FALSE)
+    examples_files <- .Call("Rfast_read_examples", PACKAGE="Rfast",path.man,paths.full = FALSE)
     packageEnv <- new.env(parent = getNamespace(package))
     error_files<-vector("character")
     examples <- examples_files$examples
     file_names<-examples_files$files
+
+    max_file_name <- max(nchar(file_names))
+
     if(!is.null(print.errors)){
         warning_error_function <-function(err){
             error_files <<- c(error_files,file_names[i])
@@ -206,7 +207,8 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
     }
     if(print.names){
         for(i in 1:length(examples)){
-            cat("\033[1;34m",file_names[i],"\033[0m")
+            spaces <- strrep(" ", max_file_name - nchar(file_names[i])) #how many space should i  place in order to have vertical orientation
+            cat("\033[1;34m",file_names[i],"\033[0m", spaces)
             err <- NULL
             t <-0
             for(j in 1:each){
@@ -221,7 +223,7 @@ checkExamples<-function(path.man,package,each = 1,print.errors = stderr(),print.
             }
             cat(" \033[32m(", getTime(t/each), ")\033[0m\n", sep="")
             if(found_error){
-                cat("\t\033[31mError/Warning: ", conditionMessage(err), "\033[0m\n")  # Display error or warning in red
+                cat("\t\033[31mError/Warning: ", gsub("\n", "\n\t", conditionMessage(err)), "\033[0m\n")  # Display error or warning in red
             }
         }
     }else{

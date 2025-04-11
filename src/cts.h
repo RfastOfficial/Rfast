@@ -1,6 +1,8 @@
 #ifndef _cts_h_
 #define _cts_h_
 
+#define ARMA_64BIT_WORD
+
 #include <iostream>
 #include <cmath>
 #include <vector>
