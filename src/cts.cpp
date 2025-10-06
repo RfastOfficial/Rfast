@@ -25,7 +25,7 @@ bool adj_med_NAs(arma::mat& ds) {
 		bool found_NA_col = false;
 		double med = 0;
 		for (unsigned int j = 0; j < ds.n_cols; j++) {
-			if (!arma::is_finite(ds.at(i, j))) {
+			if (!std::isfinite(ds.at(i, j))) {
 				if (!found_NA) { found_NA = true; }
 				if (!found_NA_col) {
 					found_NA_col = true;
@@ -61,7 +61,7 @@ bool adj_freq_NAs(arma::mat& ds) {
 		bool found_NA_col = false;
 		double freq = 0;
 		for (unsigned int j = 0; j < ds.n_cols; j++) {
-			if (!arma::is_finite(ds.at(i, j))) {
+			if (!std::isfinite(ds.at(i, j))) {
 				if (!found_NA) { found_NA = true; }
 				if (!found_NA_col) {
 					found_NA_col = true;

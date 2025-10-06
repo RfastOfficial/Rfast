@@ -29,7 +29,7 @@ rowvec spat_med(NumericMatrix Y, const double tol = 1e-09)
 		z = y.each_row() - u2;
 		u1 = u2;
 		ww = 1 / sqrt(sum(square(z), 1));
-		if (is_finite(ww.max()))
+		if (std::isfinite(ww.max()))
 		{
 			u2 = (ww / accu(ww)) * y;
 		}
