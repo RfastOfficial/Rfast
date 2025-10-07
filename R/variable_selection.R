@@ -327,7 +327,9 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
 
     }
     k <- 2
-  
+    } )
+	
+	suppressWarnings( {
     if ( info[2, 1] > 0 ) { 
       while ( info[k, 2] < threshold  &  k < n - 20  &  tool[ k - 1 ] - tool[ k ] > tolb  &  k < p )  {
         sela <- info[, 1]
