@@ -288,17 +288,20 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
   if (ystand)   y <- ( y - mean(y) ) / Rfast::Var(y, std = TRUE) 
 
   suppressWarnings( {
-
   yx <- Rfast::eachcol.apply(x, y) / (n - 1)
   sel <- which.max( abs(yx) )
   r <- yx[sel] 
   stat <- abs( 0.5 * log( (1 + r) / (1 - r) ) * sqrt(n - 3) )  ## 
   pv <- log(2) + pt(stat, n - 3, lower.tail = FALSE, log.p = TRUE)  ## logged p-values  
   model <- NULL
-  #############################
+ } ) 
+ #############################
   ###### BIC stopping criterion
   #############################
+  
   if ( stopping == "BIC" ) {
+    suppressWarnings( {
+
     info <- cbind(0, 0, 0)
     tool <- numeric( min(n, p) ) 
     if ( pv < threshold ) {
@@ -326,12 +329,13 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
       } else  info <- rbind(info, c(0, 0, 0)) 
 
     }
+    } )    
+
     k <- 2
-    } )
 	
-	suppressWarnings( {
     if ( info[2, 1] > 0 ) { 
       while ( info[k, 2] < threshold  &  k < n - 20  &  tool[ k - 1 ] - tool[ k ] > tolb  &  k < p )  {
+	    suppressWarnings( {
         sela <- info[, 1]
         m <- n - 3 - k 
         k <- k + 1	
@@ -352,11 +356,9 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
             x[, sel] <- 0  
           } else  info <- rbind(info, c(0, 0, 0)) 
         } else  info <- rbind(info, c(0, 0, 0)) 
-
+       } )
       } 
-    } ## end if (info[, 2] > 0)
-    
-    } )
+    } ## end if (info[, 2] > 0)  
     
     info <- cbind(info, tool[1:k] + con)
     colnames(info)[4] <- "bic"
