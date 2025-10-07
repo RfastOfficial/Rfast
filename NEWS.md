@@ -1,6 +1,19 @@
 <h1 align="center">Rfast</h1>
 
 
+### **Version 2.1.5.2 - Apollo**
+***
+> <u> **Improved** </u>(_**by speed, correctness or options**_) 
+>
+>  |	    Function	    |           What's new!             |
+>  | -------------------  | ------------------------------- |
+>
+
+
+</br>
+</br>
+
+
 ### **Version 2.1.5.1 - Apollo**
 ***
 > <u> **Improved** </u>(_**by speed, correctness or options**_) 
