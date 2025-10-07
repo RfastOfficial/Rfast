@@ -286,8 +286,9 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
   logn <- log(n)
   if (xstand)   x <- Rfast::standardise(x)
   if (ystand)   y <- ( y - mean(y) ) / Rfast::Var(y, std = TRUE) 
-  oop <- options(warn = -1)
-  on.exit( options(oop) )
+
+  suppressWarnings( {
+
   yx <- Rfast::eachcol.apply(x, y) / (n - 1)
   sel <- which.max( abs(yx) )
   r <- yx[sel] 
@@ -351,7 +352,9 @@ cor.fsreg <- function(y, x, ystand = TRUE, xstand = TRUE, threshold = 0.05, tolb
         } else  info <- rbind(info, c(0, 0, 0)) 
 
       } 
-    }
+    } ## end if (info[, 2] > 0)
+    
+    } )
     
     info <- cbind(info, tool[1:k] + con)
     colnames(info)[4] <- "bic"
