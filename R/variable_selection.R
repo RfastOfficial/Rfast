@@ -11,8 +11,8 @@ bic.corfsreg <- function (y, x, tol = 2) {
     tool <- sela <- numeric(min(n, p))
     tool[1] <- n * log(Var(y) * (n - 1)/n) + 2 * logn
     sela[1] <- 0
-    oop <- options(warn = -1)
-    on.exit(options(oop))
+    
+    suppressWarnings( {
     yx <- Rfast::eachcol.apply(x, y)
     sel <- which.max(abs(yx))
     r <- yx[sel]/(n - 1)
@@ -22,9 +22,12 @@ bic.corfsreg <- function (y, x, tol = 2) {
     tool[2] <- n * log(sum(model$residuals^2)/n) + 3 * logn
     sela[2] <- sel
     k <- 2
+    } )
+
     while ( k - 1 < p  &  k < n - 19  &  tool[k - 1] - tool[k] > tol ) {
         m <- n - 3 - k
         k <- k + 1
+		suppressWarnings( { 
         res <- .lm.fit(z, cbind(y, x))$residuals
         e1 <- res[, 1]
         e2 <- res[, -1]
@@ -33,9 +36,9 @@ bic.corfsreg <- function (y, x, tol = 2) {
         z <- cbind(z, x[, sel])
         x[, sel] <- 0
         model <- .lm.fit(z, y)
-        tool[k] <- n * log(sum(model$residuals^2)/n) + (k + 1) * 
-            logn
+        tool[k] <- n * log(sum(model$residuals^2)/n) + (k + 1) * logn
         sela[k] <- sel
+		} )
     }
     res <- cbind(sela[1:k], tool[1:k] + con)
     colnames(res) <- c("sel", "bic")
@@ -73,8 +76,6 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
   runtime <- proc.time()
   if (xstand)   x <- Rfast::standardise(x)
   if (ystand)   y <- ( y - mean(y) ) / Rfast::Var(y, std = TRUE)
-  oop <- options(warn = -1)
-  on.exit( options(oop) )
   yx <- Rfast::eachcol.apply(x, y) / (n - 1)
   n.tests <- p
   stat <- abs( 0.5 * log( (1 + yx) / (1 - yx) ) * sqrt(n - 3) ) 
@@ -93,6 +94,7 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
     z <- x[, sel]
     
     if ( length(s) > 0 ) {
+      suppressWarnings( {
       xz <- as.vector( cor(z, x[, ind[s] ]) )
       n.tests <- n.tests + length( ind[s] )
       yx.z <- abs( ( yx[ ind[s] ] - xz * r ) / sqrt(1 - xz^2) / sqrt(1 - r^2) ) 
@@ -108,8 +110,10 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
         s <- s[ - which(s == sel) ]
         z <- cbind(z, x[, sel])
       }  ## end if ( length(s) > 0 )
+	  } )
       ######################
       while ( sum(s > 0) > 0 )  {
+	    suppressWarnings( {
         stat <- numeric(p)
         m <- n - 3 - length(sela)
         er <- .lm.fit( z, cbind(y, x[, ind[s]]) )$residuals
@@ -125,11 +129,13 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
         sela <- c(sela, sel[sel > 0] )
         s <- s[ - which(s == sel) ]
         z <- cbind(z, x[, sel])
+		} )
       }  ## end while( sum(s > 0) > 0 )
     }  ##  end if ( length(s) > 0 )
   card <- sum(sela > 0)
 
   if ( K == 1) {
+    suppressWarnings( {
     stat <- numeric(p)
     m <- n - 3 - length(sela)
     #e1 <- .lm.fit(z, y)$residuals
@@ -148,7 +154,9 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
     sela <- c(sela, sel[sel > 0] )
     s <- s[ - which(s == sel) ]
     z <- cbind(z, x[, sel])     
+	} )
     while ( sum(s > 0) > 0 ) {
+	  suppressWarnings( {
       stat <- numeric(p)
       m <- n - 3 - length(sela)
       #e1 <- .lm.fit(z, y)$residuals
@@ -166,12 +174,14 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
       pva <- c(pva, pv)
       sela <- c(sela, sel[sel > 0] )
       s <- s[ - which(s == sel) ]
-      z <- cbind(z, x[, sel])     
+      z <- cbind(z, x[, sel])   
+      } )	  
     } ## end while ( sum(s > 0) > 0 ) 
     card <- c(card, sum(sela > 0) )  
   } ## end  if (K == 1)
  
   if ( K > 1  )  {
+    suppressWarnings( {
     stat <- numeric(p)
     m <- n - 3 - length(sela)
     #e1 <- .lm.fit(z, y)$residuals
@@ -190,7 +200,9 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
     sela <- c(sela, sel[sel > 0] )
     s <- s[ - which(s == sel) ]
     z <- cbind(z, x[, sel])     
+	} )
     while ( sum(s > 0) > 0 ) {
+	  suppressWarnings( {
       stat <- numeric(p)
       m <- n - 3 - length(sela)
       #e1 <- .lm.fit(z, y)$residuals
@@ -209,11 +221,13 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
       sela <- c(sela, sel[sel > 0] )
       s <- s[ - which(s == sel) ]
       z <- cbind(z, x[, sel])     
+	  } )
     } ## end while ( sum(s > 0) > 0 ) 
     card <- c(card, sum(sela > 0) )  
 
     vim <- 1
     while ( vim < K  & card[vim + 1] - card[vim] > 0 ) {
+	  suppressWarnings( {
       stat <- numeric(p)
       vim <- vim + 1
       m <- n - 3 - length(sela)
@@ -233,7 +247,9 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
       pva <- c(pva, pv)
       sela <- c(sela, sel[sel > 0] )
       z <- cbind(z, x[, sel])     
+	  } )
       while ( sum(s > 0) > 0 ) {
+	    suppressWarnings( {
         stat <- numeric(p)
         m <- n - 3 - length(sela)
         #e1 <- .lm.fit(z, y)$residuals
@@ -251,7 +267,8 @@ cor.fbed <- function(y, x, ystand = TRUE, xstand = TRUE, alpha = 0.05, K = 0) {
         pva <- c(pva, pv)
         sela <- c(sela, sel[sel > 0] )
         s <- s[ - which(s == sel) ]
-        z <- cbind(z, x[, sel])     
+        z <- cbind(z, x[, sel])  
+        } )		
       } ## end while ( length(s) > 0 )
       card <- c(card, sum(sela > 0) )  
     }  ## end while ( vim < K )
