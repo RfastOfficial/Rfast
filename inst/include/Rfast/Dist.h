@@ -126,4 +126,10 @@ double total_dist(NumericMatrix x, const string method, const bool sqr = false, 
 
 double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = "",
                    const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false);
+
+mat dista(mat xnew, mat x, const string method = "", const bool sqr = false,
+          const double p = 0.0, const unsigned int k = 0,
+          const bool parallel = false);
+
+          
 #endif

@@ -318,7 +318,7 @@ prop.reg <- function (y, x, varb = "quasi", tol = 1e-09, maxiters = 100) {
     u <- y - as.vector(L$p)
     be <- as.vector(L$be)
 	names(be) <- colnames(X)
-    Ainv <- spdinv(der2)
+    Ainv <- solve(der2)
     phi <- NULL
     if (varb == "quasi") {
         B <- crossprod(u * X)

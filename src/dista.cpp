@@ -632,6 +632,106 @@ namespace Dista
 	}
 }
 
+mat dista(mat xnew, mat x, const string method, const bool sqr,
+          const double p, const unsigned int k,
+          const bool parallel)
+{
+    // if k is greater than 0 then rows are k size
+    const int n = k > 0 ? k : x.n_cols, nu = xnew.n_cols;
+    mat disa(n, nu, fill::none);
+    if (method == "euclidean")
+    {
+        Dista::euclidean(xnew, x, disa, sqr, k, parallel);
+    }
+    else if (method == "manhattan")
+    {
+        Dista::manhattan(xnew, x, disa, k);
+    }
+    else if (method == "hellinger")
+    {
+        Dista::hellinger(xnew, x, disa, sqr, k);
+    }
+    else if (method == "maximum")
+    {
+        Dista::max(xnew, x, disa, k);
+    }
+    else if (method == "minimum")
+    {
+        Dista::min(xnew, x, disa, k);
+    }
+    else if (method == "minkowski")
+    {
+        Dista::minkowski(xnew, x, disa, p, k);
+    }
+    else if (method == "canberra")
+    {
+        Dista::canberra(xnew, x, disa, k);
+    }
+    else if (method == "bhattacharyya")
+    {
+        Dista::bhattacharyya(xnew, x, disa, k);
+    }
+    else if (method == "jensen_shannon")
+    {
+        Dista::jensen_shannon(xnew, x, disa, k, parallel);
+    }
+    else if (method == "itakura_saito")
+    {
+        Dista::itakura_saito(xnew, x, disa, k, parallel);
+    }
+    else if (method == "total_variation")
+    {
+        Dista::total_variation(xnew, x, disa, k);
+    }
+    else if (method == "kullback_leibler")
+    {
+        Dista::kullback_leibler(xnew, x, disa, k, parallel);
+    }
+    else if (method == "chi_square")
+    {
+        Dista::chi_square(xnew, x, disa, k);
+    }
+    else if (method == "sorensen")
+    {
+        Dista::sorensen(xnew, x, disa, k);
+    }
+    else if (method == "soergel")
+    {
+        Dista::soergel(xnew, x, disa, k);
+    }
+    else if (method == "cosine")
+    {
+        Dista::cosine(xnew, x, disa, k);
+    }
+    else if (method == "wave_hedges")
+    {
+        Dista::wave_hedges(xnew, x, disa, k);
+    }
+    else if (method == "motyka")
+    {
+        Dista::motyka(xnew, x, disa, k);
+    }
+    else if (method == "harmonic_mean")
+    {
+        Dista::harmonic_mean(xnew, x, disa, k);
+    }
+    else if (method == "jeffries_matusita")
+    {
+        Dista::jeffries_matusita(xnew, x, disa, k);
+    }
+    else if (method == "gower")
+    {
+        Dista::gower(xnew, x, disa, k);
+    }
+    else if (method == "kulczynski")
+    {
+        Dista::kulczynski(xnew, x, disa, k);
+    }
+    else
+        stop("Unsupported Method: %s", method);
+    return disa;
+}
+
 //[[Rcpp::export]]
 NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
@@ -640,96 +740,7 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	NumericMatrix disaa(n, nu);
 	mat disa(disaa.begin(), n, nu, false);
-	if (method == "euclidean")
-	{
-		Dista::euclidean(xnew, x, disa, sqr, k, parallel);
-	}
-	else if (method == "manhattan")
-	{
-		Dista::manhattan(xnew, x, disa, k);
-	}
-	else if (method == "hellinger")
-	{
-		Dista::hellinger(xnew, x, disa, sqr, k);
-	}
-	else if (method == "maximum")
-	{
-		Dista::max(xnew, x, disa, k);
-	}
-	else if (method == "minimum")
-	{
-		Dista::min(xnew, x, disa, k);
-	}
-	else if (method == "minkowski")
-	{
-		Dista::minkowski(xnew, x, disa, p, k);
-	}
-	else if (method == "canberra")
-	{
-		Dista::canberra(xnew, x, disa, k);
-	}
-	else if (method == "bhattacharyya")
-	{
-		Dista::bhattacharyya(xnew, x, disa, k);
-	}
-	else if (method == "jensen_shannon")
-	{
-		Dista::jensen_shannon(xnew, x, disa, k, parallel);
-	}
-	else if (method == "itakura_saito")
-	{
-		Dista::itakura_saito(xnew, x, disa, k, parallel);
-	}
-	else if (method == "total_variation")
-	{
-		Dista::total_variation(xnew, x, disa, k);
-	}
-	else if (method == "kullback_leibler")
-	{
-		Dista::kullback_leibler(xnew, x, disa, k, parallel);
-	}
-	else if (method == "chi_square")
-	{
-		Dista::chi_square(xnew, x, disa, k);
-	}
-	else if (method == "sorensen")
-	{
-		Dista::sorensen(xnew, x, disa, k);
-	}
-	else if (method == "soergel")
-	{
-		Dista::soergel(xnew, x, disa, k);
-	}
-	else if (method == "cosine")
-	{
-		Dista::cosine(xnew, x, disa, k);
-	}
-	else if (method == "wave_hedges")
-	{
-		Dista::wave_hedges(xnew, x, disa, k);
-	}
-	else if (method == "motyka")
-	{
-		Dista::motyka(xnew, x, disa, k);
-	}
-	else if (method == "harmonic_mean")
-	{
-		Dista::harmonic_mean(xnew, x, disa, k);
-	}
-	else if (method == "jeffries_matusita")
-	{
-		Dista::jeffries_matusita(xnew, x, disa, k);
-	}
-	else if (method == "gower")
-	{
-		Dista::gower(xnew, x, disa, k);
-	}
-	else if (method == "kulczynski")
-	{
-		Dista::kulczynski(xnew, x, disa, k);
-	}
-	else
-		stop("Unsupported Method: %s", method);
+	disa = dista(xnew, x, method, sqr, p, k, parallel);
 	return disaa;
 }
 
