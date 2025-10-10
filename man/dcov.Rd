@@ -32,7 +32,8 @@ If you want the bias-corrected distance correlation set this equal to TRUE.
 
 \details{
 The distance variance of a matrix/vector, the distance covariance or distance correlation of two matrices is calculated.
-For the distance variance of a vector we use the fast method of Huo and Szekely (2016).
+For the dcov() and dcor(), if x and y are matrices, they must have the same dinmensions. We have optimized the code, 
+using the formulas provided in Szekely and Rizzo (2023), but only for the case that both matrices are of the same dimensionality.
 }
 
 \value{
