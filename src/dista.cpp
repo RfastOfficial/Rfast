@@ -740,7 +740,13 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), X.ncol(), false);
 	NumericMatrix disaa(n, nu);
 	mat disa(disaa.begin(), n, nu, false);
-	disa = dista(xnew, x, method, sqr, p, k, parallel);
+	/* Immediately assign of rvalue from dista to disa mat is not working due to
+	 * C++ move semantics. Rvalues can be moved but disa is a view matrix which result's
+	 * in no moving. That's why we create a tmp mat (lvalue) first and then assign that 
+	 * to the view matrix
+	 */
+	mat tmp = dista(xnew, x, method, sqr, p, k, parallel);
+	disa = tmp;
 	return disaa;
 }
 
