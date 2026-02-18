@@ -1,0 +1,293 @@
+AddToNamespace          Insert/remove function names in/from the
+                        NAMESPACE file
+Diag.fill               Diagonal Matrix
+Dist                    Distance matrix - Sum of all pairwise distances
+                        in a distance matrix
+Hash                    Hash object
+Lbeta                   Natural logarithm of the beta function
+Lchoose                 Binomial coefficient and its logarithm
+Lgamma                  Natural logarithm of the gamma function and its
+                        derivatives
+Log                     Natural Logarithm each element of a matrix
+Match                   Match
+Norm                    Norm of a matrix
+Outer                   Outer function
+Rfast-package           A Collection of Efficient and Extremely Fast R
+                        Functions
+Rnorm                   Simulation of random values from a normal
+                        distribution
+Round                   Round each element of a matrix/vector
+Sort                    Sort - Integer Sort - Sort a vector
+                        coresponding to another
+Stack                   Represantation of Stack
+Table                   Table Creation - Frequency of each value
+Var                     Variance (and standard deviation) of a vector
+XopY.sum                Operations between two matrices or matrix and
+                        vector
+allbetas                Simple linear regressions coefficients
+allttests               Matrix with all pairs of t-tests
+ancova1                 Analysis of covariance
+ancovas                 Many ANCOVAs
+anova_propreg           Significance testing for the coefficients of
+                        Quasi binomial or the quasi Poisson regression
+anova_quasipois.reg     ANOVA for two quasi Poisson regression models
+apply.condition         Apply to each column a method under condition
+ar1                     Estimation of an AR(1) model
+as.Rfast.function       Convert R function to the Rfast's coresponding
+bc                      Estimation of the Box-Cox transformation
+beta.mle                MLE of distributions defined in the (0, 1)
+                        interval
+bic.corfsreg            BIC (using partial correlation) forward
+                        regression
+bic.fs.reg              BIC forward regression with generalised linear
+                        models
+binary_search           Binary search algorithm
+boot.ttest2             Bootstrap t-test for 2 independent samples
+bs.reg                  Backward selection regression
+btmprobs                Fitted probabilities of the Terry-Bradley model
+cat.goftests            Many one sample goodness of fit tests for
+                        categorical data
+checkNamespace          Check Namespace and Rd files
+check_data              Search for variables with zero range in a
+                        matrix
+cholesky                Cholesky decomposition of a square matrix
+circlin.cor             Circular-linear correlation
+coeff                   Coefficient matrices
+col.yule                Column-wise Yule's Y (coefficient of
+                        colligation)
+colAny                  Column and row-wise Any
+colCountValues          Row - Wise matrix/vector count the frequency of
+                        a value
+colCumSums              Colum-wise cumulative operations (sum, prod,
+                        min, max)
+colMads                 Column and row-wise mean absolute deviations
+colMedians              Column and row-wise medians of a matrix or
+                        median of a vector
+colMins                 Column-wise minimum and maximum of a matrix
+colOrder                Column and row-wise Order - Sort Indices
+colPmax                 Minima and maxima of two vectors/matrices and
+                        Column-row wise minima and maxima of two
+                        matrices
+colRanks                Column and row-wise ranks
+colShuffle              Column and row-wise Shuffle
+colSort                 Sorting of the columns-rows of a matrix
+colTabulate             Column and row-wise tabulate
+colTrue                 Column-wise true/false value of a matrix
+colVars                 Column and row-wise variances and standard
+                        deviations of a matrix
+colanovas               Many Welch's F-tests
+colaucs                 Many area under the curve values
+colcvs                  Column and row wise coefficients of variation
+coldiffs                Column-wise differences
+colexpmle               Column-wise MLE of some univariate
+                        distributions
+colkurtosis             Column-wise kurtosis and skewness coefficients
+colmeans                Column and row-wise means of a matrix
+colnth                  Column and row-wise nth smallest value of a
+                        matrix/vector
+colpoisdisp.tests       Many tests for the dispersion parameter in
+                        Poisson distribution
+colpoisson.anovas       Many ANOVAS for count data with Poisson or
+                        quasi Poisson models
+colprods                Column and row-wise products
+colrange                Column and row-wise range of values of a matrix
+colrint.regbx           Many random intercepts LMMs for balanced data
+                        with a single identical covariate
+colrow.value            Check if any column or row is fill with values
+colsums                 Column and row-wise sums of a matrix
+columns                 Get specific columns/rows fo a matrix
+colvarcomps.mom         Many moment and maximum likelihood estimations
+                        of variance components
+colwatsons              Column-wise uniformity tests for circular data
+comb_n                  All k possible combinations from n elements
+cor.fbed                FBED variable selection method using the
+                        correlation
+cor.fsreg               Correlation based forward regression
+corpairs                Correlation between pairs of variables
+correls                 Correlation between a vector and a set of
+                        variables
+cova                    Fast covariance and correlation matrix
+                        calculation
+cox.poisrat             Cox confidence interval for the ratio of two
+                        Poisson variables
+data.frame.to_matrix    Convert a dataframe to matrix
+dcor.ttest              Hypothesis test for the distance correlation
+design_matrix           Design Matrix
+diri.nr2                Fitting a Dirichlet distribution via
+                        Newton-Rapshon
+dirknn                  k-NN algorithm using the arc cosinus distance
+dirknn.cv               Cross-Validation for the k-NN algorithm using
+                        the arc cosinus distance
+dista                   Distance between vectors and a matrix - Sum of
+                        all pairwise distances in a distance matrix
+dmvnorm                 Density of the multivariate normal and t
+                        distributions
+dvar                    Distance variance, covariance and correlation
+edist                   Energy distance between matrices
+eel.test1               Empirical and exponential empirical likelihood
+                        tests for one sample
+eel.test2               Empirical and exponential empirical likelihood
+                        tests for two samples
+eigen.sym               Limited number of eigenvalues and eigenvectors
+                        of a symmetric matrix
+env.copy                Deep copy
+exact.ttest2            Exact t-test for 2 independent samples
+expregs                 Many exponential regressions
+fish.kent               Hypothesis test for von Mises-Fisher
+                        distribution over Kent distribution
+floyd                   Floyd-Warshall algorithm for shortest paths in
+                        a directed graph
+freq.min                Minimum and maximum frequencies of a vector
+fs.reg                  Variable selection in generalised linear
+                        regression models with forward selection
+ftest                   Multi-sample tests for vectors
+ftests                  Many multi-sample tests
+g2Test                  G-square test of conditional indepdence
+g2Test_univariate       Matrix with G-square tests of indepdence
+g2tests                 Many G-square tests of indepedence
+gammamle                MLE of continuous univariate distributions
+                        defined on the positive line
+gammareg                Gamma regression with a log-link
+gaussian.nb             Naive Bayes classifiers
+gaussiannb.pred         Prediction with some naive Bayes classifiers
+gchi2Test               Chi-square and G-square tests of
+                        (unconditional) indepdence
+geom.regs               Many simple geometric regressions
+gini                    One and many Gini coefficients
+glm_logistic            Logistic and Poisson regression models
+group                   Some summary statistics of a vector for each
+                        level of a grouping variable
+hash.find               Find the given value in a hash table
+hash.list               Hash - Pair function
+hash2list               Hash object to a list object
+hd.eigen                Eigenvalues in high dimensional principal
+                        component analysis
+invdir.mle              MLE of the inverted Dirichlet distribution
+invgauss.reg            Inverese Gaussian regression with a log-link
+is.symmetric            Check whether a square matrix is symmetric
+is_element              Find element
+is_integer              Check if values are integers and convert to
+                        integer
+iterator                Iterator
+james                   James multivariate version of the t-test
+knn                     k nearest neighbours algorithm (k-NN)
+knn.cv                  Cross-Validation for the k-NN algorithm
+kruskaltests            Many multi-sample tests
+kuiper                  Uniformity tests for circular data
+list.ftests             Many F-tests with really huge matrices
+lmfit                   Linear models for large scale data
+logistic.cat1           Logistic or Poisson regression with a single
+                        categorical predictor
+logistic_only           Many univariate simple binary logistic
+                        regressions
+lower_tri               Lower and Upper triangular of a matrix
+mahala                  Mahalanobis distance
+mat.mat                 Number of equal columns between two matrices
+mat.mult                Matrix multiplication, Cross and Tcross product
+match.coefs             Column-wise matching coefficients
+matrnorm                Generates random values from a normal and puts
+                        them in a matrix
+mediandir               Fast calculation of the spherical and
+                        hyperspherical median
+min_max                 Minimum and maximum of a vector
+multinom.mle            MLE for multivariate discrete data
+multinom.reg            Multinomial regression
+multinom.regs           Many simple multinomial regressions
+mv.eeltest1             Exponential empirical likelihood for a one
+                        sample mean vector hypothesis testing
+mv.eeltest2             Exponential empirical likelihood hypothesis
+                        testing for two mean vectors
+mvbetas                 Many multivariate simple linear regressions
+                        coefficients
+mvkurtosis              Multivariate kurtosis
+mvnorm.mle              MLE of the multivariate (log-) normal
+                        distribution
+mvt.mle                 MLE of the multivariate t distribution
+negative                Apply method to Positive and Negative number
+normal.mle              MLE of continuous univariate distributions
+                        defined on the real line
+normlog.reg             Gaussian regression with a log-link
+normlog.regs            Many simple regressions for positive valued
+                        data
+odds                    Many odds ratio tests
+odds.ratio              Odds ratio and relative risk
+ompr                    Orthogonal matching pursuit variable selection
+ordinal.mle             MLE of the ordinal model without covariates
+pc.skel                 The skeleton of a Bayesian network produced by
+                        the PC algorithm
+pdcor                   Partial distance correlation
+percent.ttest           Hypothesis test for two means of percentages
+percent.ttests          Many hypothesis tests for two means of
+                        percentages
+permcor                 Permutation based p-value for the Pearson
+                        correlation coefficient
+permutation             Permutation
+poisdisp.test           Tests for the dispersion parameter in Poisson
+                        distribution
+poisson.anova           Analysis of variance with a count variable
+poisson.anovas          Many analysis of variance tests with a discrete
+                        variable
+poly.cor                Polyserial correlation
+pooled.cov              Pooled covariance matrix
+prop.reg                Quasi binomial regression for proportions
+proptests               Many 2 sample proportions tests
+qpois.reg               Quasi Poisson regression
+quasi.poisson_only      Many univariate simple poisson regressions
+racg                    Angular central Gaussian random values
+                        simulation
+rbing                   Simulating from a Bingham distribution
+rbingham                Simulation of random values from a Bingham
+                        distribution with any symmetric matrix
+read.examples           Reading the files of a directory
+regression              Many univariate simple linear regressions
+rep_col                 Replicate columns/rows
+rint.mle                Moment and maximum likelihood estimation of
+                        variance components
+rint.reg                Random intercepts linear mixed models
+rint.regs               Many simple linear mixed model regressions
+rm.anova                Repeated measures anova
+rm.lines                Many regression based tests for single sample
+                        repeated measures
+rmdp                    High dimensional MCD based detection of
+                        outliers
+rmvlaplace              Multivariate Laplace random values simulation
+rmvnorm                 Multivariate normal and t random values
+                        simulation
+rowMins                 Row-wise minimum and maximum of a matrix
+rowTrue                 Row-wise true value of a matrix
+rvmf                    Random values simulation from a von
+                        Mises-Fisher distribution
+rvonmises               Random values simulation from a von Mises
+                        distribution
+score.glms              Many score based regressions
+sftests                 Many Shapiro-Francia normality tests
+skew                    Skewness and kurtosis coefficients
+skew.test2              Hypothesis testing between two skewness or
+                        kurtosis coefficients
+sort_unique             Sort and unique
+sourceR                 Source many R files
+spat.med                Spatial median for Euclidean data
+spatmed.reg             Spatial median regression
+spdinv                  Inverse of a symmetric positive definite matrix
+spml.reg                Circular or angular regression(s)
+squareform              Vector allocation in a symmetric matrix
+sscov                   Spatial sign covariance matrix
+standardise             Standardisation
+submatrix               Sub-matrix
+tobit.mle               MLE of the tobit model
+topological_sort        Topological sort of a DAG
+transpose               Transpose of a matrix
+ttest                   Many one sample tests
+ttest1                  One sample t-test for a vector
+ttests                  Many 2 sample tests tests
+twoway.anovas           Many two-way ANOVAs
+ufactor                 Fast and general represantation of a factor
+                        variable
+univglms                Many univariate generalised linear regressions
+vm.mle                  MLE of some circular distributions
+vmf.mle                 MLE of (hyper-)spherical distributions
+weib.reg                Weibull regression model
+which.is                Index of the columns of a data.frame which are
+                        a specific type
+yule                    Yule's Y (coefficient of colligation)
+zip.mle                 MLE of count data
