@@ -90,7 +90,7 @@ expmle <- function (x) {
 
 
 #[export]
-foldnorm.mle <- function(x, tol = 1e-09) {
+foldnorm.mle <- function(x, tol = 1e-07) {
   n <- length(x)
   m <- sum(x) / n
   x2 <- x^2
