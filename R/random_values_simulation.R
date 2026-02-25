@@ -100,7 +100,7 @@ Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
 
 
 # [export]
-rvmf <- function(n, mu, k, parallel = FALSE) {
+rvmf <- function(n, mu, k, parallel = FALSE, cores = 0) {
   # rotation <- function(a, b) {
     # p <- length(a)
     # ab <- sum(a * b)
@@ -138,7 +138,7 @@ rvmf <- function(n, mu, k, parallel = FALSE) {
     # x <- x1 / sqrt(Rfast::rowsums(x1^2))
   # }
 
-  .Call(Rfast_rvmf,n,mu,k,parallel)
+  .Call(Rfast_rvmf,n,mu,k,parallel, cores)
 }
 
 
@@ -184,19 +184,18 @@ rvmf <- function(n, mu, k, parallel = FALSE) {
 
 
 # [export]
-rvonmises <- function(n, m, k, rads = TRUE, t = 1, parallel = FALSE) {
-  if(t == 1){
-    if (!rads) m <- m / 180 * pi ## turn the degrees into radians
-    mu <- c(cos(m), sin(m))
-    if (k > 0) { ## draw from a von Mises distribution
-      x <- Rfast::rvmf(n, mu, k) ## sample from the von Mises distribution
-      u <- (atan(x[, 2] / x[, 1]) + pi * I(x[, 1] < 0)) %% (2 * pi) ## u is in radians
-    } else {
-      u <- runif(n, 0, 2 * pi)
-    } ## draw from a von Mises distribution
-    if (!rads) u <- u * pi / 180 ## should the data be in degrees?
-    u
-  }else if(t == 2){
-    .Call(Rfast_rvonmises, n,m,k,rads,parallel)
-  }
+rvonmises <- function(n, m, k, rads = TRUE, parallel = FALSE, cores = 0) {
+  #  if (!rads) m <- m / 180 * pi ## turn the degrees into radians
+  #  mu <- c(cos(m), sin(m))
+  #  if (k > 0) { ## draw from a von Mises distribution
+  #    x <- Rfast::rvmf(n, mu, k) ## sample from the von Mises distribution
+  #    u <- (atan(x[, 2] / x[, 1]) + 
+  #    pi * I(x[, 1] < 0))
+  #    u <- u %% (2 * pi) ## u is in radians
+  #  } else {
+  #    u <- runif(n, 0, 2 * pi)
+  #  } ## draw from a von Mises distribution
+  #  if (!rads) u <- u * pi / 180 ## should the data be in degrees?
+  #  u
+  .Call(Rfast_rvonmises, n,m,k,rads,parallel, cores)
 }

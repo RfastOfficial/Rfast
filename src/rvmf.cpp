@@ -93,7 +93,7 @@ static void randn_z(mat &res, double mean = 0.0, double stddev = 1.0)
 }
 
 static colvec rvmf_h(unsigned int n, double ca, double d1, double x0, double m, double k, double b,
-					 const bool parallel = false) {
+					 const bool parallel = false, const unsigned int cores) {
 	colvec w(n, fill::none);
 	const double bp1 = 1.0 + b, bm1 = 1.0 - b;
 
@@ -106,7 +106,7 @@ static colvec rvmf_h(unsigned int n, double ca, double d1, double x0, double m, 
 			_rng = new Random::uniform<Random::real>(0, 1);
 
 #ifdef _OPENMP
-#pragma omp for
+#pragma omp for num_threads(cores)
 #endif
 			for (unsigned int i = 0; i < n; ++i) {
 				double ta, u, z, tmp = 0;
@@ -165,7 +165,7 @@ static colvec rvmf_h(unsigned int n, double ca, double d1, double x0, double m, 
 // 	}
 // }
 
-void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel) {
+void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel, const unsigned int cores) {
 	if (k > 0.0) {
 		mu = mu / sqrt(sum(square(mu)));
 		const unsigned int d1 = mu.n_elem - 1;
@@ -175,7 +175,7 @@ void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel) {
 		double x0 = (1.0 - b) / (1.0 + b);
 		double m = 0.5 * d1;
 		double ca = k * x0 + (mu.n_elem - 1) * log1p(-x0 * x0);
-		S.col(d1) = rvmf_h(n, ca, d1, x0, m, k, b, parallel);
+		S.col(d1) = rvmf_h(n, ca, d1, x0, m, k, b, parallel, cores);
 		colvec tmp = (1.0 - square(S.col(d1)));
 		colvec tmp2 = sum(square(S_h), 1);
 		tmp = sqrt( tmp / tmp2);
@@ -188,9 +188,10 @@ void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel) {
 			out = -S;
 		} else {
 			mat A = rotation(mu);
-			if (parallel)
-				out = Rfast::matrix_multiplication(S, A, false, true);
-			else
+			if (parallel){
+				mat tmp = Rfast::matrix_multiplication(S, A, false, true, cores);
+				out = tmp;
+			}else
 				out = S * A.t();
 		}
 	} else {
@@ -199,71 +200,65 @@ void rvmf(unsigned int n, colvec mu, double k, mat &out, const bool parallel) {
 	}
 }
 
-NumericMatrix rvmf(unsigned int n, NumericVector Mu, double k, const bool parallel) {
+NumericMatrix rvmf(unsigned int n, NumericVector Mu, double k, const bool parallel, const unsigned int cores) {
 	colvec mu(Mu.begin(), Mu.size(), false);
 	NumericMatrix Res(n, mu.n_elem);
 	mat res(Res.begin(), n, mu.n_elem, false);
-	rvmf(n, mu, k, res, parallel);
+	rvmf(n, mu, k, res, parallel, cores);
 	Nullable<CharacterVector> names = Mu.names();
 	if (names.isNotNull()) colnames(Res) = static_cast<CharacterVector>(Mu.names());
 	return Res;
 }
 
 template <class T>
-T rvonmises(unsigned int n, double m, double k, const bool rads) {
+T rvonmises(unsigned int n, T m, double k, const bool rads, const bool parallel, const unsigned int cores) {
 	colvec u(n, fill::none);
-	const double pi = M_PI;
-	const double pi_180 = pi / 180.0;
-	const double pi_2 = 2.0 * pi;
+	constexpr double pi = M_PI;
+	constexpr double pi_180 = pi / 180.0;
+	constexpr double pi_2 = 2.0 * pi;
 	if (!rads) {
-		// Rcout<<__LINE__<<endl;
 		m = m * pi_180;
 	}
 	// Rcout<<__LINE__<<endl;
-	colvec mu = {cos(m), sin(m)};
-	// Rcout<<__LINE__<<endl;
+	colvec mu(2 * m.n_elem, fill::none);
+	mu(span(0, m.n_elem - 1)) = cos(m);
+	mu(span(m.n_elem, mu.n_elem - 1)) = sin(m);
 	if (k > 0) {
-		// Rcout<<__LINE__<<endl;
 		mat x(n, mu.n_elem, fill::none);
-		rvmf(n, mu, k, x, false);
-		// Rcout<<__LINE__<<endl;
-		u = (atan(x.col(1) / x.col(0)) + pi * (x.col(0) < 0));
-		// Rcout<<__LINE__<<endl;
-		u = u.for_each([&](double &v) { return fmod(v, pi_2); });
-		// Rcout<<__LINE__<<endl;
+		rvmf(n, mu, k, x, parallel, cores);
+		u = (atan(x.col(1) / x.col(0)) + pi * conv_to<colvec>::from(x.col(0) < 0));
+		u = u.for_each([&](double &v) { return v - std::floor(v / pi_2) * pi_2; });
 	} else {
-		// Rcout<<__LINE__<<endl;
 		u = randu<colvec>(n, distr_param(0.0, pi_2));
-		// Rcout<<__LINE__<<endl;
 	}
 	if (!rads) {
-		// Rcout<<__LINE__<<endl;
-		u = u * pi_180;
+		u *= pi_180;
 	}
 	return u;
 }
 
 template <>
-NumericVector rvonmises<NumericVector>(unsigned int n, double m, double k, const bool rads) {
+NumericVector rvonmises<NumericVector>(unsigned int n, NumericVector m, double k, const bool rads, const bool parallel, const unsigned int cores) {
 	NumericVector Res(n);
-	colvec res(Res.begin(), n, false);
-	res = rvonmises<colvec>(n, m, k, rads);
+	colvec res(Res.begin(), n, false), M(m.begin(), m.size(), false);
+	colvec tmp = rvonmises<colvec>(n, m, k, rads, parallel, cores);
+	res = tmp;
 	return Res;
 }
 
-NumericMatrix rvonmises(unsigned int n, NumericVector M, NumericVector K, const bool rads) {
-	colvec m(M.begin(), M.size(), false), k(K.begin(), K.size(), false);
-	NumericMatrix F(n, m.n_elem);
-	mat f(F.begin(), n, m.n_elem, false);
-	for (unsigned int i = 0; i < m.n_elem; ++i) {
-		f.col(i) = rvonmises<colvec>(n, m[i], k[i], rads);
-	}
-	Nullable<CharacterVector> names = M.names();
-	if (names.isNotNull()) colnames(F) = static_cast<CharacterVector>(M.names());
-	return F;
-}
+//NumericMatrix rvonmises(unsigned int n, NumericVector M, double k, const bool rads, const bool parallel) {
+//	colvec m(M.begin(), M.size(), false);
+//	NumericMatrix F(n, m.n_elem);
+//	mat f(F.begin(), n, m.n_elem, false);
+//	for (unsigned int i = 0; i < m.n_elem; ++i) {
+//		f.col(i) = rvonmises<colvec>(n, m[i], k, rads, parallel);
+//	}
+//	Nullable<CharacterVector> names = M.names();
+//	if (names.isNotNull()) colnames(F) = static_cast<CharacterVector>(M.names());
+//	return F;
+//}
 
-RcppExport SEXP Rfast_rvmf(SEXP nSEXP, SEXP mSEXP, SEXP kSEXP, SEXP parallelSEXP) {
+RcppExport SEXP Rfast_rvmf(SEXP nSEXP, SEXP mSEXP, SEXP kSEXP, SEXP parallelSEXP, SEXP coresSEXP) {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
@@ -271,29 +266,24 @@ RcppExport SEXP Rfast_rvmf(SEXP nSEXP, SEXP mSEXP, SEXP kSEXP, SEXP parallelSEXP
 	traits::input_parameter<NumericVector>::type m(mSEXP);
 	traits::input_parameter<double>::type k(kSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = rvmf(n, m, k, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = rvmf(n, m, k, parallel, cores);
 	return __result;
 	END_RCPP
 }
 
-RcppExport SEXP Rfast_rvonmises(SEXP nSEXP, SEXP mSEXP, SEXP kSEXP, SEXP radsSEXP) {
+RcppExport SEXP Rfast_rvonmises(SEXP nSEXP, SEXP mSEXP, SEXP kSEXP, SEXP radsSEXP, SEXP parallelSEXP, SEXP coresSEXP) {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
 	traits::input_parameter<unsigned int>::type n(nSEXP);
+	traits::input_parameter<NumericVector>::type m(mSEXP);
+	traits::input_parameter<double>::type k(kSEXP);
 	traits::input_parameter<const bool>::type rads(radsSEXP);
+	traits::input_parameter<const bool>::type parallel(parallelSEXP);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
 
-	unsigned int lenm = Rf_length(mSEXP), lenk = Rf_length(kSEXP);
-	if (lenm > 1 and lenk > 1) {
-		NumericVector m(mSEXP), k(kSEXP);
-		__result = rvonmises(n, m, k, rads);
-	} else if (lenm == 1 and lenk == 1) {
-		traits::input_parameter<double>::type m(mSEXP);
-		traits::input_parameter<double>::type k(kSEXP);
-		__result = rvonmises<NumericVector>(n, m, k, rads);
-	} else {
-		throw std::runtime_error("arguments m and k must have the same length.");
-	}
+	__result = rvonmises<NumericVector>(n, m, k, rads, parallel, cores);
 	return __result;
 	END_RCPP
 }
