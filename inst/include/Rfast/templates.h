@@ -363,8 +363,11 @@ double Apply(T1 x,T2& y,Binary_Function F1,Binary_Function F2){
     double a=0;
     typename T1::iterator startx=x.begin();
     typename T2::iterator starty=y.begin();
-    for(;startx!=x.end();++startx,++starty){
-        a=F2(a,F1(*startx,*starty));
+    if(startx!=x.end()){
+        a=F1(*startx++,*starty++);
+        for(;startx!=x.end();++startx,++starty){
+            a=F2(a,F1(*startx,*starty));
+        }
     }
     return a;
 }
@@ -379,11 +382,15 @@ double Apply(T1 x,T2& y,Binary_Function F1,Binary_Function F2){
 */
 template<class T1,class T2,Binary_Function F1,Binary_Function F2>
 double Apply(T1 x,T2& y){
-    double a=0;
-    typename T1::iterator startx=x.begin();
+    typename colvec::iterator startx=x.begin();
     typename T2::iterator starty=y.begin();
-    for(;startx!=x.end();++startx,++starty){
-        a=F2(a,F1(*startx,*starty));
+    double a=0.0;
+    if(startx!=x.end()){
+        a=F1(*startx++,*starty++);
+        Rcout<<__LINE__<<" "<<a<<": "<<*startx<<","<<*starty<<"  \n";
+        for(;startx!=x.end();++startx,++starty){
+            a=F2(a,F1(*startx,*starty));
+        }
     }
     return a;
 }
@@ -399,8 +406,11 @@ double Apply(T1 x,T2& y){
 template<class T1,class T2,Binary_Function F1,Binary_Function F2>
 double Apply(T1 *x,T1 *endx,T2 *y){
     double a=0;
-    for(;x!=endx;++x,++y){
-        a=F2(a,F1(*x,*y));
+    if(x!=endx){
+        a=F1(*x++,*y++);
+        for(;x!=endx;++x,++y){
+            a=F2(a,F1(*x,*y));
+        }
     }
     return a;
 }
@@ -418,8 +428,11 @@ double Apply(T1 x,T2& y){
     double a=0;
     typename T1::iterator startx=x.begin();
     typename T2::iterator starty=y.begin();
-    for(;startx!=x.end();++startx,++starty){
-        a=F3(a,F2(F1(*startx,*starty)));
+    if(startx!=x.end()){
+        a=F2(F1(*startx++,*starty++));
+        for(;startx!=x.end();++startx,++starty){
+            a=F3(a,F2(F1(*startx,*starty)));
+        }
     }
     return a;
 }
@@ -437,8 +450,11 @@ double Apply(T1 x,T2& y,Binary_Function F1,Unary_Function F2,Binary_Function F3)
     double a=0;
     typename T1::iterator startx=x.begin();
     typename T2::iterator starty=y.begin();
-    for(;startx!=x.end();++startx,++starty){
-        a=F3(a,F2(F1(*startx,*starty)));
+    if(startx!=x.end()){
+        a=F2(F1(*startx++,*starty++));
+        for(;startx!=x.end();++startx,++starty){
+            a=F3(a,F2(F1(*startx,*starty)));
+        }
     }
     return a;
 }
@@ -455,8 +471,11 @@ template<class T,Unary_Function F1,Binary_Function F2>
 double Apply(T x){
     double a=0;
     typename T::iterator start=x.begin();
-    for(;start!=x.end();++start){
-        a=F2(a,F1(*start));
+    if(startx!=x.end()){
+        a=F1(*start++);
+        for(;start!=x.end();++start){
+            a=F2(a,F1(*start));
+        }
     }
     return a;
 }
@@ -1044,7 +1063,7 @@ Ret rank_first(T x,const bool descend,const bool stable){
 }
 
 template<class T,Mfunction<T,T,T> oper,Mfunction<T,T,T> func>
-NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = Rfast::R::Null, const bool parallel=false){
+NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = Rfast::R::Null, const bool parallel=false, const unsigned int cores = get_num_of_threads()){
     const bool is_ind_null = Rf_isNull(ind);
     const int n = is_ind_null ? x.ncol() : LENGTH(ind);
     NumericVector f(n);
@@ -1053,14 +1072,15 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
     if(is_ind_null){
         if(parallel){
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(core)
 #endif
             for(int i=0;i<n;++i){
-                f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
+                ff[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
             }
         }else{
             for(int i=0;i<n;++i){
-                f[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
+                colvec xxx(xx.col(i));
+                ff[i]=Apply<colvec,colvec,oper,func>(xxx,yy);
             }
         }
     }else{
@@ -1068,14 +1088,14 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
         arma::Col<int> iind(indd.begin(),indd.size(),false);
         if(parallel){
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(core)
 #endif
             for(int i=0;i<n;++i){
-                f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
+                ff[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
             }
         }else{
             for(int i=0;i<n;++i){
-                f[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
+                ff[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
             }
         }
     }

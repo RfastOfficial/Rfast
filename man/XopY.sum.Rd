@@ -13,7 +13,8 @@ Operations between two matrices or matrix and vector.
 \usage{
 XopY.sum(x, y = NULL, oper = "*")
 eachrow(x,y,oper = "*",method = NULL)
-eachcol.apply(x,y,indices = NULL,oper = "*",apply = "sum", parallel = FALSE)
+eachcol.apply(x,y,indices = NULL,oper = "*",apply = "sum", 
+parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -48,7 +49,11 @@ Options:
 	4) min
 }
 \item{parallel}{
-A boolean value for parallel version.
+Run the algorithm in parallel.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 
