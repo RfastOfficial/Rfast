@@ -12,7 +12,8 @@ Distance matrix - Sum of all pairwise distances in a distance matrix.
 
 \usage{
 Dist(x,method = "euclidean", square = FALSE,p=0, 
-    result = "matrix" ,vector = FALSE, parallel = FALSE)
+    result = "matrix" ,vector = FALSE, parallel = FALSE
+    , cores = 0)
 total.dist(x, method = "euclidean", square = FALSE, p = 0)
 vecdist(x)
 }
@@ -46,8 +47,16 @@ One of the:
     }
 }
 \item{parallel}{
-For methods \bold{euclidean}, \bold{canberra} and \bold{minkowski}, you can run the 
+For methods \bold{euclidean}, \bold{manhattan}, \bold{canberra}, 
+\bold{minkowski}, \bold{chi_square}, \bold{soergel}, 
+\bold{kulczynski}, \bold{wave_hedges}, \bold{motyka}, 
+\bold{harmonic_mean}, \bold{total_variation}, \bold{sorensen}, 
+\bold{maximum}, \bold{minimum}, \bold{hellinger}, \bold{gower}, you can run the 
 algorithm in parallel. 
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 
