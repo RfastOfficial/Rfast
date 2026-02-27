@@ -4,3 +4,5 @@
 *\src-x64
 *.html
 MyUnique.cpp
+src/*.o
+src/*.dll
