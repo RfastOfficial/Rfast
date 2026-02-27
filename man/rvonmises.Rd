@@ -9,7 +9,7 @@ It generates random vectors following the von Mises distribution. The data can b
 }
 
 \usage{
-rvonmises(n, m, k, rads = TRUE)
+rvonmises(n, m, k, rads = TRUE, parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -24,6 +24,13 @@ The concentration parameter. If k is zero the sample will be generated from the 
 }
 \item{rads}{
 If the mean angle is expressed in radians, this should be TRUE and FALSE otherwise. The simulated data will be expressed in radians or degrees depending on what the mean angle is expressed.
+}
+\item{parallel}{
+Run the algorithm in parallel. The parallel algorithm needs memory.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

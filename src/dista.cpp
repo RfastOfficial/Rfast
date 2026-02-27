@@ -12,7 +12,7 @@ using std::string;
 namespace Dista
 {
 
-	void euclidean(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k, const bool parallel)
+	void euclidean(mat &xnew, mat &x, mat &disa, const bool sqr, const unsigned int k, const bool parallel, const unsigned int cores)
 	{
 		if (parallel)
 		{
@@ -21,7 +21,7 @@ namespace Dista
 				if (k > 0)
 				{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
@@ -31,7 +31,7 @@ namespace Dista
 				else
 				{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
@@ -44,7 +44,7 @@ namespace Dista
 				if (k > 0)
 				{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
@@ -54,7 +54,7 @@ namespace Dista
 				else
 				{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 					for (size_t i = 0; i < disa.n_cols; ++i)
 					{
@@ -392,7 +392,7 @@ namespace Dista
 		}
 	}
 
-	void kullback_leibler(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
+	void kullback_leibler(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel, const unsigned int cores)
 	{
 		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
@@ -403,7 +403,7 @@ namespace Dista
 			if (k > 0)
 			{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
@@ -414,7 +414,7 @@ namespace Dista
 			else
 			{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
@@ -444,7 +444,7 @@ namespace Dista
 		}
 	}
 
-	void jensen_shannon(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
+	void jensen_shannon(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel, const unsigned int cores)
 	{
 		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
 		const double log0_5 = std::log(0.5);
@@ -454,7 +454,7 @@ namespace Dista
 			if (k > 0)
 			{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
@@ -466,7 +466,7 @@ namespace Dista
 			else
 			{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
@@ -542,7 +542,7 @@ namespace Dista
 		}
 	}
 
-	void itakura_saito(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel = false)
+	void itakura_saito(mat &xnew, mat &x, mat &disa, const unsigned int k, const bool parallel, const unsigned int cores)
 	{
 		mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
@@ -553,7 +553,7 @@ namespace Dista
 			if (k > 0)
 			{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
@@ -564,7 +564,7 @@ namespace Dista
 			else
 			{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 				for (size_t i = 0; i < disa.n_cols; ++i)
 				{
@@ -632,16 +632,14 @@ namespace Dista
 	}
 }
 
-mat dista(mat xnew, mat x, const string method, const bool sqr,
-          const double p, const unsigned int k,
-          const bool parallel)
+mat dista(mat xnew, mat x, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false, const unsigned int cores = get_num_of_threads()))
 {
     // if k is greater than 0 then rows are k size
     const int n = k > 0 ? k : x.n_cols, nu = xnew.n_cols;
     mat disa(n, nu, fill::none);
     if (method == "euclidean")
     {
-        Dista::euclidean(xnew, x, disa, sqr, k, parallel);
+        Dista::euclidean(xnew, x, disa, sqr, k, parallel, cores);
     }
     else if (method == "manhattan")
     {
@@ -673,11 +671,11 @@ mat dista(mat xnew, mat x, const string method, const bool sqr,
     }
     else if (method == "jensen_shannon")
     {
-        Dista::jensen_shannon(xnew, x, disa, k, parallel);
+        Dista::jensen_shannon(xnew, x, disa, k, parallel, cores);
     }
     else if (method == "itakura_saito")
     {
-        Dista::itakura_saito(xnew, x, disa, k, parallel);
+        Dista::itakura_saito(xnew, x, disa, k, parallel, cores);
     }
     else if (method == "total_variation")
     {
@@ -685,7 +683,7 @@ mat dista(mat xnew, mat x, const string method, const bool sqr,
     }
     else if (method == "kullback_leibler")
     {
-        Dista::kullback_leibler(xnew, x, disa, k, parallel);
+        Dista::kullback_leibler(xnew, x, disa, k, parallel, cores);
     }
     else if (method == "chi_square")
     {
@@ -733,7 +731,7 @@ mat dista(mat xnew, mat x, const string method, const bool sqr,
 }
 
 //[[Rcpp::export]]
-NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
+NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 {
 	// if k is greater than 0 then rows are k size
 	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
@@ -745,7 +743,7 @@ NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "
 	 * in no moving. That's why we create a tmp mat (lvalue) first and then assign that 
 	 * to the view matrix
 	 */
-	mat tmp = dista(xnew, x, method, sqr, p, k, parallel);
+	mat tmp = dista(xnew, x, method, sqr, p, k, parallel, cores);
 	disa = tmp;
 	return disaa;
 }
@@ -874,7 +872,7 @@ namespace DistaIndices
 		}
 	}
 
-	void kullback_leibler(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel = false)
+	void kullback_leibler(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel, const unsigned int cores)
 	{
 		mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_xx.begin());
@@ -883,7 +881,7 @@ namespace DistaIndices
 		if (parallel)
 		{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
@@ -901,14 +899,14 @@ namespace DistaIndices
 		}
 	}
 
-	void jensen_shannon(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel = false)
+	void jensen_shannon(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel)
 	{
 		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
 		const double log0_5 = std::log(0.5);
 		if (parallel)
 		{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
@@ -981,7 +979,7 @@ namespace DistaIndices
 		}
 	}
 
-	void itakura_saito(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel = false)
+	void itakura_saito(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel)
 	{
 		mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
@@ -989,7 +987,7 @@ namespace DistaIndices
 		if (parallel)
 		{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 			for (size_t i = 0; i < disa.n_cols; ++i)
 			{
@@ -1017,7 +1015,7 @@ namespace DistaIndices
 	}
 }
 
-IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
+IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 {
 	// if k is greater than 0 then rows are k size
 	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
@@ -1058,11 +1056,11 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	}
 	else if (method == "jensen_shannon")
 	{
-		DistaIndices::jensen_shannon(xnew, x, disa, k, parallel);
+		DistaIndices::jensen_shannon(xnew, x, disa, k, parallel, cores);
 	}
 	else if (method == "itakura_saito")
 	{
-		DistaIndices::itakura_saito(xnew, x, disa, k, parallel);
+		DistaIndices::itakura_saito(xnew, x, disa, k, parallel, cores);
 	}
 	else if (method == "total_variation")
 	{
@@ -1070,7 +1068,7 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	}
 	else if (method == "kullback_leibler")
 	{
-		DistaIndices::kullback_leibler(xnew, x, disa, k, parallel);
+		DistaIndices::kullback_leibler(xnew, x, disa, k, parallel, cores);
 	}
 	else if (method == "chi_square")
 	{
@@ -1117,7 +1115,7 @@ IntegerMatrix dista_index(NumericMatrix Xnew, NumericMatrix X, const string meth
 	return disaa;
 }
 
-RcppExport SEXP Rfast_dista(SEXP XnewSEXP, SEXP XSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP kSEXP, SEXP indexSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_dista(SEXP XnewSEXP, SEXP XSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP kSEXP, SEXP indexSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -1130,11 +1128,12 @@ RcppExport SEXP Rfast_dista(SEXP XnewSEXP, SEXP XSEXP, SEXP methodSEXP, SEXP sqr
 	traits::input_parameter<const unsigned int>::type k(kSEXP);
 	traits::input_parameter<const bool>::type index(indexSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
 
 	if (index)
-		__result = dista_index(Xnew, X, method, sqr, p, k, parallel);
+		__result = dista_index(Xnew, X, method, sqr, p, k, parallel, cores);
 	else
-		__result = dista(Xnew, X, method, sqr, p, k, parallel);
+		__result = dista(Xnew, X, method, sqr, p, k, parallel, cores);
 	return __result;
 
 	END_RCPP
@@ -1503,7 +1502,7 @@ namespace DistaTotal
         return a;
     }
 
-    double kullback_leibler(mat &xnew, mat &x, const unsigned int k, const bool parallel = false)
+    double kullback_leibler(mat &xnew, mat &x, const unsigned int k, const bool parallel)
     {
         double a = 0.0;
         mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -1515,7 +1514,7 @@ namespace DistaTotal
             if (k > 0)
             {
 #ifdef _OPENMP
-	#pragma omp parallel for reduction(+ : a)
+	#pragma omp parallel for num_threads(cores) reduction(+ : a)
 #endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
@@ -1527,7 +1526,7 @@ namespace DistaTotal
             else
             {
 #ifdef _OPENMP
-	#pragma omp parallel for reduction(+ : a)
+	#pragma omp parallel for num_threads(cores) reduction(+ : a)
 #endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
@@ -1561,7 +1560,7 @@ namespace DistaTotal
         return a;
     }
 
-    double jensen_shannon(mat &xnew, mat &x, const unsigned int k, const bool parallel = false)
+    double jensen_shannon(mat &xnew, mat &x, const unsigned int k, const bool parallel)
     {
         mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
         const double log0_5 = std::log(0.5);
@@ -1572,7 +1571,7 @@ namespace DistaTotal
             if (k > 0)
             {
 #ifdef _OPENMP
-	#pragma omp parallel for reduction(+ : a)
+	#pragma omp parallel for num_threads(cores) reduction(+ : a)
 #endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
@@ -1585,7 +1584,7 @@ namespace DistaTotal
             else
             {
 #ifdef _OPENMP
-	#pragma omp parallel for reduction(+ : a)
+	#pragma omp parallel for num_threads(cores) reduction(+ : a)
 #endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
@@ -1670,7 +1669,7 @@ namespace DistaTotal
         return a;
     }
 
-    double itakura_saito(mat &xnew, mat &x, const unsigned int k, const bool parallel = false)
+    double itakura_saito(mat &xnew, mat &x, const unsigned int k, const bool parallel)
     {
         double a = 0.0;
         mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -1682,7 +1681,7 @@ namespace DistaTotal
             if (k > 0)
             {
 #ifdef _OPENMP
-	#pragma omp parallel for reduction(+ : a)
+	#pragma omp parallel for num_threads(cores) reduction(+ : a)
 #endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
@@ -1694,7 +1693,7 @@ namespace DistaTotal
             else
             {
 #ifdef _OPENMP
-	#pragma omp parallel for reduction(+ : a)
+	#pragma omp parallel for num_threads(cores) reduction(+ : a)
 #endif
                 for (size_t i = 0; i < xnew.n_cols; ++i)
                 {
@@ -1772,7 +1771,7 @@ namespace DistaTotal
 }
 
 //[[Rcpp::export]]
-double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
+double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 {
     const int n = X.ncol(), nu = Xnew.ncol();
     mat xnew(Xnew.begin(), Xnew.nrow(), nu, false), x(X.begin(), X.nrow(), n, false);
@@ -1810,11 +1809,11 @@ double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = ""
     }
     else if (method == "jensen_shannon")
     {
-        return DistaTotal::jensen_shannon(xnew, x, k, parallel);
+        return DistaTotal::jensen_shannon(xnew, x, k, parallel, cores);
     }
     else if (method == "itakura_saito")
     {
-        return DistaTotal::itakura_saito(xnew, x, k, parallel);
+        return DistaTotal::itakura_saito(xnew, x, k, parallel, cores);
     }
     else if (method == "total_variation")
     {
@@ -1822,7 +1821,7 @@ double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = ""
     }
     else if (method == "kullback_leibler")
     {
-        return DistaTotal::kullback_leibler(xnew, x, k, parallel);
+        return DistaTotal::kullback_leibler(xnew, x, k, parallel, cores);
     }
     else if (method == "chi_square")
     {
@@ -1869,7 +1868,7 @@ double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = ""
     return Rfast::NA<double>::value();
 }
 
-RcppExport SEXP Rfast_total_dista(SEXP XnewSEXP, SEXP XSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP kSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_total_dista(SEXP XnewSEXP, SEXP XSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP kSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
     BEGIN_RCPP
     RObject __result;
@@ -1881,8 +1880,9 @@ RcppExport SEXP Rfast_total_dista(SEXP XnewSEXP, SEXP XSEXP, SEXP methodSEXP, SE
     traits::input_parameter<const double>::type p(pSEXP);
     traits::input_parameter<const unsigned int>::type k(kSEXP);
     traits::input_parameter<const bool>::type parallel(parallelSEXP);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
 
-    __result = total_dista(Xnew, X, method, sqr, p, k, parallel);
+    __result = total_dista(Xnew, X, method, sqr, p, k, parallel, cores);
     return __result;
 
     END_RCPP

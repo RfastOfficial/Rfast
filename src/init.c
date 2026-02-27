@@ -64,14 +64,14 @@ SEXP Rfast_diag_matrix_fill_vec(SEXP, SEXP);
 SEXP Rfast_diag_fill_scalar(SEXP, SEXP);
 SEXP Rfast_diag_fill_vec(SEXP, SEXP);
 SEXP Rfast_design_matrix(SEXP, SEXP);
-SEXP Rfast_dist(SEXP, SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_dist_vec(SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_dist(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_dist_vec(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_Digamma(SEXP);
 SEXP Rfast_design_matrix_big(SEXP);
-SEXP Rfast_dista(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_dista(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_diri_nr_type2(SEXP a1SEXP, SEXP a2SEXP, SEXP maSEXP, SEXP, SEXP);
 SEXP Rfast_edist(SEXP, SEXP);
-SEXP Rfast_eachcol_apply(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_eachcol_apply(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_eachrow(SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_floyd_john(SEXP, SEXP);
 SEXP Rfast_frame_to_matrix(SEXP);
@@ -193,8 +193,8 @@ SEXP Rfast_sort_int(SEXP);
 SEXP Rfast_stable_sort(SEXP, SEXP, SEXP);
 SEXP Rfast_spat_med(SEXP, SEXP);
 SEXP Rfast_squareform_c(SEXP);
-SEXP Rfast_total_dists(SEXP, SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_total_dista(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_total_dists(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_total_dista(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_topological_sort(SEXP);
 SEXP Rfast_Trigamma(SEXP);
 SEXP Rfast_table_c(SEXP, SEXP);
@@ -306,15 +306,15 @@ static const R_CallMethodDef CallEntries[] = {
 	{"Rfast_diag_fill_scalar", (DL_FUNC)&Rfast_diag_fill_scalar, 2},
 	{"Rfast_diag_fill_vec", (DL_FUNC)&Rfast_diag_fill_vec, 2},
 	{"Rfast_design_matrix", (DL_FUNC)&Rfast_design_matrix, 2},
-	{"Rfast_dist", (DL_FUNC)&Rfast_dist, 5},
-	{"Rfast_dist_vec", (DL_FUNC)&Rfast_dist_vec, 5},
+	{"Rfast_dist", (DL_FUNC)&Rfast_dist, 6},
+	{"Rfast_dist_vec", (DL_FUNC)&Rfast_dist_vec, 6},
 	{"Rfast_Digamma", (DL_FUNC)&Rfast_Digamma, 1},
 	{"Rfast_design_matrix_big", (DL_FUNC)&Rfast_design_matrix_big, 1},
-	{"Rfast_dista", (DL_FUNC)&Rfast_dista, 8},
+	{"Rfast_dista", (DL_FUNC)&Rfast_dista, 9},
 	{"Rfast_diri_nr_type2", (DL_FUNC)&Rfast_diri_nr_type2, 5},
 	{"Rfast_edist", (DL_FUNC)&Rfast_edist, 2},
 	{"Rfast_eachrow", (DL_FUNC)&Rfast_eachrow, 4},
-	{"Rfast_eachcol_apply", (DL_FUNC)&Rfast_eachcol_apply, 6},
+	{"Rfast_eachcol_apply", (DL_FUNC)&Rfast_eachcol_apply, 7},
 	{"Rfast_floyd_john", (DL_FUNC)&Rfast_floyd_john, 2},
 	{"Rfast_frame_to_matrix", (DL_FUNC)&Rfast_frame_to_matrix, 1},
 	{"Rfast_fs_reg", (DL_FUNC)&Rfast_fs_reg, 5},
@@ -435,8 +435,8 @@ static const R_CallMethodDef CallEntries[] = {
 	{"Rfast_sort_int", (DL_FUNC)&Rfast_sort_int, 1},
 	{"Rfast_spat_med", (DL_FUNC)&Rfast_spat_med, 2},
 	{"Rfast_squareform_c", (DL_FUNC)&Rfast_squareform_c, 1},
-	{"Rfast_total_dists", (DL_FUNC)&Rfast_total_dists, 5},
-	{"Rfast_total_dista", (DL_FUNC)&Rfast_total_dista, 7},
+	{"Rfast_total_dists", (DL_FUNC)&Rfast_total_dists, 6},
+	{"Rfast_total_dista", (DL_FUNC)&Rfast_total_dista, 8},
 	{"Rfast_topological_sort", (DL_FUNC)&Rfast_topological_sort, 1},
 	{"Rfast_Trigamma", (DL_FUNC)&Rfast_Trigamma, 1},
 	{"Rfast_table_c", (DL_FUNC)&Rfast_table_c, 2},

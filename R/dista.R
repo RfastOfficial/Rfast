@@ -1,5 +1,5 @@
 #[export]
-dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRUE, square = FALSE, p = 0, result = "matrix", parallel = FALSE) {
+dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRUE, square = FALSE, p = 0, result = "matrix", parallel = FALSE, cores = 0) {
     if (type == "canberra1" || type == "canberra2") {
         .Deprecated("The replacement type is \"canberra\"", "Rfast")
     }
@@ -8,11 +8,11 @@ dista <- function(xnew, x, type = "euclidean", k = 0, index = FALSE, trans = TRU
         x <- t(x)
     }
     if(result == "matrix"){
-		x <- .Call(Rfast_dista, xnew, x, type, square, p, k, index, parallel)
+		x <- .Call(Rfast_dista, xnew, x, type, square, p, k, index, parallel, cores)
         if (trans) x <- t(x)
         x
 	}else if(result == "sum"){
-  		.Call(Rfast_total_dista, xnew, x, type, square, p, k, parallel)
+  		.Call(Rfast_total_dista, xnew, x, type, square, p, k, parallel, cores)
 	}
 }
 

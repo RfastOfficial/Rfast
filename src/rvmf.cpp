@@ -7,6 +7,9 @@
 #include <zigg/header>
 #include "Rfast.h"
 #include "Random.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 using namespace Rcpp;
 using namespace arma;
@@ -93,20 +96,20 @@ static void randn_z(mat &res, double mean = 0.0, double stddev = 1.0)
 }
 
 static colvec rvmf_h(unsigned int n, double ca, double d1, double x0, double m, double k, double b,
-					 const bool parallel = false, const unsigned int cores) {
+					 const bool parallel = false, const unsigned int cores = get_num_of_threads()) {
 	colvec w(n, fill::none);
 	const double bp1 = 1.0 + b, bm1 = 1.0 - b;
 
 	if (parallel) {
 #ifdef _OPENMP
-#pragma omp parallel
+#pragma omp parallel num_threads(cores)
 #endif
 		{
 			_beta = new BetaOne(m);
 			_rng = new Random::uniform<Random::real>(0, 1);
 
 #ifdef _OPENMP
-#pragma omp for num_threads(cores)
+#pragma omp for
 #endif
 			for (unsigned int i = 0; i < n; ++i) {
 				double ta, u, z, tmp = 0;

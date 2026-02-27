@@ -9,7 +9,7 @@ It generates random vectors following the von Mises-Fisher distribution. The dat
 }
 
 \usage{
-rvmf(n, mu, k, parallel = FALSE)
+rvmf(n, mu, k, parallel = FALSE, cores = 0)
 }
 
 \arguments{
@@ -26,6 +26,10 @@ the covariance matrix. Then each vector becomes a unit vector.
 }
 \item{parallel}{
 Run the algorithm in parallel. The parallel algorithm needs memory.
+}
+\item{cores}{
+Number of cores to use for parallelism. Valid only when argument parallel is set to TRUE. 
+Default value is 0 and it means the maximum supported cores.
 }
 }
 

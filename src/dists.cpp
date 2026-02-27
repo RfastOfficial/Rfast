@@ -31,7 +31,7 @@ namespace Dist
 	}
 
 	template <class Function>
-	NumericMatrix dist_h(NumericMatrix &x, Function func, const bool parallel = false)
+	NumericMatrix dist_h(NumericMatrix &x, Function func, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		NumericMatrix f(ncl, ncl);
@@ -39,7 +39,7 @@ namespace Dist
 		if (parallel)
 		{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
@@ -59,14 +59,14 @@ namespace Dist
 	}
 
 	template <class Function>
-	NumericMatrix dist_h(NumericMatrix &x, const double p, Function func, const bool parallel = false)
+	NumericMatrix dist_h(NumericMatrix &x, const double p, Function func, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		auto func2 = [&](colvec &x, colvec &y)
 		{ return func(x, y, p); };
-		return dist_h(x, func2, parallel);
+		return dist_h(x, func2, parallel, cores);
 	}
 
-	NumericMatrix canberra(NumericMatrix &x, const bool parallel = false)
+	NumericMatrix canberra(NumericMatrix &x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		NumericMatrix f(ncl, ncl);
@@ -76,7 +76,7 @@ namespace Dist
 		if (parallel)
 		{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
@@ -264,23 +264,23 @@ namespace Dist
 
 }
 
-NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel)
+NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel, const unsigned int cores)
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? Dist::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel) : Dist::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel);
+		return sqr ? Dist::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel, cores) : Dist::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel, cores);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
-		return Dist::dist_h(x, Rfast::Dist::manhattan);
+		return Dist::dist_h(x, Rfast::Dist::manhattan, parallel, cores);
 	}
 	else if (method == "canberra")
 	{
-		return Dist::canberra(x, parallel);
+		return Dist::canberra(x, parallel, cores);
 	}
 	else if (method == "minkowski")
 	{
-		return Dist::dist_h(x, p, Rfast::Dist::minkowski, parallel);
+		return Dist::dist_h(x, p, Rfast::Dist::minkowski, parallel, cores);
 	}
 	else if (method == "bhattacharyya")
 	{
@@ -312,56 +312,56 @@ NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const i
 	}
 	else if (method == "chi_square")
 	{
-		return Dist::dist_h(x, Rfast::Dist::chi_square);
+		return Dist::dist_h(x, Rfast::Dist::chi_square, parallel, cores);
 	}
 	else if (method == "soergel")
 	{
-		return Dist::dist_h(x, Rfast::Dist::soergel);
+		return Dist::dist_h(x, Rfast::Dist::soergel, parallel, cores);
 	}
 	else if (method == "kulczynski")
 	{
-		return Dist::dist_h(x, Rfast::Dist::kulczynski);
+		return Dist::dist_h(x, Rfast::Dist::kulczynski, parallel, cores);
 	}
 	else if (method == "wave_hedges")
 	{
-		return Dist::dist_h(x, Rfast::Dist::wave_hedges);
+		return Dist::dist_h(x, Rfast::Dist::wave_hedges, parallel, cores);
 	}
 	else if (method == "motyka")
 	{
-		return Dist::dist_h(x, Rfast::Dist::motyka);
+		return Dist::dist_h(x, Rfast::Dist::motyka, parallel, cores);
 	}
 	else if (method == "harmonic_mean")
 	{
-		return Dist::dist_h(x, Rfast::Dist::harmonic_mean);
+		return Dist::dist_h(x, Rfast::Dist::harmonic_mean, parallel, cores);
 	}
 	else if (method == "total_variation")
 	{
-		return Dist::dist_h(x, Rfast::Dist::total_variation);
+		return Dist::dist_h(x, Rfast::Dist::total_variation, parallel, cores);
 	}
 	else if (method == "sorensen")
 	{
-		return Dist::dist_h(x, Rfast::Dist::sorensen);
+		return Dist::dist_h(x, Rfast::Dist::sorensen, parallel, cores);
 	}
 	else if (method == "maximum")
 	{
-		return Dist::dist_h(x, Rfast::Dist::max);
+		return Dist::dist_h(x, Rfast::Dist::max, parallel, cores);
 	}
 	else if (method == "minimum")
 	{
-		return Dist::dist_h(x, Rfast::Dist::min);
+		return Dist::dist_h(x, Rfast::Dist::min, parallel, cores);
 	}
 	else if (method == "hellinger")
 	{
-		return sqr ? Dist::dist_h(x, 0.5, Rfast::Dist::hellinger<true>) : Dist::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>);
+		return sqr ? Dist::dist_h(x, 0.5, Rfast::Dist::hellinger<true>, parallel, cores) : Dist::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>, parallel, cores);
 	}
 	else if (method == "gower")
 	{
-		return Dist::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower);
+		return Dist::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower, parallel, cores);
 	}
 	stop("Unsupported Method: %s", method);
 }
 
-RcppExport SEXP Rfast_dist(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_dist(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -371,7 +371,8 @@ RcppExport SEXP Rfast_dist(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP
 	traits::input_parameter<const bool>::type sqr(sqrSEXP);
 	traits::input_parameter<const int>::type p(pSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = dist(x, method, sqr, p, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = dist(x, method, sqr, p, parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -409,7 +410,7 @@ namespace DistVector
 	}
 
 	template <class Function>
-	NumericVector dist_h(NumericMatrix &x, Function func, const bool parallel = false)
+	NumericVector dist_h(NumericMatrix &x, Function func, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		NumericVector f(proper_size(nrw, ncl));
@@ -419,7 +420,7 @@ namespace DistVector
 		if (parallel)
 		{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
@@ -439,11 +440,11 @@ namespace DistVector
 	}
 
 	template <class Function>
-	NumericVector dist_h(NumericMatrix &x, const double p, Function func, const bool parallel = false)
+	NumericVector dist_h(NumericMatrix &x, const double p, Function func, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		auto func2 = [&](colvec &x, colvec &y)
 		{ return func(x, y, p); };
-		return dist_h(x, func2, parallel);
+		return dist_h(x, func2, parallel, cores);
 	}
 
 	NumericVector canberra(NumericMatrix &x, const bool parallel = false)
@@ -454,13 +455,37 @@ namespace DistVector
 		colvec ff(f.begin(), f.size(), false);
 		mat x_abs = abs(xx);
 		size_t k = 0;
-		for (size_t i = 0; i < ncl - 1; ++i)
+		
+		if (parallel)
 		{
-			colvec xv(xx.begin_col(i), nrw, false);
-			colvec absx(x_abs.begin_col(i), nrw, false);
-			for (size_t j = i + 1; j < ncl; ++j, ++k)
+#ifdef _OPENMP
+	#pragma omp parallel for num_threads(cores)
+#endif
+			for (size_t i = 0; i < ncl - 1; ++i)
 			{
-				ff[k] = sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
+				colvec xv(xx.begin_col(i), nrw, false);
+				colvec absx(x_abs.begin_col(i), nrw, false);
+				for (size_t j = i + 1; j < ncl; ++j)
+				{
+					ff[k] = sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
+					
+#ifdef _OPENMP
+	#pragma omp atomic
+#endif
+					++k;
+				}
+			}
+		}
+		else
+		{
+				for (size_t i = 0; i < ncl - 1; ++i)
+			{
+				colvec xv(xx.begin_col(i), nrw, false);
+				colvec absx(x_abs.begin_col(i), nrw, false);
+				for (size_t j = i + 1; j < ncl; ++j, ++k)
+				{
+					ff[k] = sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
+				}
 			}
 		}
 		return f;
@@ -604,23 +629,23 @@ namespace DistVector
 }
 
 //[[Rcpp::export]]
-NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel)
+NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel, const unsigned int cores)
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? DistVector::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel) : DistVector::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel);
+		return sqr ? DistVector::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel, cores) : DistVector::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel, cores);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
-		return DistVector::dist_h(x, Rfast::Dist::manhattan, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::manhattan, parallel, cores);
 	}
 	else if (method == "canberra")
 	{
-		return DistVector::canberra(x, parallel);
+		return DistVector::canberra(x, parallel, cores);
 	}
 	else if (method == "minkowski")
 	{
-		return DistVector::dist_h(x, p, Rfast::Dist::minkowski, parallel);
+		return DistVector::dist_h(x, p, Rfast::Dist::minkowski, parallel, cores);
 	}
 	else if (method == "bhattacharyya")
 	{
@@ -652,56 +677,56 @@ NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, con
 	}
 	else if (method == "chi_square")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::chi_square, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::chi_square, parallel, cores);
 	}
 	else if (method == "soergel")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::soergel, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::soergel, parallel, cores);
 	}
 	else if (method == "kulczynski")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::kulczynski, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::kulczynski, parallel, cores);
 	}
 	else if (method == "wave_hedges")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::wave_hedges, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::wave_hedges, parallel, cores);
 	}
 	else if (method == "motyka")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::motyka, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::motyka, parallel, cores);
 	}
 	else if (method == "harmonic_mean")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::harmonic_mean, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::harmonic_mean, parallel, cores);
 	}
 	else if (method == "total_variation")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::total_variation, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::total_variation, parallel, cores);
 	}
 	else if (method == "sorensen")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::sorensen, parallel);
+		return DistVector::dist_h(x, Rfast::Dist::sorensen, parallel, cores);
 	}
 	else if (method == "maximum")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::max);
+		return DistVector::dist_h(x, Rfast::Dist::max, parallel, cores);
 	}
 	else if (method == "minimum")
 	{
-		return DistVector::dist_h(x, Rfast::Dist::min);
+		return DistVector::dist_h(x, Rfast::Dist::min, parallel, cores);
 	}
 	else if (method == "hellinger")
 	{
-		return sqr ? DistVector::dist_h(x, 0.5, Rfast::Dist::hellinger<true>, parallel) : DistVector::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>, parallel);
+		return sqr ? DistVector::dist_h(x, 0.5, Rfast::Dist::hellinger<true>, parallel, cores) : DistVector::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>, parallel, cores);
 	}
 	else if (method == "gower")
 	{
-		return DistVector::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower, parallel);
+		return DistVector::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower, parallel, cores);
 	}
 	stop("Unsupported Method: %s", method);
 }
 
-RcppExport SEXP Rfast_dist_vec(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_dist_vec(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -711,7 +736,8 @@ RcppExport SEXP Rfast_dist_vec(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP p
 	traits::input_parameter<const bool>::type sqr(sqrSEXP);
 	traits::input_parameter<const int>::type p(pSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = dist_vec(x, method, sqr, p, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = dist_vec(x, method, sqr, p, parallel, cores);
 	return __result;
 	END_RCPP
 }
@@ -754,7 +780,7 @@ namespace DistTotal
 	}
 
 	template <class Function>
-	double dist_h(NumericMatrix &x, Function func, const bool parallel = false)
+	double dist_h(NumericMatrix &x, Function func, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		mat xx(x.begin(), nrw, ncl, false);
@@ -762,7 +788,7 @@ namespace DistTotal
 		if (parallel)
 		{
 #ifdef _OPENMP
-	#pragma omp parallel for
+	#pragma omp parallel for num_threads(cores)
 #endif
 			for (size_t i = 0; i < ncl - 1; ++i)
 			{
@@ -787,25 +813,48 @@ namespace DistTotal
 	}
 
 	template <class Function>
-	double dist_h(NumericMatrix &x, const double p, Function func, const bool parallel = false)
+	double dist_h(NumericMatrix &x, const double p, Function func, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		auto func2 = [&](colvec &x, colvec &y)
 		{ return func(x, y, p); };
-		return dist_h(x, func2, parallel);
+		return dist_h(x, func2, parallel, cores);
 	}
 
-	double canberra(NumericMatrix &x, const bool parallel = false)
+	double canberra(NumericMatrix &x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		mat xx(x.begin(), nrw, ncl, false), x_abs = abs(xx);
 		double a = 0;
-		for (size_t i = 0; i < ncl - 1; ++i)
+
+		if (parallel)
 		{
-			colvec xv(xx.begin_col(i), nrw, false);
-			colvec absx(x_abs.begin_col(i), nrw, false);
-			for (size_t j = i + 1; j < ncl; ++j)
+#ifdef _OPENMP
+	#pragma omp parallel for num_threads(cores)
+#endif
+			for (size_t i = 0; i < ncl - 1; ++i)
 			{
-				a += sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
+				colvec xv(xx.begin_col(i), nrw, false);
+				colvec absx(x_abs.begin_col(i), nrw, false);
+				for (size_t j = i + 1; j < ncl; ++j)
+				{
+					auto d = sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
+	#ifdef _OPENMP
+		#pragma omp atomic
+	#endif
+						a+=d;
+				}
+			}
+		}
+		else
+		{
+			for (size_t i = 0; i < ncl - 1; ++i)
+			{
+				colvec xv(xx.begin_col(i), nrw, false);
+				colvec absx(x_abs.begin_col(i), nrw, false);
+				for (size_t j = i + 1; j < ncl; ++j)
+				{
+					a += sum(abs(xv - xx.col(j)) / (absx + x_abs.col(j)));
+				}
 			}
 		}
 		return a;
@@ -945,23 +994,23 @@ namespace DistTotal
 
 }
 
-double total_dist(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel)
+double total_dist(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel, const unsigned int cores)
 {
 	if (method == "euclidean" || p == 1)
 	{
-		return sqr ? DistTotal::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel) : DistTotal::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel);
+		return sqr ? DistTotal::dist_h(x, Rfast::Dist::euclidean<false, colvec>, parallel, cores) : DistTotal::dist_h(x, Rfast::Dist::euclidean<true, colvec>, parallel, cores);
 	}
 	else if (method == "manhattan" || p == 2)
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::manhattan, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::manhattan, parallel, cores);
 	}
 	else if (method == "canberra")
 	{
-		return DistTotal::canberra(x, parallel);
+		return DistTotal::canberra(x, parallel, cores);
 	}
 	else if (method == "minkowski")
 	{
-		return DistTotal::dist_h(x, p, Rfast::Dist::minkowski, parallel);
+		return DistTotal::dist_h(x, p, Rfast::Dist::minkowski, parallel, cores);
 	}
 	else if (method == "bhattacharyya")
 	{
@@ -993,56 +1042,56 @@ double total_dist(NumericMatrix x, const string method, const bool sqr, const in
 	}
 	else if (method == "chi_square")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::chi_square, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::chi_square, parallel, cores);
 	}
 	else if (method == "soergel")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::soergel, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::soergel, parallel, cores);
 	}
 	else if (method == "kulczynski")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::kulczynski, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::kulczynski, parallel, cores);
 	}
 	else if (method == "wave_hedges")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::wave_hedges, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::wave_hedges, parallel, cores);
 	}
 	else if (method == "motyka")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::motyka, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::motyka, parallel, cores);
 	}
 	else if (method == "harmonic_mean")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::harmonic_mean, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::harmonic_mean, parallel, cores);
 	}
 	else if (method == "total_variation")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::total_variation, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::total_variation, parallel, cores);
 	}
 	else if (method == "sorensen")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::sorensen, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::sorensen, parallel, cores);
 	}
 	else if (method == "maximum")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::max, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::max, parallel, cores);
 	}
 	else if (method == "minimum")
 	{
-		return DistTotal::dist_h(x, Rfast::Dist::min, parallel);
+		return DistTotal::dist_h(x, Rfast::Dist::min, parallel, cores);
 	}
 	else if (method == "hellinger")
 	{
-		return sqr ? DistTotal::dist_h(x, 0.5, Rfast::Dist::hellinger<true>, parallel) : DistTotal::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>, parallel);
+		return sqr ? DistTotal::dist_h(x, 0.5, Rfast::Dist::hellinger<true>, parallel, cores) : DistTotal::dist_h(x, 1.0 / std::sqrt(2.0), Rfast::Dist::hellinger<false>, parallel, cores);
 	}
 	else if (method == "gower")
 	{
-		return DistTotal::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower, parallel);
+		return DistTotal::dist_h(x, 1.0 / x.nrow(), Rfast::Dist::gower, parallel, cores);
 	}
 	stop("Unsupported Method: %s", method);
 }
 
-RcppExport SEXP Rfast_total_dists(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP parallelSEXP)
+RcppExport SEXP Rfast_total_dists(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEXP pSEXP, SEXP parallelSEXP, SEXP coresSEXP)
 {
 	BEGIN_RCPP
 	RObject __result;
@@ -1052,7 +1101,8 @@ RcppExport SEXP Rfast_total_dists(SEXP xSEXP, SEXP methodSEXP, SEXP sqrSEXP, SEX
 	traits::input_parameter<const bool>::type sqr(sqrSEXP);
 	traits::input_parameter<const int>::type p(pSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = total_dist(x, method, sqr, p, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = total_dist(x, method, sqr, p, parallel, cores);
 	return __result;
 	END_RCPP
 }

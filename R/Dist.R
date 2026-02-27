@@ -1,7 +1,7 @@
 
 
 #[export]
-Dist <- function(x,method = "euclidean", square = FALSE,p=0, result = "matrix" ,vector = FALSE, parallel = FALSE) {
+Dist <- function(x,method = "euclidean", square = FALSE,p=0, result = "matrix" ,vector = FALSE, parallel = FALSE, cores = 0) {
 	if (vector) {
         .Deprecated("Use options \"result\" instead", "Rfast")
     }
@@ -11,11 +11,11 @@ Dist <- function(x,method = "euclidean", square = FALSE,p=0, result = "matrix" ,
 	if(method != "haversine")
   		x <- t(x)
 	if(result == "vector"){
-		.Call(Rfast_dist_vec,x,method,square,p, parallel)
+		.Call(Rfast_dist_vec,x,method,square,p, parallel, cores)
 	}else if(result == "matrix"){
-		.Call(Rfast_dist,x,method,square,p, parallel)
+		.Call(Rfast_dist,x,method,square,p, parallel, cores)
 	}else if(result == "sum"){
-  		.Call(Rfast_total_dists,x,method,square,p, parallel)
+  		.Call(Rfast_total_dists,x,method,square,p, parallel, cores)
 	}
 }
 

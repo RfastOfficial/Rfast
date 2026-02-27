@@ -120,7 +120,7 @@ static NumericVector eachcol_med_helper(NumericMatrix& x,NumericVector& y,SEXP i
 
 //[[Rcpp::export]]
 SEXP eachcol_apply(NumericMatrix x, NumericVector y, SEXP ind = Rfast::R::Null, const char oper = '*',
-				   const string method = "sum", const bool parallel = false) {
+				   const string method = "sum", const bool parallel = false, const unsigned int cores = get_num_of_threads()) {
 	if (method == "sum") {
 		switch (oper) {
 			case '*':
@@ -179,7 +179,7 @@ SEXP eachcol_apply(NumericMatrix x, NumericVector y, SEXP ind = Rfast::R::Null, 
 }
 
 RcppExport SEXP Rfast_eachcol_apply(SEXP xSEXP, SEXP ySEXP, SEXP ind, SEXP operSEXP, SEXP methodSEXP,
-									SEXP parallelSEXP) {
+									SEXP parallelSEXP, SEXP coresSEXP) {
 	BEGIN_RCPP
 	RObject __result;
 	RNGScope __rngScope;
@@ -188,7 +188,8 @@ RcppExport SEXP Rfast_eachcol_apply(SEXP xSEXP, SEXP ySEXP, SEXP ind, SEXP operS
 	traits::input_parameter<const char>::type oper(operSEXP);
 	traits::input_parameter<const string>::type method(methodSEXP);
 	traits::input_parameter<const bool>::type parallel(parallelSEXP);
-	__result = eachcol_apply(x, y, ind, oper, method, parallel);
+	traits::input_parameter<const unsigned int>::type cores(coresSEXP);
+	__result = eachcol_apply(x, y, ind, oper, method, parallel, cores);
 	return __result;
 	END_RCPP
 }
