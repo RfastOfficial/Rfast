@@ -10,7 +10,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 NumericMatrix dir_knn(NumericMatrix tXnew, NumericMatrix tX, NumericVector Y, NumericVector K, const std::string type, const bool parallel){
 
   double (*_function_type_)(vec, a_node*, const int);

@@ -8,7 +8,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 NumericMatrix normlog_regs(NumericVector Y,NumericMatrix X, NumericMatrix BE,const  double con,
                            const double tol,const bool logged,const bool parallel,const int maxiters){
   int n = X.nrow();

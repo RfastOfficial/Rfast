@@ -118,7 +118,6 @@ static NumericVector eachcol_med_helper(NumericMatrix& x,NumericVector& y,SEXP i
   return f;
 }*/
 
-//[[Rcpp::export]]
 SEXP eachcol_apply(NumericMatrix x, NumericVector y, SEXP ind = Rfast::R::Null, const char oper = '*',
 				   const string method = "sum", const bool parallel = false) {
 	if (method == "sum") {
@@ -402,7 +401,6 @@ static double apply_eachrow(SEXP x, SEXP y, const char oper, const string method
 	}
 	return 0.0;
 }
-//[[Rcpp::export]]
 SEXP eachrow(SEXP x, SEXP y, const char oper, SEXP meth) {
 	return Rf_isNull(meth) ? eachrow(x, y, oper) : wrap(apply_eachrow(x, y, oper, as<string>(meth)));
 }

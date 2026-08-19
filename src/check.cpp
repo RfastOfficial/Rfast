@@ -111,7 +111,6 @@ RcppExport SEXP Rfast_check_true_false(SEXP path_manSEXP, SEXP full_pathsSEXP)
 /////////////////////////////////////////////////////////////////////////////////////////////////
 using std::remove;
 
-//[[Rcpp::export]]
 List check_aliases(const string path_man, const string path_rf, const bool full_paths = false)
 {
 	ifstream file;
@@ -179,7 +178,6 @@ RcppExport SEXP Rfast_check_aliases(SEXP dir_to_manSEXP, SEXP dir_to_fileSEXP, S
 
 using std::remove;
 
-//[[Rcpp::export]]
 List check_usage(string path_man, string path_rf, const bool full_paths = false)
 {
 	DEBUG("START");

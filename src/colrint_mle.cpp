@@ -11,7 +11,6 @@ using namespace arma;
 using namespace std;
 
 
-//[[Rcpp::export]]
 List colrint_mle(NumericMatrix X, IntegerVector id, const bool ranef, const double tol, const int maxiters, const bool parallel){
   // assume that the function is called with var != 0
   int n = X.nrow(),D = X.ncol(),idmx = max(id);

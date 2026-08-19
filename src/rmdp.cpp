@@ -6,7 +6,6 @@
 
 using namespace Rcpp;
 
-//[[Rcpp::export]]
 colvec rmdp(NumericMatrix Y, const int h, umat rnd, const int itertime, const bool parallel = false)
 {
 	const int n = Y.nrow();

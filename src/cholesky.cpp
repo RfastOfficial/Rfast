@@ -11,7 +11,6 @@
 
 using namespace Rcpp;
 
-//[[Rcpp::export]]
 SEXP cholesky_par(SEXP AA) {
     int i=0,j=0,ni=0,nj=0,n=Rf_ncols(AA);
     SEXP LL=PROTECT(Rf_allocMatrix(REALSXP,n,n));
@@ -37,7 +36,6 @@ SEXP cholesky_par(SEXP AA) {
     return LL;
 }
 
-//[[Rcpp::export]]
 SEXP cholesky(SEXP AA) {
     int i,j,ni,nj,n=Rf_ncols(AA);
     SEXP LL=PROTECT(Rf_allocMatrix(REALSXP,n,n));
@@ -61,7 +59,6 @@ SEXP cholesky(SEXP AA) {
 }
 
 /*
-//[[Rcpp::export]]
 SEXP cholesky_my(SEXP AA) {
     int i,j,ni,nj,n=Rf_ncols(AA);
     SEXP LL=PROTECT(Rf_allocMatrix(REALSXP,n,n));
@@ -97,7 +94,6 @@ SEXP cholesky_my(SEXP AA) {
 }
 
 
-//[[Rcpp::export]]
 NumericMatrix cholesky2(NumericMatrix A) {
     int i,j,k,n=A.ncol();
     NumericMatrix L(n,n);
@@ -127,7 +123,6 @@ NumericMatrix cholesky2(NumericMatrix A) {
     return L;
 }
 
-//[[Rcpp::export]]
 SEXP init_v(int n){
     SEXP f=Rf_allocMatrix(REALSXP,n,n);
     double *ff=REAL(f);
@@ -137,7 +132,6 @@ SEXP init_v(int n){
 }
 
 
-//[[Rcpp::export]]
 SEXP init_v2(int n){
     SEXP f=Rf_allocMatrix(REALSXP,n,n);
     double *ff=REAL(f),*endf=ff+n*n;

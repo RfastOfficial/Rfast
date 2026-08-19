@@ -7,7 +7,6 @@
 
 using namespace Rcpp;
 
-// [[Rcpp::export]]
 List varcomps_mle(NumericVector x,IntegerVector ina,const int n,const double tol) {
   const double pi=3.14159265359;
   const int N=x.size(),d=N/n;

@@ -182,7 +182,6 @@ static void table_sign_na(NumericVector& x,NumericVector& f){
   f[0]=neg;
 }
 
-//[[Rcpp::export]]
 NumericVector table_sign(NumericVector x,const bool na,const bool names){
   NumericVector f;
   if(na){

@@ -52,7 +52,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-//[[Rcpp::export]]
 bool is_element_string(CharacterVector x,basic_string<char> el){
   CharacterVector::iterator a=x.begin();
   for(;a!=x.end() && *a!=el;++a);

@@ -19,7 +19,6 @@ static double calc_neg_ll(double *wx, double *expwx, double *y, const int size){
   return sum;
 }
 
-//[[Rcpp::export]]
 List glm_logistic(NumericMatrix X, NumericVector Y, const double tol = 1e-06, const int maxiters = 100){
   int N = X.nrow(),P = X.ncol();
   mat x(X.begin(), N, P,false);

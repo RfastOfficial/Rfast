@@ -603,7 +603,6 @@ namespace DistVector
 	}
 }
 
-//[[Rcpp::export]]
 NumericVector dist_vec(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel)
 {
 	if (method == "euclidean" || p == 1)

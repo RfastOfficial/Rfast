@@ -11,7 +11,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 NumericMatrix multinom_regs(NumericVector Y0, NumericMatrix X0, const double tol,
                             const bool logged, const bool parallel, const int maxiters){
   int n = X0.nrow(), D = X0.ncol();

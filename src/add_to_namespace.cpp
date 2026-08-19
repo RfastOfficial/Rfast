@@ -8,7 +8,6 @@ using namespace Rcpp;
 
 using std::binary_search;
 
-//[[Rcpp::export]]
 List add_to_namespace(const string dir_to_export,const string dir_to_file, const bool full_paths = false){
     int which_string_has_export=0;
     List data = read_functions_and_signatures(dir_to_file,full_paths);
@@ -77,7 +76,6 @@ RcppExport SEXP Rfast_add_to_namespace(SEXP dir_to_exportSEXP,SEXP dir_to_fileSE
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//[[Rcpp::export]]
 vector<string> remove_from_namespace(const string dir_to_export,vector<string> files_to_remove){
     int which_string_has_export=0;
     vector<string> data_export=readNamespaceFile(dir_to_export,which_string_has_export);

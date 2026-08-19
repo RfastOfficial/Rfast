@@ -82,7 +82,6 @@ RcppExport SEXP Rfast_Sort(SEXP x, SEXP descendSEXP, SEXP na, SEXP parallelSEXP)
   END_RCPP
 }
 
-//[[Rcpp::export]]
 vector<double> Sort_na_first(vector<double> f, const bool descend, const bool parallel = false)
 { // na.rm=F
   const int n = remove_if(f.rbegin(), f.rend(), R_IsNA) - f.rbegin();
@@ -105,7 +104,6 @@ RcppExport SEXP Rfast_Sort_na_first(SEXP xSEXP, SEXP descendSEXP, SEXP parallelS
   END_RCPP
 }
 
-//[[Rcpp::export]]
 vector<string> sort_string(CharacterVector x, const bool descend, const bool parallel = false)
 {
   vector<string> f(x.begin(), x.end());
@@ -191,7 +189,6 @@ static void min_max_neg_pos_helper(vector<int> &x, int &mnn, int &mxn, int &mnp,
   }
 }
 
-//[[Rcpp::export]]
 vector<int> sort_int(vector<int> x)
 {
   int mnp = INT_MAX, mnn = -1, mxp = 0, mxn = INT_MIN;
@@ -391,7 +388,6 @@ RcppExport SEXP Rfast_Order(SEXP xSEXP, SEXP stableSEXP, SEXP descendSEXP, SEXP 
   END_RCPP
 }
 
-//[[Rcpp::export]]
 NumericMatrix sort_mat(NumericMatrix x,const bool descend,const bool by_row,const bool stable,const bool parallel, const unsigned int cores){
 	return by_row ? Rfast::rowSort(x,descend,stable,parallel,cores) : Rfast::colSort(x,descend,stable,parallel,cores);
 }

@@ -9,7 +9,6 @@ using namespace Rcpp;
 
 using std::string;
 
-//[[Rcpp::export]]
 SEXP apply_condition(SEXP x,string method,string oper,int val){
     const int p=Rf_ncols(x),n=Rf_nrows(x);
     SEXP f=Rf_allocVector(INTSXP,p);

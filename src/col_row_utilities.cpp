@@ -13,7 +13,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 SEXP col_all(SEXP x)
 {
 	const int n = Rf_ncols(x), p = Rf_nrows(x);
@@ -381,7 +380,6 @@ RcppExport SEXP Rfast_col_max(SEXP x, SEXP parallelSEXP, SEXP coresSEXP)
 	END_RCPP
 }
 
-// [[Rcpp::export]]
 SEXP row_max_indices(NumericMatrix x)
 {
 	const int p = x.nrow();
@@ -659,7 +657,6 @@ RcppExport SEXP Rfast_col_min(SEXP x, SEXP parallelSEXP, SEXP coresSEXP)
 	END_RCPP
 }
 
-// [[Rcpp::export]]
 NumericVector row_min_indices(NumericMatrix x)
 {
 	const unsigned int p = x.nrow();

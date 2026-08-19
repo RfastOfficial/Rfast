@@ -6,7 +6,6 @@
 
 using namespace Rcpp;
 
-//[[Rcpp::export]]
 NumericVector upper_tri(NumericMatrix x,const bool dg){
   const int ncl=x.ncol(),nrw=x.nrow();
   int i,j;
@@ -52,7 +51,6 @@ double sum_upper_tri(NumericMatrix x,const bool dg){
 }
 
 
-//[[Rcpp::export]]
 LogicalMatrix upper_tri_b(int nrw, int ncl,const bool dg){
   int i,j;
   LogicalMatrix f(nrw,ncl);
