@@ -64,13 +64,13 @@ static arma::uvec get_k_indices(arma::rowvec x, const int k){
 
 // Author: Giorgos Borboudakis
 
-class TestResult {
+class CtsTestResult {
 public: double pvalue;
     double logpvalue;
     double stat;
     int df;
 
-    TestResult(double _pvalue, double _stat, double _logpvalue, int _df) {
+    CtsTestResult(double _pvalue, double _stat, double _logpvalue, int _df) {
         pvalue=_pvalue;
         stat=_stat;
         logpvalue=_logpvalue;
@@ -78,13 +78,13 @@ public: double pvalue;
     }
 };
 
-TestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, 
+CtsTestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, 
 		arma::uvec& cs, const unsigned int ncs, arma::uvec& dc);
 
 static double g2_statistic(arma::uvec& counts, 
 		const unsigned int xdim, const unsigned int ydim);
 
-TestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, arma::uvec& dc);
+CtsTestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, arma::uvec& dc);
 
 Rcpp::List g2_test_univ(arma::mat& data, arma::uvec& dc) {
 	const unsigned int nvars = data.n_cols;
@@ -97,7 +97,7 @@ Rcpp::List g2_test_univ(arma::mat& data, arma::uvec& dc) {
     unsigned int idx = 0;
     for(unsigned int i = 0; i < nvars; ++i) {
         for(unsigned int j = i + 1; j < nvars; ++j) {
-            TestResult result = g2_test(data, i, j, dc);
+            CtsTestResult result = g2_test(data, i, j, dc);
             xout.at(idx) = i;
             yout.at(idx) = j;
             statistics.at(idx) = result.stat;
@@ -114,7 +114,7 @@ Rcpp::List g2_test_univ(arma::mat& data, arma::uvec& dc) {
     return out;
 }
 
-TestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, arma::uvec& dc) {
+CtsTestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, arma::uvec& dc) {
 	const unsigned int xdim = dc.at(x);
 	const unsigned int ydim = dc.at(y);
 	arma::uvec counts(xdim * ydim, arma::fill::zeros);
@@ -127,7 +127,7 @@ TestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, 
 	const int df = (xdim - 1) * (ydim - 1);
 	const double statistic = g2_statistic(counts, xdim, ydim);
 
-	return TestResult(0, statistic, 0, df);
+	return CtsTestResult(0, statistic, 0, df);
 }
 
 static double g2_statistic(arma::uvec& counts, 
@@ -164,14 +164,14 @@ static double g2_statistic(arma::uvec& counts,
 
 Rcpp::List g2_test(arma::mat& data, const unsigned int x, const unsigned int y, 
 		arma::uvec& cs, arma::uvec& dc) {
-    TestResult result = g2_test(data, x, y, cs, cs.size(), dc);
+    CtsTestResult result = g2_test(data, x, y, cs, cs.size(), dc);
     Rcpp::List out;
     out["statistic"] = result.stat;
     out["df"] = result.df;
     return out;
 }
 
-TestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, 
+CtsTestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y, 
 		arma::uvec& cs, const unsigned int ncs, arma::uvec& dc) {
 	if (!ncs) {
 		return g2_test(data, x, y, dc);
@@ -204,7 +204,7 @@ TestResult g2_test(arma::mat& data, const unsigned int x, const unsigned int y,
 	}
 	const unsigned int df = (xdim - 1) * (ydim - 1) * prod.at(ncs);
 
-	return TestResult(0, statistic, 0, df);
+	return CtsTestResult(0, statistic, 0, df);
 }
 
 void random_contigency_table(int* matrix, const int* nrowt, const int* ncolt, 
@@ -220,12 +220,12 @@ static void col_counts(arma::uvec& counts, const unsigned int xdim,
 static void row_counts(arma::uvec& counts, const unsigned int xdim, 
 		const unsigned int ydim, int* counts_x);
 
-TestResult perm_g2_test(arma::mat& data, const unsigned int x, const unsigned int y,
+CtsTestResult perm_g2_test(arma::mat& data, const unsigned int x, const unsigned int y,
 		arma::uvec& cs, const unsigned int ncs, arma::uvec& dc, const unsigned int nperm);
 
 Rcpp::List g2_test_perm(arma::mat& data, const unsigned int x, const unsigned int y,
 		arma::uvec& cs, arma::uvec& dc, const unsigned int nperm) {
-	TestResult result = perm_g2_test(data, x, y, cs, cs.size(), dc, nperm);
+	CtsTestResult result = perm_g2_test(data, x, y, cs, cs.size(), dc, nperm);
 	Rcpp::List out;
 	out["statistic"] = result.stat;
 	out["pvalue"] = result.pvalue;
@@ -235,7 +235,7 @@ Rcpp::List g2_test_perm(arma::mat& data, const unsigned int x, const unsigned in
 	return out;
 }
 
-TestResult perm_g2_test(arma::mat& data, const unsigned int x, const unsigned int y,
+CtsTestResult perm_g2_test(arma::mat& data, const unsigned int x, const unsigned int y,
 		arma::uvec& cs, const unsigned int ncs, arma::uvec& dc, const unsigned int nperm) {
 	const unsigned int xdim = dc.at(x);
 	const unsigned int ydim = dc.at(y);
@@ -267,7 +267,7 @@ TestResult perm_g2_test(arma::mat& data, const unsigned int x, const unsigned in
 	const int df = (dc.at(x) - 1) * (dc.at(y) - 1) * prod.at(ncs);
 
 	if (!nperm) {
-		return TestResult(0, statistic, 0, df);
+		return CtsTestResult(0, statistic, 0, df);
 	}
 
 	arma::vec permstats(nperm, arma::fill::zeros);
@@ -340,7 +340,7 @@ TestResult perm_g2_test(arma::mat& data, const unsigned int x, const unsigned in
 	}
 	pvalue /= (nperm + 1);
 
-	return TestResult(pvalue, statistic, std::log(pvalue), df);
+	return CtsTestResult(pvalue, statistic, std::log(pvalue), df);
 }
 
 static void row_counts(arma::uvec& counts, const unsigned int xdim, 
