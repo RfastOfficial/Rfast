@@ -732,7 +732,6 @@ mat dista(mat xnew, mat x, const string method, const bool sqr,
     return disa;
 }
 
-//[[Rcpp::export]]
 NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
 	// if k is greater than 0 then rows are k size
@@ -1765,7 +1764,6 @@ namespace DistaTotal
 
 }
 
-//[[Rcpp::export]]
 double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false)
 {
     const int n = X.ncol(), nu = Xnew.ncol();

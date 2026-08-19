@@ -11,7 +11,6 @@
 
 using namespace Rcpp;
 
-//[[Rcpp::export]]
 SEXP vecdist(SEXP x){
   int nrow,ncol;
   nrow=ncol=LENGTH(x);

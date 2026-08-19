@@ -22,7 +22,6 @@ double calc_neg_ll(double *wx, double *expwx, double *y, const int size){
   return sum;
 }
 
-//[[Rcpp::export]]
 NumericVector logistic_only(NumericMatrix X, NumericVector Y,const double tol){
   int maxiters = 100;
   const unsigned int N=X.nrow(), P=X.ncol();
@@ -105,7 +104,6 @@ RcppExport SEXP Rfast_logistic_only(SEXP xSEXP,SEXP ySEXP,SEXP tolSEXP) {
   END_RCPP
 }
 
-//[[Rcpp::export]]
 NumericMatrix logistic_only_b(NumericMatrix X, NumericVector Y,const double tol){
   int maxiters = 100;
   const unsigned int N=X.nrow(), P=X.ncol();
@@ -243,7 +241,6 @@ END_RCPP
 }
 
 
-//[[Rcpp::export]]
 NumericMatrix poisson_only_b(NumericMatrix X, NumericVector Y,double ylogy,const double tol){
   const unsigned int n=X.nrow(),pcols=X.ncol();
   unsigned int i,d=2;

@@ -9,7 +9,6 @@
 // [[Rcpp::plugins("cpp11")]]
 // [[Rcpp::depends("RcppArmadillo")]]
 
-// [[Rcpp::export]]
 arma::vec perm_cor(arma::vec x, arma::vec y, const unsigned int r) {
 	return calc_perm_cor(x, y, r);
 }
@@ -26,7 +25,6 @@ BEGIN_RCPP
 END_RCPP
 }	
 
-// [[Rcpp::export]]
 Rcpp::NumericMatrix bic_fs_reg(Rcpp::NumericVector y, Rcpp::NumericMatrix ds, const double tol, const string type) {
 	return calc_bic_fs_reg(y, ds, tol, type);
 }
@@ -44,7 +42,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-// [[Rcpp::export]]
 Rcpp::NumericMatrix fs_reg(Rcpp::NumericVector y, Rcpp::NumericMatrix ds, const double sig, 
 		const double tol, const string type) {
 	if (!type.compare("logistic") || !type.compare("poisson")) {
@@ -71,7 +68,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-// [[Rcpp::export]]
 Rcpp::List bs_reg(arma::vec y, arma::mat ds, const double sig, const std::string type) {
 	return calc_bs_reg(y, ds, sig, type);
 }
@@ -89,7 +85,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-// [[Rcpp::export]]
 Rcpp::List pc_skel(arma::mat ds, const string method, const double sig, const unsigned int r, 
 		arma::mat stats_init, arma::mat pvalues_init, arma::ivec is_init_vals) {
 	return calc_pc_skel(ds, method, sig, r, stats_init, pvalues_init, is_init_vals);
@@ -111,7 +106,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-// [[Rcpp::export]]
 arma::mat k_nn(arma::mat ds_extra, arma::vec y, arma::mat ds, arma::uvec idxs, const std::string dist_type, const std::string type, const std::string method,
 		const unsigned int freq_option, const bool mem_eff) {
 	idxs -= 1;
@@ -136,7 +130,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-// [[Rcpp::export]]
 Rcpp::List k_nn_cv(Rcpp::List folds, arma::vec y, arma::mat ds, arma::uvec idxs, const std::string dist_type, const std::string type, const std::string method,
 		const unsigned int freq_option, const bool pred_ret, const bool mem_eff) { 
 	return calc_k_nn_cv(folds, y, ds, idxs, dist_type, type, method, freq_option, pred_ret, mem_eff);

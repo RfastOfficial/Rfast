@@ -9,7 +9,6 @@ using namespace arma;
 
 namespace Coeff
 {
-    //[[Rcpp::export]]
     NumericMatrix bhattacharyya(NumericMatrix x)
     {
         const int ncl = x.ncol(), nrw = x.nrow();
@@ -35,7 +34,6 @@ namespace Coeff
     }
 }
 
-//[[Rcpp::export]]
 NumericMatrix coeff(NumericMatrix x, const string method)
 {
     if (method == "bhattacharyya")
@@ -59,7 +57,6 @@ RcppExport SEXP Rfast_coeff(SEXP xSEXP, SEXP methodSEXP)
 
 namespace CoeffVector
 {
-    //[[Rcpp::export]]
     NumericVector bhattacharyya(NumericMatrix x)
     {
         const int ncl = x.ncol(), nrw = x.nrow();
@@ -81,7 +78,6 @@ namespace CoeffVector
     }
 }
 
-//[[Rcpp::export]]
 NumericVector coeff_vec(NumericMatrix x, const string method)
 {
     if (method == "bhattacharyya")

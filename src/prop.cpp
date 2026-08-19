@@ -8,7 +8,6 @@
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 NumericVector prop_regs(NumericMatrix X, NumericVector Y,const double tol,const std::string varb, const int maxiters){
   const unsigned int n=X.nrow(),pcols=X.ncol();
 
@@ -103,7 +102,6 @@ END_RCPP
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//[[Rcpp::export]]
 List prop_reg(NumericMatrix X, NumericVector Y,const double tol,const int maxiters){
   const unsigned int n=X.nrow(),pcols=X.ncol(),d=pcols;
   colvec be(d,fill::zeros),yhat(n),expyhat,y(Y.begin(),n,false),W(n,fill::zeros),p(n);

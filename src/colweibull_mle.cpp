@@ -9,7 +9,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 NumericMatrix colweibull_mle(NumericMatrix X, const double tol, const int maxiters,const bool parallel){
   int n = X.nrow(),d = X.ncol();
   mat x0(X.begin(),n,d,false);

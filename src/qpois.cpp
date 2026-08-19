@@ -53,7 +53,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-//[[Rcpp::export]]
 List qpois_reg(NumericMatrix X, NumericVector Y,const double ylogy,const double tol,const int maxiters){
   const unsigned int n=X.nrow(),pcols=X.ncol(),d=pcols;
 

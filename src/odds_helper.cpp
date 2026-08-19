@@ -13,7 +13,6 @@ static void init(double *start,double *end,int s[]){
     ++s[(int)abs(*start)];
 }
 
-//[[Rcpp::export]]
 SEXP odds_helper(SEXP x){
   const int ncol=Rf_ncols(x),nrow=Rf_nrows(x);
   SEXP F=Rf_allocMatrix(INTSXP,4,ncol);

@@ -12,7 +12,6 @@ using namespace Rcpp;
 using std::vector;
 using std::string;
 
-//[[Rcpp::export]]
 IntegerVector as_integer(SEXP x,const bool sorted,const int init,const bool parallel = false){
   IntegerVector f(LENGTH(x));
   switch(TYPEOF(x)){

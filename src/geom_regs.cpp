@@ -10,7 +10,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 NumericMatrix geom_regs(NumericVector Y,NumericMatrix X, const double tol, const bool logged, const bool type, const bool parallel, const int maxiters){
   int n = X.nrow(), D = X.ncol();
   mat x(X.begin(),n,D,false);

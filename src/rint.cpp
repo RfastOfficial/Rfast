@@ -11,7 +11,6 @@ using namespace arma;
 using namespace Rcpp;
 using namespace std;
 
-//[[Rcpp::export]]
 List rint_reg(NumericMatrix X, NumericVector Y, IntegerVector id, const double tol, const bool ranef, const int maxiters){
   int n = X.nrow(), p = X.ncol(), idmx,idmn;
   maximum<int>(id.begin(),id.end(),idmx);
@@ -95,7 +94,6 @@ RcppExport SEXP Rfast_rint_reg(SEXP XSEXP,SEXP YSEXP,SEXP idSEXP,SEXP tolSEXP,SE
 /////////////////////////////////////////////////////////////////////////
 
 
-//[[Rcpp::export]]
 NumericMatrix rint_regs(NumericMatrix X, NumericVector Y, IntegerVector id, const double tol,
                         const bool logged, const bool parallel, const int maxiters){
   //if(ret != 1 && ret != 2 and ret != 3)
@@ -349,7 +347,6 @@ RcppExport SEXP Rfast_rint_regs(SEXP XSEXP,SEXP YSEXP,SEXP idSEXP,SEXP tolSEXP,S
 ////////////////////////////////////////////////////////////////////////////////////////
 
 
-//[[Rcpp::export]]
 List rint_mle(NumericVector X, IntegerVector id, const bool ranef, const double tol, const int maxiters){
   int n = X.size(),idmx,idmn;
   maximum<int>(id.begin(),id.end(),idmx);

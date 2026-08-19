@@ -9,7 +9,6 @@
 using namespace Rcpp;
 using namespace arma;
 
-//[[Rcpp::export]]
 NumericMatrix gaussian_nb(NumericMatrix X,NumericMatrix M,NumericMatrix S,NumericVector Dets,NumericVector Con, const int k,const bool parallel){
 	mat x(X.begin(),X.nrow(),X.ncol(),false);
 	mat m(M.begin(),M.nrow(),M.ncol(),false);

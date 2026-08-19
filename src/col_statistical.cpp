@@ -52,7 +52,6 @@ static double group_sum_tabulate_div(colvec& x,T *kk,T mn,T mx){
 
 
 
-//[[Rcpp::export]]
 NumericVector col_anovas(NumericVector Y,IntegerMatrix X) {
   const int nrw=X.nrow(),ncl=X.ncol();
   NumericVector a(ncl);

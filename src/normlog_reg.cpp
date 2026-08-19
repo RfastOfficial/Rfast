@@ -10,7 +10,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 List normlog_reg(NumericVector Y,NumericMatrix X, const double tol, const int maxiters){
   List l;
   int n = Y.size();

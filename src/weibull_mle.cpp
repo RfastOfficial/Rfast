@@ -10,7 +10,6 @@ using namespace Rcpp;
 using namespace arma;
 using namespace std;
 
-//[[Rcpp::export]]
 List weibull_mle(NumericVector X, const double tol, const int maxiters){
   int n = X.size(),i=2;
   vec x(X.begin(),n,false);

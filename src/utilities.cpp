@@ -308,7 +308,6 @@ RcppExport SEXP Rfast_pmin(SEXP x, SEXP y, SEXP na_rmSEXP) {
   END_RCPP
 }
 
-//[[Rcpp::export]]
 SEXP pmin_pmax_simple(SEXP x, SEXP y) {
   SEXP f = PROTECT(Rf_allocMatrix(REALSXP, 2, LENGTH(x)));
   double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
@@ -325,7 +324,6 @@ SEXP pmin_pmax_simple(SEXP x, SEXP y) {
   return f;
 }
 
-//[[Rcpp::export]]
 SEXP pmin_pmax_na_rm(SEXP x, SEXP y) {
   SEXP f = PROTECT(Rf_allocMatrix(REALSXP, 2, LENGTH(x)));
   double *startx = REAL(x), *end = startx + LENGTH(x), *starty = REAL(y),
@@ -647,7 +645,6 @@ SEXP Round_na_rm(SEXP x, const int dg) {
   return f;
 }
 
-//[[Rcpp::export]]
 SEXP Round(SEXP x, const int dg, const bool na_rm) {
   return na_rm ? Round_simple(x, dg > 15 ? 15 : dg)
                : Round_na_rm(x, dg > 15 ? 15 : dg);
@@ -665,7 +662,6 @@ RcppExport SEXP Rfast_Round(SEXP x, SEXP dgSEXP, SEXP na_rmSEXP) {
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-//[[Rcpp::export]]
 NumericMatrix squareform_c(NumericVector x) {
   const int d = my_round(0.5 + sqrt(1 + 8 * x.size()) / 2.0);
   int i, j, s = 0;
@@ -828,7 +824,6 @@ RcppExport SEXP Rfast_Lbeta(SEXP x, SEXP y) {
 
 //////////////////////////////////////////////////////////////////////////////
 
-//[[Rcpp::export]]
 IntegerVector Match(NumericVector x, NumericVector key) {
   return match(x, key);
 }
@@ -857,7 +852,6 @@ template <R_Function func> void which_is_helper(DataFrame &x, vector<int> &P) {
   }
 }
 
-//[[Rcpp::export]]
 vector<int> which_is(DataFrame x, const string method) {
   vector<int> P;
   if (method == "logical") {

@@ -148,7 +148,6 @@ RcppExport SEXP Rfast_sort_unique_int(SEXP xSEXP)
 
 ////////////////////////////////////////////////////////////////////////
 
-//[[Rcpp::export]]
 vector<double> sort_unique_double(vector<double> x)
 {
     sort(x.begin(), x.end());
@@ -171,7 +170,6 @@ RcppExport SEXP Rfast_sort_unique_double(SEXP xSEXP)
 
 using std::vector;
 
-//[[Rcpp::export]]
 int len_sort_unique_int(IntegerVector x)
 {
     int aa, mx, mn, count_not_zero = 0;

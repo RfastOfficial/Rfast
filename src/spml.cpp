@@ -242,7 +242,6 @@ END_RCPP
 /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//[[Rcpp::export]]
 List spml_reg(NumericMatrix Y, NumericMatrix X, const double tol, const bool seb, const int maxiters){
   int n = X.nrow(), D = X.ncol(), yD = Y.ncol();
   List l;
