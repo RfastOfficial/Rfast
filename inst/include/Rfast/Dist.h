@@ -7,6 +7,7 @@
 #include <RcppArmadillo.h>
 #include <Rcpp.h>
 #include <string>
+#include "helpers.hpp"
 
 using Rcpp::NumericMatrix;
 using std::string;
@@ -121,15 +122,16 @@ namespace DistaIndices
 }
 
 
-NumericMatrix dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);
-double total_dist(NumericMatrix x, const string method, const bool sqr = false, const int p = 0.0, const bool parallel = false);
+NumericMatrix dist(NumericMatrix x, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, 
+	const bool parallel = false, const unsigned int cores = get_num_of_threads());
+double total_dist(NumericMatrix x, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, 
+	const bool parallel = false, const unsigned int cores = get_num_of_threads());
 
-double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = "",
-                   const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false);
+double total_dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, 
+	const unsigned int k = 0, const bool parallel = false, const unsigned int cores = get_num_of_threads());
 
-mat dista(mat xnew, mat x, const string method = "", const bool sqr = false,
-          const double p = 0.0, const unsigned int k = 0,
-          const bool parallel = false);
+mat dista(mat xnew, mat x, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, 
+	const bool parallel = false, const unsigned int cores = get_num_of_threads());
 
           
 #endif
