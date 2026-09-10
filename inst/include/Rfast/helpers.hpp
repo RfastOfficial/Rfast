@@ -5,6 +5,7 @@
 #define ARMA_64BIT_WORD
 #include <RcppArmadillo.h>
 #include <algorithm>
+#include "template_types.hpp"
 #ifdef _OPENMP
 #include <omp.h>
 #endif
