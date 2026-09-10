@@ -1,5 +1,6 @@
 # [export]
 matrnorm <- function(n, p, seed = NULL) {
+  .Deprecated(new = "Rnorm,mat(n, p)", msg = "Seed argument in package rangen can be changed via `setSeed`",package = "rangen")
   if ( !is.null(seed) ) zigg::zsetseed(seed)
   matrix( zigg::zrnorm(n * p), ncol = p )
 }
@@ -7,13 +8,14 @@ matrnorm <- function(n, p, seed = NULL) {
 
 # [export]
 racg <- function(n, sigma, seed = NULL) {
+  .Deprecated(new = "racg(n, sigma, seed)", msg = "Just moved to another package.",package = "rangen")
   ## n is the sample size,
   ## mu is the mean vector and
   ## sigma is the covariance matrix
   ## sigma does not have to be of full rank
   p <- dim(sigma)[1]
   if ( !is.null(seed) ) zigg::zsetseed(seed)
-  x <- Rfast::matrnorm(n, p)
+  x <- rangen::Rnorm.mat(n, p)
   x <- x %*% chol(sigma)
   x / sqrt( Rfast::rowsums(x^2) )
 }
@@ -21,6 +23,7 @@ racg <- function(n, sigma, seed = NULL) {
 
 # [export]
 rbing <- function(n, lam) {
+  .Deprecated(new = "rbing(n, lam)", msg = "Just moved to another package.",package = "rangen")
   .Call(Rfast_rbing, n, lam)
 }
 
@@ -28,6 +31,7 @@ rbing <- function(n, lam) {
 ######### Simulation using any symmetric A matrix
 # [export]
 rbingham <- function(n, A) {
+  .Deprecated(new = "rbingham(n, A)", msg = "Just moved to another package.",package = "rangen")
   p <- dim(A)[2] ## dimensionality of A
   eig <- eigen(A)
   lam <- eig$values ## eigenvalues
@@ -42,6 +46,7 @@ rbingham <- function(n, A) {
 
 # [export]
 rmvlaplace <- function(n, lam, mu, G, seed = NULL) {
+  .Deprecated(new = "rmvlaplace(n, lam, mu, G, seed)", msg = "Just moved to another package.",package = "rangen")
   ## n is the sample size
   ## lam is the parameter of the exponential distribution
   ## m is the mean vector
@@ -52,7 +57,7 @@ rmvlaplace <- function(n, lam, mu, G, seed = NULL) {
     d <- length(mu) ## dimensionality of the data
     z <- rexp(n, lam)
     if (!is.null(seed)) zigg::zsetseed(seed)
-    x <- Rfast::matrnorm(n, d)
+    x <- rangen::Rnorm.mat(n, d)
     y <- sqrt(z) * x %*% chol(G) + rep(mu, rep(n, d)) ## the simulated sample
   }
   y
@@ -61,15 +66,17 @@ rmvlaplace <- function(n, lam, mu, G, seed = NULL) {
 
 # [export]
 rmvnorm <- function(n, mu, sigma, seed = NULL) {
+  .Deprecated(new = "rmvnorm(n, mu, sigma, seed)", msg = "Just moved to another package.",package = "rangen")
   p <- length(mu)
   if (!is.null(seed)) zigg::zsetseed(seed)
-  x <- Rfast::matrnorm(n, p)
+  x <- rangen::Rnorm.mat(n, p)
   x %*% chol(sigma) + rep(mu, rep(n, p))
 }
 
 
 # [export]
 rmvt <- function(n, mu, sigma, v, seed = NULL) {
+  .Deprecated(new = "rmvt(n, mu, sigma, v, seed)", msg = "Just moved to another package.",package = "rangen")
   ## n is the sample size
   ## mu is the mean vector
   ## sigma is the covariance matrix
@@ -77,7 +84,7 @@ rmvt <- function(n, mu, sigma, v, seed = NULL) {
   ## v is the degrees of freedom
   p <- length(mu)
   if (!is.null(seed)) zigg::zsetseed(seed)
-  x <- Rfast::matrnorm(n, p)
+  x <- rangen::Rnorm.mat(n, p)
   w <- sqrt(v / rchisq(n, v))
   w * x %*% chol(sigma) + rep(mu, rep(n, p))
 }
@@ -85,6 +92,7 @@ rmvt <- function(n, mu, sigma, v, seed = NULL) {
 
 # [export]
 Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
+  .Deprecated(new = "Rnorm(n, m, s)", msg = "Seed argument in package rangen can be changed via `setSeed`",package = "rangen")
   if (!is.null(seed)) zigg::zsetseed(seed)
   if (m == 0 & s == 1) {
     x <- zigg::zrnorm(n)
@@ -100,7 +108,7 @@ Rnorm <- function(n, m = 0, s = 1, seed = NULL) {
 
 
 # [export]
-rvmf <- function(n, mu, k, parallel = FALSE, cores = 0) {
+rvmf <- function(n, mu, k, parallel = FALSE, cores = 0, seed = rangen::new.Seed()) {
   # rotation <- function(a, b) {
     # p <- length(a)
     # ab <- sum(a * b)
@@ -117,7 +125,7 @@ rvmf <- function(n, mu, k, parallel = FALSE, cores = 0) {
     # mu <- mu / sqrt(sum(mu^2))
     # ini <- c(numeric(d - 1), 1)
     # d1 <- d - 1
-    # v1 <- Rfast::matrnorm(n, d1) ##  matrix( zigg::zrnorm(n * d1), ncol = d1 )
+    # v1 <- rangen::Rnorm.mat(n, d1) ##  matrix( zigg::zrnorm(n * d1), ncol = d1 )
     # v <- v1 / sqrt(Rfast::rowsums(v1^2))
     # b <- (-2 * k + sqrt(4 * k^2 + d1^2)) / d1
     # x0 <- (1 - b) / (1 + b)
@@ -134,11 +142,10 @@ rvmf <- function(n, mu, k, parallel = FALSE, cores = 0) {
       # x <- tcrossprod(S, A)
     # }
   # } else {
-    # x1 <- Rfast::matrnorm(n, d) ## matrix( zigg::zrnorm(n * d), ncol = d )
+    # x1 <- rangen::Rnorm.mat(n, d) ## matrix( zigg::zrnorm(n * d), ncol = d )
     # x <- x1 / sqrt(Rfast::rowsums(x1^2))
   # }
-
-  .Call(Rfast_rvmf,n,mu,k,parallel, cores)
+  .Call(Rfast_rvmf,n,mu,k,parallel, cores, seed)
 }
 
 
@@ -184,7 +191,7 @@ rvmf <- function(n, mu, k, parallel = FALSE, cores = 0) {
 
 
 # [export]
-rvonmises <- function(n, m, k, rads = TRUE, parallel = FALSE, cores = 0) {
+rvonmises <- function(n, m, k, rads = TRUE, parallel = FALSE, cores = 0, seed = rangen::new.Seed()) {
   #  if (!rads) m <- m / 180 * pi ## turn the degrees into radians
   #  mu <- c(cos(m), sin(m))
   #  if (k > 0) { ## draw from a von Mises distribution
@@ -197,5 +204,5 @@ rvonmises <- function(n, m, k, rads = TRUE, parallel = FALSE, cores = 0) {
   #  } ## draw from a von Mises distribution
   #  if (!rads) u <- u * pi / 180 ## should the data be in degrees?
   #  u
-  .Call(Rfast_rvonmises, n,m,k,rads,parallel, cores)
+  .Call(Rfast_rvonmises, n,m,k,rads,parallel, cores, seed)
 }
