@@ -264,7 +264,8 @@ namespace Dist
 
 }
 
-NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel, const unsigned int cores)
+NumericMatrix dist(NumericMatrix x, const string method, const bool sqr, const double p, const unsigned int k, 
+	const bool parallel, const unsigned int cores)
 {
 	if (method == "euclidean" || p == 1)
 	{
@@ -447,7 +448,7 @@ namespace DistVector
 		return dist_h(x, func2, parallel, cores);
 	}
 
-	NumericVector canberra(NumericMatrix &x, const bool parallel = false)
+	NumericVector canberra(NumericMatrix &x, const bool parallel = false, const unsigned int cores = get_num_of_threads())
 	{
 		const size_t ncl = x.ncol(), nrw = x.nrow();
 		NumericVector f(proper_size(nrw, ncl));
@@ -994,7 +995,8 @@ namespace DistTotal
 
 }
 
-double total_dist(NumericMatrix x, const string method, const bool sqr, const int p, const bool parallel, const unsigned int cores)
+double total_dist(NumericMatrix x, const string method, const bool sqr, const double p, const unsigned int k, 
+	const bool parallel, const unsigned int cores)
 {
 	if (method == "euclidean" || p == 1)
 	{
