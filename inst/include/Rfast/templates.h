@@ -11,6 +11,8 @@
 #include <Rinternals.h>
 #include "parallel.h"
 #include "types.hpp"
+#include "helpers.hpp"
+#include "template_types.hpp"
 
 
 //#include <Rinlinedfuns.h>
@@ -20,26 +22,6 @@ using namespace arma;
 using namespace Rcpp;
 
 //[[Rcpp::plugins(cpp11)]]
-
-
-
-template<typename f,typename s>
-struct pr{
-    f first;
-    s second;
-    bool is_good;
-    pr(f first=0,s second=0):first(first),second(second),is_good(false){}
-};
-
-typedef double (*Unary_Function)(double); // unary function
-typedef double (*Binary_Function)(double,double); // binary function
-typedef double (*Binary_Function_mat)(mat,double); // binary function
-
-template<class RET,class ...Args>
-using Mfunction = RET(*)(Args...);
-
-template<class T>
-using ConditionFunction = bool(*)(T);
 
 // T: any simple data type.
 template<class T>
@@ -471,7 +453,7 @@ template<class T,Unary_Function F1,Binary_Function F2>
 double Apply(T x){
     double a=0;
     typename T::iterator start=x.begin();
-    if(startx!=x.end()){
+    if(start!=x.end()){
         a=F1(*start++);
         for(;start!=x.end();++start){
             a=F2(a,F1(*start));
@@ -1072,7 +1054,7 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
     if(is_ind_null){
         if(parallel){
 #ifdef _OPENMP
-	#pragma omp parallel for num_threads(core)
+	#pragma omp parallel for num_threads(cores)
 #endif
             for(int i=0;i<n;++i){
                 ff[i]=Apply<colvec,colvec,oper,func>(xx.col(i),yy);
@@ -1088,7 +1070,7 @@ NumericVector eachcol_apply_helper(NumericMatrix& x,NumericVector& y,SEXP ind = 
         arma::Col<int> iind(indd.begin(),indd.size(),false);
         if(parallel){
 #ifdef _OPENMP
-	#pragma omp parallel for num_threads(core)
+	#pragma omp parallel for num_threads(cores)
 #endif
             for(int i=0;i<n;++i){
                 ff[i]=Apply<colvec,colvec,oper,func>(xx.col(iind[i]-1),yy);
