@@ -54,7 +54,7 @@ R implementation and documentation: Marios Dimitriadis <mtsagris@csd.uoc.gr>
 
 \examples{
 y <- rbinom(50, 1, 0.5)
-x <- matrnorm(50, 10)
+x <- rangen::Rnorm.mat(50, 10)
 res<-bs.reg(y, x)
 }
 

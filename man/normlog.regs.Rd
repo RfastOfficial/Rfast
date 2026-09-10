@@ -70,7 +70,7 @@ R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.co
 \examples{
 \donttest{
 y <- abs( rnorm(100) )
-x <- matrnorm(100, 100)
+x <- rangen::Rnorm.mat(100, 100)
 a <- normlog.regs(y, x)
 b <- glm(y ~ x[, 1], family = gaussian(log) )
 anova(b, test= "F")

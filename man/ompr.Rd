@@ -94,7 +94,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \examples{
-x <- matrnorm(200, 100)
+x <- rangen::Rnorm.mat(200, 100)
 y <- rnorm(200)
 a <- ompr(y, x)
 a

@@ -75,7 +75,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 ## 1000 variables, hence 1000 t-tests will be performed
-x = matrnorm(100, 100)
+x = rangen::Rnorm.mat(100, 100)
 ## 100 observations in total
 ina = rbinom(100, 1, 0.6) + 1   ## independent samples t-test
 ttests(x, ina = ina)

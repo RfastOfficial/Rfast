@@ -90,7 +90,7 @@ res<-rm.anovas(y, x)  ## Tests whether the means of the individuals are the same
 ## the temperature is treated as categorical variable here.
 
 ## fake example
-y <- matrnorm(10, 4)
+y <- rangen::Rnorm.mat(10, 4)
 ## the y matrix contains 4 repeated measurements for each of the 10 persons.
 x <- 1:4
 ## we stack the measurements of each subject, one under the other in a matrix form.

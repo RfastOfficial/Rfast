@@ -58,8 +58,8 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>
 
 \examples{
 \donttest{
-x <- matrnorm(100, 100)
-y <- matrnorm(100, 100)
+x <- rangen::Rnorm.mat(100, 100)
+y <- rangen::Rnorm.mat(100, 100)
 #a <- x %*% y
 #b <- mat.mult(x, y) #Always execute in parallel
 #b <- Crossprod(x, y) #Always execute in parallel

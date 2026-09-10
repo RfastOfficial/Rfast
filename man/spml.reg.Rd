@@ -100,7 +100,7 @@ a1 <- spml.reg(y, x)
 y <- atan( y[, 2] / y[, 1] ) + pi * I(y[, 1] < 0) 
 a2 <- spml.reg(y, x)
 
-x <- matrnorm(100, 5)
+x <- rangen::Rnorm.mat(100, 5)
 a3 <- spml.regs(y, x)
 }
 }

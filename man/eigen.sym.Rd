@@ -65,7 +65,7 @@ Manos Papadakis <papadakm95@gmail.com>.
 
 \examples{
 \donttest{
-x <- matrnorm(500, 100 )
+x <- rangen::Rnorm.mat(500, 100 )
 s <- Rfast::cova(x)
 res<-eigen.sym(s, 5)
 x <- s <- NULL

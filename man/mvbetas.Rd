@@ -50,7 +50,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-y <- matrnorm(100, 100)
+y <- rangen::Rnorm.mat(100, 100)
 x <- rnorm(100)
 a <- mvbetas(y, x, pvalue = FALSE)
 b <- matrix(nrow = 100, ncol = 2)

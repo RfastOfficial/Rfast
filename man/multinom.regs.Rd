@@ -58,7 +58,7 @@ R implementation and documentation: Stefanos Fafalios <stefanosfafalios@gmail.co
 
 \examples{
 y <- rbinom(100, 2, 0.5)
-x <- matrnorm(100, 100)
+x <- rangen::Rnorm.mat(100, 100)
 a <- multinom.regs(y, x)
 x <- NULL
 }

@@ -56,7 +56,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- matrnorm(200, 100)
+x <- rangen::Rnorm.mat(200, 100)
 sftests(x)
 a <- sftests(x)
 mean(a[, 3]<0.05) 

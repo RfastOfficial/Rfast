@@ -58,7 +58,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- matrnorm(100, 20)
+x <- rangen::Rnorm.mat(100, 20)
 mu <- colmeans(x)
 s <- cova(x)
 #1 <- dmvnorm(x, mu, s) 

@@ -67,7 +67,7 @@ R implementation and documentation: Manos Papadakis <papadakm95@gmail.com>.
 }
 
 \examples{
-x <- matrnorm(100, 10)
+x <- rangen::Rnorm.mat(100, 10)
 a1 <- colRanks(x)
 a2 <- apply(x, 2, rank)
 b1 <- rowRanks(x)

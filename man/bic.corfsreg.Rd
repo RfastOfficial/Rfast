@@ -59,7 +59,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- matrnorm( 50, 10 )
+x <- rangen::Rnorm.mat( 50, 10 )
 y <- rnorm(50)
 a1 <- bic.corfsreg(y, x)
 a2 <- cor.fsreg(y, x)

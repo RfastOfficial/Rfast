@@ -47,7 +47,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>
 %}
 
 \seealso{
-\code{\link{matrnorm}, \link{rvonmises}, \link{rvmf}, \link{rmvnorm}
+\code{\link{rangen::Rnorm.mat}, \link{rvonmises}, \link{rvmf}, \link{rmvnorm}
 }
 }
 

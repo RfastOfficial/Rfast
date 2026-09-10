@@ -63,7 +63,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 
 \examples{
 n <- 200  ;  p <- 5
-X <- matrnorm(n, p)
+X <- rangen::Rnorm.mat(n, p)
 y <- rnorm(n)
 a1 <- .lm.fit(X, y) 
 a2 <- lmfit(X, y) 

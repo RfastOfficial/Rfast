@@ -52,7 +52,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \examples{
-x <- matrnorm(300, 500)
+x <- rangen::Rnorm.mat(300, 500)
 ina <- rbinom(300, 2, 0.6) + 1
 a <- list()
 a[[ 1 ]] <- x[ina == 1, ]

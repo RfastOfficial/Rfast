@@ -107,7 +107,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-#x <- matrnorm(500, 500)
+#x <- rangen::Rnorm.mat(500, 500)
 #y <- rbinom(500, 1, 0.6)   ## binary logistic regression
 #a2 <- score.glms(y, x)
 #y <- rweibull(500, 2, 3)   

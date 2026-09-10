@@ -62,7 +62,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr> and Manos 
 }
 
 \examples{
-x <- matrnorm(60, 100 )
+x <- rangen::Rnorm.mat(60, 100 )
 y <- rnorm(60)
 r <- cor(y, x)  ## correlation of y with each of the xs
 a <- allbetas(y, x)  ## the coefficients of each simple linear regression of y with x

@@ -54,7 +54,7 @@ and Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \examples{
-x <- matrnorm(10, 10)
+x <- rangen::Rnorm.mat(10, 10)
 res<-colCumSums(x)
 res<-colCumMins(x)
 res<-colCumMaxs(x)

@@ -79,7 +79,7 @@ a1 <- proptest(x, n, p, "unequal", logged = FALSE)
 res<-sum( a1[, 2] < 0.05 ) / R
 
 ## vartest
-x <- matrnorm(100, 100)
+x <- rangen::Rnorm.mat(100, 100)
 a2 <- vartest(x, rep(1, R) )
 res<-sum( a2[, 2] < 0.05 )
 

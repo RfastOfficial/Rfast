@@ -70,7 +70,7 @@ R implementation and documentation: Michail Tsagris <mtsagris@uoc.gr>.
 }
 
 \examples{
-x <- matrnorm(20, 50)
+x <- rangen::Rnorm.mat(20, 50)
 #a <- hd.eigen(x, FALSE, FALSE)
 #b <- prcomp(x, center = FALSE, scale = FALSE)
 #a
