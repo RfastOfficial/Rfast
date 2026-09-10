@@ -163,8 +163,8 @@ SEXP Rfast_row_nth(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_min_max(SEXP);
 SEXP Rfast_row_shuffle(SEXP);
 SEXP Rfast_Round(SEXP, SEXP, SEXP);
-SEXP Rfast_rvmf(SEXP, SEXP, SEXP, SEXP, SEXP);
-SEXP Rfast_rvonmises(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_rvmf(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+SEXP Rfast_rvonmises(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 SEXP Rfast_row_all(SEXP);
 SEXP Rfast_row_true(SEXP);
 SEXP Rfast_row_prods(SEXP);
@@ -406,8 +406,8 @@ static const R_CallMethodDef CallEntries[] = {
 	{"Rfast_row_min_max", (DL_FUNC)&Rfast_row_min_max, 1},
 	{"Rfast_row_shuffle", (DL_FUNC)&Rfast_row_shuffle, 1},
 	{"Rfast_Round", (DL_FUNC)&Rfast_Round, 3},
-	{"Rfast_rvmf", (DL_FUNC)&Rfast_rvmf, 5},
-	{"Rfast_rvonmises", (DL_FUNC)&Rfast_rvonmises, 6},
+	{"Rfast_rvmf", (DL_FUNC)&Rfast_rvmf, 6},
+	{"Rfast_rvonmises", (DL_FUNC)&Rfast_rvonmises, 7},
 	{"Rfast_row_all", (DL_FUNC)&Rfast_row_all, 1},
 	{"Rfast_row_true", (DL_FUNC)&Rfast_row_true, 1},
 	{"Rfast_row_prods", (DL_FUNC)&Rfast_row_prods, 1},
