@@ -632,7 +632,8 @@ namespace Dista
 	}
 }
 
-mat dista(mat xnew, mat x, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false, const unsigned int cores = get_num_of_threads()))
+mat dista(mat xnew, mat x, const string method, const bool sqr, const double p, const unsigned int k, 
+	const bool parallel, const unsigned int cores)
 {
     // if k is greater than 0 then rows are k size
     const int n = k > 0 ? k : x.n_cols, nu = xnew.n_cols;
@@ -731,7 +732,8 @@ mat dista(mat xnew, mat x, const string method = "", const bool sqr = false, con
 }
 
 //[[Rcpp::export]]
-NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method = "", const bool sqr = false, const double p = 0.0, const unsigned int k = 0, const bool parallel = false, const unsigned int cores = get_num_of_threads())
+NumericMatrix dista(NumericMatrix Xnew, NumericMatrix X, const string method, const bool sqr, const double p, const unsigned int k, 
+	const bool parallel, const unsigned int cores)
 {
 	// if k is greater than 0 then rows are k size
 	const int n = k > 0 ? k : X.ncol(), nu = Xnew.ncol();
@@ -899,7 +901,7 @@ namespace DistaIndices
 		}
 	}
 
-	void jensen_shannon(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel)
+	void jensen_shannon(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel, const unsigned int cores)
 	{
 		mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
 		const double log0_5 = std::log(0.5);
@@ -979,7 +981,7 @@ namespace DistaIndices
 		}
 	}
 
-	void itakura_saito(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel)
+	void itakura_saito(mat &xnew, mat &x, Mat<int> &disa, const unsigned int k, const bool parallel, const unsigned int cores)
 	{
 		mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
 		fill_with<std::log, double *, double *>(x.begin(), x.end(), log_x.begin());
@@ -1502,7 +1504,7 @@ namespace DistaTotal
         return a;
     }
 
-    double kullback_leibler(mat &xnew, mat &x, const unsigned int k, const bool parallel)
+    double kullback_leibler(mat &xnew, mat &x, const unsigned int k, const bool parallel, const unsigned int cores)
     {
         double a = 0.0;
         mat log_xx(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
@@ -1560,7 +1562,7 @@ namespace DistaTotal
         return a;
     }
 
-    double jensen_shannon(mat &xnew, mat &x, const unsigned int k, const bool parallel)
+    double jensen_shannon(mat &xnew, mat &x, const unsigned int k, const bool parallel, const unsigned int cores)
     {
         mat xlogx = x % arma::log(x), xnewlogxnew = xnew % arma::log(xnew);
         const double log0_5 = std::log(0.5);
@@ -1669,7 +1671,7 @@ namespace DistaTotal
         return a;
     }
 
-    double itakura_saito(mat &xnew, mat &x, const unsigned int k, const bool parallel)
+    double itakura_saito(mat &xnew, mat &x, const unsigned int k, const bool parallel, const unsigned int cores)
     {
         double a = 0.0;
         mat log_x(x.n_rows, x.n_cols, fill::none), log_xnew(xnew.n_rows, xnew.n_cols, fill::none);
