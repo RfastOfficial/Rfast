@@ -119,14 +119,14 @@ vartests <- function(x, ina, type = "levene", logged = FALSE) {
 
   if ( type == "levene" )  {
     for (i in 1:k) {
-      xina <- x[ina == i, ]
-      z[, ina == i ] <- t( xina - Rfast::colmeans(xina) )
+      xina <- x[ina == i, , drop = FALSE]
+      z[, ina == i ] <- abs(t(xina) - Rfast::colmeans(xina))
     }
 
   } else {
     for (i in 1:k) {  
-      xina <- x[ina == i, ]
-      z[, ina == i ] <- t( xina - Rfast::colMedians( xina ) )
+      xina <- x[ina == i, , drop = FALSE]
+      z[, ina == i ] <- abs(t(xina) - Rfast::colMedians(xina))
     }
   }
 
@@ -138,6 +138,6 @@ vartests <- function(x, ina, type = "levene", logged = FALSE) {
   mst <- (a - b) / ( k - 1)
   mse <- (sz2 - a) / ( n - k)
   fa <- mst / mse
-  pvalue <- pf(fa, k - 1, n - k, lower.tail = TRUE, log.p = logged)
+  pvalue <- pf(fa, k - 1, n - k, lower.tail = FALSE, log.p = logged)
   cbind(fa, pvalue)
 }
